@@ -3,7 +3,7 @@ name: Build and Upload Mod
 on:
   push:
     branches:
-      - main  # mainブランチにpushされた時に実行
+      - main3  # mainブランチにpushされた時に実行
 
 jobs:
   build:
