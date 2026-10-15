@@ -1,3 +1,4 @@
+
 package com.sakalti.sakaplus.block;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -8,30 +9,63 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public class ModBlocks2 {
-    public static final Block IRON_SCAFFOLD = new IronScaffoldBlock();
-    public static final Block BLOOMSQUER = Registry.register(
-        Registry.BLOCK,
-        new Identifier("sakaplus", "bloomsquer"),
-        new Block(AbstractBlock.Settings
-            .of(Material.WOOD)
-            .strength(1.8f)
+public final class ModBlocks2 {
+
+    // ブロックの生成と登録を同時に行う
+    public static final Block IRON_SCAFFOLD = registerBlock(
+        "iron_scaffold",
+        new IronScaffoldBlock()
+    );
+
+    public static final Block BLOOMSQUER = registerBlock(
+        "bloomsquer",
+        new Block(
+            AbstractBlock.Settings
+                .of(Material.WOOD)
+                .strength(1.8f)
         )
     );
-    // kruzi_stone ブロックを追加
-    public static final Block KRUZI_STONE = new Block(AbstractBlock.Settings
-        .of(Material.STONE)
-        .strength(2.0f, 6.0f) // 硬さ2.0f、爆破耐性6.0f（石とほぼ同じ）
-        .requiresTool()       // 適切なツールで採掘必要
+
+    public static final Block KRUZI_STONE = registerBlock(
+        "kruzi_stone",
+        new Block(
+            AbstractBlock.Settings
+                .of(Material.STONE)
+                .strength(2.0f, 6.0f)
+                .requiresTool()
+        )
     );
 
-    public static void registerBlocks() {
-        Registry.register(Registry.BLOCK, new Identifier("sakaplus", "iron_scaffold"), IRON_SCAFFOLD);
-        Registry.register(Registry.ITEM, new Identifier("sakaplus", "iron_scaffold"),
-            new BlockItem(IRON_SCAFFOLD, new FabricItemSettings()));
+    private ModBlocks2() {
+    }
 
-        Registry.register(Registry.BLOCK, new Identifier("sakaplus", "kruzi_stone"), KRUZI_STONE);
-        Registry.register(Registry.ITEM, new Identifier("sakaplus", "kruzi_stone"),
-            new BlockItem(KRUZI_STONE, new FabricItemSettings()));
+    private static Block registerBlock(String name, Block block) {
+        return Registry.register(
+            Registry.BLOCK,
+            new Identifier("sakaplus", name),
+            block
+        );
+    }
+
+    private static BlockItem registerBlockItem(String name, Block block) {
+        return Registry.register(
+            Registry.ITEM,
+            new Identifier("sakaplus", name),
+            new BlockItem(block, new FabricItemSettings())
+        );
+    }
+
+    static {
+        // ブロックの登録完了後に対応するアイテムを登録する
+        registerBlockItem("iron_scaffold", IRON_SCAFFOLD);
+        registerBlockItem("kruzi_stone", KRUZI_STONE);
+    }
+
+    /**
+     * 既存の初期化コードとの互換性を維持する。
+     * ブロック本体と対応アイテムはクラス初期化時に登録済み。
+     */
+    public static void registerBlocks() {
+        // 登録済みのブロックを重複登録しない。
     }
 }
