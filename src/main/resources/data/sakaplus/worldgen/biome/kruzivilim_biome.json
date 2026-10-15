@@ -2,7 +2,6 @@
   "type": "sakaplus:kruzivilim_type",
   "generator": {
     "type": "minecraft:noise",
-    "seed": 41234,
     "settings": "sakaplus:kruzivilim_generator",
     "biome_source": {
       "type": "minecraft:fixed",
