@@ -1,8 +1,8 @@
 {
-  "type": "sakaplus:kruzivilim_type",
+  "type": "sakaplus:kruzivilim",
   "generator": {
     "type": "minecraft:noise",
-    "settings": "sakaplus:kruzivilim_generator",
+    "settings": "sakaplus:kruzivilim_noise",
     "biome_source": {
       "type": "minecraft:fixed",
       "biome": "sakaplus:kruzivilim_biome"
