@@ -103,7 +103,7 @@ public class ModEntities333 {
 
     public static final Item KUR_BRUTE_SPAWN_EGG = Registry.register(
             Registry.ITEM,
-            new Identifier("sakaplus", "battle_nyanko_spawn_egg"),
+            new Identifier("sakaplus", "kur_brute_spawn_egg"),
             new SpawnEggItem(KUR_BRUTE, 0x999900, 0x999999, new Item.Settings())
     );
     public static final Item KULOOGIE_SPAWN_EGG = Registry.register(
