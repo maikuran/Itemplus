@@ -27,15 +27,12 @@
     "amplified": false
   },
   "surface_rule": {
-    "type": "minecraft:surface_rules",
+    "type": "minecraft:sequence",
     "sequence": [
       {
-        "type": "minecraft:surface_rule",
-        "rule": {
-          "type": "minecraft:block",
-          "result_state": {
-            "Name": "sakaplus:kruzi_stone"
-          }
+        "type": "minecraft:block",
+        "result_state": {
+          "Name": "sakaplus:kruzi_stone"
         }
       }
     ]
