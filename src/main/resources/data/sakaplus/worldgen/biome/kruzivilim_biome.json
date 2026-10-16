@@ -1,11 +1,15 @@
 {
-  "type": "sakaplus:kruzivilim",
-  "generator": {
-    "type": "minecraft:noise",
-    "settings": "sakaplus:kruzivilim_noise",
-    "biome_source": {
-      "type": "minecraft:fixed",
-      "biome": "sakaplus:kruzivilim_biome"
-    }
-  }
+  "precipitation": "none",
+  "temperature": 0.8,
+  "downfall": 0.0,
+  "effects": {
+    "sky_color": 7907327,
+    "water_color": 4159204,
+    "water_fog_color": 329011,
+    "fog_color": 12638463
+  },
+  "spawners": {},
+  "spawn_costs": {},
+  "carvers": {},
+  "features": [[]]
 }
