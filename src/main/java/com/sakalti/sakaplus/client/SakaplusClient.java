@@ -1,4 +1,4 @@
-package com.sakalti.sakaplus.client
+package com.sakalti.sakaplus.client;
 
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
