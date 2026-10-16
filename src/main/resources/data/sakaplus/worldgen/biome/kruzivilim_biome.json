@@ -10,7 +10,7 @@
   },
   "spawners": {},
   "spawn_costs": {},
-  "carvers": [],
+  "carvers": {},
   "features": [
     [],
     [],
@@ -20,7 +20,9 @@
     [],
     [],
     [],
-    ["sakaplus:bloomsquer_patch"],
+    [
+      "sakaplus:bloomsquer_patch"
+    ],
     [],
     []
   ]
