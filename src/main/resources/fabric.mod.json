@@ -17,6 +17,9 @@
     "main": [
       "com.sakalti.sakaplus.SakaplusMod2"
     ],
+    "client": [
+      "com.sakalti.sakaplus.client.SakaplusClient"
+    ],
     "mixins": [
       "sakaplus.mixins.json"
     ]
