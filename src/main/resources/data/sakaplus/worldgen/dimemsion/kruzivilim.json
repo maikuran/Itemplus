@@ -1,24 +1,12 @@
+
 {
-  "fixed_time": 15360,
-  "has_skylight": false,
-  "has_ceiling": true,
-  "ultrawarm": false,
-  "natural": false,
-  "coordinate_scale": 1.0,
-  "bed_works": true,
-  "respawn_anchor_works": true,
-  "has_raids": false,
-  "logical_height": 128,
-  "infiniburn": "minecraft:infiniburn_nether",
-  "effects": "minecraft:nether",
-  "ambient_light": 0.2,
-  "piglin_safe": true,
-  "monster_spawn_light_level": {
-    "type": "uniform",
-    "value": {
-      "min_inclusive": 0,
-      "max_inclusive": 7
+  "type": "sakaplus:kruzivilim",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "sakaplus:kruzivilim_noise",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "sakaplus:kruzivilim_biome"
     }
-  },
-  "monster_spawn_block_light_limit": 0
+  }
 }
