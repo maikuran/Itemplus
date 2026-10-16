@@ -91,12 +91,12 @@
         }
       ]
     },
-　　 {
+    {
       "rolls": 1,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:red_stone"
+          "name": "minecraft:redstone"
         }
       ],
       "functions": [
