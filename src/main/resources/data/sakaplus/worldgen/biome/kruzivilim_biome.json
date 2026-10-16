@@ -1,3 +1,4 @@
+
 {
   "precipitation": "none",
   "temperature": 0.8,
@@ -10,6 +11,16 @@
   },
   "spawners": {},
   "spawn_costs": {},
-  "carvers": {},
-  "features": [[]]
+  "carvers": [],
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    ["sakaplus:bloomsquer_patch"]
+  ]
 }
