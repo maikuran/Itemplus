@@ -1,16 +1,30 @@
 {
-  "type": "minecraft:block_cluster",
+  "type": "minecraft:random_patch",
   "config": {
-    "state": {
-      "Name": "sakaplus:bloomsquer"
+    "feature": {
+      "feature": {
+        "type": "minecraft:simple_block",
+        "config": {
+          "to_place": {
+            "type": "minecraft:simple_state_provider",
+            "state": {
+              "Name": "sakaplus:bloomsquer"
+            }
+          }
+        }
+      },
+      "placement": [
+        {
+          "type": "minecraft:block_predicate_filter",
+          "predicate": {
+            "type": "minecraft:matching_blocks",
+            "blocks": "minecraft:air"
+          }
+        }
+      ]
     },
-    "radius": 2,
     "tries": 64,
-    "project": false,
-    "whitelist": [],
-    "blacklist": [],
-    "can_replace": true,
-    "need_water": false,
-    "cannot_replace": []
+    "xz_spread": 2,
+    "y_spread": 1
   }
 }
