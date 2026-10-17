@@ -1,0 +1,57 @@
+name: Fix Loot Tables Directory Path
+
+on:
+  push:
+    branches:
+      - main3
+  workflow_dispatch: # GitHub Actionsのタブから手動でも実行可能
+
+jobs:
+  fix-paths:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: main3
+
+      - name: Set up Git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Correct loot_tables directory names
+        run: |
+          TARGET_DIR="src/main/resources/data/sakaplus/loot_tables"
+          
+          if [ -d "$TARGET_DIR" ]; then
+            cd "$TARGET_DIR"
+            
+            # block -> blocks の修正
+            if [ -d "block" ]; then
+              echo "Renaming block to blocks..."
+              git mv block blocks
+            fi
+            
+            # entity -> entities の修正
+            if [ -d "entity" ]; then
+              echo "Renaming entity to entities..."
+              git mv entity entities
+            fi
+            
+            # その他の誤った単数形があればここに追加できます
+          else
+            echo "Target directory $TARGET_DIR does not exist. Skipping."
+          fi
+
+      - name: Commit and push changes
+        run: |
+          git status
+          git add -A
+          # 変更がある場合のみコミット＆プッシュ
+          if git diff --staged --quiet; then
+            echo "No directory changes needed."
+          else
+            git commit -m "Fix loot_tables directory paths: rename block/entity to blocks/entities"
+            git push origin main3
+          fi
