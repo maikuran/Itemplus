@@ -22,7 +22,7 @@ public class KurBruteEntity extends PathAwareEntity {
         this.experiencePoints = 6;
     }
 
-    public static DefaultAttributeContainer.Builder createKurBruteAttributes() {
+    public static DefaultAttributeContainer.Builder createAttributes() {
         return MobEntity.createMobAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 45.0D)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0D)
