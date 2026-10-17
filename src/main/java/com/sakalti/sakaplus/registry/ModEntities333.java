@@ -118,6 +118,9 @@ public class ModEntities333 {
         FabricDefaultAttributeRegistry.register(WARPERDUN, WarperdunEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(OGANESON, OganesonEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(NYANKO, NyankoEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(KULOOGIE, KuloogieEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(KUR_BRUTE, KurBruteEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(BATTLE_NYANKO, BattleNyankoEntity.createAttributes());
 
         // 自然スポーン設定（Warperdunは除外）
 
