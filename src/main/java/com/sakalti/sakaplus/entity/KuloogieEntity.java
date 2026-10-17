@@ -22,7 +22,7 @@ public class KuloogieEntity extends HostileEntity {
         this.experiencePoints = 15;
     }
 
-    public static DefaultAttributeContainer.Builder createKurBruteAttributes() {
+    public static DefaultAttributeContainer.Builder createAttributes() {
         return MobEntity.createMobAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 82.0D)
                 .add(EntityAttributes.GENERIC_ARMOR, 6.0D)
