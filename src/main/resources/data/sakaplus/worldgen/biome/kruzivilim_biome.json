@@ -1,5 +1,6 @@
+
 {
-  "precipitation": "none",
+  "has_precipitation": false,
   "temperature": 0.2,
   "downfall": 0.0,
   "effects": {
@@ -45,7 +46,10 @@
     ]
   },
   "spawn_costs": {},
-  "carvers": [],
+  "carvers": {
+    "air": [],
+    "liquid": []
+  },
   "features": [
     [],
     [],
@@ -59,7 +63,6 @@
     [
       "sakaplus:bloomsquer_patch"
     ],
-    [],
     []
   ]
 }
