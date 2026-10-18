@@ -1,7 +1,6 @@
 package com.sakalti.sakaplus.entity;
 
 import net.minecraft.entity.*;
-import com.sakalti.sakaplus.effect.ModEffects;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -10,8 +9,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
@@ -33,36 +30,56 @@ public class KuloogieEntity extends HostileEntity {
 
     @Override
     protected void initGoals() {
-        this.goalSelector.add(1, new MeleeAttackGoal(this, 1.2, true));
-        this.goalSelector.add(2, new WanderAroundFarGoal(this, 1.0));
-        this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 8.0f));
+        // 攻撃・移動 AI
+        this.goalSelector.add(1, new MeleeAttackGoal(this, 1.2D, true));
+        this.goalSelector.add(2, new WanderAroundFarGoal(this, 1.0D));
+        this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
         this.goalSelector.add(4, new LookAroundGoal(this));
-        this.targetSelector.add(1, new RevengeGoal(this).setGroupRevenge());
+
+        // プレイヤーを攻撃対象にする
+        this.targetSelector.add(1, new ActiveTargetGoal<>(
+                this,
+                PlayerEntity.class,
+                true
+        ));
+
+        // 攻撃された場合、反撃する
+        this.targetSelector.add(2, new RevengeGoal(this).setGroupRevenge());
     }
 
     @Override
     public boolean tryAttack(Entity target) {
         boolean success = super.tryAttack(target);
+
         if (success && target instanceof LivingEntity living) {
-            // 毒I（3秒）
-            living.addStatusEffect(new StatusEffectInstance(StatusEffects.SLOWNESS, 3, 140));
-            living.addStatusEffect(new StatusEffectInstance(StatusEffects.POISON, 3, 110));
+            // 移動速度低下
+            living.addStatusEffect(
+                    new StatusEffectInstance(StatusEffects.SLOWNESS, 60, 0)
+            );
+
+            // 毒
+            living.addStatusEffect(
+                    new StatusEffectInstance(StatusEffects.POISON, 60, 0)
+            );
         }
+
         return success;
     }
 
     @Override
     public boolean damage(DamageSource source, float amount) {
         Entity attacker = source.getAttacker();
-        if (attacker != null && !(attacker instanceof PlayerEntity)) {
-            this.setTarget(attacker instanceof LivingEntity ? (LivingEntity) attacker : null);
+
+        if (attacker instanceof LivingEntity living) {
+            this.setTarget(living);
         }
+
         return super.damage(source, amount);
     }
 
     @Override
     public boolean canTarget(LivingEntity target) {
-        return !(target instanceof PlayerEntity);
+        return super.canTarget(target);
     }
 
     @Override
