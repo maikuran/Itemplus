@@ -32,7 +32,6 @@ public class ModBlocks2 {
         new Block(
             AbstractBlock.Settings.of(Material.STONE)
                 .strength(2.0f, 6.0f)
-                .requiresTool()
         )
     );
 
