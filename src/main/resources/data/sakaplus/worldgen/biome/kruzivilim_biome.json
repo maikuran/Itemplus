@@ -1,17 +1,56 @@
 {
-  "precipitation": "none",
-  "temperature": 0.2,
+  "has_precipitation": false,
+  "temperature": 0.3,
   "downfall": 0.0,
   "effects": {
-    "sky_color": 11110192,
-    "water_color": 3028265,
-    "water_fog_color": 3028265,
-    "fog_color": 7891296
+    "sky_color": 14596983,
+    "water_color": 13478485,
+    "water_fog_color": 13478485,
+    "fog_color": 10518608
   },
-  "spawners": {},
+  "spawners": {
+    "creature": [
+      {
+        "type": "minecraft:cow",
+        "weight": 10,
+        "minCount": 2,
+        "maxCount": 4
+      },
+      {
+        "type": "sakaplus:kuloogie",
+        "weight": 1,
+        "minCount": 1,
+        "maxCount": 3
+      },
+      {
+        "type": "sakaplus:kur_brute",
+        "weight": 25,
+        "minCount": 2,
+        "maxCount": 6
+      },
+      {
+        "type": "minecraft:sheep",
+        "weight": 10,
+        "minCount": 2,
+        "maxCount": 4
+      }
+    ],
+    "monster": [
+      {
+        "type": "sakaplus:battle_nyanko",
+        "weight": 3,
+        "minCount": 1,
+        "maxCount": 3
+      }
+    ]
+  },
   "spawn_costs": {},
-  "carvers": {},
+  "carvers": {
+    "air": [],
+    "liquid": []
+  },
   "features": [
+    [],
     [],
     [],
     [],
@@ -23,7 +62,6 @@
     [
       "sakaplus:bloomsquer_patch"
     ],
-    [],
     []
   ]
 }
