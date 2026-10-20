@@ -35,6 +35,15 @@ public class ModBlocks2 {
         )
     );
 
+    public static final Block KRUZI_BRICKS = Registry.register(
+        Registry.BLOCK,
+        new Identifier("sakaplus", "kruzi_bricks"),
+        new Block(
+            AbstractBlock.Settings.of(Material.STONE)
+                .strength(2.0f, 6.0f)
+        )
+    );
+
     public static void registerBlocks() {
         Registry.register(
             Registry.ITEM,
@@ -46,6 +55,12 @@ public class ModBlocks2 {
             Registry.ITEM,
             new Identifier("sakaplus", "kruzi_stone"),
             new BlockItem(KRUZI_STONE, new FabricItemSettings())
+        );
+
+        Registry.register(
+            Registry.ITEM,
+            new Identifier("sakaplus", "kruzi_bricks"),
+            new BlockItem(KRUZI_BRICKS, new FabricItemSettings())
         );
     }
 }
