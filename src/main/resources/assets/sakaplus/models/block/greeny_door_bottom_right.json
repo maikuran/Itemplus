@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_bottom_right",
+  "textures": {
+    "bottom": "sakaplus:block/greeny_door_bottom",
+    "top": "sakaplus:block/greeny_door_top"
+  }
+}

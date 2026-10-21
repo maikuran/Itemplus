@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/cube_column",
+  "textures": {
+    "side": "sakaplus:block/greeny_log",
+    "end": "sakaplus:block/greeny_log_top"
+  }
+}

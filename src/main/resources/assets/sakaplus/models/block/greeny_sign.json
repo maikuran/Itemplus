@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/sign",
+  "textures": {
+    "particle": "sakaplus:block/greeny_planks",
+    "texture": "sakaplus:block/greeny_planks"
+  }
+}
