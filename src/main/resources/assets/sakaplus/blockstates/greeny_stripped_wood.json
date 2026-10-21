@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=y": {
+      "model": "sakaplus:block/greeny_stripped_wood"
+    },
+    "axis=z": {
+      "model": "sakaplus:block/greeny_stripped_wood",
+      "x": 90
+    },
+    "axis=x": {
+      "model": "sakaplus:block/greeny_stripped_wood",
+      "x": 90,
+      "y": 90
+    }
+  }
+}

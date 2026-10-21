@@ -1,0 +1,100 @@
+{
+  "variants": {
+    "north=true,east=true,south=true,west=true,waterlogged=false": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=true,east=true,south=true,west=true,waterlogged=true": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=true,east=true,south=true,west=false,waterlogged=false": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=true,east=true,south=true,west=false,waterlogged=true": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=true,east=true,south=false,west=true,waterlogged=false": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=true,east=true,south=false,west=true,waterlogged=true": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=true,east=true,south=false,west=false,waterlogged=false": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=true,east=true,south=false,west=false,waterlogged=true": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=true,east=false,south=true,west=true,waterlogged=false": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=true,east=false,south=true,west=true,waterlogged=true": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=true,east=false,south=true,west=false,waterlogged=false": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=true,east=false,south=true,west=false,waterlogged=true": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=true,east=false,south=false,west=true,waterlogged=false": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=true,east=false,south=false,west=true,waterlogged=true": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=true,east=false,south=false,west=false,waterlogged=false": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=true,east=false,south=false,west=false,waterlogged=true": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=false,east=true,south=true,west=true,waterlogged=false": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=false,east=true,south=true,west=true,waterlogged=true": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=false,east=true,south=true,west=false,waterlogged=false": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=false,east=true,south=true,west=false,waterlogged=true": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=false,east=true,south=false,west=true,waterlogged=false": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=false,east=true,south=false,west=true,waterlogged=true": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=false,east=true,south=false,west=false,waterlogged=false": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=false,east=true,south=false,west=false,waterlogged=true": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=false,east=false,south=true,west=true,waterlogged=false": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=false,east=false,south=true,west=true,waterlogged=true": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=false,east=false,south=true,west=false,waterlogged=false": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=false,east=false,south=true,west=false,waterlogged=true": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=false,east=false,south=false,west=true,waterlogged=false": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=false,east=false,south=false,west=true,waterlogged=true": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=false,east=false,south=false,west=false,waterlogged=false": {
+      "model": "sakaplus:block/greeny_fence_post"
+    },
+    "north=false,east=false,south=false,west=false,waterlogged=true": {
+      "model": "sakaplus:block/greeny_fence_post"
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "variants": {
+    "type=bottom,waterlogged=false": {
+      "model": "sakaplus:block/greeny_slab"
+    },
+    "type=bottom,waterlogged=true": {
+      "model": "sakaplus:block/greeny_slab"
+    },
+    "type=top,waterlogged=false": {
+      "model": "sakaplus:block/greeny_slab_top"
+    },
+    "type=top,waterlogged=true": {
+      "model": "sakaplus:block/greeny_slab_top"
+    },
+    "type=double,waterlogged=false": {
+      "model": "sakaplus:block/greeny_planks"
+    },
+    "type=double,waterlogged=true": {
+      "model": "sakaplus:block/greeny_planks"
+    }
+  }
+}
