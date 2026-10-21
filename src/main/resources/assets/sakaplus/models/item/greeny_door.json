@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "sakaplus:block/greeny_door_bottom"
+  }
+}
