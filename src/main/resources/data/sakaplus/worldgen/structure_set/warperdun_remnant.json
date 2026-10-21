@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "sakaplus:warperdun_remnant",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 32,
+    "separation": 8,
+    "salt": 19473821
+  }
+}
