@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "PP",
+    "PP",
+    "PP"
+  ],
+  "key": {
+    "P": {
+      "item": "sakaplus:greeny_planks"
+    }
+  },
+  "result": {
+    "item": "sakaplus:greeny_door",
+    "count": 3
+  }
+}
