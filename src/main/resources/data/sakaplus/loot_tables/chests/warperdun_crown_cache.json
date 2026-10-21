@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {"rolls":1,"entries":[{"type":"minecraft:item","name":"sakaplus:warperdun_spawn_egg","weight":1}]},
+    {"rolls":{"min":4,"max":6},"entries":[
+      {"type":"minecraft:item","name":"sakaplus:light_berry","weight":30,"functions":[{"function":"minecraft:set_count","count":{"min":16,"max":64}}]},
+      {"type":"minecraft:item","name":"sakaplus:light_berry_cheese","weight":20,"functions":[{"function":"minecraft:set_count","count":{"min":4,"max":16}}]},
+      {"type":"minecraft:item","name":"minecraft:netherite_ingot","weight":4,"functions":[{"function":"minecraft:set_count","count":{"min":1,"max":2}}]},
+      {"type":"minecraft:item","name":"minecraft:enchanted_golden_apple","weight":5,"functions":[{"function":"minecraft:set_count","count":{"min":1,"max":2}}]},
+      {"type":"minecraft:item","name":"minecraft:diamond_block","weight":8,"functions":[{"function":"minecraft:set_count","count":{"min":2,"max":4}}]},
+      {"type":"minecraft:item","name":"minecraft:totem_of_undying","weight":3},
+      {"type":"minecraft:item","name":"minecraft:nether_star","weight":1},
+      {"type":"minecraft:item","name":"minecraft:emerald_block","weight":10,"functions":[{"function":"minecraft:set_count","count":{"min":4,"max":12}}]},
+      {"type":"minecraft:item","name":"minecraft:experience_bottle","weight":15,"functions":[{"function":"minecraft:set_count","count":{"min":16,"max":64}}]},
+      {"type":"minecraft:item","name":"minecraft:dragon_breath","weight":6,"functions":[{"function":"minecraft:set_count","count":{"min":4,"max":16}}]}
+    ]}
+  ]
+}
