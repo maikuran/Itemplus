@@ -21,7 +21,7 @@ public class KuloogieEntity extends HostileEntity {
 
     public static DefaultAttributeContainer.Builder createAttributes() {
         return MobEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 82.0D)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 52.0D)
                 .add(EntityAttributes.GENERIC_ARMOR, 6.0D)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0D)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.22D)
