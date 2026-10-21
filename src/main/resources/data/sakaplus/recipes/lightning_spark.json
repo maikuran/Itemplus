@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " LI",
+    "LI",
+    "LB "
+  ],
+  "key": {
+    "I": { "item": "minecraft:iron_ingot" },
+    "B": { "item": "minecraft:iron_block" },
+    "L": { "item": "sakaplus:light_stone" }
+  },
+  "result": {
+    "item": "sakaplus:lightning_spark",
+    "count": 2
+  }
+}

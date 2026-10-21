@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "SSS",
+    "SSS",
+    "CCC"
+  ],
+  "key": {
+    "C": { "item": "minecraft:milk_bucket" },
+    "S": { "item": "sakaplus:light_berry" }
+  },
+  "result": {
+    "item": "sakaplus:light_berry_cheese",
+    "count": 4
+  }
+}

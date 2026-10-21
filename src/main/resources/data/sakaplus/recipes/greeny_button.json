@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "sakaplus:greeny_planks"
+    }
+  ],
+  "result": {
+    "item": "sakaplus:greeny_button"
+  }
+}

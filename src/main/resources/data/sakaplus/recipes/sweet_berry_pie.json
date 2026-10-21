@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BBB",
+    "WSW",
+    "MMM"
+  ],
+  "key": {
+    "B": { "item": "minecraft:sweet_berries" },
+    "W": { "item": "minecraft:wheat" },
+    "S": { "item": "minecraft:sugar" },
+    "M": { "item": "minecraft:milk_bucket" }
+  },
+  "result": {
+    "item": "sakaplus:sweet_berry_pie",
+    "count": 4
+  }
+}

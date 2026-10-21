@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "I I",
+    " I ",
+    "I I"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:wither_skeleton_skull"
+    }
+  },
+  "result": {
+    "item": "sakaplus:warperdun_spawn_egg",
+    "count": 1
+  }
+}

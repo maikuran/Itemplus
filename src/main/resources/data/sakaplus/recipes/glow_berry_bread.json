@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " B ",
+    "GWG",
+    " B "
+  ],
+  "key": {
+    "B": { "item": "minecraft:bread" },
+    "G": { "item": "minecraft:glow_berries" },
+    "W": { "item": "minecraft:wheat" }
+  },
+  "result": {
+    "item": "sakaplus:glow_berry_bread",
+    "count": 2
+  }
+}

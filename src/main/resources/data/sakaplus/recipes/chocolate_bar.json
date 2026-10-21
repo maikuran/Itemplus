@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CCC",
+    " S ",
+    "CCC"
+  ],
+  "key": {
+    "C": { "item": "minecraft:cocoa_beans" },
+    "S": { "item": "minecraft:sugar" }
+  },
+  "result": {
+    "item": "sakaplus:chocolate_bar",
+    "count": 6
+  }
+}
