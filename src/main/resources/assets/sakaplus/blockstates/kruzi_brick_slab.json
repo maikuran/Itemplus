@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "sakaplus:block/kruzi_brick_slab"
+    },
+    "type=top": {
+      "model": "sakaplus:block/kruzi_brick_slab_top"
+    },
+    "type=double": {
+      "model": "sakaplus:block/kruzi_bricks"
+    }
+  }
+}
