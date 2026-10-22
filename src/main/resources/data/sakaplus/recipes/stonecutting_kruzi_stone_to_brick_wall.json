@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "sakaplus:kruzi_stone"
+  },
+  "result": "sakaplus:kruzi_brick_wall",
+  "count": 1
+}

@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": {
+    "item": "sakaplus:kruzi_bricks"
+  },
+  "result": "sakaplus:chiseled_kruzi_bricks",
+  "count": 1
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#",
+    "#"
+  ],
+  "key": {
+    "#": {
+      "item": "sakaplus:kruzi_brick_slab"
+    }
+  },
+  "result": {
+    "item": "sakaplus:chiseled_kruzi_bricks",
+    "count": 1
+  }
+}
