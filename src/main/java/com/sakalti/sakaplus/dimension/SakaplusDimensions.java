@@ -32,6 +32,12 @@ public class SakaplusDimensions {
             new Identifier("sakaplus", "kruzivilim_biome")
     );
 
+    public static final RegistryKey<Biome> GREENFOREST_BIOME_KEY = RegistryKey.of(
+            Registry.BIOME_KEY,
+            new Identifier("sakaplus", "greenforest_biome")
+    );
+
+    
     // ノイズ設定キー（チャンク生成用）
     public static final RegistryKey<ChunkGeneratorSettings> KRUZIVILIM_NOISE_SETTINGS_KEY = RegistryKey.of(
             Registry.CHUNK_GENERATOR_SETTINGS_KEY,
