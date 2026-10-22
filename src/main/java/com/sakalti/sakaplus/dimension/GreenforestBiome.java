@@ -1,0 +1,74 @@
+
+package com.sakalti.sakaplus.dimension;
+
+import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.BiomeEffects;
+import net.minecraft.world.biome.GenerationSettings;
+import net.minecraft.world.biome.SpawnSettings;
+import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
+
+public class GreenforestBiome {
+
+    public static Biome createGreenforest() {
+        BiomeEffects effects = new BiomeEffects.Builder()
+                .skyColor(0x78A7FF)
+                .fogColor(0xC0D8B0)
+                .waterColor(0x3F76E4)
+                .waterFogColor(0x050533)
+                .build();
+
+        // モブスポーン設定
+        SpawnSettings.Builder spawnBuilder = new SpawnSettings.Builder();
+
+        // 森林に出現する動物
+        spawnBuilder.spawn(
+                SpawnGroup.CREATURE,
+                new SpawnSettings.SpawnEntry(EntityType.COW, 8, 2, 4)
+        );
+        spawnBuilder.spawn(
+                SpawnGroup.CREATURE,
+                new SpawnSettings.SpawnEntry(EntityType.SHEEP, 10, 2, 4)
+        );
+        spawnBuilder.spawn(
+                SpawnGroup.CREATURE,
+                new SpawnSettings.SpawnEntry(EntityType.PIG, 8, 2, 4)
+        );
+        spawnBuilder.spawn(
+                SpawnGroup.CREATURE,
+                new SpawnSettings.SpawnEntry(EntityType.CHICKEN, 10, 2, 4)
+        );
+        spawnBuilder.spawn(
+                SpawnGroup.CREATURE,
+                new SpawnSettings.SpawnEntry(EntityType.RABBIT, 4, 2, 3)
+        );
+
+        // 地形・植生・鉱石の生成設定
+        GenerationSettings.Builder genBuilder = new GenerationSettings.Builder();
+
+        DefaultBiomeFeatures.addLandCarvers(genBuilder);
+        DefaultBiomeFeatures.addDefaultLakes(genBuilder);
+        DefaultBiomeFeatures.addDungeons(genBuilder);
+        DefaultBiomeFeatures.addDefaultOres(genBuilder);
+        DefaultBiomeFeatures.addDefaultDisks(genBuilder);
+
+        // 草木・花・キノコなど
+        DefaultBiomeFeatures.addDefaultFlowers(genBuilder);
+        DefaultBiomeFeatures.addDefaultGrass(genBuilder);
+        DefaultBiomeFeatures.addDefaultMushrooms(genBuilder);
+        DefaultBiomeFeatures.addDefaultVegetation(genBuilder);
+
+        // 森林の木を生成
+        DefaultBiomeFeatures.addForestTrees(genBuilder);
+
+        return new Biome.Builder()
+                .precipitation(Biome.Precipitation.RAIN)
+                .temperature(0.7F)
+                .downfall(0.8F)
+                .effects(effects)
+                .spawnSettings(spawnBuilder.build())
+                .generationSettings(genBuilder.build())
+                .build();
+    }
+}
