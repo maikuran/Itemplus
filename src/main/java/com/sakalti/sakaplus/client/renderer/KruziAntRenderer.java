@@ -14,7 +14,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 public final class KruziAntRenderer extends EntityRenderer<KruziAntEntity> {
-    private static final Identifier TEXTURE = new Identifier(SakaPlus.MOD_ID, "textures/entity/kruzi_ant.png");
+    private static final Identifier TEXTURE = new Identifier("sakaplus", "textures/entity/kruzi_ant.png");
     private final KruziAntModel model;
 
     public KruziAntRenderer(EntityRendererFactory.Context context) {
