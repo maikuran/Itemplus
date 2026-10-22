@@ -1,0 +1,15 @@
+
+{
+  "structures": [
+    {
+      "structure": "sakaplus:ant_hive",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 24,
+    "separation": 8,
+    "salt": 18472631
+  }
+}
