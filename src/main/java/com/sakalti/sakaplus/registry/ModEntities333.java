@@ -63,7 +63,7 @@ public class ModEntities333 {
     public static final EntityType<KruziAntEntity> KRUZI_ANT =
             Registry.register(
                     Registry.ENTITY_TYPE,
-                    new Identifier(SakaPlus.MOD_ID, "kruzi_ant"),
+                    new Identifier("sakaplus", "kruzi_ant"),
                     FabricEntityTypeBuilder.create(
                                     SpawnGroup.MONSTER,
                                     KruziAntEntity::new
