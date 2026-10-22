@@ -22,6 +22,8 @@ public class SakaplusMod2 implements ModInitializer {
         ModEntities333.register();
         ModItems.register();
         SakaplusDimensions.register();
+        @Override
+        ModBeamEntities.register();
         ModItems5.register();
         // コマンドの登録（Fabric API v2）
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
