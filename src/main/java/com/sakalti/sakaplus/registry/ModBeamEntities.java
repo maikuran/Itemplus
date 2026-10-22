@@ -16,7 +16,7 @@ public final class ModBeamEntities {
     public static final EntityType<BeamProjectileEntity> BEAM_PROJECTILE =
             Registry.register(
                     Registry.ENTITY_TYPE,
-                    new Identifier(SakaPlus.MOD_ID, "beam_projectile"),
+                    new Identifier("sakaplus", "beam_projectile"),
                     FabricEntityTypeBuilder
                             .<BeamProjectileEntity>create(
                                     SpawnGroup.MISC,
