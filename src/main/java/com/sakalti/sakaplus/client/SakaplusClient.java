@@ -21,11 +21,13 @@ public class SakaplusClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities333.WARPERDUN, WarperdunRenderer::new);
         EntityRendererRegistry.register(ModEntities333.NYANKO, NyankoRenderer::new);
         EntityRendererRegistry.register(ModEntities333.BATTLE_NYANKO, BattleNyankoRenderer::new);
+        EntityRendererRegistry.register(ModEntities333.KRUZI_ANT, KruziAntRenderer::new);
         EntityRendererRegistry.register(ModEntities333.OGANESON, OganesonRenderer::new);
         EntityModelLayerRegistry.registerModelLayer(ScorcherRenderer.MODEL_LAYER, ScorcherModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(KuloogieRenderer.MODEL_LAYER, KuloogieModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(KurBruteRenderer.MODEL_LAYER, KurBruteModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(WarperdunRenderer.MODEL_LAYER, WarperdunModel::getTexturedModelData);
+        EntityModelLayerRegistry.registerModelLayer(KruziAntRenderer.MODEL_LAYER, KruziAntModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(NyankoRenderer.MODEL_LAYER, NyankoModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(BattleNyankoRenderer.MODEL_LAYER, BattleNyankoModel::getTexturedModelData);
         EntityModelLayerRegistry.registerModelLayer(OganesonRenderer.MODEL_LAYER, OganesonModel::getTexturedModelData);
