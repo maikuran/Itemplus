@@ -47,20 +47,12 @@ public class GreenforestBiome {
         // 地形・植生・鉱石の生成設定
         GenerationSettings.Builder genBuilder = new GenerationSettings.Builder();
 
-        DefaultBiomeFeatures.addLandCarvers(genBuilder);
-        DefaultBiomeFeatures.addDefaultLakes(genBuilder);
-        DefaultBiomeFeatures.addDungeons(genBuilder);
-        DefaultBiomeFeatures.addDefaultOres(genBuilder);
-        DefaultBiomeFeatures.addDefaultDisks(genBuilder);
+        
 
         // 草木・花・キノコなど
-        DefaultBiomeFeatures.addDefaultFlowers(genBuilder);
-        DefaultBiomeFeatures.addDefaultGrass(genBuilder);
-        DefaultBiomeFeatures.addDefaultMushrooms(genBuilder);
-        DefaultBiomeFeatures.addDefaultVegetation(genBuilder);
-
+        
         // 森林の木を生成
-        DefaultBiomeFeatures.addForestTrees(genBuilder);
+        
 
         return new Biome.Builder()
                 .precipitation(Biome.Precipitation.RAIN)
