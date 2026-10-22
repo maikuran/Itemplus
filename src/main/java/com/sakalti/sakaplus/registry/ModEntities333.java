@@ -38,6 +38,22 @@ public class ModEntities333 {
                     .dimensions(EntityDimensions.fixed(2.0F, 2.0F))
                     .build()
     );
+    
+public static final EntityType<KruziAntEntity> KRUZI_ANT =
+        Registry.register(
+                Registry.ENTITY_TYPE,
+                new Identifier(SakaPlus.MOD_ID, "kruzi_ant"),
+                FabricEntityTypeBuilder
+                        .<KruziAntEntity>create(
+                                SpawnGroup.MONSTER,
+                                KruziAntEntity::new
+                        )
+                        .dimensions(EntityDimensions.fixed(0.9F, 0.9F))
+                        .trackRangeBlocks(64)
+                        .trackedUpdateRate(3)
+                        .build()
+        );
+
     public static final EntityType<WarperdunEntity> WARPERDUN = Registry.register(
             Registry.ENTITY_TYPE,
             new Identifier("sakaplus", "warperdun"),
