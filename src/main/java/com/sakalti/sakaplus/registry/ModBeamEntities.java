@@ -1,7 +1,7 @@
 
 package com.sakalti.sakaplus.registry;
 
-import com.sakalti.sakaplus.SakaPlus;
+import com.sakalti.sakaplus.SakaPlusMod2;
 import com.sakalti.sakaplus.entity.BeamProjectileEntity;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
