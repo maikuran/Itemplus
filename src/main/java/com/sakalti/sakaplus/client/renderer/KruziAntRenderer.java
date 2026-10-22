@@ -1,6 +1,6 @@
-package com.sakalti.sakaplus.client.render;
+package com.sakalti.sakaplus.client.renderer;
 
-import com.sakalti.sakaplus.SakaPlus;
+
 import com.sakalti.sakaplus.client.model.KruziAntModel;
 import com.sakalti.sakaplus.entity.KruziAntEntity;
 import net.minecraft.client.render.OverlayTexture;
