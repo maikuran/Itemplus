@@ -3,7 +3,6 @@ package com.sakalti.sakaplus.client.model;
 
 import com.sakalti.sakaplus.entity.KruziAntEntity;
 
-import net.minecraft.client.model.EntityModelLayer;
 import net.minecraft.client.model.ModelData;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.model.ModelPartBuilder;
