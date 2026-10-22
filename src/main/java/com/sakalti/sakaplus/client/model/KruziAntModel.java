@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus.client.model;
 
 import com.sakalti.sakaplus.entity.KruziAntEntity;
@@ -10,16 +9,9 @@ import net.minecraft.client.model.ModelPartData;
 import net.minecraft.client.model.ModelTransform;
 import net.minecraft.client.model.TexturedModelData;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 public final class KruziAntModel extends SinglePartEntityModel<KruziAntEntity> {
-
-    public static final EntityModelLayer LAYER =
-            new EntityModelLayer(
-                    new Identifier("sakaplus", "kruzi_ant"),
-                    "main"
-            );
 
     private final ModelPart root;
     private final ModelPart thorax;
@@ -70,12 +62,12 @@ public final class KruziAntModel extends SinglePartEntityModel<KruziAntEntity> {
     }
 
     public static TexturedModelData getTexturedModelData() {
-        ModelData data = new ModelData();
-        ModelPartData root = data.getRoot();
+        ModelData modelData = new ModelData();
+        ModelPartData root = modelData.getRoot();
 
-        // =========================================================
-        // 胸部：外骨格と背板
-        // =========================================================
+        // =====================================================
+        // 胸部
+        // =====================================================
 
         ModelPartData thorax = root.addChild(
                 "thorax",
@@ -131,9 +123,9 @@ public final class KruziAntModel extends SinglePartEntityModel<KruziAntEntity> {
                 ModelTransform.NONE
         );
 
-        // =========================================================
-        // 頭部・複眼・触角
-        // =========================================================
+        // =====================================================
+        // 頭部・複眼
+        // =====================================================
 
         ModelPartData head = root.addChild(
                 "head",
@@ -189,6 +181,7 @@ public final class KruziAntModel extends SinglePartEntityModel<KruziAntEntity> {
                 ModelTransform.NONE
         );
 
+        // 左触角
         ModelPartData leftAntenna = head.addChild(
                 "left_antenna",
                 ModelPartBuilder.create(),
@@ -211,6 +204,7 @@ public final class KruziAntModel extends SinglePartEntityModel<KruziAntEntity> {
                 ModelTransform.of(0.0F, -1.7F, 0.0F, 0.0F, 0.0F, -0.5F)
         );
 
+        // 右触角
         ModelPartData rightAntenna = head.addChild(
                 "right_antenna",
                 ModelPartBuilder.create(),
@@ -233,9 +227,9 @@ public final class KruziAntModel extends SinglePartEntityModel<KruziAntEntity> {
                 ModelTransform.of(0.0F, -1.7F, 0.0F, 0.0F, 0.0F, 0.5F)
         );
 
-        // =========================================================
-        // 腹部：細い接続部、腹部本体、背板、末端
-        // =========================================================
+        // =====================================================
+        // 腹部
+        // =====================================================
 
         ModelPartData abdomen = root.addChild(
                 "abdomen",
@@ -275,9 +269,9 @@ public final class KruziAntModel extends SinglePartEntityModel<KruziAntEntity> {
                 ModelTransform.NONE
         );
 
-        // =========================================================
-        // 6本の脚：左右対称の位置と関節
-        // =========================================================
+        // =====================================================
+        // 6本の脚
+        // =====================================================
 
         addLeg(root, "leg_front_left",
                 2.0F, -0.3F, -2.0F, 0, 94,
@@ -315,9 +309,9 @@ public final class KruziAntModel extends SinglePartEntityModel<KruziAntEntity> {
                 0.65F, -0.9F, 0.0F,
                 0.12F, -0.8F, 0.0F);
 
-        // =========================================================
-        // 前翅：左右それぞれの付け根・膜・翅脈・先端
-        // =========================================================
+        // =====================================================
+        // 前翅
+        // =====================================================
 
         ModelPartData leftForeWing = root.addChild(
                 "left_fore_wing",
@@ -391,9 +385,9 @@ public final class KruziAntModel extends SinglePartEntityModel<KruziAntEntity> {
                 ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, 0.04F, 0.025F)
         );
 
-        // =========================================================
-        // 後翅：前翅と位相をずらして動かす
-        // =========================================================
+        // =====================================================
+        // 後翅
+        // =====================================================
 
         ModelPartData leftHindWing = root.addChild(
                 "left_hind_wing",
@@ -467,7 +461,7 @@ public final class KruziAntModel extends SinglePartEntityModel<KruziAntEntity> {
                 ModelTransform.of(0.0F, 0.0F, 0.0F, 0.0F, -0.06F, 0.04F)
         );
 
-        return TexturedModelData.of(data, 128, 128);
+        return TexturedModelData.of(modelData, 128, 128);
     }
 
     private static void addLeg(
@@ -543,10 +537,10 @@ public final class KruziAntModel extends SinglePartEntityModel<KruziAntEntity> {
     ) {
         float t = animationProgress;
 
-        // 前翅：高速で羽ばたく
+        // 前翅の羽ばたき
         float foreBeat = MathHelper.sin(t * 2.45F) * 0.62F;
 
-        // 後翅：前翅より少し位相をずらす
+        // 後翅は位相をずらす
         float hindBeat = MathHelper.sin(t * 2.45F + 0.42F) * 0.53F;
 
         this.leftForeWing.roll = -0.10F - foreBeat;
@@ -561,20 +555,20 @@ public final class KruziAntModel extends SinglePartEntityModel<KruziAntEntity> {
         this.leftHindWing.yaw = 0.18F + hindBeat * 0.08F;
         this.rightHindWing.yaw = -0.18F - hindBeat * 0.08F;
 
-        // 翼端は付け根より小さく、少し遅れて動く
+        // 翼端
         this.leftForeTip.roll = -foreBeat * 0.30F;
         this.rightForeTip.roll = foreBeat * 0.30F;
 
         this.leftHindTip.roll = hindBeat * 0.28F;
         this.rightHindTip.roll = -hindBeat * 0.28F;
 
-        // 飛行中の胸部の上下動
+        // 胸部の上下動
         this.thorax.pivotY = MathHelper.sin(t * 0.20F) * 0.06F;
 
-        // 腹部の微細な揺れ
+        // 腹部の揺れ
         this.abdomen.pitch = MathHelper.sin(t * 0.17F) * 0.035F;
 
-        // 触角の微細な動き
+        // 触角の動き
         this.leftAntenna.roll =
                 -0.28F + MathHelper.sin(t * 0.32F) * 0.08F;
 
@@ -594,7 +588,7 @@ public final class KruziAntModel extends SinglePartEntityModel<KruziAntEntity> {
                 0.18F
         );
 
-        // 6本の脚の微細な飛行運動
+        // 6本の脚の微細な運動
         for (int i = 0; i < this.legs.length; i++) {
             float phase =
                     (i / 2) * 2.1F
