@@ -11,6 +11,10 @@ import net.fabricmc.api.ClientModInitializer;
 public class SakaplusClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        EntityRendererRegistry.register(
+                ModBeamEntities.BEAM_PROJECTILE,
+                BeamProjectileRenderer::new
+        );
         EntityRendererRegistry.register(ModEntities333.SCORCHER, ScorcherRenderer::new);
         EntityRendererRegistry.register(ModEntities333.KULOOGIE, KuloogieRenderer::new);
         EntityRendererRegistry.register(ModEntities333.KUR_BRUTE, KurBruteRenderer::new);
