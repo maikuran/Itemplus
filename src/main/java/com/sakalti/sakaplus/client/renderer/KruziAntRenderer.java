@@ -10,11 +10,18 @@ import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 public final class KruziAntRenderer extends EntityRenderer<KruziAntEntity> {
+
+    public static final EntityModelLayer MODEL_LAYER =
+            new EntityModelLayer(
+                    new Identifier("sakaplus", "kruzi_ant"),
+                    "main"
+            );
 
     private static final Identifier TEXTURE =
             new Identifier("sakaplus", "textures/entity/kruzi_ant.png");
@@ -23,9 +30,7 @@ public final class KruziAntRenderer extends EntityRenderer<KruziAntEntity> {
 
     public KruziAntRenderer(EntityRendererFactory.Context context) {
         super(context);
-        this.model = new KruziAntModel(
-                context.getPart(KruziAntModel.LAYER)
-        );
+        this.model = new KruziAntModel(context.getPart(MODEL_LAYER));
         this.shadowRadius = 0.35F;
     }
 
