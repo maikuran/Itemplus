@@ -13,7 +13,6 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
@@ -48,12 +47,15 @@ public class BeamProjectileEntity extends ProjectileEntity {
     public BeamProjectileEntity(World world, LivingEntity owner) {
         this(ModBeamEntities.BEAM_PROJECTILE, world);
         this.setOwner(owner);
-        this.setPosition(owner.getX(), owner.getEyeY() - 0.1D, owner.getZ());
+        this.setPosition(
+                owner.getX(),
+                owner.getEyeY() - 0.1D,
+                owner.getZ()
+        );
     }
 
     @Override
     protected void initDataTracker() {
-        super.initDataTracker();
         this.dataTracker.startTracking(BEAM_COLOR, 0x78DCFF);
         this.dataTracker.startTracking(BEAM_DAMAGE, 6.0F);
     }
@@ -178,10 +180,10 @@ public class BeamProjectileEntity extends ProjectileEntity {
             Entity owner = this.getOwner();
 
             if (target instanceof LivingEntity && target.isAlive()) {
-                target.damage(
-                        DamageSource.thrown(this, owner),
-                        this.getBeamDamage()
-                );
+                DamageSource damageSource =
+                        this.getDamageSources().thrown(this, owner);
+
+                target.damage(damageSource, this.getBeamDamage());
             }
 
             this.discard();
