@@ -2,7 +2,7 @@ package com.sakalti.sakaplus.client;
 
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import com.sakalti.sakaplus.client.model.*
+import com.sakalti.sakaplus.client.model.*;
 import com.sakalti.sakaplus.registry.ModBeamEntities;
 import com.sakalti.sakaplus.registry.ModEntities333;
 import com.sakalti.sakaplus.client.renderer.*;
