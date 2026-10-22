@@ -177,16 +177,15 @@ public class BeamProjectileEntity extends ProjectileEntity {
 
         if (hit.getType() == HitResult.Type.ENTITY) {
             Entity target = ((EntityHitResult) hit).getEntity();
-            Entity owner = this.getOwner();
 
             if (target instanceof LivingEntity && target.isAlive()) {
-                DamageSource damageSource = new DamageSource(
-                        "sakalti_beam",
-                        this,
-                        owner
-                );
+                DamageSource damageSource =
+                        new DamageSource("sakalti_beam");
 
-                target.damage(damageSource, this.getBeamDamage());
+                target.damage(
+                        damageSource,
+                        this.getBeamDamage()
+                );
             }
 
             this.discard();
