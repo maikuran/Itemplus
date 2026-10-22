@@ -1,7 +1,7 @@
 
 package com.sakalti.sakaplus.registry;
 
-import com.sakalti.sakaplus.SakaPlusMod2;
+import com.sakalti.sakaplus.SakaplusMod2;
 import com.sakalti.sakaplus.entity.*;
 
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
