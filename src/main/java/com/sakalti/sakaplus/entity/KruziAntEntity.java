@@ -1,17 +1,16 @@
-package com.sakalti.sakaplus.entity;
 
-import com.sakalti.sakaplus.entity.BeamAttack;
+package com.sakalti.sakaplus.entity;
 
 import java.util.EnumSet;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.control.FlyingMoveControl;
+import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.FlyGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.navigation.BirdNavigation;
+import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -34,7 +33,7 @@ public class KruziAntEntity extends HostileEntity {
     ) {
         super(type, world);
 
-        this.moveControl = new FlyingMoveControl(this, 10, true);
+        this.moveControl = new FlightMoveControl(this, 10, true);
         this.setNoGravity(true);
         this.experiencePoints = 8;
     }
@@ -51,27 +50,23 @@ public class KruziAntEntity extends HostileEntity {
 
     @Override
     protected void initGoals() {
-        // 通常の飛行・徘徊
-        this.goalSelector.add(5, new FlyGoal(this, 1.0D));
+        // プレイヤーを敵として認識
+        this.targetSelector.add(
+                1,
+                new ActiveTargetGoal<>(this, PlayerEntity.class, true)
+        );
 
-        // 近距離では通常の近接攻撃で追跡する
+        // 近距離での近接攻撃
         this.goalSelector.add(
                 2,
                 new MeleeAttackGoal(this, 1.15D, true)
         );
 
-        // 中・遠距離では金色のビームを発射する
+        // 中・遠距離での金色ビーム攻撃
         this.goalSelector.add(3, new KruziAntBeamGoal(this));
 
-        // プレイヤーを敵として認識
-        this.targetSelector.add(
-                1,
-                new ActiveTargetGoal<>(
-                        this,
-                        PlayerEntity.class,
-                        true
-                )
-        );
+        // 通常の飛行行動
+        this.goalSelector.add(5, new FlyGoal(this, 1.0D));
     }
 
     @Override
@@ -112,10 +107,10 @@ public class KruziAntEntity extends HostileEntity {
 
         private final KruziAntEntity mob;
 
-        KruziAntBeamGoal(KruziAntEntity mob) {
+        private KruziAntBeamGoal(KruziAntEntity mob) {
             this.mob = mob;
 
-            // ビーム攻撃自体は移動を占有しない
+            // ビーム攻撃中も移動を妨げない
             this.setControls(EnumSet.of(Goal.Control.LOOK));
         }
 
@@ -138,12 +133,14 @@ public class KruziAntEntity extends HostileEntity {
         public boolean shouldContinue() {
             LivingEntity target = this.mob.getTarget();
 
-            return target != null
-                    && target.isAlive()
-                    && this.mob.squaredDistanceTo(target)
-                            <= BEAM_RANGE * BEAM_RANGE
-                    && this.mob.squaredDistanceTo(target)
-                            > MELEE_RANGE * MELEE_RANGE;
+            if (target == null || !target.isAlive()) {
+                return false;
+            }
+
+            double distanceSq = this.mob.squaredDistanceTo(target);
+
+            return distanceSq <= BEAM_RANGE * BEAM_RANGE
+                    && distanceSq > MELEE_RANGE * MELEE_RANGE;
         }
 
         @Override
