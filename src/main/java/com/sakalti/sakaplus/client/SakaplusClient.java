@@ -69,7 +69,7 @@ public class SakaplusClient implements ClientModInitializer {
                 WarperdunModel::getTexturedModelData
         );
         EntityModelLayerRegistry.registerModelLayer(
-                KruziAntModel.LAYER,
+                KruziAntModel.MODEL_LAYER,
                 KruziAntModel::getTexturedModelData
         );
         EntityModelLayerRegistry.registerModelLayer(
