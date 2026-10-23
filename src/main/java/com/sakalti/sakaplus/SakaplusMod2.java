@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus;
 
 import net.fabricmc.api.ModInitializer;
@@ -10,11 +9,11 @@ import com.sakalti.sakaplus.command.KruzivilimCommand;
 import com.sakalti.sakaplus.registry.*;
 import com.sakalti.sakaplus.dimension.SakaplusDimensions;
 import com.sakalti.sakaplus.block.ModBlocks2;
+import com.sakalti.sakaplus.world.GreenyFeatures;
 
 public class SakaplusMod2 implements ModInitializer {
     @Override
     public void onInitialize() {
-        // 例: Mod initializerやonInitialize()で
         LongtimePotionRegistry.registerAll();
         ModBlocks2.registerBlocks();
         ModEffects.registerEffects();
@@ -24,6 +23,10 @@ public class SakaplusMod2 implements ModInitializer {
         SakaplusDimensions.register();
         ModBeamEntities.register();
         ModItems5.register();
+
+        // Greenyの木のFeature登録
+        GreenyFeatures.register();
+
         // コマンドの登録（Fabric API v2）
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             KruzivilimCommand.register(dispatcher);
