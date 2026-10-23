@@ -1,3 +1,4 @@
+
 package com.sakalti.sakaplus;
 
 import net.fabricmc.api.ModInitializer;
@@ -10,10 +11,16 @@ import com.sakalti.sakaplus.registry.*;
 import com.sakalti.sakaplus.dimension.SakaplusDimensions;
 import com.sakalti.sakaplus.block.ModBlocks2;
 import com.sakalti.sakaplus.world.GreenyFeatures;
+import com.sakalti.sakaplus.sound.SakaplusSounds;
 
 public class SakaplusMod2 implements ModInitializer {
+
     @Override
     public void onInitialize() {
+
+        // Sounds
+        SakaplusSounds.registerSounds();
+
         LongtimePotionRegistry.registerAll();
         ModBlocks2.registerBlocks();
         ModEffects.registerEffects();
