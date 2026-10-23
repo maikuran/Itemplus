@@ -3,7 +3,6 @@ package com.sakalti.sakaplus.registry;
 import net.minecraft.item.Item;
 import com.sakalti.sakaplus.block.ModBlocks2;
 import com.sakalti.sakaplus.item.*;
-import com.sakalti.moreweapons.items.Overshot;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.item.ItemGroup;
