@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus.entity;
 
 import com.sakalti.sakaplus.registry.ModBeamEntities;
@@ -13,6 +12,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
@@ -104,20 +104,41 @@ public class BeamProjectileEntity extends ProjectileEntity {
         Vec3d velocity = this.getVelocity();
         Vec3d end = start.add(velocity);
 
+        // クライアント側でビームの軌跡をパーティクル表示
         if (this.getWorld().isClient) {
             int rgb = this.getColor();
 
-            this.getWorld().addParticle(
-                    net.minecraft.particle.ParticleTypes.ENTITY_EFFECT,
-                    this.getX(),
-                    this.getY(),
-                    this.getZ(),
-                    ((rgb >> 16) & 255) / 255.0D,
-                    ((rgb >> 8) & 255) / 255.0D,
-                    (rgb & 255) / 255.0D
+            double red = ((rgb >> 16) & 255) / 255.0D;
+            double green = ((rgb >> 8) & 255) / 255.0D;
+            double blue = (rgb & 255) / 255.0D;
+
+            Vec3d delta = end.subtract(start);
+
+            int particleCount = Math.max(
+                    1,
+                    (int) Math.ceil(delta.length() * 12.0D)
             );
+
+            for (int i = 0; i <= particleCount; i++) {
+                double progress = (double) i / particleCount;
+
+                double x = start.x + delta.x * progress;
+                double y = start.y + delta.y * progress;
+                double z = start.z + delta.z * progress;
+
+                this.getWorld().addParticle(
+                        ParticleTypes.ENTITY_EFFECT,
+                        x,
+                        y,
+                        z,
+                        red,
+                        green,
+                        blue
+                );
+            }
         }
 
+        // ブロックとの衝突判定
         HitResult blockHit = this.getWorld().raycast(
                 new RaycastContext(
                         start,
@@ -134,6 +155,7 @@ public class BeamProjectileEntity extends ProjectileEntity {
             entityEnd = blockHit.getPos();
         }
 
+        // エンティティとの衝突判定
         Box searchBox = this.getBoundingBox()
                 .stretch(velocity)
                 .expand(0.3D);
