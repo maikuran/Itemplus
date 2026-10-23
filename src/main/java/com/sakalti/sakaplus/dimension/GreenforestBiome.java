@@ -50,9 +50,10 @@ public class GreenforestBiome {
 
         // Greenyの木を生成
         genBuilder.feature(
-                GenerationStep.Feature.VEGETAL_DECORATION,
-                GreenyFeatures.GREENY_TREE_PLACED_KEY
+          net.minecraft.world.gen.GenerationStep.Feature.VEGETAL_DECORATION,
+          GreenyFeatures.getPlacedTreeEntry() // ← 先ほど追加したヘルパーメソッドに変更
         );
+
 
         return new Biome.Builder()
                 .precipitation(Biome.Precipitation.RAIN)
