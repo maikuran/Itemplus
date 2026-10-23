@@ -10,15 +10,9 @@
       }
     },
     "foliage_provider": {
-      "type": "minecraft:blob_foliage",
-      "trunk_height": 0,
-      "radius": 2,
-      "offset": 0,
-      "provider": {
-        "type": "minecraft:simple_state_provider",
-        "state": {
-          "Name": "sakaplus:greeny_leaves"
-        }
+      "type": "minecraft:simple_state_provider",
+      "state": {
+        "Name": "sakaplus:greeny_leaves"
       }
     },
     "dirt_provider": {
