@@ -49,8 +49,8 @@ public class GreenforestBiome {
 
         // Greenyの木を生成
         genBuilder.feature(
-                GenerationStep.Feature.VEGETAL_DECORATION,
-                GreenyFeatures.GREENY_TREE_PLACED_KEY
+    　　   net.minecraft.world.gen.GenerationStep.Feature.VEGETAL_DECORATION, 
+          GreenyFeatures.getPlacedTreeEntry() // ヘルパーからRegistryEntryを取得して渡す
         );
 
         return new Biome.Builder()
