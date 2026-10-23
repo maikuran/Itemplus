@@ -1,4 +1,4 @@
-package com.sakalti.moreweapons.items;
+package com.sakalti.sakaplus.item;
 
 import com.sakalti.sakaplus.entity.BeamAttack;
 import net.minecraft.client.item.TooltipContext;
