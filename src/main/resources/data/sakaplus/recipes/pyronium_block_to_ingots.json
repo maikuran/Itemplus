@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "sakaplus:pyronium_block"
+    }
+  ],
+  "result": {
+    "item": "sakaplus:pyronium_ingot",
+    "count": 9
+  }
+}
