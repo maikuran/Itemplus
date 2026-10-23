@@ -1,9 +1,7 @@
-
-package com.sakalti.sakaplus.client;
+package com.sakalti.sakaplus.client.render;
 
 import com.sakalti.sakaplus.entity.BeamProjectileEntity;
 
-import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -11,23 +9,18 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.Matrix3f;
-import net.minecraft.util.math.Matrix4f;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.RotationAxis;
 
 public class BeamProjectileRenderer
         extends EntityRenderer<BeamProjectileEntity> {
 
-    private static final Identifier TEXTURE =
-            new Identifier(
-                    "minecraft",
-                    "textures/entity/experience_orb.png"
-            );
+    private static final float BEAM_WIDTH = 0.045F;
+    private static final float BEAM_LENGTH = 1.5F;
 
-    public BeamProjectileRenderer(
-            EntityRendererFactory.Context context
-    ) {
+    public BeamProjectileRenderer(EntityRendererFactory.Context context) {
         super(context);
-        this.shadowRadius = 0.0F;
     }
 
     @Override
@@ -39,39 +32,48 @@ public class BeamProjectileRenderer
             VertexConsumerProvider vertexConsumers,
             int light
     ) {
-        matrices.push();
+        Vec3d velocity = entity.getVelocity();
 
-        matrices.multiply(this.dispatcher.getRotation());
-        matrices.scale(0.22F, 0.22F, 0.22F);
+        if (velocity.lengthSquared() < 1.0E-8D) {
+            return;
+        }
 
-        MatrixStack.Entry entry = matrices.peek();
-        Matrix4f positionMatrix = entry.getPositionMatrix();
-        Matrix3f normalMatrix = entry.getNormalMatrix();
+        Vec3d direction = velocity.normalize();
 
-        VertexConsumer vertices = vertexConsumers.getBuffer(
-                RenderLayer.getEntityTranslucent(TEXTURE)
-        );
+        float beamYaw = (float) Math.atan2(direction.z, direction.x);
+        float beamPitch = (float) Math.asin(direction.y);
 
         int color = entity.getColor();
-        int red = (color >> 16) & 255;
-        int green = (color >> 8) & 255;
-        int blue = color & 255;
+        float red = ((color >> 16) & 255) / 255.0F;
+        float green = ((color >> 8) & 255) / 255.0F;
+        float blue = (color & 255) / 255.0F;
 
-        vertex(vertices, positionMatrix, normalMatrix,
-                -0.5F, -0.5F, 0.0F, 0.0F, 1.0F,
-                red, green, blue, light);
+        matrices.push();
 
-        vertex(vertices, positionMatrix, normalMatrix,
-                 0.5F, -0.5F, 0.0F, 1.0F, 1.0F,
-                red, green, blue, light);
+        matrices.multiply(
+                RotationAxis.POSITIVE_Y.rotation(-beamYaw)
+        );
+        matrices.multiply(
+                RotationAxis.POSITIVE_Z.rotation(beamPitch)
+        );
 
-        vertex(vertices, positionMatrix, normalMatrix,
-                 0.5F,  0.5F, 0.0F, 1.0F, 0.0F,
-                red, green, blue, light);
+        VertexConsumer consumer = vertexConsumers.getBuffer(
+                RenderLayer.getLightning()
+        );
 
-        vertex(vertices, positionMatrix, normalMatrix,
-                -0.5F,  0.5F, 0.0F, 0.0F, 0.0F,
-                red, green, blue, light);
+        MatrixStack.Entry entry = matrices.peek();
+
+        float halfWidth = BEAM_WIDTH / 2.0F;
+        float length = BEAM_LENGTH;
+
+        vertex(consumer, entry, -halfWidth, 0.0F, 0.0F,
+                red, green, blue, 1.0F, light);
+        vertex(consumer, entry, halfWidth, 0.0F, 0.0F,
+                red, green, blue, 1.0F, light);
+        vertex(consumer, entry, halfWidth, 0.0F, length,
+                red, green, blue, 1.0F, light);
+        vertex(consumer, entry, -halfWidth, 0.0F, length,
+                red, green, blue, 1.0F, light);
 
         matrices.pop();
 
@@ -86,30 +88,28 @@ public class BeamProjectileRenderer
     }
 
     private static void vertex(
-            VertexConsumer vertices,
-            Matrix4f positionMatrix,
-            Matrix3f normalMatrix,
+            VertexConsumer consumer,
+            MatrixStack.Entry entry,
             float x,
             float y,
             float z,
-            float u,
-            float v,
-            int red,
-            int green,
-            int blue,
+            float red,
+            float green,
+            float blue,
+            float alpha,
             int light
     ) {
-        vertices.vertex(positionMatrix, x, y, z)
-                .color(red, green, blue, 255)
-                .texture(u, v)
-                .overlay(OverlayTexture.DEFAULT_UV)
-                .light(0x00F000F0)
-                .normal(normalMatrix, 0.0F, 1.0F, 0.0F)
+        consumer.vertex(entry.getPositionMatrix(), x, y, z)
+                .color(red, green, blue, alpha)
+                .texture(0.0F, 0.0F)
+                .overlay(0)
+                .light(light)
+                .normal(entry.getNormalMatrix(), 0.0F, 1.0F, 0.0F)
                 .next();
     }
 
     @Override
     public Identifier getTexture(BeamProjectileEntity entity) {
-        return TEXTURE;
+        return null;
     }
 }
