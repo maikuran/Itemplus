@@ -6,7 +6,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "sakaplus:pyronium_ingot"
+          "name": "sakaplus:raw_pyronium"
         }
       ]
     }
