@@ -5,6 +5,7 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.FenceBlock;
 import net.minecraft.block.FenceGateBlock;
+import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.Material;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.block.SlabBlock;
@@ -155,13 +156,20 @@ public final class ModBlocks2 {
         registerBlock("stripped_greeny_wood",
             new PillarBlock(wood(2.5f, 4.0f)));
 
+    // Greeny Leaves
+    public static final Block GREENY_LEAVES =
+        registerBlock("greeny_leaves",
+            new LeavesBlock(
+                AbstractBlock.Settings.of(Material.LEAVES)
+                    .strength(0.2f)
+                    .ticksRandomly()
+                    .nonOpaque()
+                    .sounds(net.minecraft.sound.BlockSoundGroup.GRASS)
+            ));
+
     public static final Block GREENY_PLANKS =
         registerBlock("greeny_planks",
             new Block(wood(2.5f, 4.0f)));
-
-    public static final Block GREENY_LEAVES =
-        registerBlock("greeny_leaves",
-            new Block(wood(0.5f, 1.2f)));
 
     public static final Block GREENY_STAIRS =
         registerBlock("greeny_stairs",
