@@ -1,9 +1,9 @@
-
 package com.sakalti.sakaplus.registry;
 
 import net.minecraft.item.Item;
 import com.sakalti.sakaplus.block.ModBlocks2;
 import com.sakalti.sakaplus.item.*;
+import com.sakalti.moreweapons.items.Overshot; // 追加：Overshotのインポート
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.item.ItemGroup;
@@ -62,6 +62,10 @@ public class ModItems {
     public static final Item LIGHT_STONE =
         new Item(new Item.Settings());
 
+    // 追加：Overshot のアイテムインスタンス定義（戦闘タブに配置、最大スタック1個）
+    public static final Item OVERSHOT =
+        new Overshot(new Item.Settings().group(ItemGroup.COMBAT).maxCount(1));
+
     public static void register() {
         Registry.register(
             Registry.ITEM,
@@ -69,7 +73,6 @@ public class ModItems {
             BLOOMSQUER_ITEM
         );
 
-        // 修正：未登録だった2アイテムを追加
         Registry.register(
             Registry.ITEM,
             new Identifier("sakaplus", "light_berry_cheese"),
@@ -121,5 +124,10 @@ public class ModItems {
         Registry.register(Registry.ITEM,
             new Identifier("sakaplus", "hachiwari_manju_choco"),
             HACHIWARI_MANJU_CHOCO);
+
+        // 追加：Overshot のレジストリ登録（ゲーム内ID: "sakaplus:overshot"）
+        Registry.register(Registry.ITEM,
+            new Identifier("sakaplus", "overshot"),
+            OVERSHOT);
     }
 }
