@@ -8,8 +8,6 @@ import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.util.registry.RegistryEntry;
-
-// 修正: ConstantInt から ConstantIntProvider へ変更
 import net.minecraft.util.math.intprovider.ConstantIntProvider;
 
 import net.minecraft.world.gen.feature.ConfiguredFeature;
@@ -19,10 +17,8 @@ import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.feature.size.TwoLayersFeatureSize;
 import net.minecraft.world.gen.foliage.BlobFoliagePlacer;
 import net.minecraft.world.gen.placementmodifier.BiomePlacementModifier;
-// 修正: パラメータ名に Modifier が付く正しいクラス名へ変更
 import net.minecraft.world.gen.placementmodifier.CountPlacementModifier;
 import net.minecraft.world.gen.placementmodifier.SquarePlacementModifier;
-// 修正: PlacedFeatures の正しいパッケージパス
 import net.minecraft.world.gen.feature.PlacedFeatures;
 import net.minecraft.world.gen.stateprovider.BlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
@@ -46,16 +42,19 @@ public final class GreenyFeatures {
                     GREENY_TREE_PLACED_ID
             );
 
+    // 追加: RegistryKeyからRegistryEntry<PlacedFeature>を取得するためのヘルパーメソッド
+    public static RegistryEntry<PlacedFeature> getPlacedTreeEntry() {
+        return BuiltinRegistries.PLACED_FEATURE.getOrCreateEntry(GREENY_TREE_PLACED_KEY);
+    }
+
     public static void register() {
 
-        // 木の形状と使用ブロックを定義
         TreeFeatureConfig treeConfig =
                 new TreeFeatureConfig.Builder(
                         BlockStateProvider.of(ModBlocks2.GREENY_LOG),
                         new StraightTrunkPlacer(5, 2, 0),
                         BlockStateProvider.of(ModBlocks2.GREENY_LEAVES),
                         new BlobFoliagePlacer(
-                                // 修正: ConstantIntProvider.create() を使用
                                 ConstantIntProvider.create(2),
                                 ConstantIntProvider.create(0),
                                 3
@@ -68,7 +67,6 @@ public final class GreenyFeatures {
                 .ignoreVines()
                 .build();
 
-        // ConfiguredFeature 登録
         ConfiguredFeature<TreeFeatureConfig, ?> configuredTree =
                 new ConfiguredFeature<>(Feature.TREE, treeConfig);
 
@@ -78,13 +76,11 @@ public final class GreenyFeatures {
                 configuredTree
         );
 
-        // PlacedFeature 登録
         PlacedFeature placedTree = new PlacedFeature(
                 RegistryEntry.of(configuredTree),
                 List.of(
-                        // 修正: 正しいクラス名に変更
                         CountPlacementModifier.of(4),
-                        SquarePlacementModifier.spread(),
+                        SquarePlacementModifier.of(), // 修正: spread() から of() へ変更
                         PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP,
                         BiomePlacementModifier.of()
                 )
