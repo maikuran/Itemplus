@@ -45,12 +45,13 @@ public class GreenforestBiome {
         );
 
         // 地形・植生・鉱石の生成設定
-        GenerationSettings.Builder genBuilder = new GenerationSettings.Builder();
+        GenerationSettings.Builder genBuilder =
+                new GenerationSettings.Builder();
 
         // Greenyの木を生成
         genBuilder.feature(
-    　　   net.minecraft.world.gen.GenerationStep.Feature.VEGETAL_DECORATION, 
-          GreenyFeatures.getPlacedTreeEntry() // ヘルパーからRegistryEntryを取得して渡す
+                GenerationStep.Feature.VEGETAL_DECORATION,
+                GreenyFeatures.GREENY_TREE_PLACED_KEY
         );
 
         return new Biome.Builder()
