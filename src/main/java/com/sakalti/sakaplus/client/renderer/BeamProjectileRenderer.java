@@ -1,3 +1,4 @@
+
 package com.sakalti.sakaplus.client.render;
 
 import com.sakalti.sakaplus.entity.BeamProjectileEntity;
@@ -9,9 +10,10 @@ import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Quaternion;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RotationAxis;
+import net.minecraft.util.math.Vec3f;
 
 public class BeamProjectileRenderer
         extends EntityRenderer<BeamProjectileEntity> {
@@ -35,6 +37,7 @@ public class BeamProjectileRenderer
         Vec3d velocity = entity.getVelocity();
 
         if (velocity.lengthSquared() < 1.0E-8D) {
+            super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
             return;
         }
 
@@ -51,10 +54,10 @@ public class BeamProjectileRenderer
         matrices.push();
 
         matrices.multiply(
-                RotationAxis.POSITIVE_Y.rotation(-beamYaw)
+                Vec3f.POSITIVE_Y.getRadialQuaternion(-beamYaw)
         );
         matrices.multiply(
-                RotationAxis.POSITIVE_Z.rotation(beamPitch)
+                Vec3f.POSITIVE_Z.getRadialQuaternion(beamPitch)
         );
 
         VertexConsumer consumer = vertexConsumers.getBuffer(
@@ -66,13 +69,20 @@ public class BeamProjectileRenderer
         float halfWidth = BEAM_WIDTH / 2.0F;
         float length = BEAM_LENGTH;
 
-        vertex(consumer, entry, -halfWidth, 0.0F, 0.0F,
+        vertex(consumer, entry,
+                -halfWidth, -halfWidth, 0.0F,
                 red, green, blue, 1.0F, light);
-        vertex(consumer, entry, halfWidth, 0.0F, 0.0F,
+
+        vertex(consumer, entry,
+                halfWidth, -halfWidth, 0.0F,
                 red, green, blue, 1.0F, light);
-        vertex(consumer, entry, halfWidth, 0.0F, length,
+
+        vertex(consumer, entry,
+                halfWidth, halfWidth, length,
                 red, green, blue, 1.0F, light);
-        vertex(consumer, entry, -halfWidth, 0.0F, length,
+
+        vertex(consumer, entry,
+                -halfWidth, halfWidth, length,
                 red, green, blue, 1.0F, light);
 
         matrices.pop();
