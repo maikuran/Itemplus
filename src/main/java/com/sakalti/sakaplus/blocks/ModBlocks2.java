@@ -159,6 +159,10 @@ public final class ModBlocks2 {
         registerBlock("greeny_planks",
             new Block(wood(2.5f, 4.0f)));
 
+    public static final Block GREENY_LEAVES =
+        registerBlock("greeny_leaves",
+            new Block(wood(0.5f, 1.2f)));
+
     public static final Block GREENY_STAIRS =
         registerBlock("greeny_stairs",
             new StairsBlock(
