@@ -1,13 +1,14 @@
-
 package com.sakalti.sakaplus.dimension;
+
+import com.sakalti.sakaplus.world.GreenyFeatures;
 
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.BiomeEffects;
 import net.minecraft.world.biome.GenerationSettings;
 import net.minecraft.world.biome.SpawnSettings;
-import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.world.gen.GenerationStep;
 
 public class GreenforestBiome {
 
@@ -22,7 +23,6 @@ public class GreenforestBiome {
         // モブスポーン設定
         SpawnSettings.Builder spawnBuilder = new SpawnSettings.Builder();
 
-        // 森林に出現する動物
         spawnBuilder.spawn(
                 SpawnGroup.CREATURE,
                 new SpawnSettings.SpawnEntry(EntityType.COW, 8, 2, 4)
@@ -47,12 +47,11 @@ public class GreenforestBiome {
         // 地形・植生・鉱石の生成設定
         GenerationSettings.Builder genBuilder = new GenerationSettings.Builder();
 
-        
-
-        // 草木・花・キノコなど
-        
-        // 森林の木を生成
-        
+        // Greenyの木を生成
+        genBuilder.feature(
+                GenerationStep.Feature.VEGETAL_DECORATION,
+                GreenyFeatures.GREENY_TREE_PLACED_KEY
+        );
 
         return new Biome.Builder()
                 .precipitation(Biome.Precipitation.RAIN)
