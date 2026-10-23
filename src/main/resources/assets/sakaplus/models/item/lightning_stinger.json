@@ -2,5 +2,28 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "sakaplus:item/lightning_stinger"
+  },
+  "display": {
+    "gui": {
+      "scale": [1.0, 1.0, 1.0]
+    },
+    "ground": {
+      "scale": [1.0, 1.0, 1.0]
+    },
+    "fixed": {
+      "scale": [1.0, 1.0, 1.0]
+    },
+    "firstperson_righthand": {
+      "scale": [1.0, 1.0, 1.0]
+    },
+    "firstperson_lefthand": {
+      "scale": [1.0, 1.0, 1.0]
+    },
+    "thirdperson_righthand": {
+      "scale": [1.0, 1.0, 1.0]
+    },
+    "thirdperson_lefthand": {
+      "scale": [1.0, 1.0, 1.0]
+    }
   }
 }
