@@ -2,47 +2,5 @@
   "parent": "item/generated",
   "textures": {
     "layer0": "sakaplus:item/lightning_stinger"
-  },
-  "display": {
-    "thirdperson_righthand": {
-      "rotation":,
-      "translation":,
-      "scale":
-    },
-    "thirdperson_lefthand": {
-      "rotation":,
-      "translation":,
-      "scale":
-    },
-    "firstperson_righthand": {
-      "rotation": [0, -90, 25],
-      "translation": [1.13, 3.2, 1.13],
-      "scale":
-    },
-    "firstperson_lefthand": {
-      "rotation": [0, 90, -25],
-      "translation": [1.13, 3.2, 1.13],
-      "scale":
-    },
-    "fixed": {
-      "rotation":,
-      "translation":,
-      "scale":
-    },
-    "ground": {
-      "rotation":,
-      "translation":,
-      "scale":
-    },
-    "head": {
-      "rotation":,
-      "translation":,
-      "scale":
-    },
-    "gui": {
-      "rotation":,
-      "translation":,
-      "scale":
-    }
   }
 }
