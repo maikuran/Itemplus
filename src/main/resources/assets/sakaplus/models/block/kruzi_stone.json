@@ -1,6 +1,6 @@
 {
   "parent": "block/cube_all",
   "textures": {
-    "all": "sakaplus:block/kurzi_stone"
+    "all": "sakaplus:block/kruzi_stone"
   }
 }
