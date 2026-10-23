@@ -1,5 +1,5 @@
 
-package com.sakalti.sakaplus.client.render;
+package com.sakalti.sakaplus.client.renderer;
 
 import com.sakalti.sakaplus.entity.BeamProjectileEntity;
 
