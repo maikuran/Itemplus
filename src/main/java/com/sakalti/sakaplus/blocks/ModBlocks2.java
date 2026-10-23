@@ -77,9 +77,13 @@ public final class ModBlocks2 {
     public static final Block IRON_SCAFFOLD =
         registerBlock("iron_scaffold", new IronScaffoldBlock());
 
+    // ★修正箇所: 二重登録を避けるため、ブロック単体のみをレジストリに登録します
     public static final Block BLOOMSQUER =
-        registerBlock("bloomsquer",
-            new Block(wood(1.8f, 3.0f)));
+        Registry.register(
+            Registry.BLOCK,
+            new Identifier("sakaplus", "bloomsquer"),
+            new Block(wood(1.8f, 3.0f))
+        );
 
     public static final Block KRUZI_STONE =
         registerBlock("kruzi_stone",
