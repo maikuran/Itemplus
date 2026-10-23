@@ -1,3 +1,4 @@
+
 package com.sakalti.sakaplus.item;
 
 import com.sakalti.sakaplus.entity.BeamAttack;
@@ -19,17 +20,38 @@ import java.util.List;
 
 public class Overshot extends Item {
 
-    private static final int COOLDOWN_TICKS = 10;
-    private static final int RELOAD_COOLDOWN = 20;
-    private static final int MAX_AMMO = 10;
+    // =========================================================
+    // CONFIGURATION
+    // =========================================================
 
-    private static final float BEAM_DAMAGE = 11.0F;
-    private static final float BEAM_SPEED = 1.9F;
-    private static final int BEAM_COLOR = 0x00FFFF;
+    public static final int COOLDOWN_TICKS = 10;
+
+    public static final int RELOAD_COOLDOWN = 20;
+
+    public static final int MAX_AMMO = 10;
+
+    public static final int MAX_DURABILITY = 1536;
+
+    public static final float BEAM_DAMAGE = 11.0F;
+
+    public static final float BEAM_SPEED = 1.9F;
+
+    public static final int BEAM_COLOR = 0x00FFFF;
+
+    // NBT
+    private static final String AMMO_KEY = "ammo";
+
+    // =========================================================
+    // CONSTRUCTOR
+    // =========================================================
 
     public Overshot(Settings settings) {
-        super(settings.maxDamage(1536));
+        super(settings.maxDamage(MAX_DURABILITY));
     }
+
+    // =========================================================
+    // USE
+    // =========================================================
 
     @Override
     public TypedActionResult<ItemStack> use(
@@ -40,21 +62,33 @@ public class Overshot extends Item {
 
         ItemStack stack = user.getStackInHand(hand);
 
-        // リロード
+        // =====================================================
+        // RELOAD
+        // =====================================================
+
         if (user.isSneaking()) {
 
+            if (user.getItemCooldownManager().isCoolingDown(this)) {
+                return TypedActionResult.fail(stack);
+            }
+
+            // Client prediction
             if (world.isClient) {
                 return TypedActionResult.success(stack, true);
             }
 
-            if (reload(user, stack)) {
+            // Server reload
+            if (!reload(user, stack)) {
+                return TypedActionResult.fail(stack);
+            }
 
-                user.getItemCooldownManager().set(
+            user.getItemCooldownManager().set(
                     this,
                     RELOAD_COOLDOWN
-                );
+            );
 
-                world.playSound(
+            // Reload sound
+            world.playSound(
                     null,
                     user.getX(),
                     user.getY(),
@@ -63,48 +97,79 @@ public class Overshot extends Item {
                     SoundCategory.PLAYERS,
                     1.0F,
                     1.0F
-                );
+            );
 
-                return TypedActionResult.success(stack, false);
+            return TypedActionResult.success(stack, false);
+        }
+
+        // =====================================================
+        // AMMO CHECK
+        // =====================================================
+
+        int ammo = getAmmo(stack);
+
+        if (ammo <= 0) {
+
+            if (!world.isClient) {
+                world.playSound(
+                        null,
+                        user.getX(),
+                        user.getY(),
+                        user.getZ(),
+                        net.minecraft.sound.SoundEvents.BLOCK_NOTE_BLOCK_BASS,
+                        SoundCategory.PLAYERS,
+                        0.5F,
+                        0.5F
+                );
             }
 
             return TypedActionResult.fail(stack);
         }
 
-        // 弾数確認
-        int ammo = stack.hasNbt()
-                ? stack.getNbt().getInt("ammo")
-                : 0;
+        // =====================================================
+        // COOLDOWN CHECK
+        // =====================================================
 
-        if (ammo <= 0) {
-            return TypedActionResult.fail(stack);
-        }
-
-        // クールダウン確認
         if (user.getItemCooldownManager().isCoolingDown(this)) {
             return TypedActionResult.fail(stack);
         }
 
+        // Set cooldown
         user.getItemCooldownManager().set(
-            this,
-            COOLDOWN_TICKS
+                this,
+                COOLDOWN_TICKS
         );
 
-        if (!world.isClient) {
+        // =====================================================
+        // CLIENT
+        // =====================================================
 
-            // ビーム発射
-            BeamAttack.shoot(
+        if (world.isClient) {
+            return TypedActionResult.success(stack, true);
+        }
+
+        // =====================================================
+        // SERVER: FIRE BEAM
+        // =====================================================
+
+        BeamAttack.shoot(
                 user,
                 BEAM_SPEED,
                 BEAM_DAMAGE,
                 BEAM_COLOR
-            );
+        );
 
-            // 弾数減少
-            decrementAmmo(stack);
+        // =====================================================
+        // SERVER: DECREASE AMMO
+        // =====================================================
 
-            // 発射音
-            world.playSound(
+        decrementAmmo(stack);
+
+        // =====================================================
+        // SERVER: SHOOT SOUND
+        // =====================================================
+
+        world.playSound(
                 null,
                 user.getX(),
                 user.getY(),
@@ -113,20 +178,27 @@ public class Overshot extends Item {
                 SoundCategory.PLAYERS,
                 1.0F,
                 1.0F
-            );
+        );
 
-            // 耐久値減少
-            if (!user.getAbilities().creativeMode) {
-                stack.damage(
+        // =====================================================
+        // SERVER: DURABILITY
+        // =====================================================
+
+        if (!user.getAbilities().creativeMode) {
+
+            stack.damage(
                     1,
                     user,
                     player -> player.sendToolBreakStatus(hand)
-                );
-            }
+            );
         }
 
-        return TypedActionResult.success(stack, world.isClient());
+        return TypedActionResult.success(stack, false);
     }
+
+    // =========================================================
+    // RELOAD
+    // =========================================================
 
     private boolean reload(
             PlayerEntity player,
@@ -137,68 +209,100 @@ public class Overshot extends Item {
 
             PlayerInventory inventory = player.getInventory();
 
-            boolean hasIron = false;
-            boolean hasBlazePowder = false;
+            int ironSlot = -1;
+            int blazeSlot = -1;
 
-            // 先に両方の素材を確認
+            // Search materials without consuming them
             for (int i = 0; i < inventory.size(); i++) {
 
-                ItemStack item = inventory.getStack(i);
+                ItemStack inventoryStack = inventory.getStack(i);
 
-                if (!hasIron && item.isOf(Items.IRON_INGOT)) {
-                    hasIron = true;
+                if (ironSlot == -1
+                        && inventoryStack.isOf(Items.IRON_INGOT)) {
+
+                    ironSlot = i;
                 }
 
-                if (!hasBlazePowder && item.isOf(Items.BLAZE_POWDER)) {
-                    hasBlazePowder = true;
+                if (blazeSlot == -1
+                        && inventoryStack.isOf(Items.BLAZE_POWDER)) {
+
+                    blazeSlot = i;
                 }
 
-                if (hasIron && hasBlazePowder) {
+                if (ironSlot != -1 && blazeSlot != -1) {
                     break;
                 }
             }
 
-            // 素材不足なら消費しない
-            if (!hasIron || !hasBlazePowder) {
+            // Check both materials
+            if (ironSlot == -1 || blazeSlot == -1) {
                 return false;
             }
 
-            // 素材を消費
-            for (int i = 0; i < inventory.size(); i++) {
+            // Consume iron
+            inventory.getStack(ironSlot).decrement(1);
 
-                ItemStack item = inventory.getStack(i);
-
-                if (item.isOf(Items.IRON_INGOT)) {
-                    item.decrement(1);
-                    break;
-                }
-            }
-
-            for (int i = 0; i < inventory.size(); i++) {
-
-                ItemStack item = inventory.getStack(i);
-
-                if (item.isOf(Items.BLAZE_POWDER)) {
-                    item.decrement(1);
-                    break;
-                }
-            }
+            // Consume blaze powder
+            inventory.getStack(blazeSlot).decrement(1);
         }
 
-        stack.getOrCreateNbt().putInt("ammo", MAX_AMMO);
+        // Refill ammunition
+        stack.getOrCreateNbt().putInt(
+                AMMO_KEY,
+                MAX_AMMO
+        );
 
         return true;
     }
 
-    private void decrementAmmo(ItemStack stack) {
+    // =========================================================
+    // AMMO
+    // =========================================================
 
-        int ammo = stack.getOrCreateNbt().getInt("ammo");
+    public static int getAmmo(ItemStack stack) {
 
-        stack.getOrCreateNbt().putInt(
-            "ammo",
-            Math.max(0, ammo - 1)
+        if (!stack.hasNbt()) {
+            return 0;
+        }
+
+        return Math.max(
+                0,
+                Math.min(
+                        MAX_AMMO,
+                        stack.getNbt().getInt(AMMO_KEY)
+                )
         );
     }
+
+    private void decrementAmmo(ItemStack stack) {
+
+        int ammo = getAmmo(stack);
+
+        stack.getOrCreateNbt().putInt(
+                AMMO_KEY,
+                Math.max(0, ammo - 1)
+        );
+    }
+
+    // =========================================================
+    // INITIAL AMMO
+    // =========================================================
+
+    public static void initializeAmmo(ItemStack stack) {
+
+        if (!stack.hasNbt()
+                || !stack.getNbt().contains(AMMO_KEY)) {
+
+            stack.getOrCreateNbt().putInt(
+                    AMMO_KEY,
+                    MAX_AMMO
+            );
+        }
+    }
+
+    // =========================================================
+    // TOOLTIP
+    // =========================================================
 
     @Override
     public void appendTooltip(
@@ -208,12 +312,26 @@ public class Overshot extends Item {
             TooltipContext context
     ) {
 
-        int ammo = stack.hasNbt()
-                ? stack.getNbt().getInt("ammo")
-                : 0;
+        int ammo = getAmmo(stack);
 
-        tooltip.add(Text.of("弾数: " + ammo + " / " + MAX_AMMO));
-        tooltip.add(Text.of("Shift+右クリックでリロード"));
-        tooltip.add(Text.of("強力なエネルギービームを発射する"));
+        tooltip.add(
+                Text.of("弾数: " + ammo + " / " + MAX_AMMO)
+        );
+
+        tooltip.add(
+                Text.of("Shift + 右クリック: リロード")
+        );
+
+        tooltip.add(
+                Text.of("強力なエネルギービームを発射する")
+        );
+
+        tooltip.add(
+                Text.of("発射ダメージ: " + BEAM_DAMAGE)
+        );
+
+        tooltip.add(
+                Text.of("耐久値: " + MAX_DURABILITY)
+        );
     }
 }
