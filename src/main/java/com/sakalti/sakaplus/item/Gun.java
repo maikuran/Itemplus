@@ -15,12 +15,10 @@ public abstract class Gun extends Item {
      * 銃の修理素材。
      * デフォルトでは鉄インゴットで修理できます。
      */
-    @Override
     public boolean isRepairable(ItemStack stack) {
         return true;
     }
 
-    @Override
     public boolean canRepair(ItemStack stack, ItemStack ingredient) {
         return ingredient.isOf(Items.IRON_INGOT);
     }
