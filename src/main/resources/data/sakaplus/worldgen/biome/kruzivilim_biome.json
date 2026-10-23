@@ -1,3 +1,4 @@
+
 {
   "precipitation": "none",
   "temperature": 0.3,
@@ -56,7 +57,9 @@
     [],
     [],
     [],
-    [],
+    [
+      "sakaplus:pyronium_ore"
+    ],
     [],
     [],
     [
