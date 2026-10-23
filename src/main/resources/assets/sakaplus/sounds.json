@@ -1,0 +1,18 @@
+{
+  "shoot": {
+    "sounds": [
+      {
+        "name": "sakaplus:shoot",
+        "stream": false
+      }
+    ]
+  },
+  "magazine": {
+    "sounds": [
+      {
+        "name": "sakaplus:magazine",
+        "stream": false
+      }
+    ]
+  }
+}
