@@ -32,7 +32,6 @@ public class BeamProjectileRenderer extends EntityRenderer<BeamProjectileEntity>
     ) {
         Vec3d velocity = entity.getVelocity();
 
-        // 不具合の原因だった比較記号を排除し、安全な判定式（0かどうかの確認）に書き換えました
         double lenSq = velocity.lengthSquared();
         if (lenSq == 0.0D) {
             super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
@@ -42,7 +41,8 @@ public class BeamProjectileRenderer extends EntityRenderer<BeamProjectileEntity>
         Vec3d direction = velocity.normalize();
 
         float beamYaw = (float) (MathHelper.atan2(direction.z, direction.x) * 180.0D / Math.PI) - 90.0F;
-        float beamPitch = (float) (MathHelper.asin(direction.y) * 180.0D / Math.PI);
+        // MathHelper.asin から Java標準の Math.asin に修正しました
+        float beamPitch = (float) (Math.asin(direction.y) * 180.0D / Math.PI);
 
         int color = entity.getColor();
         float red = ((color >> 16) & 255) / 255.0F;
