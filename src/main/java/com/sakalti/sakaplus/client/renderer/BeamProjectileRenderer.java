@@ -32,10 +32,11 @@ public class BeamProjectileRenderer extends EntityRenderer<BeamProjectileEntity>
     ) {
         Vec3d velocity = entity.getVelocity();
 
+        // 速度がほぼゼロの場合は描画をスキップ
         if (velocity.lengthSquared()  16) & 255) / 255.0F;
         float green = ((color >> 8) & 255) / 255.0F;
         float blue = (color & 255) / 255.0F;
-        float alpha = 1.0F; // 必要に応じて透明度を変更
+        float alpha = 1.0F;
 
         matrices.push();
 
