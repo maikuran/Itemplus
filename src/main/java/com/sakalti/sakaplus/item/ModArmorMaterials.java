@@ -2,6 +2,7 @@ package com.sakalti.sakaplus.item;
 
 import com.sakalti.sakaplus.registry.ModItems;
 import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.item.Items;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
@@ -10,7 +11,7 @@ import java.util.function.Supplier;
 
 public enum ModArmorMaterials implements ArmorMaterial {
     PYRONIUM("sakaplus:pyronium", 37, new int[]{4, 6, 8, 3}, 15, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 4.5F, 1.1F, () -> Ingredient.ofItems(ModItems.PYRONIUM_INGOT));
-    AMETHOND("sakaplus:amethond", 28, new int[]{2, 8, 7, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F, 0.1F, () -> Ingredient.ofItems(ModItems.AMETHYST_SHARD));
+    AMETHOND("sakaplus:amethond", 28, new int[]{2, 8, 7, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F, 0.1F, () -> Ingredient.ofItems(Items.AMETHYST_SHARD));
 
     private static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
     private final String name;
