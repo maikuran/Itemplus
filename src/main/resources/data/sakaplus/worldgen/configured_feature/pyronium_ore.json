@@ -11,7 +11,7 @@
           "block": "sakaplus:kruzi_stone"
         },
         "state": {
-          "name": "sakaplus:pyronium_ore"
+          "Name": "sakaplus:pyronium_ore"
         }
       }
     ]
