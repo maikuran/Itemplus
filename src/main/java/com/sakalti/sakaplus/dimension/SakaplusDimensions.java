@@ -34,7 +34,7 @@ public class SakaplusDimensions {
 
     public static final RegistryKey<Biome> GREENFOREST_BIOME_KEY = RegistryKey.of(
             Registry.BIOME_KEY,
-            new Identifier("sakaplus", "greenforest_biome")
+            new Identifier("sakaplus", "greenforest")
     );
 
     
