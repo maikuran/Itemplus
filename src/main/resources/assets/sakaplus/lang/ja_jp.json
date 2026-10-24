@@ -65,6 +65,8 @@
 
   "effect.sakaplus.light_block": "光遮",
   "effect.sakaplus.paralyze": "麻痺",
+  "effect.sakaplus.adapt": "適応",
+  "effect.sakaplus.confusion": "混乱",
   "effect.sakaplus.mudo": "生命力減衰",
 
   "advancement.sakaplus.get_iron_scaffold.title": "工事現場",
