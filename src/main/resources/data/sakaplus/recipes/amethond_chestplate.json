@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DDD",
+    "WWA",
+    "AA "
+  ],
+  "key": {
+    "D": { "item": "minecraft:diamond" },
+    "A": { "item": "minecraft:amethyst" },
+    "W": { "item": "minecraft:wool" }
+  },
+  "result": {
+    "item": "sakaplus:amethond_chestplate",
+    "count": 6
+  }
+}
