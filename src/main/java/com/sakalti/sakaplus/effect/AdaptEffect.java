@@ -5,7 +5,6 @@ import com.sakalti.sakaplus.attribute.ModAttributes;
 import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 
@@ -57,12 +56,19 @@ public class AdaptEffect extends StatusEffect {
     public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
         if (entity.getWorld().isClient()) return;
 
-        EntityAttributeInstance attribute = attributes.getCustomInstance(EntityAttributes.GENERIC_MAX_HEALTH);
+        // 修正: 属性の取得先を MAX_HEALTH から正しく ModAttributes.ADAPTATION に変更
+        EntityAttributeInstance attribute = attributes.getCustomInstance(ModAttributes.ADAPTATION);
         if (attribute == null) return;
 
         EntityAttributeModifier modifier = attribute.getModifier(MUDO_UUID);
         if (modifier != null) {
             attribute.removeModifier(modifier);
         }
+    }
+
+    @Override
+    public String getTranslationKey() {
+        // 追加: 翻訳キーを明示的に固定して unregistered_sad_surface になるバグを回避
+        return "effect.sakaplus.adapt";
     }
 }
