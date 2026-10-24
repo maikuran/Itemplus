@@ -1,4 +1,4 @@
-package com.sakalti.sakaplus.blocks; // 1. パッケージ名をエラーに合わせ修正
+package com.sakalti.sakaplus.block; // 1. パッケージ名をエラーに合わせ修正
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
