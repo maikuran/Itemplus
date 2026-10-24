@@ -1,18 +1,49 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "sakaplus:item/lightning_spark_1"
+    "layer0": "sakaplus:item/lightning_spark_anim"
   },
   "gui_light": "front",
-  "display": {},
-  "animations": {
-    "layer0": {
-      "interpolate": true,
-      "frames": [
-        { "time": 7, "texture": "sakaplus:item/lightning_spark_1" },
-        { "time": 7, "texture": "sakaplus:item/lightning_spark_2" },
-        { "time": 7, "texture": "sakaplus:item/lightning_spark_3" }
-      ]
+  "display": {
+    "thirdperson_righthand": {
+      "rotation": [0, 90, -35],
+      "translation": [0, 1.88, -5.25],
+      "scale": [1.275, 1.275, 1.275]
+    },
+    "thirdperson_lefthand": {
+      "rotation": [0, -90, 35],
+      "translation": [0, 1.88, -5.25],
+      "scale": [1.275, 1.275, 1.275]
+    },
+    "firstperson_righthand": {
+      "rotation": [0, -90, 25],
+      "translation": [1.7, 4.8, 1.7],
+      "scale": [1.02, 1.02, 1.02]
+    },
+    "firstperson_lefthand": {
+      "rotation": [0, 90, -25],
+      "translation": [1.7, 4.8, 1.7],
+      "scale": [1.02, 1.02, 1.02]
+    },
+    "fixed": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 0, 0],
+      "scale": [0.75, 0.75, 0.75]
+    },
+    "ground": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 2.0, 0],
+      "scale": [0.75, 0.75, 0.75]
+    },
+    "head": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 0, 0],
+      "scale": [1.5, 1.5, 1.5]
+    },
+    "gui": {
+      "rotation": [0, 0, 0],
+      "translation": [0, 0, 0],
+      "scale": [1.5, 1.5, 1.5]
     }
   }
 }
