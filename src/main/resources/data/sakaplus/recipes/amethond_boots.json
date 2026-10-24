@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DDD",
+    "WWA",
+    " "
+  ],
+  "key": {
+    "D": { "item": "minecraft:diamond" },
+    "A": { "item": "minecraft:amethyst" },
+    "W": { "item": "minecraft:string" }
+  },
+  "result": {
+    "item": "sakaplus:amethond_boots",
+    "count": 1
+  }
+}
