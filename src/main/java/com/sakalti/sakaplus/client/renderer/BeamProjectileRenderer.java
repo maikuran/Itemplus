@@ -32,27 +32,35 @@ public class BeamProjectileRenderer extends EntityRenderer<BeamProjectileEntity>
     ) {
         Vec3d velocity = entity.getVelocity();
 
-        // 速度がほぼゼロの場合は描画をスキップ
-        if (velocity.lengthSquared()  16) & 255) / 255.0F;
+        // 不具合の原因だった比較記号を排除し、安全な判定式（0かどうかの確認）に書き換えました
+        double lenSq = velocity.lengthSquared();
+        if (lenSq == 0.0D) {
+            super.render(entity, yaw, tickDelta, matrices, vertexConsumers, light);
+            return;
+        }
+
+        Vec3d direction = velocity.normalize();
+
+        float beamYaw = (float) (MathHelper.atan2(direction.z, direction.x) * 180.0D / Math.PI) - 90.0F;
+        float beamPitch = (float) (MathHelper.asin(direction.y) * 180.0D / Math.PI);
+
+        int color = entity.getColor();
+        float red = ((color >> 16) & 255) / 255.0F;
         float green = ((color >> 8) & 255) / 255.0F;
         float blue = (color & 255) / 255.0F;
         float alpha = 1.0F;
 
         matrices.push();
 
-        // エンティティの進行方向へモデルを回転させる
         matrices.multiply(Vec3f.POSITIVE_Y.getDegreesQuaternion(-beamYaw));
         matrices.multiply(Vec3f.POSITIVE_X.getDegreesQuaternion(beamPitch));
 
-        // 稲妻用の発光レイヤーを取得 (テクスチャ不要・半透明発光)
         VertexConsumer consumer = vertexConsumers.getBuffer(RenderLayer.getLightning());
         MatrixStack.Entry entry = matrices.peek();
 
         float h = BEAM_WIDTH / 2.0F;
         float l = BEAM_LENGTH;
 
-        // 4面の四角柱を描画して立体化する (カリング対策の頂点順序)
-        
         // 1. 上面 (Top)
         vertex(consumer, entry, -h,  h, 0.0F, red, green, blue, alpha, light, 0.0F, 1.0F, 0.0F);
         vertex(consumer, entry, -h,  h,   l, red, green, blue, alpha, light, 0.0F, 1.0F, 0.0F);
