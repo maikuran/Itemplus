@@ -18,7 +18,6 @@ super(entityType, world);
 this.experiencePoints = 8;
 } 
 
-@Override
 protected void initGoals() {
 this.goalSelector.add(1, new MeleeAttackGoal(this, 1, false)); // 攻撃速度
 this.goalSelector.add(2, new WanderAroundFarGoal(this, 0.8));
