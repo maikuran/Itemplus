@@ -12,6 +12,7 @@ import net.minecraft.block.SlabBlock;
 import net.minecraft.block.StairsBlock;
 import net.minecraft.block.WallBlock;
 import net.minecraft.item.BlockItem;
+import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -44,6 +45,14 @@ public final class ModBlocks2 {
     private static AbstractBlock.Settings wood(float hardness, float resistance) {
         return AbstractBlock.Settings.of(Material.WOOD)
             .strength(hardness, resistance);
+    }
+
+    // ★追加: 金属用（適正ツールが必要、音を金属音に設定）
+    private static AbstractBlock.Settings metal(float hardness, float resistance) {
+        return AbstractBlock.Settings.of(Material.METAL)
+            .strength(hardness, resistance)
+            .requiresTool() // ツルハシ等の適切なツールが必要
+            .sounds(BlockSoundGroup.METAL); // カキィンという金属音
     }
 
     private static Block stairs(String name, Block base, float hardness, float resistance) {
@@ -168,7 +177,7 @@ public final class ModBlocks2 {
                     .strength(0.2f)
                     .ticksRandomly()
                     .nonOpaque()
-                    .sounds(net.minecraft.sound.BlockSoundGroup.GRASS)
+                    .sounds(BlockSoundGroup.GRASS)
             ));
 
     public static final Block GREENY_PLANKS =
@@ -223,8 +232,18 @@ public final class ModBlocks2 {
             new Block(
                 AbstractBlock.Settings.of(Material.WOOD)
                     .strength(0.2f, 0.2f)
-                    .sounds(net.minecraft.sound.BlockSoundGroup.WOOD)
+                    .sounds(BlockSoundGroup.WOOD)
             ));
+
+    // --------------------------------------------------
+    // 新規追加: Pyronium (硬い金属)
+    // --------------------------------------------------
+
+    // 硬さ 5.0f（鉄ブロックと同じ）、爆破耐性 6.0f の超金属設定です
+    public static final Block PYRONIUM_BLOCK =
+        registerBlock("pyronium_block",
+            new Block(metal(17.0f, 14.0f)));
+
 
     public static void registerBlocks() {
         // クラス初期化時に各ブロックとアイテムは登録済み。
