@@ -30,6 +30,8 @@
   "item.sakaplus.overshot": "オーバーショット",
 
   "item.sakaplus.pyronium_helmet": "パイロニウムのヘルメット",
+  "item.sakaplus.pyronium_ingot": "パイロニウ厶インゴット",
+  "item.sakaplus.raw_pyronium": "パイロニウムの原石",
   "item.sakaplus.pyronium_chestplate": "パイロニウムのチェストプレート",
   "item.sakaplus.pyronium_leggings": "パイロニウムのレギンス",
   "item.sakaplus.pyronium_boots": "パイロニウムのブーツ",
@@ -42,6 +44,7 @@
   "item.sakaplus.amethond_boots": "アメソンドのブーツ",
 
   "block.sakaplus.kruzi_stone": "クルジ石",
+  "block.sakaplus.pyronium_ore": "パイロニウム鉱石",
   "block.sakaplus.kruzi_bricks": "クルジレンガ",
   "block.sakaplus.kruzi_grass": "クルジ草ブロック",
   "block.sakaplus.kruzi_grass_stairs": "クルジ草の階段",
