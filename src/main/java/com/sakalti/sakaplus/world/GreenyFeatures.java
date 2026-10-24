@@ -34,7 +34,7 @@ public final class GreenyFeatures {
             new Identifier("sakaplus", "greeny_tree");
 
     public static final Identifier GREENY_TREE_PLACED_ID =
-            new Identifier("sakaplus", "greeny_tree_placed");
+            new Identifier("sakaplus", "greeny_tree");
 
     public static final RegistryKey<PlacedFeature> GREENY_TREE_PLACED_KEY =
             RegistryKey.of(
