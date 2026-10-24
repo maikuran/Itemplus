@@ -8,7 +8,7 @@
   "key": {
     "D": { "item": "minecraft:diamond" },
     "A": { "item": "minecraft:amethyst" },
-    "W": { "item": "minecraft:wool" }
+    "W": { "item": "minecraft:string" }
   },
   "result": {
     "item": "sakaplus:amethond_chestplate",
