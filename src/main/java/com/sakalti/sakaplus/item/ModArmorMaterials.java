@@ -2,15 +2,18 @@ package com.sakalti.sakaplus.item;
 
 import com.sakalti.sakaplus.registry.ModItems;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.item.Items;
 import net.minecraft.item.ArmorMaterial;
+import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Util;
+
 import java.util.function.Supplier;
 
 public enum ModArmorMaterials implements ArmorMaterial {
-    PYRONIUM("sakaplus:pyronium", 37, new int[]{4, 6, 8, 3}, 15, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 4.5F, 1.1F, () -> Ingredient.ofItems(ModItems.PYRONIUM_INGOT));
+    // 【修正】Mod ID を含めた名前に戻します。これで独自アセット（assets/sakaplus）を参照します
+    PYRONIUM("sakaplus:pyronium", 37, new int[]{4, 6, 8, 3}, 15, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 4.5F, 1.1F, () -> Ingredient.ofItems(ModItems.PYRONIUM_INGOT)),
     AMETHOND("sakaplus:amethond", 28, new int[]{2, 8, 7, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F, 0.1F, () -> Ingredient.ofItems(Items.AMETHYST_SHARD));
 
     private static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
@@ -31,21 +34,26 @@ public enum ModArmorMaterials implements ArmorMaterial {
         this.equipSound = equipSound;
         this.toughness = toughness;
         this.knockbackResistance = knockbackResistance;
-        this.repairIngredient = repairIngredient;
+        this.repairIngredient = Util.memoize(repairIngredient); // 前回のNull対策も継続
     }
 
     @Override
-    public int getDurability(EquipmentSlot slot) { return BASE_DURABILITY[slot.getEntitySlotId()] * this.durabilityMultiplier; }
+    public int getDurability(EquipmentSlot slot) { return BASE_DURABILITY[slot.getArmorStandSlotId()] * this.durabilityMultiplier; }
     @Override
-    public int getProtectionAmount(EquipmentSlot slot) { return this.protectionAmounts[slot.getEntitySlotId()]; }
+    public int getProtectionAmount(EquipmentSlot slot) { return this.protectionAmounts[slot.getArmorStandSlotId()]; }
     @Override
     public int getEnchantability() { return this.enchantability; }
     @Override
     public SoundEvent getEquipSound() { return this.equipSound; }
     @Override
     public Ingredient getRepairIngredient() { return this.repairIngredient.get(); }
+    
     @Override
-    public String getName() { return this.name; }
+    public String getName() { 
+        // 【重要】そのまま返すことで、独自のNamespace（sakaplus）を維持します
+        return this.name; 
+    }
+    
     @Override
     public float getToughness() { return this.toughness; }
     @Override
