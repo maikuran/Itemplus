@@ -92,6 +92,18 @@ public class ModItems {
 
     public static final Item PYRONIUM_BOOTS =
         new ArmorItem(ModArmorMaterials.PYRONIUM, EquipmentSlot.FEET, new Item.Settings().group(ItemGroup.COMBAT));
+
+    public static final Item AMETHOND_HELMET =
+        new ArmorItem(ModArmorMaterials.AMETHOND, EquipmentSlot.HEAD, new Item.Settings().group(ItemGroup.COMBAT));
+
+    public static final Item AMETHOND_CHESTPLATE =
+        new ArmorItem(ModArmorMaterials.AMETHOND, EquipmentSlot.CHEST, new Item.Settings().group(ItemGroup.COMBAT));
+
+    public static final Item AMETHOND_LEGGINGS =
+        new ArmorItem(ModArmorMaterials.AMETHOND, EquipmentSlot.LEGS, new Item.Settings().group(ItemGroup.COMBAT));
+
+    public static final Item AMETHOND_BOOTS =
+        new ArmorItem(ModArmorMaterials.AMETHOND, EquipmentSlot.FEET, new Item.Settings().group(ItemGroup.COMBAT));
     // ==========================================================
 
     public static void register() {
@@ -119,6 +131,10 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "pyronium_chestplate"), PYRONIUM_CHESTPLATE);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "pyronium_leggings"), PYRONIUM_LEGGINGS);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "pyronium_boots"), PYRONIUM_BOOTS);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "amethond_helmet"), AMETHOND_HELMET);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "amethond_chestplate"), AMETHOND_CHESTPLATE);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "amethond_leggings"), AMETHOND_LEGGINGS);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "amethond_boots"), AMETHOND_BOOTS);
         // ==================================================================
     }
 }
