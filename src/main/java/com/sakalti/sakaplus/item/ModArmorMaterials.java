@@ -7,11 +7,11 @@ import net.minecraft.item.Items;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Lazy; // 【変更】Lazyをインポート
+import net.minecraft.util.Lazy;
 
 import java.util.function.Supplier;
 
-@SuppressWarnings("deprecation") // 1.19.2当時のバニラでもLazyが@Deprecatedのため警告を抑制
+@SuppressWarnings("deprecation")
 public enum ModArmorMaterials implements ArmorMaterial {
     PYRONIUM("sakaplus:pyronium", 37, new int[]{4, 6, 8, 3}, 15, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 4.5F, 1.1F, () -> Ingredient.ofItems(ModItems.PYRONIUM_INGOT)),
     AMETHOND("sakaplus:amethond", 28, new int[]{2, 8, 7, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F, 0.1F, () -> Ingredient.ofItems(Items.AMETHYST_SHARD));
@@ -24,7 +24,7 @@ public enum ModArmorMaterials implements ArmorMaterial {
     private final SoundEvent equipSound;
     private final float toughness;
     private final float knockbackResistance;
-    private final Lazy<Ingredient> repairIngredient; // 【変更】SupplierからLazy型に変更
+    private final Lazy<Ingredient> repairIngredient;
 
     ModArmorMaterials(String name, int durabilityMultiplier, int[] protectionAmounts, int enchantability, SoundEvent equipSound, float toughness, float knockbackResistance, Supplier<Ingredient> repairIngredient) {
         this.name = name;
@@ -34,25 +34,25 @@ public enum ModArmorMaterials implements ArmorMaterial {
         this.equipSound = equipSound;
         this.toughness = toughness;
         this.knockbackResistance = knockbackResistance;
-        // 【修正】Util.memoizeから 1.19.2バニラ準拠の new Lazy<> に変更
-        this.repairIngredient = new Lazy<>(repairIngredient); 
+        this.repairIngredient = new Lazy<>(repairIngredient);
     }
 
     @Override
-    public int getDurability(EquipmentSlot slot) { return BASE_DURABILITY[slot.getArmorStandSlotId()] * this.durabilityMultiplier; }
+    public int getDurability(EquipmentSlot slot) { 
+        return BASE_DURABILITY[slot.getEntitySlotId()] * this.durabilityMultiplier; 
+    }
+    
     @Override
-    public int getProtectionAmount(EquipmentSlot slot) { return this.protectionAmounts[slot.getArmorStandSlotId()]; }
+    public int getProtectionAmount(EquipmentSlot slot) { 
+        return this.protectionAmounts[slot.getEntitySlotId()]; 
+    }
+    
     @Override
     public int getEnchantability() { return this.enchantability; }
     @Override
     public SoundEvent getEquipSound() { return this.equipSound; }
-    
     @Override
-    public Ingredient getRepairIngredient() { 
-        // 【重要】Lazy型になったため、.get() で中身（Ingredient）を取り出す仕様は変わりません
-        return this.repairIngredient.get(); 
-    }
-    
+    public Ingredient getRepairIngredient() { return this.repairIngredient.get(); }
     @Override
     public String getName() { return this.name; }
     @Override
