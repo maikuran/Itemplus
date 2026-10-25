@@ -14,7 +14,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 public class ShyronEntity extends HostileEntity {
 
@@ -67,21 +66,18 @@ public class ShyronEntity extends HostileEntity {
     }
 
     // 🔊 登録した独自の環境音（Ambient）を設定
-    @Nullable
     @Override
     protected SoundEvent getAmbientSound() {
         return SakaplusSounds.ShyronAmbient;
     }
 
     // 🔊 登録した独自の被ダメージ音（Hurt）を設定
-    @Nullable
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
         return SakaplusSounds.ShyronHurt;
     }
 
     // 🔊 登録した独自の死亡音（Death）を設定
-    @Nullable
     @Override
     protected SoundEvent getDeathSound() {
         return SakaplusSounds.ShyronDeath;
