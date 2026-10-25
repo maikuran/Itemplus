@@ -6,6 +6,7 @@ import com.sakalti.sakaplus.client.item.*;
 import com.sakalti.sakaplus.client.renderer.*;
 import com.sakalti.sakaplus.registry.ModBeamEntities;
 import com.sakalti.sakaplus.registry.ModEntities333;
+import com.sakalti.sakaplus.player.skill.SkillUI;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
@@ -15,7 +16,14 @@ public class SakaplusClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
+
+        // Gun
         GunRecoil.register();
+
+        // Skill UI
+        SkillUI.registerClientNetworking();
+
+        // Entity Renderers
         EntityRendererRegistry.register(
                 ModBeamEntities.BEAM_PROJECTILE,
                 BeamProjectileRenderer::new
@@ -58,6 +66,7 @@ public class SakaplusClient implements ClientModInitializer {
                 OganesonRenderer::new
         );
 
+        // Entity Model Layers
         EntityModelLayerRegistry.registerModelLayer(
                 ScorcherRenderer.MODEL_LAYER,
                 ScorcherModel::getTexturedModelData
