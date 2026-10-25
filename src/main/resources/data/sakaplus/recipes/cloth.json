@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DDA",
+    "AAA",
+    "   "
+  ],
+  "key": {
+    "D": { "item": "minecraft:string" },
+    "A": { "tag": "minecraft:wool" }
+  },
+  "result": {
+    "item": "sakaplus:cloth",
+    "count": 6
+  }
+}
