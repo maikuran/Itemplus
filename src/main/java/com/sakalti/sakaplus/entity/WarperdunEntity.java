@@ -34,7 +34,7 @@ public class WarperdunEntity extends PathAwareEntity implements Monster {
             World world
     ) {
         super(entityType, world);
-        this.experiencePoints = 1150;
+        this.experiencePoints = 500;
 
         this.bossBar = new ServerBossBar(
                 Text.literal("Warperdun"),
@@ -45,9 +45,9 @@ public class WarperdunEntity extends PathAwareEntity implements Monster {
 
     public static DefaultAttributeContainer.Builder createAttributes() {
         return MobEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 330.0D)
+                .add(EntityAttributes.GENERIC_MAX_HEALTH, 1500.0D)
                 .add(EntityAttributes.GENERIC_ARMOR, 8.0D)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 15.0D)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 12.0D)
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
                 .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.6D);
@@ -109,7 +109,7 @@ public class WarperdunEntity extends PathAwareEntity implements Monster {
             this.shootTick++;
 
             // 10ティックごとに8方向へ矢を発射
-            if (this.shootTick >= 10) {
+            if (this.shootTick >= 25) {
                 this.shootRadialArrows();
                 this.shootTick = 0;
             }
