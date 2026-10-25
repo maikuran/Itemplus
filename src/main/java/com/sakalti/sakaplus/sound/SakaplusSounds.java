@@ -9,10 +9,15 @@ public class SakaplusSounds {
     public static final SoundEvent Shoot = register("shoot");
     public static final SoundEvent Magazine = register("magazine");
 
-    // クルジ・アント（kruzi_ant）用のサウンドイベントを追加
+    // クルジ・アント（kruzi_ant）用のサウンドイベント
     public static final SoundEvent KruziantAmbient = register("kruziant_ambient");
     public static final SoundEvent KruziantHurt = register("kruziant_hurt");
     public static final SoundEvent KruziantDeath = register("kruziant_death");
+
+    // 💡 シャイロン（shyron）用のサウンドイベントを追加
+    public static final SoundEvent ShyronAmbient = register("shyron_ambient");
+    public static final SoundEvent ShyronHurt = register("shyron_hurt");
+    public static final SoundEvent ShyronDeath = register("shyron_death");
 
     private static SoundEvent register(String name) {
         Identifier id = new Identifier("sakaplus", name);
@@ -24,6 +29,6 @@ public class SakaplusSounds {
     }
 
     public static void registerSounds() {
-        // クラスの初期化によって登録
+        // クラスの初期化によって登録（Modの初期化クラス等で呼び出してください）
     }
 }
