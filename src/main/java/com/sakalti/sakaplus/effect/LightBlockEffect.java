@@ -13,6 +13,11 @@ public class LightBlockEffect extends StatusEffect {
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         // ここでは特別なtick処理は不要
     }
+    @Override
+    public String getTranslationKey() {
+        // 追加: 翻訳キーを明示的に固定して unregistered_sad_surface になるバグを回避
+        return "effect.sakaplus.light_block";
+    }
 
     @Override
     public boolean canApplyUpdateEffect(int duration, int amplifier) {
