@@ -36,12 +36,12 @@ public final class KruziRifleScopeOverlay {
 
             MinecraftClient client = MinecraftClient.getInstance();
 
-            // プレイヤーとワールドが存在しない場合は描画しない
+            // プレイヤーとワールドの確認
             if (client.player == null || client.world == null) {
                 return;
             }
 
-            // GUI表示中はスコープを表示しない
+            // GUI表示中は描画しない
             if (client.currentScreen != null) {
                 return;
             }
@@ -80,18 +80,18 @@ public final class KruziRifleScopeOverlay {
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
 
-            // テクスチャ描画用シェーダー
+            // 1.19.2 Yarn対応シェーダー
             RenderSystem.setShader(
-                    GameRenderer::getPositionTexProgram
+                    GameRenderer::getPositionTexShader
             );
 
-            // テクスチャを指定
+            // スコープテクスチャを指定
             RenderSystem.setShaderTexture(
                     0,
                     SCOPE_TEXTURE
             );
 
-            // 色・透明度を通常状態に戻す
+            // 描画色を白に設定
             RenderSystem.setShaderColor(
                     1.0F,
                     1.0F,
@@ -99,7 +99,7 @@ public final class KruziRifleScopeOverlay {
                     1.0F
             );
 
-            // 画面全体にスコープ画像を描画
+            // 画面全体にスコープを描画
             DrawableHelper.drawTexture(
                     matrices,
                     0,
@@ -112,7 +112,7 @@ public final class KruziRifleScopeOverlay {
                     height
             );
 
-            // 描画状態を戻す
+            // 描画状態を復元
             RenderSystem.setShaderColor(
                     1.0F,
                     1.0F,
