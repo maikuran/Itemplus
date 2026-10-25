@@ -19,7 +19,7 @@
       },
       {
         "type": "sakaplus:kuloogie",
-        "weight": 1,
+        "weight": 3,
         "minCount": 1,
         "maxCount": 3
       },
