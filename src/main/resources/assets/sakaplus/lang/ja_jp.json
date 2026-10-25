@@ -1,5 +1,6 @@
 {
   "entity.sakaplus.scorcher": "獄炎",
+  "entity.sakaplus.shyron": "シャイロン",
   "entity.sakaplus.kur_brute": "クルブルート",
   "entity.sakaplus.oganeson": "オガネソン",
   "entity.sakaplus.nyanko": "にゃんこ",
@@ -18,6 +19,7 @@
   "item.sakaplus.oganeson_spawn_egg": "オガネソンのスポーンエッグ",
   "item.sakaplus.nyanko_spawn_egg": "にゃんこのスポーンエッグ",
   "item.sakaplus.warperdun_spawn_egg": "ウェパードンのスポーンエッグ",
+  "item.sakaplus.shyron_spawn_egg": "シャイロンのスポーンエッグ",
   "item.sakaplus.kruzi_ant_spawn_egg": "クルジアントのスポーンエッグ",
   "item.sakaplus.kuloogie_spawn_egg": "クロオギーのスポーンエッグ",
   "item.sakaplus.battle_nyanko_spawn_egg": "バトルにゃんこのスポーンエッグ",
@@ -42,6 +44,7 @@
   "item.sakaplus.amethond_chestplate": "アメソンドのチェストプレート",
   "item.sakaplus.amethond_leggings": "アメソンドのレギンス",
   "item.sakaplus.amethond_boots": "アメソンドのブーツ",
+  "item.sakaplus.shining_staff": "輝きの杖",
 
   "block.sakaplus.kruzi_stone": "クルジ石",
   "block.sakaplus.pyronium_ore": "パイロニウム鉱石",
