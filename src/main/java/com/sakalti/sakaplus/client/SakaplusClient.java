@@ -23,7 +23,10 @@ public class SakaplusClient implements ClientModInitializer {
         // Skill UI
         SkillUI.registerClientNetworking();
 
+        // =====================================================
         // Entity Renderers
+        // =====================================================
+
         EntityRendererRegistry.register(
                 ModBeamEntities.BEAM_PROJECTILE,
                 BeamProjectileRenderer::new
@@ -33,75 +36,104 @@ public class SakaplusClient implements ClientModInitializer {
                 ModEntities333.SCORCHER,
                 ScorcherRenderer::new
         );
+
         EntityRendererRegistry.register(
                 ModEntities333.SHYRON,
                 ShyronRenderer::new
         );
+
+        EntityRendererRegistry.register(
+                ModEntities333.XXENA,
+                XxenaRenderer::new
+        );
+
         EntityRendererRegistry.register(
                 ModEntities333.KULOOGIE,
                 KuloogieRenderer::new
         );
+
         EntityRendererRegistry.register(
                 ModEntities333.KUR_BRUTE,
                 KurBruteRenderer::new
         );
+
         EntityRendererRegistry.register(
                 ModEntities333.WARPERDUN,
                 WarperdunRenderer::new
         );
+
         EntityRendererRegistry.register(
                 ModEntities333.NYANKO,
                 NyankoRenderer::new
         );
+
         EntityRendererRegistry.register(
                 ModEntities333.BATTLE_NYANKO,
                 BattleNyankoRenderer::new
         );
+
         EntityRendererRegistry.register(
                 ModEntities333.KRUZI_ANT,
                 KruziAntRenderer::new
         );
+
         EntityRendererRegistry.register(
                 ModEntities333.OGANESON,
                 OganesonRenderer::new
         );
 
+        // =====================================================
         // Entity Model Layers
+        // =====================================================
+
         EntityModelLayerRegistry.registerModelLayer(
                 ScorcherRenderer.MODEL_LAYER,
                 ScorcherModel::getTexturedModelData
         );
+
         EntityModelLayerRegistry.registerModelLayer(
                 KuloogieRenderer.MODEL_LAYER,
                 KuloogieModel::getTexturedModelData
         );
+
         EntityModelLayerRegistry.registerModelLayer(
                 KurBruteRenderer.MODEL_LAYER,
                 KurBruteModel::getTexturedModelData
         );
+
         EntityModelLayerRegistry.registerModelLayer(
                 WarperdunRenderer.MODEL_LAYER,
                 WarperdunModel::getTexturedModelData
         );
+
         EntityModelLayerRegistry.registerModelLayer(
                 KruziAntRenderer.MODEL_LAYER,
                 KruziAntModel::getTexturedModelData
         );
+
         EntityModelLayerRegistry.registerModelLayer(
                 NyankoRenderer.MODEL_LAYER,
                 NyankoModel::getTexturedModelData
         );
+
         EntityModelLayerRegistry.registerModelLayer(
                 BattleNyankoRenderer.MODEL_LAYER,
                 BattleNyankoModel::getTexturedModelData
         );
+
         EntityModelLayerRegistry.registerModelLayer(
                 OganesonRenderer.MODEL_LAYER,
                 OganesonModel::getTexturedModelData
         );
+
         EntityModelLayerRegistry.registerModelLayer(
                 ShyronRenderer.MODEL_LAYER,
                 ShyronModel::getTexturedModelData
+        );
+
+        EntityModelLayerRegistry.registerModelLayer(
+                XxenaRenderer.MODEL_LAYER,
+                XxenaModel::getTexturedModelData
         );
     }
 }
