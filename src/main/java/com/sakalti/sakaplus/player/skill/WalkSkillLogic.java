@@ -1,109 +1,274 @@
 
 package com.sakalti.sakaplus.player.skill;
 
-import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.PersistentState;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
-public final class KillSkillLogic {
-    public static final Identifier REQUEST = new Identifier("sakaplus", "kill_skill_request");
-    public static final Identifier SYNC = new Identifier("sakaplus", "kill_skill_sync");
+public final class WalkSkillLogic {
+    public static final Identifier REQUEST = new Identifier("sakaplus", "walk_skill_request");
+    public static final Identifier SYNC = new Identifier("sakaplus", "walk_skill_sync");
+    public static final Identifier DOUBLE_JUMP = new Identifier("sakaplus", "walk_double_jump");
+    public static final Identifier AIR_DASH = new Identifier("sakaplus", "walk_air_dash");
 
-    private static final String STATE_ID = "sakaplus_kill_skill";
+    private static final String STATE_ID = "sakaplus_walk_skill";
 
     public static final String[] STAGES = {
-        "Finisher", "Blood Recovery", "Battle Momentum", "Combat Focus",
-        "Absorption", "Regeneration", "Iron Body", "Full Stomach",
-        "Flame Guard", "Battle Haste", "Warrior Jump", "Lucky Hunter",
-        "Night Hunter", "Deep Breath", "Power Strike", "Rapid Recovery",
-        "Greater Absorption", "Killer Speed", "Unbreakable", "Killing Frenzy"
+        "Double Jump", "Light Feet", "High Jumper", "Soft Landing",
+        "Water Runner", "Aqua Breathing", "Wall Climber", "Air Dash",
+        "Swift Runner", "Sprint Haste", "Sky Walker", "Long Stride",
+        "Night Walker", "Moving Recovery", "Super Jump",
+        "Wind Runner", "Flame Walker", "Aqua Master",
+        "Blink Step", "Limitless Movement"
     };
 
     public static final String[] DESCRIPTIONS = {
-        "敵を倒すと追加Kill経験値を獲得",
-        "敵を倒すと体力を1回復",
-        "敵を倒すと短時間移動速度上昇",
-        "敵を倒すと短時間攻撃力上昇",
-        "敵を倒すと吸収体力を獲得",
-        "敵を倒すと再生能力を獲得",
-        "敵を倒すと耐性を獲得",
-        "敵を倒すと満腹度を回復",
-        "敵を倒すと火炎耐性を獲得",
-        "敵を倒すと採掘速度上昇",
-        "敵を倒すと跳躍力上昇",
-        "敵を倒すと幸運を獲得",
-        "敵を倒すと暗視を獲得",
-        "敵を倒すと水中呼吸を獲得",
-        "敵を倒すと強い攻撃力上昇",
-        "敵を倒すと強い再生能力を獲得",
-        "敵を倒すと強い吸収体力を獲得",
-        "敵を倒すと強い移動速度上昇",
-        "敵を倒すと強い耐性を獲得",
-        "敵を倒すと全戦闘効果を獲得"
+        "空中でもう一度ジャンプできる",
+        "移動速度が少し上昇する",
+        "ジャンプ力が上昇する",
+        "落下中に落下速度が低下する",
+        "水中で移動速度が上昇する",
+        "水中呼吸ができる",
+        "壁に向かってしゃがむと壁を登れる",
+        "空中で専用キーを押すと前方へダッシュ",
+        "移動速度がさらに上昇する",
+        "走っている間、採掘速度が上昇する",
+        "空中で落下速度が低下する",
+        "歩行中に少しずつ回復する",
+        "暗視を獲得する",
+        "歩行中に満腹度を少し回復する",
+        "ジャンプ力がさらに上昇する",
+        "移動速度が大きく上昇する",
+        "走行中に火炎耐性を得る",
+        "水中移動速度がさらに上昇する",
+        "専用キーで前方へ短距離移動する",
+        "移動中に速度・跳躍・落下耐性を得る"
     };
 
-    private KillSkillLogic() {}
+    private static final Map<UUID, Integer> lastWalkStat = new HashMap<>();
+    private static final Map<UUID, Integer> jumpCooldown = new HashMap<>();
+    private static final Map<UUID, Integer> dashCooldown = new HashMap<>();
+
+    private WalkSkillLogic() {}
 
     public static void initialize() {
-        ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register(
-            (world, killer, victim) -> {
-                if (!(killer instanceof ServerPlayerEntity player)) return;
-                if (!(victim instanceof LivingEntity)) return;
-
-                int victimHealth = Math.max(1, (int) Math.ceil(victim.getMaxHealth()));
-                addXp(player, 5L + victimHealth);
-
-                applyKillRewards(player);
-            }
-        );
-
-        ServerTickEvents.END_SERVER_TICK.register(server -> {
-            for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
-                if (getLevel(player) >= 100) continue;
-                sync(player);
-            }
-        });
-
         ServerPlayNetworking.registerGlobalReceiver(
             REQUEST,
             (server, player, handler, buf, responseSender) ->
                 server.execute(() -> sync(player))
         );
+
+        ServerPlayNetworking.registerGlobalReceiver(
+            DOUBLE_JUMP,
+            (server, player, handler, buf, responseSender) ->
+                server.execute(() -> doDoubleJump(player))
+        );
+
+        ServerPlayNetworking.registerGlobalReceiver(
+            AIR_DASH,
+            (server, player, handler, buf, responseSender) ->
+                server.execute(() -> doAirDash(player))
+        );
+
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+                tickPlayer(player);
+            }
+        });
+    }
+
+    private static void tickPlayer(ServerPlayerEntity player) {
+        UUID uuid = player.getUuid();
+        int level = getLevel(player);
+
+        // 歩行距離から経験値を獲得
+        int currentWalk = player.getStatHandler().getStat(
+            Stats.CUSTOM, Stats.WALK_ONE_CM
+        );
+
+        int previousWalk = lastWalkStat.getOrDefault(uuid, currentWalk);
+        int difference = Math.max(0, currentWalk - previousWalk);
+        lastWalkStat.put(uuid, currentWalk);
+
+        if (difference >= 100) {
+            addXp(player, difference / 100);
+        }
+
+        // クールダウン
+        jumpCooldown.computeIfPresent(uuid, (key, value) -> value > 0 ? value - 1 : null);
+        dashCooldown.computeIfPresent(uuid, (key, value) -> value > 0 ? value - 1 : null);
+
+        boolean moving = player.getVelocity().horizontalLengthSquared() > 0.0025;
+
+        // 2: Light Feet
+        if (level >= 10) {
+            effect(player, StatusEffects.SPEED, 40, 0);
+        }
+
+        // 3: High Jumper
+        if (level >= 15) {
+            effect(player, StatusEffects.JUMP_BOOST, 40, 0);
+        }
+
+        // 4: Soft Landing
+        if (level >= 20 && player.fallDistance > 2.0F) {
+            effect(player, StatusEffects.SLOW_FALLING, 30, 0);
+        }
+
+        // 5: Water Runner
+        if (level >= 25 && player.isTouchingWater()) {
+            effect(player, StatusEffects.DOLPHINS_GRACE, 40, 0);
+        }
+
+        // 6: Aqua Breathing
+        if (level >= 30 && player.isTouchingWater()) {
+            effect(player, StatusEffects.WATER_BREATHING, 40, 0);
+        }
+
+        // 7: Wall Climber
+        if (level >= 35 && player.isSneaking() && player.horizontalCollision) {
+            player.setVelocity(
+                player.getVelocity().x,
+                Math.max(player.getVelocity().y, 0.20),
+                player.getVelocity().z
+            );
+            player.velocityModified = true;
+        }
+
+        // 9: Swift Runner
+        if (level >= 45 && moving) {
+            effect(player, StatusEffects.SPEED, 40, 1);
+        }
+
+        // 10: Sprint Haste
+        if (level >= 50 && player.isSprinting()) {
+            effect(player, StatusEffects.HASTE, 40, 0);
+        }
+
+        // 11: Sky Walker
+        if (level >= 55 && !player.isOnGround()) {
+            effect(player, StatusEffects.SLOW_FALLING, 30, 0);
+        }
+
+        // 12: Long Stride - 移動中の回復
+        if (level >= 60 && moving && player.age % 60 == 0) {
+            player.heal(1.0F);
+        }
+
+        // 13: Night Walker
+        if (level >= 65) {
+            effect(player, StatusEffects.NIGHT_VISION, 220, 0);
+        }
+
+        // 14: Moving Recovery - 移動中に満腹度回復
+        if (level >= 70 && moving && player.age % 100 == 0) {
+            player.getHungerManager().setFoodLevel(
+                Math.min(20, player.getHungerManager().getFoodLevel() + 1)
+            );
+        }
+
+        // 15: Super Jump
+        if (level >= 75) {
+            effect(player, StatusEffects.JUMP_BOOST, 40, 1);
+        }
+
+        // 16: Wind Runner
+        if (level >= 80) {
+            effect(player, StatusEffects.SPEED, 40, 2);
+        }
+
+        // 17: Flame Walker
+        if (level >= 85 && player.isSprinting()) {
+            effect(player, StatusEffects.FIRE_RESISTANCE, 60, 0);
+        }
+
+        // 18: Aqua Master
+        if (level >= 90 && player.isTouchingWater()) {
+            effect(player, StatusEffects.DOLPHINS_GRACE, 60, 1);
+        }
+
+        // 20: Limitless Movement
+        if (level >= 100 && moving) {
+            effect(player, StatusEffects.SPEED, 40, 3);
+            effect(player, StatusEffects.JUMP_BOOST, 40, 2);
+            if (!player.isOnGround()) {
+                effect(player, StatusEffects.SLOW_FALLING, 40, 0);
+            }
+        }
+
+        if (player.age % 40 == 0) {
+            sync(player);
+        }
+    }
+
+    private static void doDoubleJump(ServerPlayerEntity player) {
+        if (getLevel(player) < 5) return;
+        if (player.isOnGround() || player.isClimbing() || player.isFallFlying()) return;
+        if (jumpCooldown.getOrDefault(player.getUuid(), 0) > 0) return;
+
+        player.setVelocity(
+            player.getVelocity().x,
+            0.48,
+            player.getVelocity().z
+        );
+        player.velocityModified = true;
+        player.fallDistance = 0;
+        jumpCooldown.put(player.getUuid(), 12);
+    }
+
+    private static void doAirDash(ServerPlayerEntity player) {
+        int level = getLevel(player);
+        if (level < 40) return;
+        if (player.isOnGround() || player.isFallFlying()) return;
+        if (dashCooldown.getOrDefault(player.getUuid(), 0) > 0) return;
+
+        double power = level >= 95 ? 1.8 : level >= 80 ? 1.4 : 1.0;
+
+        player.setVelocity(
+            player.getRotationVector().x * power,
+            Math.max(player.getVelocity().y, 0.05),
+            player.getRotationVector().z * power
+        );
+
+        player.velocityModified = true;
+        player.fallDistance = 0;
+        dashCooldown.put(player.getUuid(), 35);
     }
 
     public static void addXp(ServerPlayerEntity player, long amount) {
         if (amount <= 0) return;
 
-        KillData data = getData(player.getServerWorld());
+        WalkData data = getData(player.getServerWorld());
         String id = player.getUuidAsString();
 
-        long xp = data.getXp(id);
-        if (getLevelFromXp(xp) >= 100) return;
+        long oldXp = data.getXp(id);
+        if (getLevelFromXp(oldXp) >= 100) return;
 
-        xp = Math.min(Long.MAX_VALUE - amount, xp) + amount;
-        data.setXp(id, xp);
+        long newXp = Math.min(Long.MAX_VALUE - amount, oldXp) + amount;
+        data.setXp(id, newXp);
         data.markDirty();
 
-        sync(player);
-
-        int oldLevel = getLevelFromXp(xp - amount);
-        int newLevel = getLevelFromXp(xp);
+        int oldLevel = getLevelFromXp(oldXp);
+        int newLevel = getLevelFromXp(newXp);
 
         if (newLevel > oldLevel) {
             player.sendMessage(
-                net.minecraft.text.Text.literal("§cKill Skill §7Lv." + newLevel),
+                net.minecraft.text.Text.literal("§bWalk Skill §7Lv." + newLevel),
                 true
             );
 
@@ -111,135 +276,13 @@ public final class KillSkillLogic {
                 int index = newLevel / 5 - 1;
                 player.sendMessage(
                     net.minecraft.text.Text.literal(
-                        "§6[Kill Skill] §e解放: " + STAGES[index]
+                        "§6[Walk Skill] §e解放: " + STAGES[index]
                     ),
                     false
                 );
             }
         }
-    }
 
-    private static void applyKillRewards(ServerPlayerEntity player) {
-        int level = getLevel(player);
-
-        // 1: Finisher - 追加経験値
-        if (level >= 5) {
-            addXpWithoutReward(player, 2);
-        }
-
-        // 2: Blood Recovery
-        if (level >= 10) {
-            player.heal(1.0F);
-        }
-
-        // 3: Battle Momentum
-        if (level >= 15) {
-            effect(player, StatusEffects.SPEED, 80, 0);
-        }
-
-        // 4: Combat Focus
-        if (level >= 20) {
-            effect(player, StatusEffects.STRENGTH, 80, 0);
-        }
-
-        // 5: Absorption
-        if (level >= 25) {
-            effect(player, StatusEffects.ABSORPTION, 160, 0);
-        }
-
-        // 6: Regeneration
-        if (level >= 30) {
-            effect(player, StatusEffects.REGENERATION, 100, 0);
-        }
-
-        // 7: Iron Body
-        if (level >= 35) {
-            effect(player, StatusEffects.RESISTANCE, 100, 0);
-        }
-
-        // 8: Full Stomach
-        if (level >= 40) {
-            player.getHungerManager().setFoodLevel(
-                Math.min(20, player.getHungerManager().getFoodLevel() + 2)
-            );
-            player.getHungerManager().setSaturationLevel(
-                Math.min(20.0F, player.getHungerManager().getSaturationLevel() + 2.0F)
-            );
-        }
-
-        // 9: Flame Guard
-        if (level >= 45) {
-            effect(player, StatusEffects.FIRE_RESISTANCE, 200, 0);
-        }
-
-        // 10: Battle Haste
-        if (level >= 50) {
-            effect(player, StatusEffects.HASTE, 100, 0);
-        }
-
-        // 11: Warrior Jump
-        if (level >= 55) {
-            effect(player, StatusEffects.JUMP_BOOST, 100, 0);
-        }
-
-        // 12: Lucky Hunter
-        if (level >= 60) {
-            effect(player, StatusEffects.LUCK, 200, 0);
-        }
-
-        // 13: Night Hunter
-        if (level >= 65) {
-            effect(player, StatusEffects.NIGHT_VISION, 300, 0);
-        }
-
-        // 14: Deep Breath
-        if (level >= 70) {
-            effect(player, StatusEffects.WATER_BREATHING, 200, 0);
-        }
-
-        // 15: Power Strike
-        if (level >= 75) {
-            effect(player, StatusEffects.STRENGTH, 160, 1);
-        }
-
-        // 16: Rapid Recovery
-        if (level >= 80) {
-            effect(player, StatusEffects.REGENERATION, 160, 1);
-        }
-
-        // 17: Greater Absorption
-        if (level >= 85) {
-            effect(player, StatusEffects.ABSORPTION, 240, 1);
-        }
-
-        // 18: Killer Speed
-        if (level >= 90) {
-            effect(player, StatusEffects.SPEED, 160, 1);
-        }
-
-        // 19: Unbreakable
-        if (level >= 95) {
-            effect(player, StatusEffects.RESISTANCE, 160, 1);
-        }
-
-        // 20: Killing Frenzy
-        if (level >= 100) {
-            effect(player, StatusEffects.STRENGTH, 300, 1);
-            effect(player, StatusEffects.SPEED, 300, 1);
-            effect(player, StatusEffects.REGENERATION, 300, 1);
-            effect(player, StatusEffects.RESISTANCE, 300, 0);
-        }
-    }
-
-    private static void addXpWithoutReward(ServerPlayerEntity player, long amount) {
-        KillData data = getData(player.getServerWorld());
-        String id = player.getUuidAsString();
-        long xp = data.getXp(id);
-
-        if (getLevelFromXp(xp) >= 100) return;
-
-        data.setXp(id, xp + amount);
-        data.markDirty();
         sync(player);
     }
 
@@ -250,7 +293,7 @@ public final class KillSkillLogic {
         int amplifier
     ) {
         player.addStatusEffect(
-            new StatusEffectInstance(type, duration, amplifier, true, true, true)
+            new StatusEffectInstance(type, duration, amplifier, true, false, true)
         );
     }
 
@@ -296,36 +339,30 @@ public final class KillSkillLogic {
         return level;
     }
 
-    public static boolean hasStage(ServerPlayerEntity player, int stage) {
-        return getLevel(player) >= stage * 5;
-    }
-
     public static void sync(ServerPlayerEntity player) {
         if (player.networkHandler == null) return;
 
         int level = getLevel(player);
         long totalXp = getXp(player);
-        long current = getCurrentLevelXp(totalXp);
-        long required = getLevelRequiredXp(level);
 
-        net.minecraft.network.PacketByteBuf buf =
+        PacketByteBuf buf =
             net.fabricmc.fabric.api.networking.v1.PacketByteBufs.create();
 
         buf.writeInt(level);
-        buf.writeLong(current);
-        buf.writeLong(required);
+        buf.writeLong(getCurrentLevelXp(totalXp));
+        buf.writeLong(getLevelRequiredXp(level));
         buf.writeLong(totalXp);
 
         ServerPlayNetworking.send(player, SYNC, buf);
     }
 
-    private static KillData getData(ServerWorld world) {
+    private static WalkData getData(ServerWorld world) {
         return world.getServer().getOverworld()
             .getPersistentStateManager()
-            .getOrCreate(KillData::fromNbt, KillData::new, STATE_ID);
+            .getOrCreate(WalkData::fromNbt, WalkData::new, STATE_ID);
     }
 
-    private static class KillData extends PersistentState {
+    private static class WalkData extends PersistentState {
         private final NbtCompound players = new NbtCompound();
 
         long getXp(String uuid) {
@@ -342,8 +379,8 @@ public final class KillSkillLogic {
             return nbt;
         }
 
-        static KillData fromNbt(NbtCompound nbt) {
-            KillData data = new KillData();
+        static WalkData fromNbt(NbtCompound nbt) {
+            WalkData data = new WalkData();
             if (nbt.contains("players")) {
                 NbtCompound saved = nbt.getCompound("players");
                 for (String key : saved.getKeys()) {
