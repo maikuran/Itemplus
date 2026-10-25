@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus.item;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,17 +15,13 @@ public class StaffItem extends Item {
     private final StaffAction action;
     private final int cooldown;
 
-    /**
-     * 触媒の消費設定
-     */
     public static class CatalystCost {
         public final Item item;
         public final int count;
 
         public CatalystCost(Item item, int count) {
             if (item == null || count <= 0) {
-                throw new IllegalArgumentException(
-                    "Invalid catalyst cost");
+                throw new IllegalArgumentException("Invalid catalyst cost");
             }
 
             this.item = item;
@@ -34,22 +29,11 @@ public class StaffItem extends Item {
         }
     }
 
-    /**
-     * 杖の発動処理
-     */
     @FunctionalInterface
     public interface StaffAction {
         void activate(World world, PlayerEntity player, Hand hand);
     }
 
-    /**
-     * 汎用魔術杖のコンストラクタ
-     *
-     * @param settings アイテム設定
-     * @param cooldown 再使用待機時間（tick）
-     * @param action 発動処理
-     * @param catalystCosts 消費する触媒
-     */
     public StaffItem(
             Settings settings,
             int cooldown,
@@ -68,6 +52,14 @@ public class StaffItem extends Item {
         this.catalystCosts = List.of(catalystCosts);
     }
 
+    /**
+     * エンチャント適性
+     */
+    @Override
+    public int getEnchantability() {
+        return 15;
+    }
+
     @Override
     public TypedActionResult<ItemStack> use(
             World world, PlayerEntity user, Hand hand) {
@@ -76,7 +68,7 @@ public class StaffItem extends Item {
 
         if (!world.isClient) {
 
-            // すべての触媒を確認（消費前に検査）
+            // 触媒の所持数を確認
             if (!user.getAbilities().creativeMode) {
                 for (CatalystCost cost : catalystCosts) {
                     if (user.getInventory().count(cost.item)
@@ -92,8 +84,18 @@ public class StaffItem extends Item {
                 }
             }
 
-            // 杖の発動処理
+            // 魔法を発動
             action.activate(world, user, hand);
+
+            // 耐久を1消費（クリエイティブでは消費しない）
+            if (!user.getAbilities().creativeMode
+                    && stack.isDamageable()) {
+                stack.damage(
+                    1,
+                    user,
+                    player -> player.sendToolBreakStatus(hand)
+                );
+            }
 
             // クールダウン
             user.getItemCooldownManager().set(this, cooldown);
@@ -106,7 +108,9 @@ public class StaffItem extends Item {
      * インベントリから触媒を消費
      */
     private void sacrificeCatalyst(
-            PlayerEntity player, Item item, int count) {
+            PlayerEntity player,
+            Item item,
+            int count) {
 
         int remaining = count;
 
