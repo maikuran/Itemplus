@@ -3,7 +3,7 @@ package com.sakalti.sakaplus;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-
+import com sakalti.sakaplus.item.CatalystItems;
 import com.sakalti.sakaplus.tinco.item.ModItems5;
 import com.sakalti.sakaplus.effect.ModEffects;
 import com.sakalti.sakaplus.command.KruzivilimCommand;
@@ -24,6 +24,7 @@ public class SakaplusMod2 implements ModInitializer {
         LongtimePotionRegistry.registerAll();
         ModBlocks2.registerBlocks();
         ModEffects.registerEffects();
+        CatalystItems.registerCatalysts();
         Weapons.registerItems();
         ModEntities333.register();
         ModItems.register();
