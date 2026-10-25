@@ -1,0 +1,30 @@
+{
+  "parent": "sakaplus:visit_kruzivilim",
+  "display": {
+    "icon": {
+      "item": "sakaplus:kruzi_bricks"
+    },
+    "title": {
+      "translate": "advancement.sakaplus.warperdun_remnant.title"
+    },
+    "description": {
+      "translate": "advancement.sakaplus.warperdun_remnant.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "enter_warperdun_remnant": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": {
+          "location": {
+            "structure": "sakaplus:warperdun_remnant"
+          }
+        }
+      }
+    }
+  }
+}
