@@ -3,6 +3,7 @@ package com.sakalti.sakaplus;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+
 import com.sakalti.sakaplus.item.CatalystItems;
 import com.sakalti.sakaplus.tinco.item.ModItems5;
 import com.sakalti.sakaplus.effect.ModEffects;
@@ -12,6 +13,8 @@ import com.sakalti.sakaplus.dimension.SakaplusDimensions;
 import com.sakalti.sakaplus.block.ModBlocks2;
 import com.sakalti.sakaplus.world.GreenyFeatures;
 import com.sakalti.sakaplus.sound.SakaplusSounds;
+import com.sakalti.sakaplus.player.skill.KillSkillLogic;
+import com.sakalti.sakaplus.player.skill.WalkSkillLogic;
 
 public class SakaplusMod2 implements ModInitializer {
 
@@ -21,23 +24,42 @@ public class SakaplusMod2 implements ModInitializer {
         // Sounds
         SakaplusSounds.registerSounds();
 
+        // Potions
         LongtimePotionRegistry.registerAll();
+
+        // Blocks
         ModBlocks2.registerBlocks();
+
+        // Effects
         ModEffects.registerEffects();
+
+        // Items
         CatalystItems.registerCatalysts();
         Weapons.registerItems();
-        ModEntities333.register();
         ModItems.register();
-        SakaplusDimensions.register();
-        ModBeamEntities.register();
         ModItems5.register();
 
-        // Greenyの木のFeature登録
+        // Entities
+        ModEntities333.register();
+        ModBeamEntities.register();
+
+        // Dimensions
+        SakaplusDimensions.register();
+
+        // Greeny Features
         GreenyFeatures.register();
 
-        // コマンドの登録（Fabric API v2）
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            KruzivilimCommand.register(dispatcher);
-        });
+        // Commands
+        CommandRegistrationCallback.EVENT.register(
+            (dispatcher, registryAccess, environment) -> {
+                KruzivilimCommand.register(dispatcher);
+            }
+        );
+
+        // Kill Skill
+        KillSkillLogic.initialize();
+
+        // Walk Skill
+        WalkSkillLogic.initialize();
     }
 }
