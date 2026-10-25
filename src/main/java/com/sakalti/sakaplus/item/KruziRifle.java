@@ -3,6 +3,7 @@ package com.sakalti.sakaplus.item;
 
 import com.sakalti.sakaplus.entity.BeamAttack;
 import com.sakalti.sakaplus.sound.SakaplusSounds;
+import com.sakalti.sakaplus.client.item.GunRecoil;
 
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
@@ -39,6 +40,16 @@ public class KruziRifle extends Gun {
     public static final int MAX_AMMO = 2;
 
     // =========================================================
+    // RECOIL CONFIGURATION
+    // =========================================================
+
+    public static final float RECOIL_STRENGTH = 9.0F;
+
+    public static final float RECOIL_RECOVERY_SPEED = 0.12F;
+
+    public static final float RECOIL_MAX_ANGLE = 35.0F;
+
+    // =========================================================
     // NBT
     // =========================================================
 
@@ -72,9 +83,6 @@ public class KruziRifle extends Gun {
         // =====================================================
 
         if (user.isSneaking()) {
-
-            // Scope is displayed by the client overlay.
-            // Reload only when ammunition is not full.
 
             if (ammo >= MAX_AMMO) {
                 return TypedActionResult.pass(stack);
@@ -147,10 +155,17 @@ public class KruziRifle extends Gun {
         );
 
         // =====================================================
-        // CLIENT
+        // CLIENT: RECOIL
         // =====================================================
 
         if (world.isClient) {
+
+            GunRecoil.recoil(
+                    RECOIL_STRENGTH,
+                    RECOIL_RECOVERY_SPEED,
+                    RECOIL_MAX_ANGLE
+            );
+
             return TypedActionResult.success(stack, true);
         }
 
@@ -218,9 +233,6 @@ public class KruziRifle extends Gun {
         if (!player.isCreative()) {
 
             PlayerInventory inventory = player.getInventory();
-
-            // Required materials:
-            // 1 Diamond + 3 Gunpowder
 
             if (countItem(inventory, Items.DIAMOND) < 1) {
                 return false;
@@ -381,6 +393,10 @@ public class KruziRifle extends Gun {
 
         tooltip.add(
                 Text.of("耐久値: " + MAX_DURABILITY)
+        );
+
+        tooltip.add(
+                Text.of("反動: " + RECOIL_STRENGTH)
         );
     }
 }
