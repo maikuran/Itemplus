@@ -8,6 +8,7 @@ public class SakaplusSounds {
 
     public static final SoundEvent Shoot = register("shoot");
     public static final SoundEvent Magazine = register("magazine");
+    public static final SoundEvent StaffUse = register("staff_use");
 
     // クルジ・アント（kruzi_ant）用のサウンドイベント
     public static final SoundEvent KruziantAmbient = register("kruziant_ambient");
