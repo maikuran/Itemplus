@@ -29,6 +29,8 @@ public class CatalystItems {
     // 魔術杖
     public static final Item SHINING_STAFF =
         new ShiningStaffItem(baseSettings());
+    public static final Item ADAPTATION_STAFF =
+        new AdaptationStaffItem(baseSettings());
 
     public static void registerCatalysts() {
         register("fire_catalyst", FIRE_CATALYST);
@@ -48,6 +50,7 @@ public class CatalystItems {
 
         // 魔術杖の登録
         register("shining_staff", SHINING_STAFF);
+        register("adaptation_staff", ADAPTATION_STAFF);
     }
 
     private static void register(String path, Item item) {
