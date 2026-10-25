@@ -1,5 +1,6 @@
 {
   "entity.sakaplus.scorcher": "獄炎",
+  "entity.sakaplus.xxena": "ゼナ",
   "entity.sakaplus.shyron": "シャイロン",
   "entity.sakaplus.kur_brute": "クルブルート",
   "entity.sakaplus.oganeson": "オガネソン",
@@ -77,6 +78,7 @@
   "item.sakaplus.shyron_spawn_egg": "シャイロンのスポーンエッグ",
   "item.sakaplus.kruzi_ant_spawn_egg": "クルジアントのスポーンエッグ",
   "item.sakaplus.kuloogie_spawn_egg": "クロオギーのスポーンエッグ",
+  "item.sakaplus.xxena_spawn_egg": "ゼナのスポーンエッグ",
   "item.sakaplus.battle_nyanko_spawn_egg": "バトルにゃんこのスポーンエッグ",
   "item.sakaplus.chocolate_bar": "板チョコレート",
   "item.sakaplus.sweet_berry_pie": "スイートベリーパイ",
@@ -115,6 +117,7 @@
   "item.sakaplus.hell_catalyst": "冥府の触媒",
   "item.sakaplus.light_catalyst": "聖光の触媒",
   "item.sakaplus.shining_staff": "輝きの杖",
+  "item.sakaplus.adaptation_staff": "適応の杖",
 
   "block.sakaplus.kruzi_stone": "クルジ石",
   "block.sakaplus.pyronium_ore": "パイロニウム鉱石",
