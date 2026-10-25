@@ -38,6 +38,7 @@ public class ModItems {
     public static final Item HACHIWARI_MANJU =
         new Item(new Item.Settings().food(ModFoods.HACHIWARI_MANJU));
 
+
     public static final Item LIGHT_BERRY =
         new Item(new Item.Settings().food(ModFoods.LIGHT_BERRY));
 
@@ -80,6 +81,8 @@ public class ModItems {
         new Item(new Item.Settings().group(ItemGroup.MATERIALS));
 
     public static final Item PYRONIUM_INGOT =
+        new Item(new Item.Settings().group(ItemGroup.MATERIALS));
+    public static final Item CLOTH =
         new Item(new Item.Settings().group(ItemGroup.MATERIALS));
 
     public static final Item PYRONIUM_SWORD =
@@ -171,6 +174,7 @@ public class ModItems {
 
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "raw_pyronium"), RAW_PYRONIUM);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "pyronium_ingot"), PYRONIUM_INGOT);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "cloth"), CLOTH);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "pyronium_sword"), PYRONIUM_SWORD);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "pyronium_pickaxe"), PYRONIUM_PICKAXE);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "pyronium_helmet"), PYRONIUM_HELMET);
