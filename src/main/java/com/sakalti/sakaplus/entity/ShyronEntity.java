@@ -1,25 +1,15 @@
 
 package com.sakalti.sakaplus.entity;
 
-import com.sakalti.sakaplus.sound.SakaplusSounds;
-
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.ActiveTargetGoal;
-import net.minecraft.entity.ai.goal.LookAroundGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.ai.goal.RevengeGoal;
-import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
 
@@ -27,15 +17,10 @@ public class ShyronEntity extends HostileEntity {
 
     public ShyronEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
-        this.experiencePoints = 20;
     }
 
-    // =========================================================
-    // Attributes
-    // =========================================================
-
     public static DefaultAttributeContainer.Builder createAttributes() {
-        return MobEntity.createMobAttributes()
+        return HostileEntity.createHostileAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 60.0D)
                 .add(EntityAttributes.GENERIC_ARMOR, 4.0D)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6.5D)
@@ -43,81 +28,50 @@ public class ShyronEntity extends HostileEntity {
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D);
     }
 
-    // =========================================================
-    // AI Goals
-    // =========================================================
-
     @Override
     protected void initGoals() {
+        super.initGoals();
 
-        // Movement and attack goals
-        this.goalSelector.add(1,
-                new MeleeAttackGoal(this, 1.25D, true));
+        this.goalSelector.add(2, new net.minecraft.entity.ai.goal.MeleeAttackGoal(this, 1.0D, false));
+        this.goalSelector.add(7, new net.minecraft.entity.ai.goal.WanderAroundFarGoal(this, 0.8D));
+        this.goalSelector.add(8, new net.minecraft.entity.ai.goal.LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.add(9, new net.minecraft.entity.ai.goal.LookAroundGoal(this));
 
-        this.goalSelector.add(2,
-                new WanderAroundFarGoal(this, 1.0D));
-
-        this.goalSelector.add(3,
-                new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-
-        this.goalSelector.add(4,
-                new LookAroundGoal(this));
-
-        // =====================================================
-        // Target Goals
-        // =====================================================
-
-        // Attack players
-        this.targetSelector.add(1,
-                new ActiveTargetGoal<>(
-                        this,
-                        PlayerEntity.class,
-                        true
-                ));
-
-        // Attack all living entities except:
-        // - Shyron
-        // - Players (already handled above)
-        this.targetSelector.add(2,
-                new ActiveTargetGoal<>(
-                        this,
-                        LivingEntity.class,
-                        10,
-                        true,
-                        false,
-                        entity ->
-                                !(entity instanceof ShyronEntity)
-                                && !(entity instanceof PlayerEntity)
-                ));
-
-        // Group revenge
-        this.targetSelector.add(3,
-                new RevengeGoal(this).setGroupRevenge());
+        this.targetSelector.add(1, new net.minecraft.entity.ai.goal.RevengeGoal(this));
+        this.targetSelector.add(2, new net.minecraft.entity.ai.goal.ActiveTargetGoal<>(
+                this,
+                LivingEntity.class,
+                10,
+                true,
+                false,
+                entity -> !(entity instanceof ShyronEntity)
+                        && !(entity instanceof PlayerEntity)
+        ));
+        this.targetSelector.add(3, new net.minecraft.entity.ai.goal.ActiveTargetGoal<>(
+                this, PlayerEntity.class, true
+        ));
     }
 
-    // =========================================================
-    // Prey Kill Effect
-    // =========================================================
+    // 攻撃によって敵を倒した場合の処理
+    @Override
+    public boolean tryAttack(Entity target) {
+        boolean successful = super.tryAttack(target);
 
-    public void onKilledOther(ServerWorld world, LivingEntity target) {
-        super.onKilledOther(world, target);
+        if (successful
+                && !this.getWorld().isClient
+                && target instanceof LivingEntity
+                && !target.isAlive()) {
 
-        // Restore 15 HP after killing prey
-        this.heal(15.0F);
+            this.heal(15.0F);
+            this.addStatusEffect(new StatusEffectInstance(
+                    StatusEffects.SPEED,
+                    200,
+                    1
+            ));
+        }
 
-        // Speed II for 10 seconds
-        this.addStatusEffect(
-                new StatusEffectInstance(
-                        StatusEffects.SPEED,
-                        200,
-                        1
-                )
-        );
+        return successful;
     }
-
-    // =========================================================
-    // Sounds
-    // =========================================================
 
     @Override
     protected SoundEvent getAmbientSound() {
@@ -125,7 +79,7 @@ public class ShyronEntity extends HostileEntity {
     }
 
     @Override
-    protected SoundEvent getHurtSound(DamageSource source) {
+    protected SoundEvent getHurtSound(net.minecraft.entity.damage.DamageSource source) {
         return SakaplusSounds.ShyronHurt;
     }
 
