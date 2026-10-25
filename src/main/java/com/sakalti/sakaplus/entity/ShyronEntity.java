@@ -99,7 +99,6 @@ public class ShyronEntity extends HostileEntity {
     // Prey Kill Effect
     // =========================================================
 
-    @Override
     public void onKilledOther(ServerWorld world, LivingEntity target) {
         super.onKilledOther(world, target);
 
