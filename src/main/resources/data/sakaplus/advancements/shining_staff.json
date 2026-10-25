@@ -1,0 +1,32 @@
+{
+  "parent": "sakaplus:shyron_tower",
+  "display": {
+    "icon": {
+      "item": "sakaplus:shining_staff"
+    },
+    "title": {
+      "translate": "advancement.sakaplus.get_shining_staff.title"
+    },
+    "description": {
+      "translate": "advancement.sakaplus.get_shining_staff.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_shining_staff": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "sakaplus:shining_staff"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
