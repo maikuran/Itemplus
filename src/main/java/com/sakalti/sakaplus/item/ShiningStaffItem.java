@@ -8,12 +8,13 @@ public class ShiningStaffItem extends StaffItem {
 
     public ShiningStaffItem(Item.Settings settings) {
         super(
-            settings,
-            0, // クールダウン（tick）
+            settings.maxDamage(475),
+
+            0,
 
             (world, player, hand) -> {
 
-                // 3分間の効果（3600 tick）
+                // 火炎耐性 I：3分
                 player.addStatusEffect(
                     new StatusEffectInstance(
                         StatusEffects.FIRE_RESISTANCE,
@@ -22,7 +23,7 @@ public class ShiningStaffItem extends StaffItem {
                     )
                 );
 
-                // 耐性 II
+                // 耐性 II：3分
                 player.addStatusEffect(
                     new StatusEffectInstance(
                         StatusEffects.RESISTANCE,
@@ -31,7 +32,7 @@ public class ShiningStaffItem extends StaffItem {
                     )
                 );
 
-                // 衝撃吸収 IV
+                // 吸収 IV：3分
                 player.addStatusEffect(
                     new StatusEffectInstance(
                         StatusEffects.ABSORPTION,
@@ -40,7 +41,7 @@ public class ShiningStaffItem extends StaffItem {
                     )
                 );
 
-                // 鈍化 II（15秒）
+                // 移動速度低下 II：15秒
                 player.addStatusEffect(
                     new StatusEffectInstance(
                         StatusEffects.SLOWNESS,
@@ -50,9 +51,16 @@ public class ShiningStaffItem extends StaffItem {
                 );
             },
 
-            // 必要な触媒
-            new CatalystCost(CatalystItems.FIRE_CATALYST, 2),
-            new CatalystCost(CatalystItems.FORCE_CATALYST, 4)
+            // 消費触媒
+            new CatalystCost(
+                CatalystItems.FIRE_CATALYST,
+                2
+            ),
+
+            new CatalystCost(
+                CatalystItems.FORCE_CATALYST,
+                4
+            )
         );
     }
 }
