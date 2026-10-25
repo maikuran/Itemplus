@@ -1,65 +1,47 @@
+@Override
+public void onInitialize() {
 
-package com.sakalti.sakaplus;
+    // Kruzi Rifle Server Reload
+    KruziRifle.registerServer();
 
-import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+    // Sounds
+    SakaplusSounds.registerSounds();
 
-import com.sakalti.sakaplus.item.CatalystItems;
-import com.sakalti.sakaplus.tinco.item.ModItems5;
-import com.sakalti.sakaplus.effect.ModEffects;
-import com.sakalti.sakaplus.command.KruzivilimCommand;
-import com.sakalti.sakaplus.registry.*;
-import com.sakalti.sakaplus.dimension.SakaplusDimensions;
-import com.sakalti.sakaplus.block.ModBlocks2;
-import com.sakalti.sakaplus.world.GreenyFeatures;
-import com.sakalti.sakaplus.sound.SakaplusSounds;
-import com.sakalti.sakaplus.player.skill.KillSkillLogic;
-import com.sakalti.sakaplus.player.skill.WalkSkillLogic;
+    // Potions
+    LongtimePotionRegistry.registerAll();
 
-public class SakaplusMod2 implements ModInitializer {
+    // Blocks
+    ModBlocks2.registerBlocks();
 
-    @Override
-    public void onInitialize() {
+    // Effects
+    ModEffects.registerEffects();
 
-        // Sounds
-        SakaplusSounds.registerSounds();
+    // Items
+    CatalystItems.registerCatalysts();
+    Weapons.registerItems();
+    ModItems.register();
+    ModItems5.register();
 
-        // Potions
-        LongtimePotionRegistry.registerAll();
+    // Entities
+    ModEntities333.register();
+    ModBeamEntities.register();
 
-        // Blocks
-        ModBlocks2.registerBlocks();
+    // Dimensions
+    SakaplusDimensions.register();
 
-        // Effects
-        ModEffects.registerEffects();
+    // Greeny Features
+    GreenyFeatures.register();
 
-        // Items
-        CatalystItems.registerCatalysts();
-        Weapons.registerItems();
-        ModItems.register();
-        ModItems5.register();
+    // Commands
+    CommandRegistrationCallback.EVENT.register(
+        (dispatcher, registryAccess, environment) -> {
+            KruzivilimCommand.register(dispatcher);
+        }
+    );
 
-        // Entities
-        ModEntities333.register();
-        ModBeamEntities.register();
+    // Kill Skill
+    KillSkillLogic.initialize();
 
-        // Dimensions
-        SakaplusDimensions.register();
-
-        // Greeny Features
-        GreenyFeatures.register();
-
-        // Commands
-        CommandRegistrationCallback.EVENT.register(
-            (dispatcher, registryAccess, environment) -> {
-                KruzivilimCommand.register(dispatcher);
-            }
-        );
-
-        // Kill Skill
-        KillSkillLogic.initialize();
-
-        // Walk Skill
-        WalkSkillLogic.initialize();
-    }
+    // Walk Skill
+    WalkSkillLogic.initialize();
 }
