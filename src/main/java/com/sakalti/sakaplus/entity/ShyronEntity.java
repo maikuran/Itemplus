@@ -11,6 +11,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
+import com.sakalti.sakaplus.sound.SakaplusSounds;
 import net.minecraft.world.World;
 
 public class ShyronEntity extends HostileEntity {
