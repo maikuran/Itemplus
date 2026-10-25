@@ -1,4 +1,3 @@
-
 {
   "entity.sakaplus.scorcher": "獄炎",
   "entity.sakaplus.shyron": "シャイロン",
@@ -103,5 +102,10 @@
   "advancement.sakaplus.shyron_tower.title": "高い高い塔",
   "advancement.sakaplus.shyron_tower.desc": "シャイロン塔に入る。",
   "advancement.sakaplus.visit_kruzivilim.title": "汚染の地",
-  "advancement.sakaplus.visit_kruzivilim.desc": "クルジヴィルムに訪れる。"
+  "advancement.sakaplus.visit_kruzivilim.desc": "クルジヴィルムに訪れる。",
+
+  "advancement.sakaplus.get_pyronium_ingot.title": "熱い金属",
+  "advancement.sakaplus.get_pyronium_ingot.desc": "パイロニウムインゴットを入手する",
+  "advancement.sakaplus.get_shining_staff.title": "燦々な杖",
+  "advancement.sakaplus.get_shining_staff.desc": "輝きの杖を入手する"
 }
