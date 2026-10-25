@@ -14,5 +14,24 @@
         "stream": false
       }
     ]
+  },
+  "kruziant_ambient": {
+    "subtitle": "subtitles.sakaplus.kruziant_ambient",
+    "sounds": [
+      "sakaplus:kruziant_ambient1",
+      "sakaplus:kruziant_ambient2"
+    ]
+  },
+  "kruziant_hurt": {
+    "subtitle": "subtitles.sakaplus.kruziant_hurt",
+    "sounds": [
+      "sakaplus:hurt"
+    ]
+  },
+  "kruziant_death": {
+    "subtitle": "subtitles.sakaplus.kruziant_death",
+    "sounds": [
+      "sakaplus:death"
+    ]
   }
 }
