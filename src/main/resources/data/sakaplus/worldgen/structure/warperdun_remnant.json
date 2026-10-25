@@ -2,7 +2,7 @@
   "type": "minecraft:jigsaw",
   "biomes": "#sakaplus:has_structure/warperdun_remnant",
   "step": "surface_structures",
-  "terrain_adaptation": "bury",
+  "terrain_adaptation": "beard_thin",
   "start_pool": "sakaplus:warperdun_remnant_start",
   "size": 1,
   "start_height": {
