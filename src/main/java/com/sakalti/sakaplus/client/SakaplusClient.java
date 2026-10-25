@@ -26,6 +26,10 @@ public class SakaplusClient implements ClientModInitializer {
                 ScorcherRenderer::new
         );
         EntityRendererRegistry.register(
+                ModEntities333.SHYRON,
+                ShyronRenderer::new
+        );
+        EntityRendererRegistry.register(
                 ModEntities333.KULOOGIE,
                 KuloogieRenderer::new
         );
@@ -85,6 +89,10 @@ public class SakaplusClient implements ClientModInitializer {
         EntityModelLayerRegistry.registerModelLayer(
                 OganesonRenderer.MODEL_LAYER,
                 OganesonModel::getTexturedModelData
+        );
+        EntityModelLayerRegistry.registerModelLayer(
+                ShyronRenderer.MODEL_LAYER,
+                ShyronModel::getTexturedModelData
         );
     }
 }
