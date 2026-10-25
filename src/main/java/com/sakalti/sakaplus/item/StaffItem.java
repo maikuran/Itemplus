@@ -1,3 +1,4 @@
+
 package com.sakalti.sakaplus.item;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -7,59 +8,121 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class StaffItem extends Gun {
+import java.util.List;
 
-    private final Item catalystItem;
+public class StaffItem extends Item {
+
+    private final List<CatalystCost> catalystCosts;
+    private final StaffAction action;
+    private final int cooldown;
 
     /**
-     * @param settings アイテムの設定
-     * @param durability 魔力の耐久値
-     * @param catalystItem 詠唱に必要な触媒アイテム
+     * 触媒の消費設定
      */
-    public StaffItem(Settings settings, int durability, Item catalystItem) {
-        super(settings, durability);
-        this.catalystItem = catalystItem;
+    public static class CatalystCost {
+        public final Item item;
+        public final int count;
+
+        public CatalystCost(Item item, int count) {
+            if (item == null || count <= 0) {
+                throw new IllegalArgumentException(
+                    "Invalid catalyst cost");
+            }
+
+            this.item = item;
+            this.count = count;
+        }
+    }
+
+    /**
+     * 杖の発動処理
+     */
+    @FunctionalInterface
+    public interface StaffAction {
+        void activate(World world, PlayerEntity player, Hand hand);
+    }
+
+    /**
+     * 汎用魔術杖のコンストラクタ
+     *
+     * @param settings アイテム設定
+     * @param cooldown 再使用待機時間（tick）
+     * @param action 発動処理
+     * @param catalystCosts 消費する触媒
+     */
+    public StaffItem(
+            Settings settings,
+            int cooldown,
+            StaffAction action,
+            CatalystCost... catalystCosts) {
+
+        super(settings);
+
+        if (cooldown < 0 || action == null) {
+            throw new IllegalArgumentException(
+                "Invalid staff configuration");
+        }
+
+        this.cooldown = cooldown;
+        this.action = action;
+        this.catalystCosts = List.of(catalystCosts);
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+    public TypedActionResult<ItemStack> use(
+            World world, PlayerEntity user, Hand hand) {
+
         ItemStack stack = user.getStackInHand(hand);
 
-        if (!user.getAbilities().creativeMode) {
-            // 精神を集中し、インベントリ内の触媒（万物）を確認
-            if (user.getInventory().count(this.catalystItem) < 1) {
-                return TypedActionResult.fail(stack);
+        if (!world.isClient) {
+
+            // すべての触媒を確認（消費前に検査）
+            if (!user.getAbilities().creativeMode) {
+                for (CatalystCost cost : catalystCosts) {
+                    if (user.getInventory().count(cost.item)
+                            < cost.count) {
+                        return TypedActionResult.fail(stack);
+                    }
+                }
+
+                // 触媒を消費
+                for (CatalystCost cost : catalystCosts) {
+                    sacrificeCatalyst(
+                        user, cost.item, cost.count);
+                }
             }
 
-            // 触媒を捧げ、代償を支払う
-            sacrificeCatalyst(user, this.catalystItem, 1);
-            // 魔力の依代（杖）に負荷を刻む
-            stack.damage(1, user, (p) -> p.sendToolBreakStatus(hand));
-        }
+            // 杖の発動処理
+            action.activate(world, user, hand);
 
-        // 次の詠唱（インターバル）まで精神を研ぎ澄ます (0.83秒)
-        user.getItemCooldownManager().set(this, 17);
+            // クールダウン
+            user.getItemCooldownManager().set(this, cooldown);
+        }
 
         return TypedActionResult.success(stack, world.isClient());
     }
 
     /**
-     * 術式を成立させるため、インベントリから触媒を消失させる
+     * インベントリから触媒を消費
      */
-    private void sacrificeCatalyst(PlayerEntity player, Item item, int count) {
+    private void sacrificeCatalyst(
+            PlayerEntity player, Item item, int count) {
+
         int remaining = count;
-        for (int i = 0; i < player.getInventory().size(); i++) {
-            ItemStack invStack = player.getInventory().getStack(i);
+
+        for (int i = 0;
+             i < player.getInventory().size() && remaining > 0;
+             i++) {
+
+            ItemStack invStack =
+                player.getInventory().getStack(i);
+
             if (invStack.isOf(item)) {
-                int stackCount = invStack.getCount();
-                if (stackCount <= remaining) {
-                    remaining -= stackCount;
-                    player.getInventory().setStack(i, ItemStack.EMPTY);
-                } else {
-                    invStack.decrement(remaining);
-                    break;
-                }
-                if (remaining <= 0) break;
+                int amount = Math.min(
+                    invStack.getCount(), remaining);
+
+                invStack.decrement(amount);
+                remaining -= amount;
             }
         }
     }
