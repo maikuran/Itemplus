@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DDA",
+    "WWA",
+    "   "
+  ],
+  "key": {
+    "D": { "item": "sakaplus:pyronium_ingot" },
+    "A": { "item": "minecraft:netherite_ingot" },
+    "W": { "item": "sakaplus:cloth" }
+  },
+  "result": {
+    "item": "sakaplus:infernal_boots",
+    "count": 1
+  }
+}
