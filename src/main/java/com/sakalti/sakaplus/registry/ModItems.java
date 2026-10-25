@@ -1,3 +1,4 @@
+
 package com.sakalti.sakaplus.registry;
 
 import net.minecraft.item.Item;
@@ -12,7 +13,6 @@ import net.minecraft.util.registry.Registry;
 
 import com.sakalti.sakaplus.block.ModBlocks2;
 import com.sakalti.sakaplus.item.*;
-import com.sakalti.sakaplus.effect.ModEffects;
 
 public class ModItems {
 
@@ -65,18 +65,14 @@ public class ModItems {
     // ==================== 武器 ====================
 
     public static final Item OVERSHOT =
-        new Overshot(
-            new Item.Settings()
-                .group(ItemGroup.COMBAT)
-                .maxCount(1)
-        );
+        new Overshot(new Item.Settings()
+            .group(ItemGroup.COMBAT)
+            .maxCount(1));
 
     public static final Item KRUZI_RIFLE =
-        new KruziRifle(
-            new Item.Settings()
-                .group(ItemGroup.COMBAT)
-                .maxCount(1)
-        );
+        new KruziRifle(new Item.Settings()
+            .group(ItemGroup.COMBAT)
+            .maxCount(1));
 
     // ==================== Pyronium シリーズ ====================
 
@@ -87,108 +83,64 @@ public class ModItems {
         new Item(new Item.Settings().group(ItemGroup.MATERIALS));
 
     public static final Item PYRONIUM_SWORD =
-        new SwordItem(
-            ModToolMaterials.PYRONIUM,
-            3,
-            -2.4F,
-            new Item.Settings().group(ItemGroup.COMBAT)
-        );
+        new SwordItem(ModToolMaterials.PYRONIUM, 3, -2.4F,
+            new Item.Settings().group(ItemGroup.COMBAT));
 
     public static final Item PYRONIUM_PICKAXE =
-        new PickaxeItem(
-            ModToolMaterials.PYRONIUM,
-            1,
-            -2.8F,
-            new Item.Settings().group(ItemGroup.TOOLS)
-        );
+        new PickaxeItem(ModToolMaterials.PYRONIUM, 1, -2.8F,
+            new Item.Settings().group(ItemGroup.TOOLS));
 
     public static final Item PYRONIUM_HELMET =
-        new ArmorItem(
-            ModArmorMaterials.PYRONIUM,
-            EquipmentSlot.HEAD,
-            new Item.Settings().group(ItemGroup.COMBAT)
-        );
+        new ArmorItem(ModArmorMaterials.PYRONIUM, EquipmentSlot.HEAD,
+            new Item.Settings().group(ItemGroup.COMBAT));
 
     public static final Item PYRONIUM_CHESTPLATE =
-        new ArmorItem(
-            ModArmorMaterials.PYRONIUM,
-            EquipmentSlot.CHEST,
-            new Item.Settings().group(ItemGroup.COMBAT)
-        );
+        new ArmorItem(ModArmorMaterials.PYRONIUM, EquipmentSlot.CHEST,
+            new Item.Settings().group(ItemGroup.COMBAT));
 
     public static final Item PYRONIUM_LEGGINGS =
-        new ArmorItem(
-            ModArmorMaterials.PYRONIUM,
-            EquipmentSlot.LEGS,
-            new Item.Settings().group(ItemGroup.COMBAT)
-        );
+        new ArmorItem(ModArmorMaterials.PYRONIUM, EquipmentSlot.LEGS,
+            new Item.Settings().group(ItemGroup.COMBAT));
 
     public static final Item PYRONIUM_BOOTS =
-        new ArmorItem(
-            ModArmorMaterials.PYRONIUM,
-            EquipmentSlot.FEET,
-            new Item.Settings().group(ItemGroup.COMBAT)
-        );
+        new ArmorItem(ModArmorMaterials.PYRONIUM, EquipmentSlot.FEET,
+            new Item.Settings().group(ItemGroup.COMBAT));
 
     // ==================== Amethond シリーズ ====================
 
     public static final Item AMETHOND_HELMET =
-        new ArmorItem(
-            ModArmorMaterials.AMETHOND,
-            EquipmentSlot.HEAD,
-            new Item.Settings().group(ItemGroup.COMBAT)
-        );
+        new ArmorItem(ModArmorMaterials.AMETHOND, EquipmentSlot.HEAD,
+            new Item.Settings().group(ItemGroup.COMBAT));
 
     public static final Item AMETHOND_CHESTPLATE =
-        new ArmorItem(
-            ModArmorMaterials.AMETHOND,
-            EquipmentSlot.CHEST,
-            new Item.Settings().group(ItemGroup.COMBAT)
-        );
+        new ArmorItem(ModArmorMaterials.AMETHOND, EquipmentSlot.CHEST,
+            new Item.Settings().group(ItemGroup.COMBAT));
 
     public static final Item AMETHOND_LEGGINGS =
-        new ArmorItem(
-            ModArmorMaterials.AMETHOND,
-            EquipmentSlot.LEGS,
-            new Item.Settings().group(ItemGroup.COMBAT)
-        );
+        new ArmorItem(ModArmorMaterials.AMETHOND, EquipmentSlot.LEGS,
+            new Item.Settings().group(ItemGroup.COMBAT));
 
     public static final Item AMETHOND_BOOTS =
-        new ArmorItem(
-            ModArmorMaterials.AMETHOND,
-            EquipmentSlot.FEET,
-            new Item.Settings().group(ItemGroup.COMBAT)
-        );
+        new ArmorItem(ModArmorMaterials.AMETHOND, EquipmentSlot.FEET,
+            new Item.Settings().group(ItemGroup.COMBAT));
 
     // ==================== Infernal シリーズ ====================
 
     public static final Item INFERNAL_HELMET =
-        new ArmorItem(
-            ModArmorMaterials.INFERNAL,
-            EquipmentSlot.HEAD,
-            new Item.Settings().group(ItemGroup.COMBAT)
-        );
+        new InfernalArmorItem(ModArmorMaterials.INFERNAL, EquipmentSlot.HEAD,
+            new Item.Settings().group(ItemGroup.COMBAT));
 
     public static final Item INFERNAL_CHESTPLATE =
-        new ArmorItem(
-            ModArmorMaterials.INFERNAL,
-            EquipmentSlot.CHEST,
-            new Item.Settings().group(ItemGroup.COMBAT)
-        );
+        new InfernalArmorItem(ModArmorMaterials.INFERNAL, EquipmentSlot.CHEST,
+            new Item.Settings().group(ItemGroup.COMBAT));
 
     public static final Item INFERNAL_LEGGINGS =
-        new ArmorItem(
-            ModArmorMaterials.INFERNAL,
-            EquipmentSlot.LEGS,
-            new Item.Settings().group(ItemGroup.COMBAT)
-        );
+        new InfernalArmorItem(ModArmorMaterials.INFERNAL, EquipmentSlot.LEGS,
+            new Item.Settings().group(ItemGroup.COMBAT));
 
     public static final Item INFERNAL_BOOTS =
-        new ArmorItem(
-            ModArmorMaterials.INFERNAL,
-            EquipmentSlot.FEET,
-            new Item.Settings().group(ItemGroup.COMBAT)
-        );
+        new InfernalArmorItem(ModArmorMaterials.INFERNAL, EquipmentSlot.FEET,
+            new Item.Settings().group(ItemGroup.COMBAT));
 
     // ==========================================================
 
