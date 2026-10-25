@@ -3,6 +3,7 @@ package com.sakalti.sakaplus.item;
 
 import com.sakalti.sakaplus.entity.BeamAttack;
 import com.sakalti.sakaplus.sound.SakaplusSounds;
+import com.sakalti.sakaplus.client.item.GunRecoil;
 
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
@@ -38,7 +39,23 @@ public class Overshot extends Item {
 
     public static final int BEAM_COLOR = 0x00FFFF;
 
+    // =========================================================
+    // RECOIL CONFIGURATION
+    // =========================================================
+
+    // 発射時の反動の強さ
+    public static final float RECOIL_STRENGTH = 4.0F;
+
+    // 反動からの復帰速度
+    public static final float RECOIL_RECOVERY_SPEED = 0.18F;
+
+    // 最大反動角度
+    public static final float RECOIL_MAX_ANGLE = 18.0F;
+
+    // =========================================================
     // NBT
+    // =========================================================
+
     private static final String AMMO_KEY = "ammo";
 
     // =========================================================
@@ -72,12 +89,10 @@ public class Overshot extends Item {
                 return TypedActionResult.fail(stack);
             }
 
-            // Client prediction
             if (world.isClient) {
                 return TypedActionResult.success(stack, true);
             }
 
-            // Server reload
             if (!reload(user, stack)) {
                 return TypedActionResult.fail(stack);
             }
@@ -87,7 +102,6 @@ public class Overshot extends Item {
                     RELOAD_COOLDOWN
             );
 
-            // Reload sound
             world.playSound(
                     null,
                     user.getX(),
@@ -134,7 +148,6 @@ public class Overshot extends Item {
             return TypedActionResult.fail(stack);
         }
 
-        // Set cooldown
         user.getItemCooldownManager().set(
                 this,
                 COOLDOWN_TICKS
@@ -145,6 +158,14 @@ public class Overshot extends Item {
         // =====================================================
 
         if (world.isClient) {
+
+            // Custom recoil
+            GunRecoil.recoil(
+                    RECOIL_STRENGTH,
+                    RECOIL_RECOVERY_SPEED,
+                    RECOIL_MAX_ANGLE
+            );
+
             return TypedActionResult.success(stack, true);
         }
 
@@ -212,7 +233,6 @@ public class Overshot extends Item {
             int ironSlot = -1;
             int blazeSlot = -1;
 
-            // Search materials without consuming them
             for (int i = 0; i < inventory.size(); i++) {
 
                 ItemStack inventoryStack = inventory.getStack(i);
@@ -234,19 +254,14 @@ public class Overshot extends Item {
                 }
             }
 
-            // Check both materials
             if (ironSlot == -1 || blazeSlot == -1) {
                 return false;
             }
 
-            // Consume iron
             inventory.getStack(ironSlot).decrement(1);
-
-            // Consume blaze powder
             inventory.getStack(blazeSlot).decrement(1);
         }
 
-        // Refill ammunition
         stack.getOrCreateNbt().putInt(
                 AMMO_KEY,
                 MAX_AMMO
@@ -332,6 +347,10 @@ public class Overshot extends Item {
 
         tooltip.add(
                 Text.of("耐久値: " + MAX_DURABILITY)
+        );
+
+        tooltip.add(
+                Text.of("反動の強さ: " + RECOIL_STRENGTH)
         );
     }
 }
