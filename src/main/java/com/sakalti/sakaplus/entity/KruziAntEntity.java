@@ -1,8 +1,8 @@
-
 package com.sakalti.sakaplus.entity;
 
 import java.util.EnumSet;
 
+import com.sakalti.sakaplus.sound.SakaplusSounds; // サウンドクラスのインポートを追加
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.control.FlightMoveControl;
@@ -14,8 +14,10 @@ import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.damage.DamageSource; // Hurtメソッド用のインポートを追加
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.sound.SoundEvent; // SoundEvent用のインポートを追加
 import net.minecraft.world.World;
 
 public class KruziAntEntity extends HostileEntity {
@@ -68,6 +70,28 @@ public class KruziAntEntity extends HostileEntity {
         // 通常の飛行行動
         this.goalSelector.add(5, new FlyGoal(this, 1.0D));
     }
+
+    // --- ここからサウンド設定の追加 ---
+
+    @Override
+    protected SoundEvent getAmbientSound() {
+        // 通常時の鳴き声（ランダムに2種再生される）
+        return SakaplusSounds.KruziantAmbient;
+    }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        // ダメージを受けた時の音
+        return SakaplusSounds.KruziantHurt;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        // 倒れた時の音
+        return SakaplusSounds.KruziantDeath;
+    }
+
+    // --- ここまでサウンド設定の追加 ---
 
     @Override
     protected EntityNavigation createNavigation(World world) {
