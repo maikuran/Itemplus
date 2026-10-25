@@ -9,7 +9,11 @@ public class ParalyzeEffect extends StatusEffect {
     public ParalyzeEffect() {
         super(StatusEffectCategory.HARMFUL, 0xAAAAFF); // 色は適宜
     }
-
+    @Override
+    public String getTranslationKey() {
+        // 追加: 翻訳キーを明示的に固定して unregistered_sad_surface になるバグを回避
+        return "effect.sakaplus.paralyze";
+    }
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         if (!entity.getWorld().isClient) {
