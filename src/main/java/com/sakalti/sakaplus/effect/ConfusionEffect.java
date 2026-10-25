@@ -111,6 +111,12 @@ public class ConfusionEffect extends StatusEffect {
         }
     }
 
+    @Override
+    public String getTranslationKey() {
+        // 追加: 翻訳キーを明示的に固定して unregistered_sad_surface になるバグを回避
+        return "effect.sakaplus.confusion";
+    }
+
     // 安全にパーティクルを呼ぶ補助
     private void spawnParticlesSafe(World world, DefaultParticleType type, double x, double y, double z,
                                     int count, double dx, double dy, double dz, double speed) {
