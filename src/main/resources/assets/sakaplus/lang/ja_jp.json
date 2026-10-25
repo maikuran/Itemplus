@@ -83,6 +83,8 @@
 
   "advancement.sakaplus.get_iron_scaffold.title": "工事現場",
   "advancement.sakaplus.get_iron_scaffold.desc": "鉄製足場を入手する",
+  "advancement.sakaplus.warperdun_remnant.title": "ウェパードンの塔",
+  "advancement.sakaplus.warperdun_remnant.desc": "ウェパードン塔に入る。",
   "advancement.sakaplus.visit_kruzivilim.title": "汚染の地",
-  "advancement.sakaplus.visit_kruzivilim.desc": "クルジヴィルムに訪れる"
+  "advancement.sakaplus.visit_kruzivilim.desc": "クルジヴィルムに訪れる。"
 }
