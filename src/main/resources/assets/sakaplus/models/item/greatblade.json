@@ -3,12 +3,12 @@
   "display": {
     "firstperson_righthand": {
       "rotation": [
-        -80,
-        -90,
+        160,
+        90,
         -120
       ],
       "translation": [
-        1.2,
+        -1.2,
         -0.7,
         0
       ],
@@ -20,12 +20,12 @@
     },
     "firstperson_lefthand": {
       "rotation": [
-        160,
-        90,
+        -80,
+        -90,
         -120
       ],
       "translation": [
-        1.2,
+        -1.2,
         -0.7,
         0
       ],
@@ -37,14 +37,14 @@
     },
     "thirdperson_righthand": {
       "rotation": [
-        -65,
-        -90,
+        180,
+        90,
         -125
       ],
       "translation": [
         0,
         15,
-        6
+        5
       ],
       "scale": [
         2,
@@ -54,14 +54,14 @@
     },
     "thirdperson_lefthand": {
       "rotation": [
-        180,
-        90,
+        -65,
+        -90,
         -125
       ],
       "translation": [
         0,
         15,
-        5
+        6
       ],
       "scale": [
         2,
