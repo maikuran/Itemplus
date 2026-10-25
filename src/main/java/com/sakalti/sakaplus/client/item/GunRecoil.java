@@ -1,104 +1,194 @@
+
 package com.sakalti.sakaplus.client.item;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.math.MathHelper;
 
 public final class GunRecoil {
 
     private GunRecoil() {}
 
-    // ==============================
-    // 設定値（お好みで調整してください）
-    // ==============================
-    
-    // 1発あたりの跳ね上がりの強さ（度数）
-    public static float RECOIL_FORCE = 3.5F;
-
-    // 反動が元の位置に戻るスピード（大きいほど素早く戻る）
-    public static final float RECOVERY_SPEED = 0.22F;
-
-    // 累積する最大反動角度
-    public static final float MAX_RECOIL = 15.0F;
-
-    // ==============================
-    // 内部状態（状態管理用）
-    // ==============================
-    
-    private static float targetRecoil = 0.0F;
-    private static float lastRecoil = 0.0F;
-    private static float currentAppliedRecoil = 0.0F;
+    // =========================================================
+    // DEFAULT CONFIGURATION
+    // =========================================================
 
     /**
-     * 銃を発射したときに呼び出す
+     * デフォルトの反動の強さ
+     */
+    public static float value = 4.0F;
+
+    /**
+     * デフォルトの復帰速度
+     */
+    public static float RECOVERY_SPEED = 0.18F;
+
+    /**
+     * デフォルトの最大反動角度
+     */
+    public static float MAX_RECOIL = 18.0F;
+
+    // =========================================================
+    // INTERNAL STATE
+    // =========================================================
+
+    /**
+     * 現在の累積反動
+     */
+    private static float recoilOffset = 0.0F;
+
+    /**
+     * 現在適用されている反動
+     */
+    private static float appliedOffset = 0.0F;
+
+    /**
+     * 現在使用する復帰速度
+     */
+    private static float activeRecoverySpeed = RECOVERY_SPEED;
+
+    /**
+     * 現在使用する最大反動角度
+     */
+    private static float activeMaxRecoil = MAX_RECOIL;
+
+    // =========================================================
+    // DEFAULT RECOIL
+    // =========================================================
+
+    /**
+     * デフォルト設定で反動を発生させる
      */
     public static void recoil() {
-        targetRecoil -= RECOIL_FORCE;
 
-        if (targetRecoil < -MAX_RECOIL) {
-            targetRecoil = -MAX_RECOIL;
-        }
+        recoil(
+                value,
+                RECOVERY_SPEED,
+                MAX_RECOIL
+        );
     }
 
+    // =========================================================
+    // CUSTOM RECOIL
+    // =========================================================
+
     /**
-     * クライアント起動時（ClientModInitializerなど）に一度だけ呼び出す登録処理
+     * カスタム設定で反動を発生させる
+     *
+     * @param strength 反動の強さ
+     * @param recoverySpeed 復帰速度 (0.0 ～ 1.0)
+     * @param maxRecoil 最大反動角度
      */
+    public static void recoil(
+            float strength,
+            float recoverySpeed,
+            float maxRecoil
+    ) {
+
+        // 不正な値を防止
+        strength = Math.max(0.0F, strength);
+
+        recoverySpeed = Math.max(
+                0.0F,
+                Math.min(1.0F, recoverySpeed)
+        );
+
+        maxRecoil = Math.max(0.0F, maxRecoil);
+
+        // カスタム設定を適用
+        activeRecoverySpeed = recoverySpeed;
+        activeMaxRecoil = maxRecoil;
+
+        // 反動を追加
+        recoilOffset -= strength;
+
+        // 最大反動角度を制限
+        recoilOffset = Math.max(
+                recoilOffset,
+                -activeMaxRecoil
+        );
+    }
+
+    // =========================================================
+    // CLIENT TICK REGISTRATION
+    // =========================================================
+
     public static void register() {
-        
-        // 1. 1秒間に20回実行されるロジック処理（反動の減衰管理）
-        ClientTickEvents.START_CLIENT_TICK.register(client -> {
+
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+
             PlayerEntity player = client.player;
 
-            if (player == null || client.world == null || client.isPaused()) {
-                targetRecoil = 0.0F;
-                lastRecoil = 0.0F;
-                currentAppliedRecoil = 0.0F;
+            // =================================================
+            // PLAYER CHECK
+            // =================================================
+
+            if (player == null || client.world == null) {
+
+                recoilOffset = 0.0F;
+                appliedOffset = 0.0F;
+
+                activeRecoverySpeed = RECOVERY_SPEED;
+                activeMaxRecoil = MAX_RECOIL;
+
                 return;
             }
 
-            // 前回のチックの値を保存（描画の補間計算用）
-            lastRecoil = targetRecoil;
+            // =================================================
+            // SMOOTH RECOVERY
+            // =================================================
 
-            // チックごとに元の位置へ滑らかに減衰させる
-            if (Math.abs(targetRecoil) > 0.001F) {
-                targetRecoil *= (1.0F - RECOVERY_SPEED);
-            } else {
-                targetRecoil = 0.0F;
-                lastRecoil = 0.0F;
+            float nextOffset = recoilOffset
+                    * (1.0F - activeRecoverySpeed);
+
+            // 現在の反動との差分
+            float delta = nextOffset - appliedOffset;
+
+            // =================================================
+            // APPLY CAMERA ROTATION
+            // =================================================
+
+            if (Math.abs(delta) > 0.0001F) {
+
+                float newPitch = player.getPitch() + delta;
+
+                // Minecraftの視点角度制限
+                newPitch = Math.max(
+                        -90.0F,
+                        Math.min(
+                                90.0F,
+                                newPitch
+                        )
+                );
+
+                player.setPitch(newPitch);
+            }
+
+            // =================================================
+            // UPDATE STATE
+            // =================================================
+
+            appliedOffset = nextOffset;
+            recoilOffset = nextOffset;
+
+            // =================================================
+            // REMOVE SMALL ERRORS
+            // =================================================
+
+            if (Math.abs(recoilOffset) < 0.001F) {
+
+                recoilOffset = 0.0F;
+                appliedOffset = 0.0F;
             }
         });
+    }
 
-        // 2. 【Mixinの代わり】毎フレームの描画直前に呼び出されるイベント
-        // これにより、画面の書き換え（fps）に合わせて極限まで滑らかにカメラを動かします
-        WorldRenderEvents.START.register(context -> {
-            MinecraftClient client = MinecraftClient.getInstance();
-            PlayerEntity player = client.player;
+    // =========================================================
+    // RESET
+    // =========================================================
 
-            if (player == null || client.world == null || client.isPaused()) {
-                return;
-            }
+    public static void reset() {
 
-            // 現在のフレームが、前のチックからどれくらい時間が経過しているか（0.0 ~ 1.0）を取得
-            float tickDelta = context.tickDelta();
-
-            // 前回のチックと今回のチックの間をフレームレートに合わせて滑らかに補間（Lerp）
-            float visualRecoil = MathHelper.lerp(tickDelta, lastRecoil, targetRecoil);
-
-            // 前のフレームで適用した古い反動分を一度リセットし、新しい滑らかな反動を適用する
-            // これによりマウス操作と競合しなくなります
-            float currentPitch = player.getPitch();
-            float newPitch = currentPitch - currentAppliedRecoil + visualRecoil;
-
-            // マイクラの限界角度（真上・真下）にクランプ
-            newPitch = MathHelper.clamp(newPitch, -90.0F, 90.0F);
-
-            // プレイヤーの視線角度を直接更新
-            player.setPitch(newPitch);
-
-            // 今回適用した反動の量を記憶（次のフレームで引き算してリセットするため）
-            currentAppliedRecoil = visualRecoil;
-        });
+        recoilOffset = 0.0F;
+        appliedOffset = 0.0F;
     }
 }
