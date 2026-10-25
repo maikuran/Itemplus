@@ -16,7 +16,11 @@ public class MudoStatusEffect extends StatusEffect {
     public MudoStatusEffect() {
         super(StatusEffectCategory.HARMFUL, 0x551A8B);
     }
-
+    @Override
+    public String getTranslationKey() {
+        // 追加: 翻訳キーを明示的に固定して unregistered_sad_surface になるバグを回避
+        return "effect.sakaplus.mudo";
+    }
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
         if (entity.getWorld().isClient()) return;
