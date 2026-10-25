@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "sakaplus:shyron_tower",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 18,
+    "separation": 5,
+    "salt": 19473821
+  }
+}
