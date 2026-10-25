@@ -93,6 +93,7 @@ public class SakaplusClient implements ClientModInitializer {
                 ModEntities333.OGANESON,
                 OganesonRenderer::new
         );
+        KruziRifleKeybind.register();
 
         // =====================================================
         // Entity Model Layers
