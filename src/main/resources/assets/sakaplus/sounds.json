@@ -7,6 +7,14 @@
       }
     ]
   },
+  "staff_use": {
+    "sounds": [
+      {
+        "name": "sakaplus:staff_use",
+        "stream": false
+      }
+    ]
+  },
   "magazine": {
     "sounds": [
       {
