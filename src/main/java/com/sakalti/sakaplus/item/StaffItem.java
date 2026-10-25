@@ -1,129 +1,58 @@
-
 package com.sakalti.sakaplus.item;
 
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.world.World;
 
-import java.util.List;
+public class ShiningStaffItem extends StaffItem {
 
-public class StaffItem extends Item {
+    public ShiningStaffItem(Item.Settings settings) {
+        super(
+            settings,
+            0, // クールダウン（tick）
 
-    private final List<CatalystCost> catalystCosts;
-    private final StaffAction action;
-    private final int cooldown;
+            (world, player, hand) -> {
 
-    /**
-     * 触媒の消費設定
-     */
-    public static class CatalystCost {
-        public final Item item;
-        public final int count;
+                // 3分間の効果（3600 tick）
+                player.addStatusEffect(
+                    new StatusEffectInstance(
+                        StatusEffects.FIRE_RESISTANCE,
+                        3600,
+                        0
+                    )
+                );
 
-        public CatalystCost(Item item, int count) {
-            if (item == null || count <= 0) {
-                throw new IllegalArgumentException(
-                    "Invalid catalyst cost");
-            }
+                // 耐性 II
+                player.addStatusEffect(
+                    new StatusEffectInstance(
+                        StatusEffects.RESISTANCE,
+                        3600,
+                        1
+                    )
+                );
 
-            this.item = item;
-            this.count = count;
-        }
-    }
+                // 衝撃吸収 IV
+                player.addStatusEffect(
+                    new StatusEffectInstance(
+                        StatusEffects.ABSORPTION,
+                        3600,
+                        3
+                    )
+                );
 
-    /**
-     * 杖の発動処理
-     */
-    @FunctionalInterface
-    public interface StaffAction {
-        void activate(World world, PlayerEntity player, Hand hand);
-    }
+                // 鈍化 II（15秒）
+                player.addStatusEffect(
+                    new StatusEffectInstance(
+                        StatusEffects.SLOWNESS,
+                        300,
+                        1
+                    )
+                );
+            },
 
-    /**
-     * 汎用魔術杖のコンストラクタ
-     *
-     * @param settings アイテム設定
-     * @param cooldown 再使用待機時間（tick）
-     * @param action 発動処理
-     * @param catalystCosts 消費する触媒
-     */
-    public StaffItem(
-            Settings settings,
-            int cooldown,
-            StaffAction action,
-            CatalystCost... catalystCosts) {
-
-        super(settings);
-
-        if (cooldown < 0 || action == null) {
-            throw new IllegalArgumentException(
-                "Invalid staff configuration");
-        }
-
-        this.cooldown = cooldown;
-        this.action = action;
-        this.catalystCosts = List.of(catalystCosts);
-    }
-
-    @Override
-    public TypedActionResult<ItemStack> use(
-            World world, PlayerEntity user, Hand hand) {
-
-        ItemStack stack = user.getStackInHand(hand);
-
-        if (!world.isClient) {
-
-            // すべての触媒を確認（消費前に検査）
-            if (!user.getAbilities().creativeMode) {
-                for (CatalystCost cost : catalystCosts) {
-                    if (user.getInventory().count(cost.item)
-                            < cost.count) {
-                        return TypedActionResult.fail(stack);
-                    }
-                }
-
-                // 触媒を消費
-                for (CatalystCost cost : catalystCosts) {
-                    sacrificeCatalyst(
-                        user, cost.item, cost.count);
-                }
-            }
-
-            // 杖の発動処理
-            action.activate(world, user, hand);
-
-            // クールダウン
-            user.getItemCooldownManager().set(this, cooldown);
-        }
-
-        return TypedActionResult.success(stack, world.isClient());
-    }
-
-    /**
-     * インベントリから触媒を消費
-     */
-    private void sacrificeCatalyst(
-            PlayerEntity player, Item item, int count) {
-
-        int remaining = count;
-
-        for (int i = 0;
-             i < player.getInventory().size() && remaining > 0;
-             i++) {
-
-            ItemStack invStack =
-                player.getInventory().getStack(i);
-
-            if (invStack.isOf(item)) {
-                int amount = Math.min(
-                    invStack.getCount(), remaining);
-
-                invStack.decrement(amount);
-                remaining -= amount;
-            }
-        }
+            // 必要な触媒
+            new CatalystCost(CatalystItems.FIRE_CATALYST, 2),
+            new CatalystCost(CatalystItems.FORCE_CATALYST, 4)
+        );
     }
 }
