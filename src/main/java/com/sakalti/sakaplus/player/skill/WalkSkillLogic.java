@@ -12,8 +12,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.world.PersistentState;
 
 import java.util.HashMap;
@@ -21,10 +19,14 @@ import java.util.Map;
 import java.util.UUID;
 
 public final class WalkSkillLogic {
-    public static final Identifier REQUEST = new Identifier("sakaplus", "walk_skill_request");
-    public static final Identifier SYNC = new Identifier("sakaplus", "walk_skill_sync");
-    public static final Identifier DOUBLE_JUMP = new Identifier("sakaplus", "walk_double_jump");
-    public static final Identifier AIR_DASH = new Identifier("sakaplus", "walk_air_dash");
+    public static final Identifier REQUEST =
+        new Identifier("sakaplus", "walk_skill_request");
+    public static final Identifier SYNC =
+        new Identifier("sakaplus", "walk_skill_sync");
+    public static final Identifier DOUBLE_JUMP =
+        new Identifier("sakaplus", "walk_double_jump");
+    public static final Identifier AIR_DASH =
+        new Identifier("sakaplus", "walk_air_dash");
 
     private static final String STATE_ID = "sakaplus_walk_skill";
 
@@ -86,7 +88,8 @@ public final class WalkSkillLogic {
         );
 
         ServerTickEvents.END_SERVER_TICK.register(server -> {
-            for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+            for (ServerPlayerEntity player :
+                server.getPlayerManager().getPlayerList()) {
                 tickPlayer(player);
             }
         });
@@ -98,7 +101,8 @@ public final class WalkSkillLogic {
 
         // 歩行距離から経験値を獲得
         int currentWalk = player.getStatHandler().getStat(
-            Stats.CUSTOM, Stats.WALK_ONE_CM
+            Stats.CUSTOM,
+            Stats.WALK_ONE_CM
         );
 
         int previousWalk = lastWalkStat.getOrDefault(uuid, currentWalk);
@@ -110,10 +114,18 @@ public final class WalkSkillLogic {
         }
 
         // クールダウン
-        jumpCooldown.computeIfPresent(uuid, (key, value) -> value > 0 ? value - 1 : null);
-        dashCooldown.computeIfPresent(uuid, (key, value) -> value > 0 ? value - 1 : null);
+        jumpCooldown.computeIfPresent(
+            uuid,
+            (key, value) -> value > 0 ? value - 1 : null
+        );
 
-        boolean moving = player.getVelocity().horizontalLengthSquared() > 0.0025;
+        dashCooldown.computeIfPresent(
+            uuid,
+            (key, value) -> value > 0 ? value - 1 : null
+        );
+
+        boolean moving =
+            player.getVelocity().horizontalLengthSquared() > 0.0025;
 
         // 2: Light Feet
         if (level >= 10) {
@@ -141,12 +153,17 @@ public final class WalkSkillLogic {
         }
 
         // 7: Wall Climber
-        if (level >= 35 && player.isSneaking() && player.horizontalCollision) {
+        if (
+            level >= 35 &&
+            player.isSneaking() &&
+            player.horizontalCollision
+        ) {
             player.setVelocity(
                 player.getVelocity().x,
                 Math.max(player.getVelocity().y, 0.20),
                 player.getVelocity().z
             );
+
             player.velocityModified = true;
         }
 
@@ -178,7 +195,10 @@ public final class WalkSkillLogic {
         // 14: Moving Recovery - 移動中に満腹度回復
         if (level >= 70 && moving && player.age % 100 == 0) {
             player.getHungerManager().setFoodLevel(
-                Math.min(20, player.getHungerManager().getFoodLevel() + 1)
+                Math.min(
+                    20,
+                    player.getHungerManager().getFoodLevel() + 1
+                )
             );
         }
 
@@ -206,6 +226,7 @@ public final class WalkSkillLogic {
         if (level >= 100 && moving) {
             effect(player, StatusEffects.SPEED, 40, 3);
             effect(player, StatusEffects.JUMP_BOOST, 40, 2);
+
             if (!player.isOnGround()) {
                 effect(player, StatusEffects.SLOW_FALLING, 40, 0);
             }
@@ -218,7 +239,12 @@ public final class WalkSkillLogic {
 
     private static void doDoubleJump(ServerPlayerEntity player) {
         if (getLevel(player) < 5) return;
-        if (player.isOnGround() || player.isClimbing() || player.isFallFlying()) return;
+        if (
+            player.isOnGround() ||
+            player.isClimbing() ||
+            player.isFallFlying()
+        ) return;
+
         if (jumpCooldown.getOrDefault(player.getUuid(), 0) > 0) return;
 
         player.setVelocity(
@@ -226,6 +252,7 @@ public final class WalkSkillLogic {
             0.48,
             player.getVelocity().z
         );
+
         player.velocityModified = true;
         player.fallDistance = 0;
         jumpCooldown.put(player.getUuid(), 12);
@@ -233,11 +260,15 @@ public final class WalkSkillLogic {
 
     private static void doAirDash(ServerPlayerEntity player) {
         int level = getLevel(player);
+
         if (level < 40) return;
         if (player.isOnGround() || player.isFallFlying()) return;
+
         if (dashCooldown.getOrDefault(player.getUuid(), 0) > 0) return;
 
-        double power = level >= 95 ? 1.8 : level >= 80 ? 1.4 : 1.0;
+        double power =
+            level >= 95 ? 1.8 :
+            level >= 80 ? 1.4 : 1.0;
 
         player.setVelocity(
             player.getRotationVector().x * power,
@@ -253,13 +284,16 @@ public final class WalkSkillLogic {
     public static void addXp(ServerPlayerEntity player, long amount) {
         if (amount <= 0) return;
 
-        WalkData data = getData(player.getServerWorld());
+        WalkData data = getData((ServerWorld) player.getWorld());
         String id = player.getUuidAsString();
 
         long oldXp = data.getXp(id);
+
         if (getLevelFromXp(oldXp) >= 100) return;
 
-        long newXp = Math.min(Long.MAX_VALUE - amount, oldXp) + amount;
+        long newXp =
+            Math.min(Long.MAX_VALUE - amount, oldXp) + amount;
+
         data.setXp(id, newXp);
         data.markDirty();
 
@@ -268,12 +302,15 @@ public final class WalkSkillLogic {
 
         if (newLevel > oldLevel) {
             player.sendMessage(
-                net.minecraft.text.Text.literal("§bWalk Skill §7Lv." + newLevel),
+                net.minecraft.text.Text.literal(
+                    "§bWalk Skill §7Lv." + newLevel
+                ),
                 true
             );
 
             if (newLevel % 5 == 0) {
                 int index = newLevel / 5 - 1;
+
                 player.sendMessage(
                     net.minecraft.text.Text.literal(
                         "§6[Walk Skill] §e解放: " + STAGES[index]
@@ -293,16 +330,27 @@ public final class WalkSkillLogic {
         int amplifier
     ) {
         player.addStatusEffect(
-            new StatusEffectInstance(type, duration, amplifier, true, false, true)
+            new StatusEffectInstance(
+                type,
+                duration,
+                amplifier,
+                true,
+                false,
+                true
+            )
         );
     }
 
     public static int getLevel(ServerPlayerEntity player) {
-        return getLevelFromXp(getData(player.getServerWorld()).getXp(player.getUuidAsString()));
+        return getLevelFromXp(
+            getData((ServerWorld) player.getWorld())
+                .getXp(player.getUuidAsString())
+        );
     }
 
     public static long getXp(ServerPlayerEntity player) {
-        return getData(player.getServerWorld()).getXp(player.getUuidAsString());
+        return getData((ServerWorld) player.getWorld())
+            .getXp(player.getUuidAsString());
     }
 
     public static long getRequiredXp(int level) {
@@ -313,7 +361,10 @@ public final class WalkSkillLogic {
         long used = 0;
         int level = 1;
 
-        while (level < 100 && totalXp >= used + getRequiredXp(level)) {
+        while (
+            level < 100 &&
+            totalXp >= used + getRequiredXp(level)
+        ) {
             used += getRequiredXp(level);
             level++;
         }
@@ -331,7 +382,9 @@ public final class WalkSkillLogic {
 
         while (level < 100) {
             long required = getRequiredXp(level);
+
             if (remaining < required) break;
+
             remaining -= required;
             level++;
         }
@@ -357,9 +410,14 @@ public final class WalkSkillLogic {
     }
 
     private static WalkData getData(ServerWorld world) {
-        return world.getServer().getOverworld()
+        return world.getServer()
+            .getOverworld()
             .getPersistentStateManager()
-            .getOrCreate(WalkData::fromNbt, WalkData::new, STATE_ID);
+            .getOrCreate(
+                WalkData::fromNbt,
+                WalkData::new,
+                STATE_ID
+            );
     }
 
     private static class WalkData extends PersistentState {
@@ -381,12 +439,15 @@ public final class WalkSkillLogic {
 
         static WalkData fromNbt(NbtCompound nbt) {
             WalkData data = new WalkData();
+
             if (nbt.contains("players")) {
                 NbtCompound saved = nbt.getCompound("players");
+
                 for (String key : saved.getKeys()) {
                     data.players.putLong(key, saved.getLong(key));
                 }
             }
+
             return data;
         }
     }
