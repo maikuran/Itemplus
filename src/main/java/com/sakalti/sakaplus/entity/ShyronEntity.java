@@ -31,7 +31,6 @@ public class ShyronEntity extends HostileEntity {
                 .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 16.0D);
     }
 
-    @Override
     protected void initGoals() {
         // 優先度1: ターゲットへの近接攻撃
         this.goalSelector.add(1, new MeleeAttackGoal(this, 1.25D, true));
@@ -54,7 +53,6 @@ public class ShyronEntity extends HostileEntity {
     }
 
     // 💡 ユニークな生態: 獲物を倒した（捕食した）時の処理
-    @Override
     public void onTargetKilled(ServerWorld world, LivingEntity target) {
         super.onTargetKilled(world, target);
         
