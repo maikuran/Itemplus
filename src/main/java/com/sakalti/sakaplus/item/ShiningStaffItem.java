@@ -1,8 +1,11 @@
 package com.sakalti.sakaplus.item;
 
+import com.sakalti.sakaplus.sound.SakaplusSounds;
+
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.Item;
+import net.minecraft.sound.SoundCategory;
 
 public class ShiningStaffItem extends StaffItem {
 
@@ -48,6 +51,18 @@ public class ShiningStaffItem extends StaffItem {
                         300,
                         1
                     )
+                );
+
+                // 使用音
+                world.playSound(
+                    null,
+                    player.getX(),
+                    player.getY(),
+                    player.getZ(),
+                    SakaplusSounds.StaffUse,
+                    SoundCategory.PLAYERS,
+                    1.0F,
+                    1.0F
                 );
             },
 
