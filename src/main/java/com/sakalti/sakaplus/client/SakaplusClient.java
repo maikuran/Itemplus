@@ -6,6 +6,7 @@ import com.sakalti.sakaplus.client.item.*;
 import com.sakalti.sakaplus.client.renderer.*;
 import com.sakalti.sakaplus.registry.ModBeamEntities;
 import com.sakalti.sakaplus.registry.ModEntities333;
+import com.sakalti.sakaplus.registry.ModItems;
 import com.sakalti.sakaplus.player.skill.SkillUI;
 
 import net.fabricmc.api.ClientModInitializer;
@@ -17,10 +18,21 @@ public class SakaplusClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
 
+        // =====================================================
         // Gun
+        // =====================================================
+
         GunRecoil.register();
 
+        // Kruzi Rifle Scope UI
+        KruziRifleScopeOverlay.register(
+                ModItems.KRUZI_RIFLE
+        );
+
+        // =====================================================
         // Skill UI
+        // =====================================================
+
         SkillUI.registerClientNetworking();
 
         // =====================================================
