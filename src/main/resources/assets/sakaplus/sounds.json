@@ -33,5 +33,24 @@
     "sounds": [
       "sakaplus:death"
     ]
+  },
+  "shyron_ambient": {
+    "subtitle": "subtitles.sakaplus.shyron_ambient",
+    "sounds": [
+      "sakaplus:shyron_ambient"
+    ]
+  },
+  "shyron_hurt": {
+    "subtitle": "subtitles.sakaplus.shyron_hurt",
+    "sounds": [
+      "sakaplus:shyron_hurt1",
+      "sakaplus:shyron_hurt2"
+    ]
+  },
+  "shyron_death": {
+    "subtitle": "subtitles.sakaplus.shyron_death",
+    "sounds": [
+      "sakaplus:shyron_death"
+    ]
   }
 }
