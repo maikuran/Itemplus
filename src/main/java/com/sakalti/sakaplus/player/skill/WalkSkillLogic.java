@@ -109,8 +109,8 @@ public final class WalkSkillLogic {
         int difference = Math.max(0, currentWalk - previousWalk);
         lastWalkStat.put(uuid, currentWalk);
 
-        if (difference >= 25) {
-            addXp(player, difference / 25);
+        if (difference >=　2) {
+            addXp(player, difference);
         }
 
         // クールダウン
