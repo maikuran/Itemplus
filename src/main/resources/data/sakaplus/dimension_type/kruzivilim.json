@@ -6,7 +6,7 @@
   "natural": false,
   "coordinate_scale": 1.0,
   "bed_works": true,
-  "respawn_anchor_works": false,
+  "respawn_anchor_works": true,
   "min_y": 0,
   "height": 128,
   "logical_height": 128,
