@@ -6,31 +6,30 @@ import net.minecraft.util.Identifier;
 
 public class CatalystItems {
 
-    // クリエイティブタブや基本設定用の共通セッティング
     private static Item.Settings baseSettings() {
         return new Item.Settings();
     }
 
-    // 15種類の魔術触媒（Catalysts）の定義
-    public static final Item FIRE_CATALYST = new Item(baseSettings());      // 業火の触媒
-    public static final Item WIND_CATALYST = new Item(baseSettings());      // 烈風の触媒
-    public static final Item WATER_CATALYST = new Item(baseSettings());    // 清流の触媒
-    public static final Item POISON_CATALYST = new Item(baseSettings());    // 猛毒の触媒
-    public static final Item GEO_CATALYST = new Item(baseSettings());       // 大地の触媒
-    public static final Item DEFENSE_CATALYST = new Item(baseSettings());   // 金剛の触媒
-    public static final Item FORCE_CATALYST = new Item(baseSettings());     // 斥力の触媒
-    public static final Item STORM_CATALYST = new Item(baseSettings());     // 嵐の触媒
-    public static final Item COMPASS_CATALYST = new Item(baseSettings());   // 定位の触媒
-    public static final Item ELECTRIC_CATALYST = new Item(baseSettings());  // 雷電の触媒
-    public static final Item KINETIC_CATALYST = new Item(baseSettings());   // 動力の触媒
-    public static final Item CELESTIAL_CATALYST = new Item(baseSettings()); // 星天の触媒
-    public static final Item HELL_CATALYST = new Item(baseSettings());      // 冥府の触媒
-    public static final Item LIGHT_CATALYST = new Item(baseSettings());     // 聖光の触媒
+    // 魔術触媒
+    public static final Item FIRE_CATALYST = new Item(baseSettings());
+    public static final Item WIND_CATALYST = new Item(baseSettings());
+    public static final Item WATER_CATALYST = new Item(baseSettings());
+    public static final Item POISON_CATALYST = new Item(baseSettings());
+    public static final Item GEO_CATALYST = new Item(baseSettings());
+    public static final Item DEFENSE_CATALYST = new Item(baseSettings());
+    public static final Item FORCE_CATALYST = new Item(baseSettings());
+    public static final Item STORM_CATALYST = new Item(baseSettings());
+    public static final Item COMPASS_CATALYST = new Item(baseSettings());
+    public static final Item ELECTRIC_CATALYST = new Item(baseSettings());
+    public static final Item KINETIC_CATALYST = new Item(baseSettings());
+    public static final Item CELESTIAL_CATALYST = new Item(baseSettings());
+    public static final Item HELL_CATALYST = new Item(baseSettings());
+    public static final Item LIGHT_CATALYST = new Item(baseSettings());
 
-    /**
-     * すべての触媒アイテムをゲーム内に登録するメソッド
-     * MODの初期化クラス（ModInitializer）の onInitialize 内で呼び出してください。
-     */
+    // 魔術杖
+    public static final Item SHINING_STAFF =
+        new ShiningStaffItem(baseSettings());
+
     public static void registerCatalysts() {
         register("fire_catalyst", FIRE_CATALYST);
         register("wind_catalyst", WIND_CATALYST);
@@ -46,9 +45,16 @@ public class CatalystItems {
         register("celestial_catalyst", CELESTIAL_CATALYST);
         register("hell_catalyst", HELL_CATALYST);
         register("light_catalyst", LIGHT_CATALYST);
+
+        // 魔術杖の登録
+        register("shining_staff", SHINING_STAFF);
     }
 
     private static void register(String path, Item item) {
-        Registry.register(Registries.ITEM, new Identifier("sakaplus", path), item);
+        Registry.register(
+            Registry.ITEM,
+            new Identifier("sakaplus", path),
+            item
+        );
     }
 }
