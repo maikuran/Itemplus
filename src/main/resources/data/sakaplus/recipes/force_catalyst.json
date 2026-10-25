@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DDD",
+    "WWA",
+    "   "
+  ],
+  "key": {
+    "D": { "item": "minecraft:emerald" },
+    "A": { "item": "minecraft:iron_ingot" },
+    "W": { "item": "minecraft:gold_ingot" }
+  },
+  "result": {
+    "item": "sakaplus:force_catalyst",
+    "count": 1
+  }
+}
