@@ -1,0 +1,30 @@
+{
+  "parent": "sakaplus:visit_kruzivilim",
+  "display": {
+    "icon": {
+      "item": "sakaplus:greeny_planks"
+    },
+    "title": {
+      "translate": "advancement.sakaplus.shyron_tower.title"
+    },
+    "description": {
+      "translate": "advancement.sakaplus.shyron_tower.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "enter_warperdun_remnant": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": {
+          "location": {
+            "structure": "sakaplus:shyron_tower"
+          }
+        }
+      }
+    }
+  }
+}
