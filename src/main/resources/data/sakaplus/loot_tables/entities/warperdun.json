@@ -28,11 +28,11 @@
         },
         {
           "type": "minecraft:item",
-          "name": "minecraft:gold",
+          "name": "minecraft:gold_ingot",
           "weight": 14,
           "functions": [
             {
-              "function": "minecraft:iron_ingot",
+              "function": "minecraft:set_count",
               "count": { "min": 1, "max": 50 }
             }
           ]
