@@ -5,16 +5,22 @@ import com.sakalti.sakaplus.entity.BeamAttack;
 import com.sakalti.sakaplus.sound.SakaplusSounds;
 import com.sakalti.sakaplus.client.item.GunRecoil;
 
+import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
+import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
+
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 
@@ -55,16 +61,99 @@ public class KruziRifle extends Gun {
 
     private static final String AMMO_KEY = "kruzi_rifle_ammo";
 
+    // Callback registration guard
+    private static boolean callbacksRegistered = false;
+
     // =========================================================
     // CONSTRUCTOR
     // =========================================================
 
     public KruziRifle(Settings settings) {
         super(settings, MAX_DURABILITY);
+
+        registerReloadCallbacks();
     }
 
     // =========================================================
-    // USE
+    // LEFT CLICK RELOAD CALLBACKS
+    // =========================================================
+
+    private static void registerReloadCallbacks() {
+
+        if (callbacksRegistered) {
+            return;
+        }
+
+        callbacksRegistered = true;
+
+        // -----------------------------------------------------
+        // Left-click block
+        // -----------------------------------------------------
+
+        AttackBlockCallback.EVENT.register(
+                (player, world, hand, pos, direction) -> {
+
+                    ItemStack rifle = findRifle(player);
+
+                    if (rifle.isEmpty()) {
+                        return ActionResult.PASS;
+                    }
+
+                    if (!world.isClient) {
+                        reload(player, rifle);
+                    }
+
+                    // Cancel normal block attack
+                    return ActionResult.FAIL;
+                }
+        );
+
+        // -----------------------------------------------------
+        // Left-click entity
+        // -----------------------------------------------------
+
+        AttackEntityCallback.EVENT.register(
+                (player, world, hand, entity, hitResult) -> {
+
+                    ItemStack rifle = findRifle(player);
+
+                    if (rifle.isEmpty()) {
+                        return ActionResult.PASS;
+                    }
+
+                    if (!world.isClient) {
+                        reload(player, rifle);
+                    }
+
+                    // Cancel normal entity attack
+                    return ActionResult.FAIL;
+                }
+        );
+    }
+
+    // =========================================================
+    // FIND RIFLE IN BOTH HANDS
+    // =========================================================
+
+    private static ItemStack findRifle(PlayerEntity player) {
+
+        ItemStack mainHand = player.getMainHandStack();
+
+        if (mainHand.getItem() instanceof KruziRifle) {
+            return mainHand;
+        }
+
+        ItemStack offHand = player.getOffHandStack();
+
+        if (offHand.getItem() instanceof KruziRifle) {
+            return offHand;
+        }
+
+        return ItemStack.EMPTY;
+    }
+
+    // =========================================================
+    // RIGHT CLICK: SHOOT
     // =========================================================
 
     @Override
@@ -78,50 +167,9 @@ public class KruziRifle extends Gun {
 
         int ammo = getAmmo(stack);
 
-        // =====================================================
-        // SNEAKING: RELOAD
-        // =====================================================
-
-        if (user.isSneaking()) {
-
-            if (ammo >= MAX_AMMO) {
-                return TypedActionResult.pass(stack);
-            }
-
-            if (user.getItemCooldownManager().isCoolingDown(this)) {
-                return TypedActionResult.fail(stack);
-            }
-
-            if (world.isClient) {
-                return TypedActionResult.success(stack, true);
-            }
-
-            if (!reload(user, stack)) {
-                return TypedActionResult.fail(stack);
-            }
-
-            user.getItemCooldownManager().set(
-                    this,
-                    RELOAD_COOLDOWN
-            );
-
-            world.playSound(
-                    null,
-                    user.getX(),
-                    user.getY(),
-                    user.getZ(),
-                    SakaplusSounds.Magazine,
-                    SoundCategory.PLAYERS,
-                    1.0F,
-                    0.85F
-            );
-
-            return TypedActionResult.success(stack, false);
-        }
-
-        // =====================================================
+        // -----------------------------------------------------
         // AMMO CHECK
-        // =====================================================
+        // -----------------------------------------------------
 
         if (ammo <= 0) {
 
@@ -131,7 +179,7 @@ public class KruziRifle extends Gun {
                         user.getX(),
                         user.getY(),
                         user.getZ(),
-                        net.minecraft.sound.SoundEvents.BLOCK_NOTE_BLOCK_BASS,
+                        SoundEvents.BLOCK_NOTE_BLOCK_BASS,
                         SoundCategory.PLAYERS,
                         0.5F,
                         0.5F
@@ -141,9 +189,9 @@ public class KruziRifle extends Gun {
             return TypedActionResult.fail(stack);
         }
 
-        // =====================================================
+        // -----------------------------------------------------
         // COOLDOWN CHECK
-        // =====================================================
+        // -----------------------------------------------------
 
         if (user.getItemCooldownManager().isCoolingDown(this)) {
             return TypedActionResult.fail(stack);
@@ -154,9 +202,9 @@ public class KruziRifle extends Gun {
                 COOLDOWN_TICKS
         );
 
-        // =====================================================
+        // -----------------------------------------------------
         // CLIENT: RECOIL
-        // =====================================================
+        // -----------------------------------------------------
 
         if (world.isClient) {
 
@@ -169,9 +217,9 @@ public class KruziRifle extends Gun {
             return TypedActionResult.success(stack, true);
         }
 
-        // =====================================================
+        // -----------------------------------------------------
         // SERVER: FIRE
-        // =====================================================
+        // -----------------------------------------------------
 
         BeamAttack.shoot(
                 user,
@@ -180,15 +228,15 @@ public class KruziRifle extends Gun {
                 BEAM_COLOR
         );
 
-        // =====================================================
+        // -----------------------------------------------------
         // DECREASE AMMO
-        // =====================================================
+        // -----------------------------------------------------
 
         decrementAmmo(stack);
 
-        // =====================================================
+        // -----------------------------------------------------
         // SHOOT SOUND
-        // =====================================================
+        // -----------------------------------------------------
 
         world.playSound(
                 null,
@@ -201,9 +249,9 @@ public class KruziRifle extends Gun {
                 0.65F
         );
 
-        // =====================================================
+        // -----------------------------------------------------
         // DURABILITY
-        // =====================================================
+        // -----------------------------------------------------
 
         if (!user.getAbilities().creativeMode) {
 
@@ -221,16 +269,35 @@ public class KruziRifle extends Gun {
     // RELOAD
     // =========================================================
 
-    private boolean reload(
+    public static boolean reload(
             PlayerEntity player,
             ItemStack stack
     ) {
 
+        if (player.getWorld().isClient) {
+            return false;
+        }
+
+        if (!(stack.getItem() instanceof KruziRifle)) {
+            return false;
+        }
+
+        // Already full
         if (getAmmo(stack) >= MAX_AMMO) {
             return false;
         }
 
-        if (!player.isCreative()) {
+        // Reload cooldown
+        if (player.getItemCooldownManager()
+                .isCoolingDown(stack.getItem())) {
+            return false;
+        }
+
+        // -----------------------------------------------------
+        // MATERIAL CHECK
+        // -----------------------------------------------------
+
+        if (!player.getAbilities().creativeMode) {
 
             PlayerInventory inventory = player.getInventory();
 
@@ -242,13 +309,43 @@ public class KruziRifle extends Gun {
                 return false;
             }
 
+            // Consume materials
             consumeItem(inventory, Items.DIAMOND, 1);
+
             consumeItem(inventory, Items.GUNPOWDER, 3);
         }
+
+        // -----------------------------------------------------
+        // FILL AMMO
+        // -----------------------------------------------------
 
         stack.getOrCreateNbt().putInt(
                 AMMO_KEY,
                 MAX_AMMO
+        );
+
+        // -----------------------------------------------------
+        // RELOAD COOLDOWN
+        // -----------------------------------------------------
+
+        player.getItemCooldownManager().set(
+                stack.getItem(),
+                RELOAD_COOLDOWN
+        );
+
+        // -----------------------------------------------------
+        // RELOAD SOUND
+        // -----------------------------------------------------
+
+        player.getWorld().playSound(
+                null,
+                player.getX(),
+                player.getY(),
+                player.getZ(),
+                SakaplusSounds.Magazine,
+                SoundCategory.PLAYERS,
+                1.0F,
+                0.85F
         );
 
         return true;
@@ -258,7 +355,7 @@ public class KruziRifle extends Gun {
     // INVENTORY MATERIAL COUNT
     // =========================================================
 
-    private int countItem(
+    private static int countItem(
             PlayerInventory inventory,
             net.minecraft.item.Item item
     ) {
@@ -281,7 +378,7 @@ public class KruziRifle extends Gun {
     // CONSUME MATERIALS
     // =========================================================
 
-    private void consumeItem(
+    private static void consumeItem(
             PlayerInventory inventory,
             net.minecraft.item.Item item,
             int amount
@@ -290,6 +387,10 @@ public class KruziRifle extends Gun {
         int remaining = amount;
 
         for (int i = 0; i < inventory.size(); i++) {
+
+            if (remaining <= 0) {
+                break;
+            }
 
             ItemStack inventoryStack = inventory.getStack(i);
 
@@ -305,11 +406,9 @@ public class KruziRifle extends Gun {
             inventoryStack.decrement(consume);
 
             remaining -= consume;
-
-            if (remaining <= 0) {
-                break;
-            }
         }
+
+        inventory.markDirty();
     }
 
     // =========================================================
@@ -333,7 +432,11 @@ public class KruziRifle extends Gun {
         );
     }
 
-    private void decrementAmmo(ItemStack stack) {
+    // =========================================================
+    // DECREASE AMMO
+    // =========================================================
+
+    private static void decrementAmmo(ItemStack stack) {
 
         int ammo = getAmmo(stack);
 
@@ -372,11 +475,21 @@ public class KruziRifle extends Gun {
     ) {
 
         tooltip.add(
-                Text.of("弾数: " + getAmmo(stack) + " / " + MAX_AMMO)
+                Text.of(
+                        "弾数: " + getAmmo(stack) + " / " + MAX_AMMO
+                )
         );
 
         tooltip.add(
-                Text.of("しゃがむ: スコープ / リロード")
+                Text.of("左クリック: リロード")
+        );
+
+        tooltip.add(
+                Text.of("しゃがむ: スコープ")
+        );
+
+        tooltip.add(
+                Text.of("右クリック: 射撃")
         );
 
         tooltip.add(
