@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus.registry;
 
 import net.minecraft.item.Item;
@@ -16,6 +15,8 @@ import com.sakalti.sakaplus.item.*;
 import com.sakalti.sakaplus.effect.ModEffects;
 
 public class ModItems {
+
+    // ==================== 食料・通常アイテム ====================
 
     public static final Item BLOOMSQUER_ITEM = new BlockItem(
         ModBlocks2.BLOOMSQUER,
@@ -61,6 +62,8 @@ public class ModItems {
     public static final Item LIGHT_STONE =
         new Item(new Item.Settings());
 
+    // ==================== 武器 ====================
+
     public static final Item OVERSHOT =
         new Overshot(
             new Item.Settings()
@@ -68,16 +71,12 @@ public class ModItems {
                 .maxCount(1)
         );
 
-    // ==================== Kruzi Rifle ====================
-
     public static final Item KRUZI_RIFLE =
         new KruziRifle(
             new Item.Settings()
                 .group(ItemGroup.COMBAT)
                 .maxCount(1)
         );
-
-    // ==================================================
 
     // ==================== Pyronium シリーズ ====================
 
@@ -131,6 +130,8 @@ public class ModItems {
             new Item.Settings().group(ItemGroup.COMBAT)
         );
 
+    // ==================== Amethond シリーズ ====================
+
     public static final Item AMETHOND_HELMET =
         new ArmorItem(
             ModArmorMaterials.AMETHOND,
@@ -159,180 +160,84 @@ public class ModItems {
             new Item.Settings().group(ItemGroup.COMBAT)
         );
 
+    // ==================== Infernal シリーズ ====================
+
+    public static final Item INFERNAL_HELMET =
+        new ArmorItem(
+            ModArmorMaterials.INFERNAL,
+            EquipmentSlot.HEAD,
+            new Item.Settings().group(ItemGroup.COMBAT)
+        );
+
+    public static final Item INFERNAL_CHESTPLATE =
+        new ArmorItem(
+            ModArmorMaterials.INFERNAL,
+            EquipmentSlot.CHEST,
+            new Item.Settings().group(ItemGroup.COMBAT)
+        );
+
+    public static final Item INFERNAL_LEGGINGS =
+        new ArmorItem(
+            ModArmorMaterials.INFERNAL,
+            EquipmentSlot.LEGS,
+            new Item.Settings().group(ItemGroup.COMBAT)
+        );
+
+    public static final Item INFERNAL_BOOTS =
+        new ArmorItem(
+            ModArmorMaterials.INFERNAL,
+            EquipmentSlot.FEET,
+            new Item.Settings().group(ItemGroup.COMBAT)
+        );
+
     // ==========================================================
 
     public static void register() {
 
-        // ==================== 食料・通常アイテム ====================
+        // ==================== 食料・通常アイテム登録 ====================
 
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "bloomsquer"),
-            BLOOMSQUER_ITEM
-        );
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "bloomsquer"), BLOOMSQUER_ITEM);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "light_berry_cheese"), LIGHT_BERRY_CHEESE);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "hachiwari_manju"), HACHIWARI_MANJU);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "glow_berry_bread"), GLOW_BERRY_BREAD);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "light_berry"), LIGHT_BERRY);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "kur_brute_meat"), KUR_BRUTE_MEAT);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "chocolate_bar"), CHOCOLATE_BAR);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "sweet_berry_pie"), SWEET_BERRY_PIE);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "glow_berry_donut"), GLOW_BERRY_DONUT);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "hp_plus"), HP_PLUS);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "light_stone"), LIGHT_STONE);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "toufu_a"), TOUFU_A);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "hachiwari_manju_choco"), HACHIWARI_MANJU_CHOCO);
 
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "light_berry_cheese"),
-            LIGHT_BERRY_CHEESE
-        );
+        // ==================== 武器登録 ====================
 
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "hachiwari_manju"),
-            HACHIWARI_MANJU
-        );
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "overshot"), OVERSHOT);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "kruzi_rifle"), KRUZI_RIFLE);
 
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "glow_berry_bread"),
-            GLOW_BERRY_BREAD
-        );
+        // ==================== Pyronium 登録 ====================
 
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "light_berry"),
-            LIGHT_BERRY
-        );
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "raw_pyronium"), RAW_PYRONIUM);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "pyronium_ingot"), PYRONIUM_INGOT);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "pyronium_sword"), PYRONIUM_SWORD);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "pyronium_pickaxe"), PYRONIUM_PICKAXE);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "pyronium_helmet"), PYRONIUM_HELMET);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "pyronium_chestplate"), PYRONIUM_CHESTPLATE);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "pyronium_leggings"), PYRONIUM_LEGGINGS);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "pyronium_boots"), PYRONIUM_BOOTS);
 
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "kur_brute_meat"),
-            KUR_BRUTE_MEAT
-        );
+        // ==================== Amethond 登録 ====================
 
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "chocolate_bar"),
-            CHOCOLATE_BAR
-        );
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "amethond_helmet"), AMETHOND_HELMET);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "amethond_chestplate"), AMETHOND_CHESTPLATE);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "amethond_leggings"), AMETHOND_LEGGINGS);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "amethond_boots"), AMETHOND_BOOTS);
 
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "sweet_berry_pie"),
-            SWEET_BERRY_PIE
-        );
+        // ==================== Infernal 登録 ====================
 
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "glow_berry_donut"),
-            GLOW_BERRY_DONUT
-        );
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "hp_plus"),
-            HP_PLUS
-        );
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "light_stone"),
-            LIGHT_STONE
-        );
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "toufu_a"),
-            TOUFU_A
-        );
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "hachiwari_manju_choco"),
-            HACHIWARI_MANJU_CHOCO
-        );
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "overshot"),
-            OVERSHOT
-        );
-
-        // ==================== Kruzi Rifle ====================
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "kruzi_rifle"),
-            KRUZI_RIFLE
-        );
-
-        // ==================================================
-
-        // ==================== Pyronium レジストリ登録 ====================
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "raw_pyronium"),
-            RAW_PYRONIUM
-        );
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "pyronium_ingot"),
-            PYRONIUM_INGOT
-        );
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "pyronium_sword"),
-            PYRONIUM_SWORD
-        );
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "pyronium_pickaxe"),
-            PYRONIUM_PICKAXE
-        );
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "pyronium_helmet"),
-            PYRONIUM_HELMET
-        );
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "pyronium_chestplate"),
-            PYRONIUM_CHESTPLATE
-        );
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "pyronium_leggings"),
-            PYRONIUM_LEGGINGS
-        );
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "pyronium_boots"),
-            PYRONIUM_BOOTS
-        );
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "amethond_helmet"),
-            AMETHOND_HELMET
-        );
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "amethond_chestplate"),
-            AMETHOND_CHESTPLATE
-        );
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "amethond_leggings"),
-            AMETHOND_LEGGINGS
-        );
-
-        Registry.register(
-            Registry.ITEM,
-            new Identifier("sakaplus", "amethond_boots"),
-            AMETHOND_BOOTS
-        );
-
-        // ============================================================
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "infernal_helmet"), INFERNAL_HELMET);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "infernal_chestplate"), INFERNAL_CHESTPLATE);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "infernal_leggings"), INFERNAL_LEGGINGS);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "infernal_boots"), INFERNAL_BOOTS);
     }
 }
