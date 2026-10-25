@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DDD",
+    "WWA",
+    "  A"
+  ],
+  "key": {
+    "D": { "item": "minecraft:netherite_ingot" },
+    "A": { "item": "sakaplus:pyronium_ingot" },
+    "W": { "item": "sakaplus:kruzi_stone" }
+  },
+  "result": {
+    "item": "sakaplus:kruzi_rifle",
+    "count": 1
+  }
+}
