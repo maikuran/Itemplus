@@ -5,8 +5,7 @@ import com.sakalti.sakaplus.entity.BeamAttack;
 import com.sakalti.sakaplus.sound.SakaplusSounds;
 import com.sakalti.sakaplus.client.item.GunRecoil;
 
-import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
-import net.fabricmc.fabric.api.event.player.AttackEntityCallback;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
@@ -16,11 +15,10 @@ import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import net.minecraft.util.math.BlockPos;
 
 import java.util.List;
 
@@ -38,7 +36,6 @@ public class KruziRifle extends Gun {
 
     public static final int BEAM_COLOR = 0xFFD700;
 
-    // 5.25 seconds = 105 ticks
     public static final int COOLDOWN_TICKS = 105;
 
     public static final int RELOAD_COOLDOWN = 20;
@@ -46,7 +43,7 @@ public class KruziRifle extends Gun {
     public static final int MAX_AMMO = 2;
 
     // =========================================================
-    // RECOIL CONFIGURATION
+    // RECOIL
     // =========================================================
 
     public static final float RECOIL_STRENGTH = 9.0F;
@@ -61,8 +58,14 @@ public class KruziRifle extends Gun {
 
     private static final String AMMO_KEY = "kruzi_rifle_ammo";
 
-    // Callback registration guard
-    private static boolean callbacksRegistered = false;
+    // =========================================================
+    // NETWORK
+    // =========================================================
+
+    public static final Identifier RELOAD_PACKET =
+            new Identifier("sakaplus", "kruzi_rifle_reload");
+
+    private static boolean serverRegistered = false;
 
     // =========================================================
     // CONSTRUCTOR
@@ -70,86 +73,49 @@ public class KruziRifle extends Gun {
 
     public KruziRifle(Settings settings) {
         super(settings, MAX_DURABILITY);
-
-        registerReloadCallbacks();
     }
 
     // =========================================================
-    // LEFT CLICK RELOAD CALLBACKS
+    // SERVER PACKET REGISTRATION
     // =========================================================
 
-    private static void registerReloadCallbacks() {
+    public static void registerServer() {
 
-        if (callbacksRegistered) {
+        if (serverRegistered) {
             return;
         }
 
-        callbacksRegistered = true;
+        serverRegistered = true;
 
-        // -----------------------------------------------------
-        // Left-click block
-        // -----------------------------------------------------
+        ServerPlayNetworking.registerGlobalReceiver(
+                RELOAD_PACKET,
+                (server, player, handler, buf, responseSender) -> {
 
-        AttackBlockCallback.EVENT.register(
-                (player, world, hand, pos, direction) -> {
+                    server.execute(() -> {
 
-                    ItemStack rifle = findRifle(player);
+                        ItemStack main = player.getMainHandStack();
 
-                    if (rifle.isEmpty()) {
-                        return ActionResult.PASS;
-                    }
+                        ItemStack off = player.getOffHandStack();
 
-                    if (!world.isClient) {
+                        ItemStack rifle = ItemStack.EMPTY;
+
+                        if (main.getItem() instanceof KruziRifle) {
+
+                            rifle = main;
+
+                        } else if (off.getItem() instanceof KruziRifle) {
+
+                            rifle = off;
+                        }
+
+                        if (rifle.isEmpty()) {
+                            return;
+                        }
+
                         reload(player, rifle);
-                    }
-
-                    // Cancel normal block attack
-                    return ActionResult.FAIL;
+                    });
                 }
         );
-
-        // -----------------------------------------------------
-        // Left-click entity
-        // -----------------------------------------------------
-
-        AttackEntityCallback.EVENT.register(
-                (player, world, hand, entity, hitResult) -> {
-
-                    ItemStack rifle = findRifle(player);
-
-                    if (rifle.isEmpty()) {
-                        return ActionResult.PASS;
-                    }
-
-                    if (!world.isClient) {
-                        reload(player, rifle);
-                    }
-
-                    // Cancel normal entity attack
-                    return ActionResult.FAIL;
-                }
-        );
-    }
-
-    // =========================================================
-    // FIND RIFLE IN BOTH HANDS
-    // =========================================================
-
-    private static ItemStack findRifle(PlayerEntity player) {
-
-        ItemStack mainHand = player.getMainHandStack();
-
-        if (mainHand.getItem() instanceof KruziRifle) {
-            return mainHand;
-        }
-
-        ItemStack offHand = player.getOffHandStack();
-
-        if (offHand.getItem() instanceof KruziRifle) {
-            return offHand;
-        }
-
-        return ItemStack.EMPTY;
     }
 
     // =========================================================
@@ -167,13 +133,12 @@ public class KruziRifle extends Gun {
 
         int ammo = getAmmo(stack);
 
-        // -----------------------------------------------------
         // AMMO CHECK
-        // -----------------------------------------------------
 
         if (ammo <= 0) {
 
             if (!world.isClient) {
+
                 world.playSound(
                         null,
                         user.getX(),
@@ -189,11 +154,10 @@ public class KruziRifle extends Gun {
             return TypedActionResult.fail(stack);
         }
 
-        // -----------------------------------------------------
         // COOLDOWN CHECK
-        // -----------------------------------------------------
 
         if (user.getItemCooldownManager().isCoolingDown(this)) {
+
             return TypedActionResult.fail(stack);
         }
 
@@ -202,9 +166,7 @@ public class KruziRifle extends Gun {
                 COOLDOWN_TICKS
         );
 
-        // -----------------------------------------------------
-        // CLIENT: RECOIL
-        // -----------------------------------------------------
+        // CLIENT RECOIL
 
         if (world.isClient) {
 
@@ -217,9 +179,7 @@ public class KruziRifle extends Gun {
             return TypedActionResult.success(stack, true);
         }
 
-        // -----------------------------------------------------
-        // SERVER: FIRE
-        // -----------------------------------------------------
+        // SERVER SHOOT
 
         BeamAttack.shoot(
                 user,
@@ -228,15 +188,11 @@ public class KruziRifle extends Gun {
                 BEAM_COLOR
         );
 
-        // -----------------------------------------------------
         // DECREASE AMMO
-        // -----------------------------------------------------
 
         decrementAmmo(stack);
 
-        // -----------------------------------------------------
         // SHOOT SOUND
-        // -----------------------------------------------------
 
         world.playSound(
                 null,
@@ -249,9 +205,7 @@ public class KruziRifle extends Gun {
                 0.65F
         );
 
-        // -----------------------------------------------------
         // DURABILITY
-        // -----------------------------------------------------
 
         if (!user.getAbilities().creativeMode) {
 
@@ -282,20 +236,21 @@ public class KruziRifle extends Gun {
             return false;
         }
 
-        // Already full
+        // ALREADY FULL
+
         if (getAmmo(stack) >= MAX_AMMO) {
             return false;
         }
 
-        // Reload cooldown
+        // RELOAD COOLDOWN
+
         if (player.getItemCooldownManager()
                 .isCoolingDown(stack.getItem())) {
+
             return false;
         }
 
-        // -----------------------------------------------------
         // MATERIAL CHECK
-        // -----------------------------------------------------
 
         if (!player.getAbilities().creativeMode) {
 
@@ -309,33 +264,28 @@ public class KruziRifle extends Gun {
                 return false;
             }
 
-            // Consume materials
+            // CONSUME MATERIALS
+
             consumeItem(inventory, Items.DIAMOND, 1);
 
             consumeItem(inventory, Items.GUNPOWDER, 3);
         }
 
-        // -----------------------------------------------------
         // FILL AMMO
-        // -----------------------------------------------------
 
         stack.getOrCreateNbt().putInt(
                 AMMO_KEY,
                 MAX_AMMO
         );
 
-        // -----------------------------------------------------
         // RELOAD COOLDOWN
-        // -----------------------------------------------------
 
         player.getItemCooldownManager().set(
                 stack.getItem(),
                 RELOAD_COOLDOWN
         );
 
-        // -----------------------------------------------------
         // RELOAD SOUND
-        // -----------------------------------------------------
 
         player.getWorld().playSound(
                 null,
@@ -367,6 +317,7 @@ public class KruziRifle extends Gun {
             ItemStack inventoryStack = inventory.getStack(i);
 
             if (inventoryStack.isOf(item)) {
+
                 count += inventoryStack.getCount();
             }
         }
@@ -412,7 +363,7 @@ public class KruziRifle extends Gun {
     }
 
     // =========================================================
-    // AMMO
+    // GET AMMO
     // =========================================================
 
     public static int getAmmo(ItemStack stack) {
@@ -480,25 +431,15 @@ public class KruziRifle extends Gun {
                 )
         );
 
-        tooltip.add(
-                Text.of("左クリック: リロード")
-        );
+        tooltip.add(Text.of("Jキー: リロード"));
 
-        tooltip.add(
-                Text.of("しゃがむ: スコープ")
-        );
+        tooltip.add(Text.of("しゃがむ: スコープ"));
 
-        tooltip.add(
-                Text.of("右クリック: 射撃")
-        );
+        tooltip.add(Text.of("右クリック: 射撃"));
 
-        tooltip.add(
-                Text.of("ダメージ: " + DAMAGE)
-        );
+        tooltip.add(Text.of("ダメージ: " + DAMAGE));
 
-        tooltip.add(
-                Text.of("クールダウン: 5.25秒")
-        );
+        tooltip.add(Text.of("クールダウン: 5.25秒"));
 
         tooltip.add(
                 Text.of("リロード: ダイヤモンド1個 + 火薬3個")
