@@ -23,7 +23,7 @@ public class SakaplusClient implements ClientModInitializer {
         // =====================================================
 
         GunRecoil.register();
-        KruziRifle.registerServer();
+
 
         // Kruzi Rifle Scope UI
         KruziRifleScopeOverlay.register(
