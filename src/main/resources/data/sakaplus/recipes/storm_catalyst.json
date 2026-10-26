@@ -7,11 +7,11 @@
   ],
   "key": {
     "D": { "item": "sakaplus:water_catalyst" },
-    "A": { "item": "minecraft:diamond" },
+    "A": { "item": "minecraft:gold_ingot" },
     "W": { "item": "minecraft:iron_ingot" }
   },
   "result": {
     "item": "sakaplus:storm_catalyst",
-    "count": 6
+    "count": 8
   }
 }
