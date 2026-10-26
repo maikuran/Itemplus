@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "sakaplus:bloomsquer",
+    "sakaplus:greeny_log",
+    "sakaplus:greeny_wood",
+    "sakaplus:stripped_greeny_log",
+    "sakaplus:stripped_greeny_wood",
+    "sakaplus:greeny_planks",
+    "sakaplus:greeny_stairs",
+    "sakaplus:greeny_slab",
+    "sakaplus:greeny_fence",
+    "sakaplus:greeny_fence_gate",
+    "sakaplus:greeny_wall",
+    "sakaplus:ant_hive"
+  ]
+}
