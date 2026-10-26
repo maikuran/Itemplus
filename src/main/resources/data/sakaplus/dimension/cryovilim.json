@@ -1,0 +1,11 @@
+{
+  "type": "sakaplus:kruzivilim",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "sakaplus:cryovilim_noise",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "sakaplus:cryoland"
+    }
+  }
+}
