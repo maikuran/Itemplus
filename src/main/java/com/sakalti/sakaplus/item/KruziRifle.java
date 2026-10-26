@@ -442,7 +442,7 @@ public class KruziRifle extends Gun {
         tooltip.add(Text.of("クールダウン: 5.25秒"));
 
         tooltip.add(
-                Text.of("リロード: 鉄1個 + 火薬3個")
+                Text.of("リロード: 鉄インゴット1個 + 火薬3個")
         );
 
         tooltip.add(
