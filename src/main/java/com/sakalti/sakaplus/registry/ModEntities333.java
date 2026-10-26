@@ -105,12 +105,12 @@ public class ModEntities333 {
 
     public static final EntityType<ShyronEntity> SHYRON =
             registerEntity("shyron", SpawnGroup.MONSTER,
-                    ShyronEntity::new, 1.0F, 1.5F, 64, 3);
+                    ShyronEntity::new, 1.5F, 1.5F, 64, 3);
 
     // Xxena
     public static final EntityType<XxenaEntity> XXENA =
             registerEntity("xxena", SpawnGroup.MONSTER,
-                    XxenaEntity::new, 1.0F, 1.5F, 64, 3);
+                    XxenaEntity::new, 1.75F, 1.5F, 64, 3);
 
     // =========================================================
     // Spawn Egg Registration Function
