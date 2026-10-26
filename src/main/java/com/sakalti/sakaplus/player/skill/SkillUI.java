@@ -15,6 +15,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
@@ -67,7 +69,6 @@ public final class SkillUI {
         if (initialized) return;
         initialized = true;
 
-        // K: Skill UI
         openKey = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(
                         "key.sakaplus.skill_ui",
@@ -76,7 +77,6 @@ public final class SkillUI {
                 )
         );
 
-        // G: Air Dash
         dashKey = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(
                         "key.sakaplus.air_dash",
@@ -85,7 +85,6 @@ public final class SkillUI {
                 )
         );
 
-        // H: Blink Step
         blinkKey = KeyBindingHelper.registerKeyBinding(
                 new KeyBinding(
                         "key.sakaplus.blink_step",
@@ -93,10 +92,6 @@ public final class SkillUI {
                         "category.sakaplus"
                 )
         );
-
-        // =================================================
-        // KILL SYNC
-        // =================================================
 
         ClientPlayNetworking.registerGlobalReceiver(
                 KILL_SYNC,
@@ -116,10 +111,6 @@ public final class SkillUI {
                 }
         );
 
-        // =================================================
-        // WALK SYNC
-        // =================================================
-
         ClientPlayNetworking.registerGlobalReceiver(
                 WALK_SYNC,
                 (client, handler, buf, responseSender) -> {
@@ -138,10 +129,6 @@ public final class SkillUI {
                 }
         );
 
-        // =================================================
-        // CLIENT TICK
-        // =================================================
-
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
 
             if (client.player == null || client.world == null) {
@@ -149,32 +136,27 @@ public final class SkillUI {
                 return;
             }
 
-            // Open skill screen
             while (openKey.wasPressed()) {
                 client.setScreen(new SkillScreen());
                 requestData();
             }
 
-            // Double Jump
             boolean jumpDown = client.options.jumpKey.isPressed();
 
             if (jumpDown
                     && !previousJumpDown
-                    && !client.player.isOnGround()) {
+                    && !client.player.isOnGround()
+                    && walkLevel >= 5) {
 
-                if (walkLevel >= 5) {
-                    ClientPlayNetworking.send(
-                            DOUBLE_JUMP,
-                            PacketByteBufs.empty()
-                    );
-                }
+                ClientPlayNetworking.send(
+                        DOUBLE_JUMP,
+                        PacketByteBufs.empty()
+                );
             }
 
             previousJumpDown = jumpDown;
 
-            // Air Dash
             while (dashKey.wasPressed()) {
-
                 if (walkLevel >= 40) {
                     ClientPlayNetworking.send(
                             AIR_DASH,
@@ -183,10 +165,7 @@ public final class SkillUI {
                 }
             }
 
-            // Blink Step
-            // 現在は空中ダッシュと同じパケットを使用
             while (blinkKey.wasPressed()) {
-
                 if (walkLevel >= 95) {
                     ClientPlayNetworking.send(
                             AIR_DASH,
@@ -238,9 +217,25 @@ public final class SkillUI {
 
     private static class SkillScreen extends Screen {
 
+        private static final int PANEL_MARGIN = 10;
+        private static final int CARD_HEIGHT = 640;
+        private static final int CARD_GAP = 16;
+
+        private int scrollOffset = 0;
+        private int maxScroll = 0;
+
+        private int viewportTop;
+        private int viewportBottom;
+
+        private boolean twoColumns;
+
         protected SkillScreen() {
             super(Text.literal("Sakaplus Skills"));
         }
+
+        // =================================================
+        // RENDER
+        // =================================================
 
         @Override
         public void render(
@@ -253,65 +248,226 @@ public final class SkillUI {
             renderBackground(matrices);
 
             int centerX = width / 2;
-            int top = 20;
+            int panelWidth = Math.min(width - 20, 780);
+
+            panelWidth = Math.max(0, panelWidth);
+
+            int panelLeft = centerX - panelWidth / 2;
+            int panelRight = centerX + panelWidth / 2;
+
+            int panelTop = 10;
+            int panelBottom = height - 10;
+
+            twoColumns = panelWidth >= 560;
 
             // Main panel
+
             fill(
                     matrices,
-                    centerX - 190,
-                    top,
-                    centerX + 190,
-                    height - 20,
-                    0xE8202028
+                    panelLeft,
+                    panelTop,
+                    panelRight,
+                    panelBottom,
+                    0xEE171923
+            );
+
+            // Border
+
+            fill(
+                    matrices,
+                    panelLeft,
+                    panelTop,
+                    panelRight,
+                    panelTop + 2,
+                    0xFF55AADD
             );
 
             // Title
+
             drawCentered(
                     matrices,
-                    "§lSakaplus Skills",
+                    "§l§bSAKAPLUS SKILLS",
                     centerX,
-                    top + 10,
-                    0xFFFFFF
+                    19,
+                    0xFFFFFFFF
             );
 
-            // Kill Skill
-            drawSkill(
+            // Scroll viewport
+
+            viewportTop = 48;
+            viewportBottom = height - 45;
+
+            if (viewportBottom < viewportTop) {
+                viewportBottom = viewportTop;
+            }
+
+            int viewportHeight = viewportBottom - viewportTop;
+
+            int contentHeight;
+
+            if (twoColumns) {
+                contentHeight = CARD_HEIGHT;
+            } else {
+                contentHeight = CARD_HEIGHT * 2 + CARD_GAP;
+            }
+
+            maxScroll = Math.max(
+                    0,
+                    contentHeight - viewportHeight
+            );
+
+            scrollOffset = Math.max(
+                    0,
+                    Math.min(scrollOffset, maxScroll)
+            );
+
+            // =================================================
+            // SCISSOR
+            // =================================================
+
+            MinecraftClient client = MinecraftClient.getInstance();
+
+            double scale = client.getWindow().getScaleFactor();
+
+            int scissorX = (int) (panelLeft * scale);
+            int scissorY = (int) (
+                    (height - viewportBottom) * scale
+            );
+
+            int scissorWidth = (int) (
+                    (panelRight - panelLeft) * scale
+            );
+
+            int scissorHeight = (int) (
+                    (viewportBottom - viewportTop) * scale
+            );
+
+            RenderSystem.enableScissor(
+                    scissorX,
+                    scissorY,
+                    scissorWidth,
+                    scissorHeight
+            );
+
+            // =================================================
+            // SKILL CARDS
+            // =================================================
+
+            int contentTop = viewportTop - scrollOffset;
+
+            if (twoColumns) {
+
+                int gap = 16;
+
+                int columnWidth = (panelWidth - 40 - gap) / 2;
+
+                int leftX = panelLeft + 20;
+                int rightX = leftX + columnWidth + gap;
+
+                drawSkill(
+                        matrices,
+                        leftX,
+                        contentTop,
+                        columnWidth,
+                        "§cKILL SKILL",
+                        killLevel,
+                        killCurrentXp,
+                        killRequiredXp,
+                        killTotalXp,
+                        KillSkillLogic.STAGES,
+                        KillSkillLogic.DESCRIPTIONS,
+                        0xFFFFB34A
+                );
+
+                drawSkill(
+                        matrices,
+                        rightX,
+                        contentTop,
+                        columnWidth,
+                        "§bWALK SKILL",
+                        walkLevel,
+                        walkCurrentXp,
+                        walkRequiredXp,
+                        walkTotalXp,
+                        WalkSkillLogic.STAGES,
+                        WalkSkillLogic.DESCRIPTIONS,
+                        0xFF55CFFF
+                );
+
+            } else {
+
+                int cardWidth = panelWidth - 30;
+                int cardX = panelLeft + 15;
+
+                drawSkill(
+                        matrices,
+                        cardX,
+                        contentTop,
+                        cardWidth,
+                        "§cKILL SKILL",
+                        killLevel,
+                        killCurrentXp,
+                        killRequiredXp,
+                        killTotalXp,
+                        KillSkillLogic.STAGES,
+                        KillSkillLogic.DESCRIPTIONS,
+                        0xFFFFB34A
+                );
+
+                drawSkill(
+                        matrices,
+                        cardX,
+                        contentTop + CARD_HEIGHT + CARD_GAP,
+                        cardWidth,
+                        "§bWALK SKILL",
+                        walkLevel,
+                        walkCurrentXp,
+                        walkRequiredXp,
+                        walkTotalXp,
+                        WalkSkillLogic.STAGES,
+                        WalkSkillLogic.DESCRIPTIONS,
+                        0xFF55CFFF
+                );
+            }
+
+            RenderSystem.disableScissor();
+
+            // =================================================
+            // FOOTER
+            // =================================================
+
+            fill(
                     matrices,
-                    centerX - 175,
-                    top + 38,
-                    "§cKILL SKILL",
-                    killLevel,
-                    killCurrentXp,
-                    killRequiredXp,
-                    killTotalXp,
-                    KillSkillLogic.STAGES,
-                    KillSkillLogic.DESCRIPTIONS,
-                    0xFFFFB34A
+                    panelLeft,
+                    height - 43,
+                    panelRight,
+                    height - 10,
+                    0xFF11141C
             );
 
-            // Walk Skill
-            drawSkill(
-                    matrices,
-                    centerX + 15,
-                    top + 38,
-                    "§bWALK SKILL",
-                    walkLevel,
-                    walkCurrentXp,
-                    walkRequiredXp,
-                    walkTotalXp,
-                    WalkSkillLogic.STAGES,
-                    WalkSkillLogic.DESCRIPTIONS,
-                    0xFF55CFFF
-            );
-
-            // Controls
             drawCentered(
                     matrices,
-                    "Space: Double Jump    G: Air Dash    H: Blink Step    K: Close",
+                    "Space: Double Jump   G: Air Dash   H: Blink Step   K: Close",
                     centerX,
-                    height - 35,
+                    height - 32,
                     0xFFBBBBBB
             );
+
+            // Scroll indicator
+
+            if (maxScroll > 0) {
+
+                drawCentered(
+                        matrices,
+                        "§7Mouse Wheel: Scroll   "
+                                + (scrollOffset + 1)
+                                + " / "
+                                + (maxScroll + 1),
+                        centerX,
+                        height - 47,
+                        0xFFAAAAAA
+                );
+            }
 
             super.render(matrices, mouseX, mouseY, delta);
         }
@@ -324,6 +480,7 @@ public final class SkillUI {
                 MatrixStack matrices,
                 int x,
                 int y,
+                int cardWidth,
                 String title,
                 int level,
                 long currentXp,
@@ -334,77 +491,118 @@ public final class SkillUI {
                 int color
         ) {
 
-            // Skill title
-            textRenderer.drawWithShadow(
-                    matrices,
-                    title,
-                    x,
-                    y,
-                    color
-            );
-
-            // Level
-            textRenderer.drawWithShadow(
-                    matrices,
-                    "Level: " + level + " / 100",
-                    x,
-                    y + 18,
-                    0xFFFFFFFF
-            );
-
-            // Total XP
-            textRenderer.drawWithShadow(
-                    matrices,
-                    "Total XP: " + totalXp,
-                    x,
-                    y + 32,
-                    0xFFCCCCCC
-            );
-
-            // XP bar
-            int barWidth = 165;
-            int barY = y + 49;
+            // Card background
 
             fill(
                     matrices,
                     x,
+                    y,
+                    x + cardWidth,
+                    y + CARD_HEIGHT,
+                    0xCC252A36
+            );
+
+            // Card top border
+
+            fill(
+                    matrices,
+                    x,
+                    y,
+                    x + cardWidth,
+                    y + 2,
+                    color
+            );
+
+            int textX = x + 10;
+            int textWidth = Math.max(20, cardWidth - 20);
+
+            // Skill title
+
+            textRenderer.drawWithShadow(
+                    matrices,
+                    textRenderer.trimToWidth(title, textWidth),
+                    textX,
+                    y + 12,
+                    color
+            );
+
+            // Level
+
+            textRenderer.drawWithShadow(
+                    matrices,
+                    "Level: " + level + " / 100",
+                    textX,
+                    y + 31,
+                    0xFFFFFFFF
+            );
+
+            // Total XP
+
+            textRenderer.drawWithShadow(
+                    matrices,
+                    textRenderer.trimToWidth(
+                            "Total XP: " + totalXp,
+                            textWidth
+                    ),
+                    textX,
+                    y + 46,
+                    0xFFCCCCCC
+            );
+
+            // XP bar
+
+            int barY = y + 65;
+            int barWidth = textWidth;
+
+            fill(
+                    matrices,
+                    textX,
                     barY,
-                    x + barWidth,
-                    barY + 8,
+                    textX + barWidth,
+                    barY + 9,
                     0xFF444444
             );
 
             if (requiredXp > 0) {
 
-                int filled = (int) Math.min(
-                        barWidth,
-                        barWidth * (double) currentXp / requiredXp
+                double progress = Math.max(
+                        0.0,
+                        Math.min(
+                                1.0,
+                                (double) currentXp / requiredXp
+                        )
                 );
+
+                int filled = (int) (barWidth * progress);
 
                 fill(
                         matrices,
-                        x,
+                        textX,
                         barY,
-                        x + filled,
-                        barY + 8,
+                        textX + filled,
+                        barY + 9,
                         color
                 );
             }
 
             // XP text
+
+            String xpText = requiredXp > 0
+                    ? currentXp + " / " + requiredXp + " XP"
+                    : "MAX LEVEL";
+
             textRenderer.drawWithShadow(
                     matrices,
-                    requiredXp > 0
-                            ? currentXp + " / " + requiredXp + " XP"
-                            : "MAX LEVEL",
-                    x,
-                    barY + 12,
+                    textRenderer.trimToWidth(xpText, textWidth),
+                    textX,
+                    barY + 14,
                     0xFFAAAAAA
             );
 
             // Ability list
-            int listY = barY + 32;
-            int rowHeight = 22;
+
+            int listY = y + 94;
+            int rowHeight = 27;
 
             for (int i = 0; i < 20; i++) {
 
@@ -412,35 +610,61 @@ public final class SkillUI {
 
                 boolean unlocked = level >= requiredLevel;
 
-                String prefix = unlocked ? "§a✓ " : "§7🔒 ";
-
-                String stageText =
-                        prefix
-                        + "Lv."
-                        + requiredLevel
-                        + " "
-                        + stages[i];
-
                 int rowY = listY + i * rowHeight;
 
+                String stageName = i < stages.length
+                        ? stages[i]
+                        : "Unknown";
+
+                String stageText =
+                        (unlocked ? "§a✓ " : "§7🔒 ")
+                                + "Lv."
+                                + requiredLevel
+                                + " "
+                                + stageName;
+
                 // Ability name
+
                 textRenderer.drawWithShadow(
                         matrices,
-                        stageText,
-                        x,
+                        textRenderer.trimToWidth(
+                                stageText,
+                                textWidth
+                        ),
+                        textX,
                         rowY,
                         unlocked ? 0xFFFFFFFF : 0xFF888888
                 );
 
                 // Ability description
-                if (unlocked) {
+
+                if (unlocked && i < descriptions.length) {
+
+                    String description = "§7" + descriptions[i];
 
                     textRenderer.drawWithShadow(
                             matrices,
-                            "§7" + descriptions[i],
-                            x + 8,
-                            rowY + 10,
+                            textRenderer.trimToWidth(
+                                    description,
+                                    textWidth - 8
+                            ),
+                            textX + 8,
+                            rowY + 11,
                             0xFFAAAAAA
+                    );
+                }
+
+                // Separator
+
+                if (i < 19) {
+
+                    fill(
+                            matrices,
+                            textX,
+                            rowY + 24,
+                            textX + textWidth,
+                            rowY + 25,
+                            0x33445566
                     );
                 }
             }
@@ -467,6 +691,34 @@ public final class SkillUI {
                     y,
                     color
             );
+        }
+
+        // =================================================
+        // MOUSE SCROLL
+        // =================================================
+
+        @Override
+        public boolean mouseScrolled(
+                double mouseX,
+                double mouseY,
+                double amount
+        ) {
+
+            if (mouseY >= viewportTop
+                    && mouseY <= viewportBottom
+                    && maxScroll > 0) {
+
+                scrollOffset -= (int) (amount * 24);
+
+                scrollOffset = Math.max(
+                        0,
+                        Math.min(scrollOffset, maxScroll)
+                );
+
+                return true;
+            }
+
+            return super.mouseScrolled(mouseX, mouseY, amount);
         }
 
         // =================================================
