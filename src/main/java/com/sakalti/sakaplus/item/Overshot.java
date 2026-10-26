@@ -238,13 +238,13 @@ public class Overshot extends Item {
                 ItemStack inventoryStack = inventory.getStack(i);
 
                 if (ironSlot == -1
-                        && inventoryStack.isOf(Items.IRON_INGOT)) {
+                        && inventoryStack.isOf(Items.IRON_NUGGET)) {
 
                     ironSlot = i;
                 }
 
                 if (blazeSlot == -1
-                        && inventoryStack.isOf(Items.BLAZE_POWDER)) {
+                        && inventoryStack.isOf(Items.GUNPOWDER)) {
 
                     blazeSlot = i;
                 }
