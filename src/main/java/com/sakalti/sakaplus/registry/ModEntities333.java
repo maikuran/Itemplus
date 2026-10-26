@@ -77,7 +77,7 @@ public class ModEntities333 {
 
     public static final EntityType<KuloogieEntity> KULOOGIE =
             registerEntity("kuloogie", SpawnGroup.MONSTER,
-                    KuloogieEntity::new, 1.2F, 1.2F);
+                    KuloogieEntity::new, 0.8F, 1.2F);
 
     public static final EntityType<KurBruteEntity> KUR_BRUTE =
             registerEntity("kur_brute", SpawnGroup.CREATURE,
@@ -85,7 +85,7 @@ public class ModEntities333 {
 
     public static final EntityType<KruziAntEntity> KRUZI_ANT =
             registerEntity("kruzi_ant", SpawnGroup.MONSTER,
-                    KruziAntEntity::new, 0.9F, 0.9F, 64, 3);
+                    KruziAntEntity::new, 0.5F, 0.5F, 64, 3);
 
     public static final EntityType<WarperdunEntity> WARPERDUN =
             registerEntity("warperdun", SpawnGroup.MONSTER,
@@ -97,7 +97,7 @@ public class ModEntities333 {
 
     public static final EntityType<NyankoEntity> NYANKO =
             registerEntity("nyanko", SpawnGroup.MONSTER,
-                    NyankoEntity::new, 0.8F, 0.8F);
+                    NyankoEntity::new, 0.8F, 1.2F);
 
     public static final EntityType<BattleNyankoEntity> BATTLE_NYANKO =
             registerEntity("battle_nyanko", SpawnGroup.MONSTER,
