@@ -19,7 +19,7 @@ public class KruzivilimCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("kruzivilim")
-            // 権限レベル0（一般プレイヤー）でもチートON環境なら実行できるように設定
+            // 権限レベル0（一般プレイヤー）でも実行可能に設定
             .requires(source -> source.hasPermissionLevel(0))
             .then(CommandManager.literal("iku")
                 .executes(ctx -> teleport(ctx.getSource(), true)))
@@ -43,7 +43,8 @@ public class KruzivilimCommand {
             return 0;
         }
 
-        ServerWorld currentWorld = player.getServerWorld();
+        // ServerCommandSource から現在の ServerWorld を安全に取得（エラー修正箇所）
+        ServerWorld currentWorld = source.getWorld();
         ServerWorld targetWorld = player.getServer().getWorld(
             toKruzivilim ? SakaplusDimensions.KRUZIVILIM_DIMENSION_KEY : World.OVERWORLD
         );
@@ -62,11 +63,11 @@ public class KruzivilimCommand {
         // 消費処理
         removeItems(player, Items.GOLD_INGOT, required);
 
-        // 安全対策：移動先世界のX, Z座標における「一番高い不透過ブロック（地表）」のY座標を取得
+        // 安全対策：移動先世界のX, Z座標における「一番高い地表（Y座標）」を取得して窒息防止
         BlockPos currentPos = player.getBlockPos();
         int targetY = targetWorld.getTopY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, currentPos.getX(), currentPos.getZ());
 
-        // もし地表が奈落（下限以下）だった場合は、安全のため元のプレイヤーのY座標を維持
+        // 地形生成が間に合わない、または奈落だった場合の安全処理
         if (targetY <= targetWorld.getBottomY()) {
             targetY = currentPos.getY();
         }
