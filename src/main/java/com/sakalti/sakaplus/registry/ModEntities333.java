@@ -89,7 +89,7 @@ public class ModEntities333 {
 
     public static final EntityType<WarperdunEntity> WARPERDUN =
             registerEntity("warperdun", SpawnGroup.MONSTER,
-                    WarperdunEntity::new, 3.0F, 3.0F);
+                    WarperdunEntity::new, 1.4F, 2.1F);
 
     public static final EntityType<OganesonEntity> OGANESON =
             registerEntity("oganeson", SpawnGroup.MONSTER,
