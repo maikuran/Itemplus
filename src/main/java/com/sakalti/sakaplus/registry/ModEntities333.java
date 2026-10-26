@@ -81,7 +81,7 @@ public class ModEntities333 {
 
     public static final EntityType<KurBruteEntity> KUR_BRUTE =
             registerEntity("kur_brute", SpawnGroup.CREATURE,
-                    KurBruteEntity::new, 2.0F, 2.0F);
+                    KurBruteEntity::new, 0.5F, 1.1F);
 
     public static final EntityType<KruziAntEntity> KRUZI_ANT =
             registerEntity("kruzi_ant", SpawnGroup.MONSTER,
