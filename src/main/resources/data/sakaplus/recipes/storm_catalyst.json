@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ADW",
+    "WWW"
+  ],
+  "key": {
+    "D": { "item": "sakaplus:water_catalyst" },
+    "A": { "item": "minecraft:diamond" },
+    "W": { "item": "minecraft:iron_ingot" }
+  },
+  "result": {
+    "item": "sakaplus:storm_catalyst",
+    "count": 6
+  }
+}
