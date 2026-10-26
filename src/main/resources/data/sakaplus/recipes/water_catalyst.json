@@ -6,12 +6,12 @@
     "WWW"
   ],
   "key": {
-    "D": { "item": "sakaplus:pyronium_ingot" },
+    "D": { "item": "minecraft:ice" },
     "A": { "item": "minecraft:gold_ingot" },
     "W": { "item": "minecraft:iron_ingot" }
   },
   "result": {
-    "item": "sakaplus:fire_catalyst",
-    "count": 6
+    "item": "sakaplus:water_catalyst",
+    "count": 3
   }
 }
