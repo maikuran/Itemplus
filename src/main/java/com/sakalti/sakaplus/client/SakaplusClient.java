@@ -61,6 +61,11 @@ public class SakaplusClient implements ClientModInitializer {
         );
 
         EntityRendererRegistry.register(
+                ModEntities333.CRYOFREEZER,
+                CryofreezerRenderer::new
+        );
+
+        EntityRendererRegistry.register(
                 ModEntities333.KULOOGIE,
                 KuloogieRenderer::new
         );
@@ -139,6 +144,12 @@ public class SakaplusClient implements ClientModInitializer {
                 OganesonRenderer.MODEL_LAYER,
                 OganesonModel::getTexturedModelData
         );
+
+        EntityModelLayerRegistry.registerModelLayer(
+                CryofreezerRenderer.MODEL_LAYER,
+                CryofreezerModel::getTexturedModelData
+        );
+
 
         EntityModelLayerRegistry.registerModelLayer(
                 ShyronRenderer.MODEL_LAYER,
