@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "DDW",
+    "WA ",
+    "   "
+  ],
+  "key": {
+    "D": { "item": "sakaplus:pyronium_ingot" },
+    "A": { "item": "minecraft:netherite_ingot" },
+    "W": { "item": "sakaplus:cloth" }
+  },
+  "result": {
+    "item": "sakaplus:infernal_helmet",
+    "count": 1
+  }
+}
