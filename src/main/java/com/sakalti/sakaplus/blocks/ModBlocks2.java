@@ -98,6 +98,11 @@ public final class ModBlocks2 {
         registerBlock("kruzi_stone",
             new Block(stone(2.0f, 6.0f)));
 
+    public static final Block PYRONIUM_ORE =
+        registerBlock("pyronium_ore",
+            new Block(stone(2.0f, 6.0f)));
+
+
     public static final Block KRUZI_BRICKS =
         registerBlock("kruzi_bricks",
             new Block(stone(2.0f, 6.0f)));
