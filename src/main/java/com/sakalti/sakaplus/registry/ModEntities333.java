@@ -101,7 +101,7 @@ public class ModEntities333 {
 
     public static final EntityType<BattleNyankoEntity> BATTLE_NYANKO =
             registerEntity("battle_nyanko", SpawnGroup.MONSTER,
-                    BattleNyankoEntity::new, 0.8F, 0.8F);
+                    BattleNyankoEntity::new, 0.8F, 1.2F);
 
     public static final EntityType<ShyronEntity> SHYRON =
             registerEntity("shyron", SpawnGroup.MONSTER,
