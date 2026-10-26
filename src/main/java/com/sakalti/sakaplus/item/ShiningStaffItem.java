@@ -13,7 +13,7 @@ public class ShiningStaffItem extends StaffItem {
         super(
             settings.maxDamage(475),
 
-            0,
+            24,
 
             (world, player, hand) -> {
 
