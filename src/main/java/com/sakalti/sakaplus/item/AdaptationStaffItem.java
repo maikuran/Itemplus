@@ -14,7 +14,7 @@ public class AdaptationStaffItem extends StaffItem {
         super(
             settings.maxDamage(409),
 
-            0,
+            24,
 
             (world, player, hand) -> {
 
