@@ -14,9 +14,9 @@ public class WarperStaffItem extends StaffItem {
 
     public WarperStaffItem(Item.Settings settings) {
         super(
-            settings.maxDamage(1190),
+            settings.maxDamage(1200),
 
-            0,
+            24,
 
             (world, player, hand) -> {
                 if (world.isClient) return;
@@ -31,9 +31,9 @@ public class WarperStaffItem extends StaffItem {
                     playerEntity.getItemCooldownManager().set(player.getMainHandStack().getItem(), 24);
                 }
 
-                float damage = 24.0F;
+                float damage = 20.0F;
                 if (RANDOM.nextBoolean()) {
-                    damage += 8.0F;
+                    damage += 10.0F;
                 }
 
                 int beamColor = 0x9933FF;
