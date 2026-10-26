@@ -86,6 +86,9 @@ public class ModEntities333 {
     public static final EntityType<KruziAntEntity> KRUZI_ANT =
             registerEntity("kruzi_ant", SpawnGroup.MONSTER,
                     KruziAntEntity::new, 0.5F, 0.5F, 64, 3);
+    public static final EntityType<CryofreezeEntity> CRYOFREEZER =
+            registerEntity("cryofreezer", SpawnGroup.MONSTER,
+                    CryofreezeEntity::new, 0.8F, 0.8F, 64, 3);
 
     public static final EntityType<WarperdunEntity> WARPERDUN =
             registerEntity("warperdun", SpawnGroup.MONSTER,
@@ -149,6 +152,9 @@ public class ModEntities333 {
     public static final Item OGANESON_SPAWN_EGG =
             registerSpawnEgg("oganeson_spawn_egg", OGANESON,
                     0x336699, 0x00FFFF);
+    public static final Item CRYOFREEZER_SPAWN_EGG =
+            registerSpawnEgg("cryofreezer_spawn_egg", CRYOFREEZER,
+                    0x336699, 0x00FFFF);
 
     public static final Item NYANKO_SPAWN_EGG =
             registerSpawnEgg("nyanko_spawn_egg", NYANKO,
@@ -199,6 +205,7 @@ public class ModEntities333 {
         // Attributes
 
         registerAttributes(SCORCHER, ScorcherEntity.createAttributes());
+        registerAttributes(CRYOFREEZER, CryofreezerEntity.createAttributes());
         registerAttributes(KULOOGIE, KuloogieEntity.createAttributes());
         registerAttributes(KUR_BRUTE, KurBruteEntity.createAttributes());
         registerAttributes(KRUZI_ANT, KruziAntEntity.createKruziAntAttributes());
