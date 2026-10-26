@@ -256,7 +256,7 @@ public class KruziRifle extends Gun {
 
             PlayerInventory inventory = player.getInventory();
 
-            if (countItem(inventory, Items.DIAMOND) < 1) {
+            if (countItem(inventory, Items.IRON_INGOT) < 1) {
                 return false;
             }
 
@@ -266,7 +266,7 @@ public class KruziRifle extends Gun {
 
             // CONSUME MATERIALS
 
-            consumeItem(inventory, Items.DIAMOND, 1);
+            consumeItem(inventory, Items.IRON_INGOT, 1);
 
             consumeItem(inventory, Items.GUNPOWDER, 3);
         }
@@ -442,7 +442,7 @@ public class KruziRifle extends Gun {
         tooltip.add(Text.of("クールダウン: 5.25秒"));
 
         tooltip.add(
-                Text.of("リロード: ダイヤモンド1個 + 火薬3個")
+                Text.of("リロード: 鉄1個 + 火薬3個")
         );
 
         tooltip.add(
