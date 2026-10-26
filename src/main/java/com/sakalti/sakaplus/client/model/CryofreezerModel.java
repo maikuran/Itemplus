@@ -15,7 +15,7 @@ public class CryofreezerModel extends SinglePartEntityModel<CryofreezerEntity> {
     private static final int TEXTURE_WIDTH = 512;
     private static final int TEXTURE_HEIGHT = 192;
 
-    public ShyronModel(ModelPart root) {
+    public CryofreezerModel(ModelPart root) {
         this.root = root;
     }
 
