@@ -120,7 +120,7 @@ public class CryofreezerModel extends SinglePartEntityModel<CryofreezerEntity> {
 
     @Override
     public void setAngles(
-            ShyronEntity entity,
+            CryofreezerEntity entity,
             float limbAngle,
             float limbDistance,
             float animationProgress,
