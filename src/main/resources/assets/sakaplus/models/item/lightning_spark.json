@@ -1,6 +1,6 @@
 {
   "parent": "sakaplus:item/greatblade",
   "textures": {
-    "layer0": "sakaplus:item/lightning_spark_1"
+    "layer0": "sakaplus:item/lightning_spark_anim"
   }
 }
