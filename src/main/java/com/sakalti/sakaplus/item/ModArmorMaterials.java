@@ -14,7 +14,7 @@ import java.util.function.Supplier;
 @SuppressWarnings("deprecation")
 public enum ModArmorMaterials implements ArmorMaterial {
     PYRONIUM("sakaplus:pyronium", 37, new int[]{4, 6, 8, 3}, 15, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 4.5F, 1.1F, () -> Ingredient.ofItems(ModItems.PYRONIUM_INGOT)),
-    AMETHOND("sakaplus:amethond", 28, new int[]{2, 8, 7, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F, 0.1F, () -> Ingredient.ofItems(Items.AMETHYST_SHARD));
+    AMETHOND("sakaplus:amethond", 28, new int[]{2, 8, 7, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F, 0.1F, () -> Ingredient.ofItems(Items.AMETHYST_SHARD)),
     INFERNAL("sakaplus:infernal", 45, new int[]{4, 7, 8, 3}, 15, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 5.0F, 1.5F, () -> Ingredient.ofItems(ModItems.PYRONIUM_INGOT));
 
     private static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
