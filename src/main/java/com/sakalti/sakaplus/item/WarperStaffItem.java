@@ -14,7 +14,7 @@ public class WarperStaffItem extends StaffItem {
 
     public WarperStaffItem(Item.Settings settings) {
         super(
-            settings.maxDamage(500),
+            settings.maxDamage(1190),
 
             0,
 
@@ -28,10 +28,10 @@ public class WarperStaffItem extends StaffItem {
                         return; 
                     }
                     // クールダウンを設定（例: 40チック = 2秒）
-                    playerEntity.getItemCooldownManager().set(player.getMainHandStack().getItem(), 40);
+                    playerEntity.getItemCooldownManager().set(player.getMainHandStack().getItem(), 24);
                 }
 
-                float damage = 16.0F;
+                float damage = 24.0F;
                 if (RANDOM.nextBoolean()) {
                     damage += 8.0F;
                 }
