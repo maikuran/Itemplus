@@ -1,5 +1,5 @@
 {
-  "type": "sakaplus:kruzivilim",
+  "type": "sakaplus:cryovilim",
   "generator": {
     "type": "minecraft:noise",
     "settings": "sakaplus:cryovilim_noise",
