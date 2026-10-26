@@ -26,7 +26,6 @@ public class SakaplusMod2 implements ModInitializer {
         // Sounds
         SakaplusSounds.registerSounds();
 
-        KruziRifle.registerServer();
 
         // Potions
         LongtimePotionRegistry.registerAll();
