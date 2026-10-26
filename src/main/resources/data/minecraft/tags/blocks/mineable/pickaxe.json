@@ -2,6 +2,17 @@
   "replace": false,
   "values": [
     "sakaplus:pyronium_block",
-    "sakaplus:pyronium_ore"
+    "sakaplus:pyronium_ore",
+    "sakaplus:kruzi_stone",
+    "sakaplus:kruzi_bricks",
+    "sakaplus:kruzi_brick_stairs",
+    "sakaplus:kruzi_brick_slab",
+    "sakaplus:kruzi_brick_wall",
+    "sakaplus:chiseled_kruzi_bricks",
+    "sakaplus:kruzi_structure_block",
+    "sakaplus:kruzi_grass",
+    "sakaplus:kruzi_grass_stairs",
+    "sakaplus:kruzi_grass_slab",
+    "sakaplus:kruzi_grass_wall"
   ]
 }
