@@ -2,6 +2,7 @@ package com.sakalti.sakaplus.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.sakalti.sakaplus.dimension.SakaplusDimensions;
+import com.sakalti.sakaplus.sound.SakaplusSounds;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -9,12 +10,17 @@ import net.minecraft.item.Items;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.particle.ParticleTypes;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 
 public class KruzivilimCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("kruzivilim")
+            // 権限レベル0（一般プレイヤー）でもチートON環境なら実行できるように設定
+            .requires(source -> source.hasPermissionLevel(0))
             .then(CommandManager.literal("iku")
                 .executes(ctx -> teleport(ctx.getSource(), true)))
             .then(CommandManager.literal("modoru")
@@ -37,19 +43,43 @@ public class KruzivilimCommand {
             return 0;
         }
 
-        // 消費処理
-        removeItems(player, Items.GOLD_INGOT, required);
-
+        ServerWorld currentWorld = player.getServerWorld();
         ServerWorld targetWorld = player.getServer().getWorld(
             toKruzivilim ? SakaplusDimensions.KRUZIVILIM_DIMENSION_KEY : World.OVERWORLD
         );
+        
         if (targetWorld == null) {
             player.sendMessage(Text.of("§cテレポート先ワールドが見つかりません。"), false);
             return 0;
         }
 
-        BlockPos pos = player.getBlockPos();
-        player.teleport(targetWorld, pos.getX(), pos.getY(), pos.getZ(), player.getYaw(), player.getPitch());
+        // 移動前の世界でテレポート演出（音とパーティクル）
+        currentWorld.playSound(null, player.getX(), player.getY(), player.getZ(), 
+            SakaplusSounds.StaffUse, SoundCategory.PLAYERS, 1.0F, 1.2F);
+        currentWorld.spawnParticles(ParticleTypes.PORTAL, player.getX(), player.getY() + 1.0D, player.getZ(), 
+            30, 0.5D, 0.5D, 0.5D, 0.5D);
+
+        // 消費処理
+        removeItems(player, Items.GOLD_INGOT, required);
+
+        // 安全対策：移動先世界のX, Z座標における「一番高い不透過ブロック（地表）」のY座標を取得
+        BlockPos currentPos = player.getBlockPos();
+        int targetY = targetWorld.getTopY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, currentPos.getX(), currentPos.getZ());
+
+        // もし地表が奈落（下限以下）だった場合は、安全のため元のプレイヤーのY座標を維持
+        if (targetY <= targetWorld.getBottomY()) {
+            targetY = currentPos.getY();
+        }
+
+        // テレポート実行
+        player.teleport(targetWorld, currentPos.getX(), targetY, currentPos.getZ(), player.getYaw(), player.getPitch());
+        
+        // 移動後の世界でも演出
+        targetWorld.playSound(null, player.getX(), player.getY(), player.getZ(), 
+            SakaplusSounds.StaffUse, SoundCategory.PLAYERS, 1.0F, 1.0F);
+        targetWorld.spawnParticles(ParticleTypes.REVERSE_PORTAL, player.getX(), player.getY() + 1.0D, player.getZ(), 
+            30, 0.5D, 0.5D, 0.5D, 0.5D);
+
         player.sendMessage(Text.of(toKruzivilim ? "§6クルジヴィリムへ移動しました。" : "§6元の世界に戻りました。"), false);
         return 1;
     }
