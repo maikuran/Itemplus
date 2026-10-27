@@ -1,8 +1,6 @@
-
 package com.sakalti.sakaplus.client.model;
 
 import com.sakalti.sakaplus.entity.CryobeastEntity;
-
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.entity.model.SinglePartEntityModel;
 import net.minecraft.util.math.MathHelper;
@@ -31,295 +29,207 @@ public class CryobeastModel extends SinglePartEntityModel<CryobeastEntity> {
         ModelData data = new ModelData();
         ModelPartData root = data.getRoot();
 
-        // =====================================
         // HEAD
-        // =====================================
+        ModelPartData head = root.addChild("head",
+            ModelPartBuilder.create()
+                .uv(0, 0)
+                .cuboid(-4, -8, -4, 8, 8, 8)
 
-        root.addChild(
-                "head",
-                ModelPartBuilder.create()
-                        .uv(0, 0)
-                        .cuboid(-4F, -8F, -4F, 8F, 8F, 8F)
+                // Horns
+                .uv(34, 0)
+                .cuboid(-5, -10, -1, 2, 4, 2)
+                .uv(42, 0)
+                .cuboid(3, -10, -1, 2, 4, 2)
 
-                        // Ice horns
-                        .uv(32, 0)
-                        .cuboid(-5F, -11F, -1F, 2F, 5F, 2F)
+                // Jaw
+                .uv(50, 0)
+                .cuboid(-4, -2, -5, 8, 3, 5)
 
-                        .uv(32, 7)
-                        .cuboid(3F, -11F, -1F, 2F, 5F, 2F)
+                // Cheek crystals
+                .uv(78, 0)
+                .cuboid(-6, -5, -2, 2, 4, 3)
+                .uv(88, 0)
+                .cuboid(4, -5, -2, 2, 4, 3),
 
-                        // Frozen jaw
-                        .uv(40, 0)
-                        .cuboid(-3F, -2F, -5F, 6F, 3F, 2F)
-
-                        // Side crystals
-                        .uv(40, 6)
-                        .cuboid(-5F, -5F, -2F, 2F, 4F, 4F)
-
-                        .uv(40, 14)
-                        .cuboid(3F, -5F, -2F, 2F, 4F, 4F),
-
-                ModelTransform.pivot(0F, 0F, 0F)
+            ModelTransform.pivot(0, 0, 0)
         );
 
-        // =====================================
+        head.addChild("brow_crystal",
+            ModelPartBuilder.create()
+                .uv(100, 0)
+                .cuboid(-2, -9, -4.5F, 4, 2, 1),
+            ModelTransform.NONE
+        );
+
         // BODY
-        // =====================================
+        ModelPartData body = root.addChild("body",
+            ModelPartBuilder.create()
+                .uv(0, 20)
+                .cuboid(-5, 0, -3, 10, 13, 6)
 
-        root.addChild(
-                "body",
-                ModelPartBuilder.create()
+                // Upper armor
+                .uv(36, 20)
+                .cuboid(-6, 1, -4, 12, 6, 7)
 
-                        // Main torso
-                        .uv(0, 20)
-                        .cuboid(-5F, 0F, -3F, 10F, 13F, 6F)
+                // Lower armor
+                .uv(76, 20)
+                .cuboid(-5, 7, -4, 10, 5, 7)
 
-                        // Upper ice armor
-                        .uv(32, 20)
-                        .cuboid(-6F, 1F, -3.5F, 12F, 6F, 7F)
+                // Ice core
+                .uv(112, 20)
+                .cuboid(-2, 3, -4.8F, 4, 4, 1),
 
-                        // Lower armor
-                        .uv(32, 34)
-                        .cuboid(-5F, 8F, -3.5F, 10F, 5F, 7F)
-
-                        // Frozen core
-                        .uv(0, 40)
-                        .cuboid(-2F, 4F, -4F, 4F, 5F, 1F)
-
-                        // Back ice spikes
-                        .uv(16, 40)
-                        .cuboid(-1F, 1F, 3F, 2F, 5F, 3F)
-
-                        .uv(16, 48)
-                        .cuboid(-4F, 3F, 3F, 2F, 4F, 3F)
-
-                        .uv(26, 48)
-                        .cuboid(2F, 3F, 3F, 2F, 4F, 3F),
-
-                ModelTransform.pivot(0F, 0F, 0F)
+            ModelTransform.pivot(0, 0, 0)
         );
 
-        // =====================================
+        // Back spikes
+        body.addChild("back_spike_l",
+            ModelPartBuilder.create()
+                .uv(0, 44)
+                .cuboid(-1, -5, 0, 2, 6, 2),
+            ModelTransform.of(4, 3, 2, -0.35F, 0, -0.35F)
+        );
+
+        body.addChild("back_spike_r",
+            ModelPartBuilder.create()
+                .uv(8, 44)
+                .cuboid(-1, -5, 0, 2, 6, 2),
+            ModelTransform.of(-4, 3, 2, -0.35F, 0, 0.35F)
+        );
+
         // RIGHT ARM
-        // =====================================
+        root.addChild("right_arm",
+            ModelPartBuilder.create()
+                .uv(18, 44)
+                .cuboid(-3, -2, -3, 6, 13, 6)
 
-        root.addChild(
-                "right_arm",
-                ModelPartBuilder.create()
+                // Shoulder armor
+                .uv(44, 44)
+                .cuboid(-4, -3, -4, 7, 5, 7)
 
-                        // Massive arm
-                        .uv(0, 54)
-                        .cuboid(-3F, -2F, -3F, 6F, 13F, 6F)
+                // Ice claw
+                .uv(72, 44)
+                .cuboid(-2, 10, -4, 2, 4, 2),
 
-                        // Shoulder armor
-                        .uv(24, 54)
-                        .cuboid(-4F, -3F, -3.5F, 8F, 5F, 7F)
-
-                        // Claw
-                        .uv(48, 54)
-                        .cuboid(-2.5F, 9F, -4F, 5F, 3F, 2F)
-
-                        // Ice spike
-                        .uv(56, 0)
-                        .cuboid(-4F, 0F, 1F, 2F, 5F, 2F),
-
-                ModelTransform.pivot(-7F, 2F, 0F)
+            ModelTransform.pivot(-8, 2, 0)
         );
 
-        // =====================================
         // LEFT ARM
-        // =====================================
+        root.addChild("left_arm",
+            ModelPartBuilder.create()
+                .uv(0, 70)
+                .cuboid(-3, -2, -3, 6, 13, 6)
 
-        root.addChild(
-                "left_arm",
-                ModelPartBuilder.create()
+                // Shoulder armor
+                .uv(28, 70)
+                .cuboid(-3, -3, -4, 7, 5, 7)
 
-                        .uv(0, 54)
-                        .cuboid(-3F, -2F, -3F, 6F, 13F, 6F)
+                // Ice claw
+                .uv(56, 70)
+                .cuboid(0, 10, -4, 2, 4, 2),
 
-                        // Shoulder armor
-                        .uv(24, 54)
-                        .cuboid(-4F, -3F, -3.5F, 8F, 5F, 7F)
-
-                        // Claw
-                        .uv(48, 54)
-                        .cuboid(-2.5F, 9F, -4F, 5F, 3F, 2F)
-
-                        // Ice spike
-                        .uv(56, 8)
-                        .cuboid(2F, 0F, 1F, 2F, 5F, 2F),
-
-                ModelTransform.pivot(7F, 2F, 0F)
+            ModelTransform.pivot(8, 2, 0)
         );
 
-        // =====================================
         // RIGHT LEG
-        // =====================================
+        root.addChild("right_leg",
+            ModelPartBuilder.create()
+                .uv(84, 44)
+                .cuboid(-3, 0, -3, 6, 12, 6)
 
-        root.addChild(
-                "right_leg",
-                ModelPartBuilder.create()
+                // Greave
+                .uv(84, 70)
+                .cuboid(-3.5F, 5, -3.5F, 7, 6, 7),
 
-                        // Heavy leg
-                        .uv(0, 20)
-                        .cuboid(-3F, 0F, -3F, 6F, 12F, 6F)
-
-                        // Frozen greave
-                        .uv(24, 20)
-                        .cuboid(-3.5F, 4F, -3.5F, 7F, 6F, 7F)
-
-                        // Foot
-                        .uv(48, 20)
-                        .cuboid(-3.5F, 10F, -5F, 7F, 2F, 8F),
-
-                ModelTransform.pivot(-3F, 12F, 0F)
+            ModelTransform.pivot(-3, 13, 0)
         );
 
-        // =====================================
         // LEFT LEG
-        // =====================================
+        root.addChild("left_leg",
+            ModelPartBuilder.create()
+                .uv(0, 96)
+                .cuboid(-3, 0, -3, 6, 12, 6)
 
-        root.addChild(
-                "left_leg",
-                ModelPartBuilder.create()
+                // Greave
+                .uv(28, 96)
+                .cuboid(-3.5F, 5, -3.5F, 7, 6, 7),
 
-                        .uv(0, 20)
-                        .cuboid(-3F, 0F, -3F, 6F, 12F, 6F)
-
-                        // Frozen greave
-                        .uv(24, 20)
-                        .cuboid(-3.5F, 4F, -3.5F, 7F, 6F, 7F)
-
-                        // Foot
-                        .uv(48, 20)
-                        .cuboid(-3.5F, 10F, -5F, 7F, 2F, 8F),
-
-                ModelTransform.pivot(3F, 12F, 0F)
+            ModelTransform.pivot(3, 13, 0)
         );
 
-        return TexturedModelData.of(data, 64, 64);
+        return TexturedModelData.of(data, 128, 128);
     }
 
     @Override
     public ModelPart getPart() {
-        return this.root;
+        return root;
     }
 
     @Override
     public void setAngles(
-            CryobeastEntity entity,
-            float limbAngle,
-            float limbDistance,
-            float animationProgress,
-            float headYaw,
-            float headPitch
+        CryobeastEntity entity,
+        float limbAngle,
+        float limbDistance,
+        float animationProgress,
+        float headYaw,
+        float headPitch
     ) {
 
-        // =====================================
-        // RESET
-        // =====================================
+        // Head rotation
+        head.yaw = headYaw * ((float) Math.PI / 180F);
+        head.pitch = headPitch * ((float) Math.PI / 180F);
 
-        this.head.yaw = headYaw * ((float)Math.PI / 180F);
-        this.head.pitch = headPitch * ((float)Math.PI / 180F);
+        // Walking animation
+        float walk = MathHelper.cos(
+            limbAngle * 0.6662F
+        ) * 1.15F * limbDistance;
 
-        this.body.pitch = 0F;
-        this.body.roll = 0F;
+        rightArm.pitch =
+            MathHelper.cos(limbAngle * 0.6662F + (float) Math.PI)
+            * 1.25F * limbDistance;
 
-        this.rightArm.pitch = 0F;
-        this.leftArm.pitch = 0F;
-        this.rightArm.roll = 0F;
-        this.leftArm.roll = 0F;
+        leftArm.pitch =
+            MathHelper.cos(limbAngle * 0.6662F)
+            * 1.25F * limbDistance;
 
-        this.rightLeg.pitch = 0F;
-        this.leftLeg.pitch = 0F;
+        rightLeg.pitch = walk;
+        leftLeg.pitch = -walk;
 
-        // =====================================
-        // WALK ANIMATION
-        // =====================================
+        // Idle animation
+        float idle = MathHelper.sin(
+            animationProgress * 0.08F
+        ) * 0.035F;
 
-        float walkSpeed = 0.6662F;
-        float walkAmount = Math.min(limbDistance, 1.0F);
+        body.pitch = idle;
+        head.pivotY = idle * 3.0F;
 
-        float walk = limbAngle * walkSpeed;
+        rightArm.roll = -0.06F + idle;
+        leftArm.roll = 0.06F - idle;
 
-        this.rightLeg.pitch =
-                MathHelper.cos(walk) * 1.15F * walkAmount;
+        // Attack animation
+        float swing = entity.getHandSwingProgress(0.0F);
 
-        this.leftLeg.pitch =
-                MathHelper.cos(walk + (float)Math.PI)
-                        * 1.15F * walkAmount;
-
-        this.rightArm.pitch =
-                MathHelper.cos(walk + (float)Math.PI)
-                        * 0.85F * walkAmount;
-
-        this.leftArm.pitch =
-                MathHelper.cos(walk)
-                        * 0.85F * walkAmount;
-
-        // Heavy body movement
-        this.body.pitch =
-                MathHelper.cos(walk * 2F)
-                        * 0.055F * walkAmount;
-
-        this.body.pivotY =
-                MathHelper.sin(walk * 2F)
-                        * 0.4F * walkAmount;
-
-        // =====================================
-        // IDLE ANIMATION
-        // =====================================
-
-        float idle = animationProgress;
-
-        this.head.pitch +=
-                MathHelper.sin(idle * 0.045F) * 0.035F;
-
-        this.body.pivotY +=
-                MathHelper.sin(idle * 0.08F) * 0.12F;
-
-        this.rightArm.roll =
-                -0.035F + MathHelper.sin(idle * 0.07F) * 0.025F;
-
-        this.leftArm.roll =
-                0.035F - MathHelper.sin(idle * 0.07F) * 0.025F;
-
-        // =====================================
-        // ATTACK ANIMATION
-        // =====================================
-
-        float attack = entity.getHandSwingProgress(0F);
-
-        if (attack > 0F) {
-
-            float swing = MathHelper.sin(
-                    (float)Math.sqrt(attack) * (float)Math.PI
+        if (swing > 0.0F) {
+            float s = MathHelper.sin(
+                swing * (float) Math.PI
             );
 
-            float power = MathHelper.sin(
-                    attack * (float)Math.PI
-            );
+            body.yaw =
+                MathHelper.sin(
+                    MathHelper.sqrt(swing) * ((float) Math.PI * 2F)
+                ) * 0.12F;
 
-            // Body leans forward
-            this.body.pitch -= swing * 0.42F;
+            rightArm.pitch -= s * 1.75F;
+            leftArm.pitch -= s * 1.75F;
 
-            // Head follows the attack
-            this.head.pitch -= swing * 0.18F;
+            rightArm.roll -= s * 0.18F;
+            leftArm.roll += s * 0.18F;
 
-            // Both arms raise and smash forward
-            this.rightArm.pitch -= swing * 2.15F;
-            this.leftArm.pitch -= swing * 2.15F;
+            rightLeg.pitch += s * 0.22F;
+            leftLeg.pitch += s * 0.22F;
 
-            // Arms spread slightly
-            this.rightArm.roll -= power * 0.22F;
-            this.leftArm.roll += power * 0.22F;
-
-            // Heavy legs brace the body
-            this.rightLeg.pitch += swing * 0.25F;
-            this.leftLeg.pitch += swing * 0.25F;
-
-            // Recoil
-            this.body.pivotY -= swing * 0.3F;
+        } else {
+            body.yaw = 0.0F;
         }
     }
 }
