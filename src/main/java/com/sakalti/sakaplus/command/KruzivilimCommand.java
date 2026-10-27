@@ -1,9 +1,10 @@
+
 package com.sakalti.sakaplus.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.sakalti.sakaplus.dimension.SakaplusDimensions;
 import com.sakalti.sakaplus.sound.SakaplusSounds;
-import com.sakalti.sakaplus.registry.ModItems; // プロジェクト環境に合わせて変更してください
+import com.sakalti.sakaplus.registry.ModItems;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
@@ -20,7 +21,8 @@ import net.minecraft.registry.RegistryKey;
 
 public class SakaDimensionsCommand {
 
-    // クライオヴィリム初回訪問記録用のタグ名
+    // 初回訪問記録用のスコアボードタグ名
+    private static final String KRUZIVILIM_VISITED_TAG = "has_visited_kruzivilim";
     private static final String CRYOVILIM_VISITED_TAG = "has_visited_cryovilim";
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
@@ -47,7 +49,7 @@ public class SakaDimensionsCommand {
     }
 
     /**
-     * クルジヴィリム用のテレポート処理（金インゴット28個を毎回消費）
+     * クルジヴィリム用のテレポート処理（ネザライトインゴット3個を初回のみ消費）
      */
     private static int teleportKruzivilim(ServerCommandSource source, boolean toKruzivilim) {
         ServerPlayerEntity player = source.getPlayer();
@@ -56,14 +58,17 @@ public class SakaDimensionsCommand {
             return 0;
         }
 
-        if (toKruzivilim) {
-            int required = 28;
-            int goldCount = countItems(player, Items.GOLD_INGOT);
-            if (goldCount < required) {
-                player.sendMessage(Text.of("§c金インゴットが28個必要です。現在: " + goldCount + "個"), false);
+        // 行くとき、かつ、まだ訪問タグがない場合のみ初回消費処理
+        if (toKruzivilim && !player.getCommandTags().contains(KRUZIVILIM_VISITED_TAG)) {
+            int required = 3;
+            int netheriteCount = countItems(player, Items.NETHERITE_INGOT);
+            if (netheriteCount < required) {
+                player.sendMessage(Text.of("§c初回移動にはネザライトインゴットが3個必要です。現在: " + netheriteCount + "個"), false);
                 return 0;
             }
-            removeItems(player, Items.GOLD_INGOT, required);
+            removeItems(player, Items.NETHERITE_INGOT, required);
+            player.addCommandTag(KRUZIVILIM_VISITED_TAG);
+            player.sendMessage(Text.of("§6ネザライトインゴットを3個捧げ、扉が開かれました…"), false);
         }
 
         return executeTeleport(source, player, 
