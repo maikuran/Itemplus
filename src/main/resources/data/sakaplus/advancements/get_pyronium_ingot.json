@@ -2,7 +2,7 @@
   "parent": "sakaplus:visit_kruzivilim",
   "display": {
     "icon": {
-      "item": "sakalti:pyronium_ingot"
+      "item": "sakaplus:pyronium_ingot"
     },
     "title": {
       "translate": "advancement.sakaplus.get_pyronium_ingot.title"
