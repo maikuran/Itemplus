@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus.registry;
 
 import java.util.function.Predicate;
@@ -54,14 +53,16 @@ public class ModEntities333 {
             int trackingRange,
             int updateRate
     ) {
-        return Registry.register(
-                Registry.ENTITY_TYPE,
-                new Identifier(MOD_ID, name),
+        FabricEntityTypeBuilder<T> builder =
                 FabricEntityTypeBuilder.create(group, factory)
                         .dimensions(EntityDimensions.fixed(width, height))
                         .trackRangeBlocks(trackingRange)
-                        .trackedUpdateRate(updateRate)
-                        .build()
+                        .trackedUpdateRate(updateRate);
+
+        return Registry.register(
+                Registry.ENTITY_TYPE,
+                new Identifier(MOD_ID, name),
+                builder.build()
         );
     }
 
@@ -102,6 +103,17 @@ public class ModEntities333 {
                     64, 3
             );
 
+    // Original Cryofreezer
+    public static final EntityType<CryofreezerEntity> CRYOFREEZER =
+            registerEntity(
+                    "cryofreezer",
+                    SpawnGroup.MONSTER,
+                    CryofreezerEntity::new,
+                    1.5F, 1.5F,
+                    64, 3
+            );
+
+    // Cryomage
     public static final EntityType<CryomageEntity> CRYOMAGE =
             registerEntity(
                     "cryomage",
@@ -111,6 +123,7 @@ public class ModEntities333 {
                     64, 3
             );
 
+    // Cryowarrior
     public static final EntityType<CryowarriorEntity> CRYOWARRIOR =
             registerEntity(
                     "cryowarrior",
@@ -180,12 +193,6 @@ public class ModEntities333 {
             int primaryColor,
             int secondaryColor
     ) {
-        if (entityType == null) {
-            throw new IllegalStateException(
-                    "EntityType is null: " + MOD_ID + ":" + name
-            );
-        }
-
         Identifier id = new Identifier(MOD_ID, name);
 
         if (Registry.ITEM.containsId(id)) {
@@ -230,6 +237,14 @@ public class ModEntities333 {
             registerSpawnEgg(
                     "oganeson_spawn_egg",
                     OGANESON,
+                    0x336699,
+                    0x00FFFF
+            );
+
+    public static final Item CRYOFREEZER_SPAWN_EGG =
+            registerSpawnEgg(
+                    "cryofreezer_spawn_egg",
+                    CRYOFREEZER,
                     0x336699,
                     0x00FFFF
             );
@@ -340,6 +355,11 @@ public class ModEntities333 {
         registerAttributes(
                 KRUZI_ANT,
                 KruziAntEntity.createKruziAntAttributes()
+        );
+
+        registerAttributes(
+                CRYOFREEZER,
+                CryofreezerEntity.createAttributes()
         );
 
         registerAttributes(
