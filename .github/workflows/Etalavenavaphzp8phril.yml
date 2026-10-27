@@ -1,0 +1,49 @@
+name: Minecraft Mod Auto-Fix & Build
+
+on:
+  push:
+    branches: [ "main3" ]
+  pull_request:
+    branches: [ "main3" ]
+
+jobs:
+  fix-and-build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 💡 自動修正したフォルダをリポジトリにコミットするために必要
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    # 💡 間違った「blocks」「items」フォルダがあった場合、正しい「block」「item」に自動移動するステップ
+    - name: Auto-fix and rename tag folders
+      run: |
+
+        
+        # blocks フォルダの移動
+        for dir in src/main/resources/data/*/tags/blocks; do
+          if [ -d "$dir" ]; then
+            target_dir=$(echo "$dir" | sed 's/blocks$/block/')
+            echo "⚠️ フォルダの誤りを発見: $dir -> $target_dir に移動します。"
+            mkdir -p "$target_dir"
+            mv "$dir"/* "$target_dir"/ 2>/dev/null || true
+            rmdir "$dir"
+            FIX_NEEDED=true
+          fi
+        done
+
+
+    # 💡 自動移動が発生した場合のみ、修正されたフォルダを main ブランチに自動コミット＆プッシュするステップ
+    - name: Commit and push fixed folders
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@://github.com"
+        git add src/main/resources/data/
+        git commit -m "Chore: Auto-fix folder names (blocks/items -> block/item)"
+        git pull --rebase
+        git push
+
+    
