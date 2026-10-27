@@ -50,7 +50,7 @@ public class CryofreezerEntity extends HostileEntity {
         this.experiencePoints = 12;
     }
 
-    public static DefaultAttributeContainer.Builder createCryofreezerAttributes() {
+    public static DefaultAttributeContainer.Builder createAttributes() {
         return HostileEntity.createHostileAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 76.0D)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.28D)
