@@ -81,7 +81,7 @@ public class ModEntities333 {
 
     public static final EntityType<CryomageEntity> CRYOMAGE =
             registerEntity("cryomage", SpawnGroup.MONSTER,
-                    CryomageEntity::new, 1.5F, 1.5F, 64, 3);
+                    CryomageEntity::new, 0.7F, 1.95F, 64, 3);
 
     public static final EntityType<CryowarriorEntity> CRYOWARRIOR =
             registerEntity("cryowarrior", SpawnGroup.MONSTER,
