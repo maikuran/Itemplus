@@ -1,6 +1,3 @@
-
-    
-
 package com.sakalti.sakaplus;
 
 import net.fabricmc.api.ModInitializer;
@@ -10,7 +7,7 @@ import com.sakalti.sakaplus.item.CatalystItems;
 import com.sakalti.sakaplus.item.KruziRifle;
 import com.sakalti.sakaplus.tinco.item.ModItems5;
 import com.sakalti.sakaplus.effect.ModEffects;
-import com.sakalti.sakaplus.command.KruzivilimCommand;
+import com.sakalti.sakaplus.command.SakaDimensionsCommand; // 新しいコマンドクラスをインポート
 import com.sakalti.sakaplus.registry.*;
 import com.sakalti.sakaplus.dimension.SakaplusDimensions;
 import com.sakalti.sakaplus.block.ModBlocks2;
@@ -54,10 +51,10 @@ public class SakaplusMod2 implements ModInitializer {
         // Greeny Features
         GreenyFeatures.register();
 
-        // Commands
+        // Commands（新しい統合コマンドを登録するように変更）
         CommandRegistrationCallback.EVENT.register(
             (dispatcher, registryAccess, environment) -> {
-                KruzivilimCommand.register(dispatcher);
+                SakaDimensionsCommand.register(dispatcher);
             }
         );
 
