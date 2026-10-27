@@ -79,6 +79,18 @@ public class SakaplusClient implements ClientModInitializer {
                 CryofreezerRenderer::new
         );
 
+        // Cryomage
+        EntityRendererRegistry.register(
+                ModEntities333.CRYOMAGE,
+                CryomageRenderer::new
+        );
+
+        // Cryowarrior
+        EntityRendererRegistry.register(
+                ModEntities333.CRYOWARRIOR,
+                CryowarriorRenderer::new
+        );
+
         // Kuloogie
         EntityRendererRegistry.register(
                 ModEntities333.KULOOGIE,
@@ -180,6 +192,18 @@ public class SakaplusClient implements ClientModInitializer {
         registerModelLayer(
                 CryofreezerRenderer.MODEL_LAYER,
                 CryofreezerModel::getTexturedModelData
+        );
+
+        // Cryomage
+        registerModelLayer(
+                CryomageRenderer.MODEL_LAYER,
+                CryoHumanoidModel::getTexturedModelData
+        );
+
+        // Cryowarrior
+        registerModelLayer(
+                CryowarriorRenderer.MODEL_LAYER,
+                CryoHumanoidModel::getTexturedModelData
         );
 
         // Shyron
