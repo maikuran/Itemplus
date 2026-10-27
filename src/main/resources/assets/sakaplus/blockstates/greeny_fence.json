@@ -1,100 +1,48 @@
 {
-  "variants": {
-    "north=true,east=true,south=true,west=true,waterlogged=false": {
-      "model": "sakaplus:block/greeny_fence_post"
+  "multipart": [
+    {
+      "apply": {
+        "model": "sakaplus:block/greeny_fence_post"
+      }
     },
-    "north=true,east=true,south=true,west=true,waterlogged=true": {
-      "model": "sakaplus:block/greeny_fence_post"
+    {
+      "when": {
+        "north": "true"
+      },
+      "apply": {
+        "model": "sakaplus:block/greeny_fence_side",
+        "uvlock": true
+      }
     },
-    "north=true,east=true,south=true,west=false,waterlogged=false": {
-      "model": "sakaplus:block/greeny_fence_post"
+    {
+      "when": {
+        "east": "true"
+      },
+      "apply": {
+        "model": "sakaplus:block/greeny_fence_side",
+        "y": 90,
+        "uvlock": true
+      }
     },
-    "north=true,east=true,south=true,west=false,waterlogged=true": {
-      "model": "sakaplus:block/greeny_fence_post"
+    {
+      "when": {
+        "south": "true"
+      },
+      "apply": {
+        "model": "sakaplus:block/greeny_fence_side",
+        "y": 180,
+        "uvlock": true
+      }
     },
-    "north=true,east=true,south=false,west=true,waterlogged=false": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=true,east=true,south=false,west=true,waterlogged=true": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=true,east=true,south=false,west=false,waterlogged=false": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=true,east=true,south=false,west=false,waterlogged=true": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=true,east=false,south=true,west=true,waterlogged=false": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=true,east=false,south=true,west=true,waterlogged=true": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=true,east=false,south=true,west=false,waterlogged=false": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=true,east=false,south=true,west=false,waterlogged=true": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=true,east=false,south=false,west=true,waterlogged=false": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=true,east=false,south=false,west=true,waterlogged=true": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=true,east=false,south=false,west=false,waterlogged=false": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=true,east=false,south=false,west=false,waterlogged=true": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=false,east=true,south=true,west=true,waterlogged=false": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=false,east=true,south=true,west=true,waterlogged=true": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=false,east=true,south=true,west=false,waterlogged=false": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=false,east=true,south=true,west=false,waterlogged=true": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=false,east=true,south=false,west=true,waterlogged=false": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=false,east=true,south=false,west=true,waterlogged=true": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=false,east=true,south=false,west=false,waterlogged=false": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=false,east=true,south=false,west=false,waterlogged=true": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=false,east=false,south=true,west=true,waterlogged=false": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=false,east=false,south=true,west=true,waterlogged=true": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=false,east=false,south=true,west=false,waterlogged=false": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=false,east=false,south=true,west=false,waterlogged=true": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=false,east=false,south=false,west=true,waterlogged=false": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=false,east=false,south=false,west=true,waterlogged=true": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=false,east=false,south=false,west=false,waterlogged=false": {
-      "model": "sakaplus:block/greeny_fence_post"
-    },
-    "north=false,east=false,south=false,west=false,waterlogged=true": {
-      "model": "sakaplus:block/greeny_fence_post"
+    {
+      "when": {
+        "west": "true"
+      },
+      "apply": {
+        "model": "sakaplus:block/greeny_fence_side",
+        "y": 270,
+        "uvlock": true
+      }
     }
-  }
+  ]
 }
