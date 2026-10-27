@@ -25,9 +25,9 @@ public class ModEntities333 {
 
     private static final String MOD_ID = "sakaplus";
 
-    // =========================================================
-    // Entity Registration Function
-    // =========================================================
+    // =====================================================
+    // Entity Registration
+    // =====================================================
 
     private static <T extends Entity> EntityType<T> registerEntity(
             String name,
@@ -36,7 +36,7 @@ public class ModEntities333 {
             float width,
             float height
     ) {
-        return registerEntity(name, group, factory, width, height, 0, 0);
+        return registerEntity(name, group, factory, width, height, 10, 3);
     }
 
     private static <T extends Entity> EntityType<T> registerEntity(
@@ -48,28 +48,20 @@ public class ModEntities333 {
             int trackingRange,
             int updateRate
     ) {
-        FabricEntityTypeBuilder<T> builder =
-                FabricEntityTypeBuilder.create(group, factory)
-                        .dimensions(EntityDimensions.fixed(width, height));
-
-        if (trackingRange > 0) {
-            builder.trackRangeBlocks(trackingRange);
-        }
-
-        if (updateRate > 0) {
-            builder.trackedUpdateRate(updateRate);
-        }
-
         return Registry.register(
                 Registry.ENTITY_TYPE,
                 new Identifier(MOD_ID, name),
-                builder.build()
+                FabricEntityTypeBuilder.create(group, factory)
+                        .dimensions(EntityDimensions.fixed(width, height))
+                        .trackRangeBlocks(trackingRange)
+                        .trackedUpdateRate(updateRate)
+                        .build()
         );
     }
 
-    // =========================================================
+    // =====================================================
     // Entity Types
-    // =========================================================
+    // =====================================================
 
     public static final EntityType<ScorcherEntity> SCORCHER =
             registerEntity("scorcher", SpawnGroup.MONSTER,
@@ -86,9 +78,14 @@ public class ModEntities333 {
     public static final EntityType<KruziAntEntity> KRUZI_ANT =
             registerEntity("kruzi_ant", SpawnGroup.MONSTER,
                     KruziAntEntity::new, 0.5F, 0.5F, 64, 3);
-    public static final EntityType<CryofreezerEntity> CRYOFREEZER =
-            registerEntity("cryofreezer", SpawnGroup.MONSTER,
-                    CryofreezerEntity::new, 1.5F, 1.5F, 64, 3);
+
+    public static final EntityType<CryomageEntity> CRYOMAGE =
+            registerEntity("cryomage", SpawnGroup.MONSTER,
+                    CryomageEntity::new, 1.5F, 1.5F, 64, 3);
+
+    public static final EntityType<CryowarriorEntity> CRYOWARRIOR =
+            registerEntity("cryowarrior", SpawnGroup.MONSTER,
+                    CryowarriorEntity::new, 0.8F, 2.0F, 64, 3);
 
     public static final EntityType<WarperdunEntity> WARPERDUN =
             registerEntity("warperdun", SpawnGroup.MONSTER,
@@ -110,14 +107,13 @@ public class ModEntities333 {
             registerEntity("shyron", SpawnGroup.MONSTER,
                     ShyronEntity::new, 1.5F, 1.5F, 64, 3);
 
-    // Xxena
     public static final EntityType<XxenaEntity> XXENA =
             registerEntity("xxena", SpawnGroup.MONSTER,
                     XxenaEntity::new, 1.75F, 1.5F, 64, 3);
 
-    // =========================================================
-    // Spawn Egg Registration Function
-    // =========================================================
+    // =====================================================
+    // Spawn Egg Registration
+    // =====================================================
 
     private static Item registerSpawnEgg(
             String name,
@@ -125,9 +121,23 @@ public class ModEntities333 {
             int primaryColor,
             int secondaryColor
     ) {
+        if (entityType == null) {
+            throw new IllegalStateException(
+                    "EntityType is null: " + MOD_ID + ":" + name
+            );
+        }
+
+        Identifier id = new Identifier(MOD_ID, name);
+
+        if (Registry.ITEM.containsId(id)) {
+            throw new IllegalStateException(
+                    "Duplicate spawn egg registration: " + id
+            );
+        }
+
         return Registry.register(
                 Registry.ITEM,
-                new Identifier(MOD_ID, name),
+                id,
                 new SpawnEggItem(
                         entityType,
                         primaryColor,
@@ -137,9 +147,9 @@ public class ModEntities333 {
         );
     }
 
-    // =========================================================
+    // =====================================================
     // Spawn Eggs
-    // =========================================================
+    // =====================================================
 
     public static final Item SCORCHER_SPAWN_EGG =
             registerSpawnEgg("scorcher_spawn_egg", SCORCHER,
@@ -152,9 +162,14 @@ public class ModEntities333 {
     public static final Item OGANESON_SPAWN_EGG =
             registerSpawnEgg("oganeson_spawn_egg", OGANESON,
                     0x336699, 0x00FFFF);
-    public static final Item CRYOFREEZER_SPAWN_EGG =
-            registerSpawnEgg("cryofreezer_spawn_egg", CRYOFREEZER,
-                    0x336699, 0x00FFFF);
+
+    public static final Item CRYOMAGE_SPAWN_EGG =
+            registerSpawnEgg("cryomage_spawn_egg", CRYOMAGE,
+                    0x66CCFF, 0x2244AA);
+
+    public static final Item CRYOWARRIOR_SPAWN_EGG =
+            registerSpawnEgg("cryowarrior_spawn_egg", CRYOWARRIOR,
+                    0x3366CC, 0x99DDFF);
 
     public static final Item NYANKO_SPAWN_EGG =
             registerSpawnEgg("nyanko_spawn_egg", NYANKO,
@@ -180,71 +195,120 @@ public class ModEntities333 {
             registerSpawnEgg("shyron_spawn_egg", SHYRON,
                     0x555577, 0xAAAAAA);
 
-    // Xxena Spawn Egg
     public static final Item XXENA_SPAWN_EGG =
             registerSpawnEgg("xxena_spawn_egg", XXENA,
                     0x8A2BE2, 0xFF66CC);
 
-    // =========================================================
-    // Attribute Registration Function
-    // =========================================================
+    // =====================================================
+    // Attribute Registration
+    // =====================================================
 
     private static <T extends LivingEntity> void registerAttributes(
-            EntityType<T> entityType,
+            EntityType<T> type,
             DefaultAttributeContainer.Builder attributes
     ) {
-        FabricDefaultAttributeRegistry.register(entityType, attributes);
+        FabricDefaultAttributeRegistry.register(type, attributes);
     }
 
-    // =========================================================
-    // Registration
-    // =========================================================
+    private static void registerAllAttributes() {
 
-    public static void register() {
+        registerAttributes(SCORCHER,
+                ScorcherEntity.createAttributes());
 
-        // Attributes
+        registerAttributes(KULOOGIE,
+                KuloogieEntity.createAttributes());
 
-        registerAttributes(SCORCHER, ScorcherEntity.createAttributes());
-        registerAttributes(CRYOFREEZER, CryofreezerEntity.createAttributes());
-        registerAttributes(KULOOGIE, KuloogieEntity.createAttributes());
-        registerAttributes(KUR_BRUTE, KurBruteEntity.createAttributes());
-        registerAttributes(KRUZI_ANT, KruziAntEntity.createKruziAntAttributes());
-        registerAttributes(WARPERDUN, WarperdunEntity.createAttributes());
-        registerAttributes(OGANESON, OganesonEntity.createAttributes());
-        registerAttributes(NYANKO, NyankoEntity.createAttributes());
-        registerAttributes(BATTLE_NYANKO, BattleNyankoEntity.createAttributes());
-        registerAttributes(SHYRON, ShyronEntity.createAttributes());
-        registerAttributes(XXENA, XxenaEntity.createAttributes());
+        registerAttributes(KUR_BRUTE,
+                KurBruteEntity.createAttributes());
 
-        // =====================================================
-        // Natural Spawning
-        // =====================================================
+        registerAttributes(KRUZI_ANT,
+                KruziAntEntity.createKruziAntAttributes());
+
+        registerAttributes(CRYOMAGE,
+                CryomageEntity.createAttributes());
+
+        registerAttributes(CRYOWARRIOR,
+                CryowarriorEntity.createAttributes());
+
+        registerAttributes(WARPERDUN,
+                WarperdunEntity.createAttributes());
+
+        registerAttributes(OGANESON,
+                OganesonEntity.createAttributes());
+
+        registerAttributes(NYANKO,
+                NyankoEntity.createAttributes());
+
+        registerAttributes(BATTLE_NYANKO,
+                BattleNyankoEntity.createAttributes());
+
+        registerAttributes(SHYRON,
+                ShyronEntity.createAttributes());
+
+        registerAttributes(XXENA,
+                XxenaEntity.createAttributes());
+    }
+
+    // =====================================================
+    // Natural Spawn Registration
+    // =====================================================
+
+    private static void registerNaturalSpawn(
+            EntityType<? extends MobEntity> entity,
+            net.minecraft.world.biome.BiomeSelectionContext selector,
+            SpawnGroup group,
+            int weight,
+            int minGroup,
+            int maxGroup
+    ) {
+        BiomeModifications.addSpawn(
+                selector,
+                group,
+                entity,
+                weight,
+                minGroup,
+                maxGroup
+        );
+    }
+
+    private static void registerNaturalSpawns() {
 
         // Scorcher: Crimson Forest
-        BiomeModifications.addSpawn(
+        registerNaturalSpawn(
+                SCORCHER,
                 BiomeSelectors.includeByKey(BiomeKeys.CRIMSON_FOREST),
                 SpawnGroup.MONSTER,
-                SCORCHER,
                 20, 1, 5
         );
 
         // Nyanko: Plains
-        BiomeModifications.addSpawn(
+        registerNaturalSpawn(
+                NYANKO,
                 BiomeSelectors.includeByKey(BiomeKeys.PLAINS),
                 SpawnGroup.MONSTER,
-                NYANKO,
                 11, 1, 5
         );
 
-        // Oganeson: Warped Forest and Crimson Forest
-        BiomeModifications.addSpawn(
+        // Oganeson: Warped Forest + Crimson Forest
+        registerNaturalSpawn(
+                OGANESON,
                 BiomeSelectors.includeByKey(
                         BiomeKeys.WARPED_FOREST,
                         BiomeKeys.CRIMSON_FOREST
                 ),
                 SpawnGroup.MONSTER,
-                OGANESON,
                 20, 1, 6
         );
+    }
+
+    // =====================================================
+    // Main Registration
+    // =====================================================
+
+    public static void register() {
+
+        registerAllAttributes();
+
+        registerNaturalSpawns();
     }
 }
