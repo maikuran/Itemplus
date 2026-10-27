@@ -16,7 +16,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
-import net.minecraft.registry.RegistryKey;
+import net.minecraft.util.registry.RegistryKey; // 1.19.2以前の正しいパッケージ名
 
 public class SakaDimensionsCommand {
 
