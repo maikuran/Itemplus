@@ -1,10 +1,13 @@
 
 package com.sakalti.sakaplus.registry;
 
+import java.util.function.Predicate;
+
 import com.sakalti.sakaplus.entity.*;
 
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 
@@ -36,7 +39,10 @@ public class ModEntities333 {
             float width,
             float height
     ) {
-        return registerEntity(name, group, factory, width, height, 10, 3);
+        return registerEntity(
+                name, group, factory,
+                width, height, 10, 3
+        );
     }
 
     private static <T extends Entity> EntityType<T> registerEntity(
@@ -64,52 +70,105 @@ public class ModEntities333 {
     // =====================================================
 
     public static final EntityType<ScorcherEntity> SCORCHER =
-            registerEntity("scorcher", SpawnGroup.MONSTER,
-                    ScorcherEntity::new, 0.6F, 1.8F);
+            registerEntity(
+                    "scorcher",
+                    SpawnGroup.MONSTER,
+                    ScorcherEntity::new,
+                    0.6F, 1.8F
+            );
 
     public static final EntityType<KuloogieEntity> KULOOGIE =
-            registerEntity("kuloogie", SpawnGroup.MONSTER,
-                    KuloogieEntity::new, 0.8F, 1.2F);
+            registerEntity(
+                    "kuloogie",
+                    SpawnGroup.MONSTER,
+                    KuloogieEntity::new,
+                    0.8F, 1.2F
+            );
 
     public static final EntityType<KurBruteEntity> KUR_BRUTE =
-            registerEntity("kur_brute", SpawnGroup.CREATURE,
-                    KurBruteEntity::new, 0.5F, 1.1F);
+            registerEntity(
+                    "kur_brute",
+                    SpawnGroup.CREATURE,
+                    KurBruteEntity::new,
+                    0.5F, 1.1F
+            );
 
     public static final EntityType<KruziAntEntity> KRUZI_ANT =
-            registerEntity("kruzi_ant", SpawnGroup.MONSTER,
-                    KruziAntEntity::new, 0.5F, 0.5F, 64, 3);
+            registerEntity(
+                    "kruzi_ant",
+                    SpawnGroup.MONSTER,
+                    KruziAntEntity::new,
+                    0.5F, 0.5F,
+                    64, 3
+            );
 
     public static final EntityType<CryomageEntity> CRYOMAGE =
-            registerEntity("cryomage", SpawnGroup.MONSTER,
-                    CryomageEntity::new, 0.7F, 1.95F, 64, 3);
+            registerEntity(
+                    "cryomage",
+                    SpawnGroup.MONSTER,
+                    CryomageEntity::new,
+                    1.5F, 1.5F,
+                    64, 3
+            );
 
     public static final EntityType<CryowarriorEntity> CRYOWARRIOR =
-            registerEntity("cryowarrior", SpawnGroup.MONSTER,
-                    CryowarriorEntity::new, 0.8F, 2.0F, 64, 3);
+            registerEntity(
+                    "cryowarrior",
+                    SpawnGroup.MONSTER,
+                    CryowarriorEntity::new,
+                    0.8F, 2.0F,
+                    64, 3
+            );
 
     public static final EntityType<WarperdunEntity> WARPERDUN =
-            registerEntity("warperdun", SpawnGroup.MONSTER,
-                    WarperdunEntity::new, 1.4F, 2.1F);
+            registerEntity(
+                    "warperdun",
+                    SpawnGroup.MONSTER,
+                    WarperdunEntity::new,
+                    1.4F, 2.1F
+            );
 
     public static final EntityType<OganesonEntity> OGANESON =
-            registerEntity("oganeson", SpawnGroup.MONSTER,
-                    OganesonEntity::new, 0.6F, 1.8F);
+            registerEntity(
+                    "oganeson",
+                    SpawnGroup.MONSTER,
+                    OganesonEntity::new,
+                    0.6F, 1.8F
+            );
 
     public static final EntityType<NyankoEntity> NYANKO =
-            registerEntity("nyanko", SpawnGroup.MONSTER,
-                    NyankoEntity::new, 0.8F, 1.2F);
+            registerEntity(
+                    "nyanko",
+                    SpawnGroup.MONSTER,
+                    NyankoEntity::new,
+                    0.8F, 1.2F
+            );
 
     public static final EntityType<BattleNyankoEntity> BATTLE_NYANKO =
-            registerEntity("battle_nyanko", SpawnGroup.MONSTER,
-                    BattleNyankoEntity::new, 0.8F, 1.2F);
+            registerEntity(
+                    "battle_nyanko",
+                    SpawnGroup.MONSTER,
+                    BattleNyankoEntity::new,
+                    0.8F, 1.2F
+            );
 
     public static final EntityType<ShyronEntity> SHYRON =
-            registerEntity("shyron", SpawnGroup.MONSTER,
-                    ShyronEntity::new, 1.5F, 1.5F, 64, 3);
+            registerEntity(
+                    "shyron",
+                    SpawnGroup.MONSTER,
+                    ShyronEntity::new,
+                    1.5F, 1.5F,
+                    64, 3
+            );
 
     public static final EntityType<XxenaEntity> XXENA =
-            registerEntity("xxena", SpawnGroup.MONSTER,
-                    XxenaEntity::new, 1.75F, 1.5F, 64, 3);
+            registerEntity(
+                    "xxena",
+                    SpawnGroup.MONSTER,
+                    XxenaEntity::new,
+                    1.75F, 1.5F,
+                    64, 3
+            );
 
     // =====================================================
     // Spawn Egg Registration
@@ -152,52 +211,100 @@ public class ModEntities333 {
     // =====================================================
 
     public static final Item SCORCHER_SPAWN_EGG =
-            registerSpawnEgg("scorcher_spawn_egg", SCORCHER,
-                    0xAA0000, 0xFF5500);
+            registerSpawnEgg(
+                    "scorcher_spawn_egg",
+                    SCORCHER,
+                    0xAA0000,
+                    0xFF5500
+            );
 
     public static final Item WARPERDUN_SPAWN_EGG =
-            registerSpawnEgg("warperdun_spawn_egg", WARPERDUN,
-                    0x003366, 0x660099);
+            registerSpawnEgg(
+                    "warperdun_spawn_egg",
+                    WARPERDUN,
+                    0x003366,
+                    0x660099
+            );
 
     public static final Item OGANESON_SPAWN_EGG =
-            registerSpawnEgg("oganeson_spawn_egg", OGANESON,
-                    0x336699, 0x00FFFF);
+            registerSpawnEgg(
+                    "oganeson_spawn_egg",
+                    OGANESON,
+                    0x336699,
+                    0x00FFFF
+            );
 
     public static final Item CRYOMAGE_SPAWN_EGG =
-            registerSpawnEgg("cryomage_spawn_egg", CRYOMAGE,
-                    0x66CCFF, 0x2244AA);
+            registerSpawnEgg(
+                    "cryomage_spawn_egg",
+                    CRYOMAGE,
+                    0x66CCFF,
+                    0x2244AA
+            );
 
     public static final Item CRYOWARRIOR_SPAWN_EGG =
-            registerSpawnEgg("cryowarrior_spawn_egg", CRYOWARRIOR,
-                    0x3366CC, 0x99DDFF);
+            registerSpawnEgg(
+                    "cryowarrior_spawn_egg",
+                    CRYOWARRIOR,
+                    0x3366CC,
+                    0x99DDFF
+            );
 
     public static final Item NYANKO_SPAWN_EGG =
-            registerSpawnEgg("nyanko_spawn_egg", NYANKO,
-                    0xFFFFCC, 0xFF66CC);
+            registerSpawnEgg(
+                    "nyanko_spawn_egg",
+                    NYANKO,
+                    0xFFFFCC,
+                    0xFF66CC
+            );
 
     public static final Item BATTLE_NYANKO_SPAWN_EGG =
-            registerSpawnEgg("battle_nyanko_spawn_egg", BATTLE_NYANKO,
-                    0xFFFFCC, 0x999999);
+            registerSpawnEgg(
+                    "battle_nyanko_spawn_egg",
+                    BATTLE_NYANKO,
+                    0xFFFFCC,
+                    0x999999
+            );
 
     public static final Item KUR_BRUTE_SPAWN_EGG =
-            registerSpawnEgg("kur_brute_spawn_egg", KUR_BRUTE,
-                    0x999900, 0x999999);
+            registerSpawnEgg(
+                    "kur_brute_spawn_egg",
+                    KUR_BRUTE,
+                    0x999900,
+                    0x999999
+            );
 
     public static final Item KULOOGIE_SPAWN_EGG =
-            registerSpawnEgg("kuloogie_spawn_egg", KULOOGIE,
-                    0x009900, 0x333333);
+            registerSpawnEgg(
+                    "kuloogie_spawn_egg",
+                    KULOOGIE,
+                    0x009900,
+                    0x333333
+            );
 
     public static final Item KRUZI_ANT_SPAWN_EGG =
-            registerSpawnEgg("kruzi_ant_spawn_egg", KRUZI_ANT,
-                    0xD4AF37, 0xFFD700);
+            registerSpawnEgg(
+                    "kruzi_ant_spawn_egg",
+                    KRUZI_ANT,
+                    0xD4AF37,
+                    0xFFD700
+            );
 
     public static final Item SHYRON_SPAWN_EGG =
-            registerSpawnEgg("shyron_spawn_egg", SHYRON,
-                    0x555577, 0xAAAAAA);
+            registerSpawnEgg(
+                    "shyron_spawn_egg",
+                    SHYRON,
+                    0x555577,
+                    0xAAAAAA
+            );
 
     public static final Item XXENA_SPAWN_EGG =
-            registerSpawnEgg("xxena_spawn_egg", XXENA,
-                    0x8A2BE2, 0xFF66CC);
+            registerSpawnEgg(
+                    "xxena_spawn_egg",
+                    XXENA,
+                    0x8A2BE2,
+                    0xFF66CC
+            );
 
     // =====================================================
     // Attribute Registration
@@ -207,46 +314,73 @@ public class ModEntities333 {
             EntityType<T> type,
             DefaultAttributeContainer.Builder attributes
     ) {
-        FabricDefaultAttributeRegistry.register(type, attributes);
+        FabricDefaultAttributeRegistry.register(
+                type,
+                attributes
+        );
     }
 
     private static void registerAllAttributes() {
 
-        registerAttributes(SCORCHER,
-                ScorcherEntity.createAttributes());
+        registerAttributes(
+                SCORCHER,
+                ScorcherEntity.createAttributes()
+        );
 
-        registerAttributes(KULOOGIE,
-                KuloogieEntity.createAttributes());
+        registerAttributes(
+                KULOOGIE,
+                KuloogieEntity.createAttributes()
+        );
 
-        registerAttributes(KUR_BRUTE,
-                KurBruteEntity.createAttributes());
+        registerAttributes(
+                KUR_BRUTE,
+                KurBruteEntity.createAttributes()
+        );
 
-        registerAttributes(KRUZI_ANT,
-                KruziAntEntity.createKruziAntAttributes());
+        registerAttributes(
+                KRUZI_ANT,
+                KruziAntEntity.createKruziAntAttributes()
+        );
 
-        registerAttributes(CRYOMAGE,
-                CryomageEntity.createAttributes());
+        registerAttributes(
+                CRYOMAGE,
+                CryomageEntity.createAttributes()
+        );
 
-        registerAttributes(CRYOWARRIOR,
-                CryowarriorEntity.createAttributes());
+        registerAttributes(
+                CRYOWARRIOR,
+                CryowarriorEntity.createAttributes()
+        );
 
-        registerAttributes(WARPERDUN,
-                WarperdunEntity.createAttributes());
+        registerAttributes(
+                WARPERDUN,
+                WarperdunEntity.createAttributes()
+        );
 
-        registerAttributes(OGANESON,
-                OganesonEntity.createAttributes());
+        registerAttributes(
+                OGANESON,
+                OganesonEntity.createAttributes()
+        );
 
-        registerAttributes(NYANKO,
-                NyankoEntity.createAttributes());
+        registerAttributes(
+                NYANKO,
+                NyankoEntity.createAttributes()
+        );
 
-        registerAttributes(BATTLE_NYANKO,
-                BattleNyankoEntity.createAttributes());
+        registerAttributes(
+                BATTLE_NYANKO,
+                BattleNyankoEntity.createAttributes()
+        );
 
-        registerAttributes(SHYRON,
-                ShyronEntity.createAttributes());
+        registerAttributes(
+                SHYRON,
+                ShyronEntity.createAttributes()
+        );
 
-        registerAttributes(XXENA,
-                XxenaEntity.createAttributes());
+        registerAttributes(
+                XXENA,
+                XxenaEntity.createAttributes()
+        );
     }
 
     // =====================================================
@@ -255,7 +389,7 @@ public class ModEntities333 {
 
     private static void registerNaturalSpawn(
             EntityType<? extends MobEntity> entity,
-            net.minecraft.world.biome.BiomeSelectionContext selector,
+            Predicate<BiomeSelectionContext> selector,
             SpawnGroup group,
             int weight,
             int minGroup,
@@ -276,7 +410,9 @@ public class ModEntities333 {
         // Scorcher: Crimson Forest
         registerNaturalSpawn(
                 SCORCHER,
-                BiomeSelectors.includeByKey(BiomeKeys.CRIMSON_FOREST),
+                BiomeSelectors.includeByKey(
+                        BiomeKeys.CRIMSON_FOREST
+                ),
                 SpawnGroup.MONSTER,
                 20, 1, 5
         );
@@ -284,7 +420,9 @@ public class ModEntities333 {
         // Nyanko: Plains
         registerNaturalSpawn(
                 NYANKO,
-                BiomeSelectors.includeByKey(BiomeKeys.PLAINS),
+                BiomeSelectors.includeByKey(
+                        BiomeKeys.PLAINS
+                ),
                 SpawnGroup.MONSTER,
                 11, 1, 5
         );
