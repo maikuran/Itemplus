@@ -88,7 +88,7 @@ public class ModEntities333 {
                     KruziAntEntity::new, 0.5F, 0.5F, 64, 3);
     public static final EntityType<CryofreezerEntity> CRYOFREEZER =
             registerEntity("cryofreezer", SpawnGroup.MONSTER,
-                    CryofreezeEntity::new, 0.8F, 0.8F, 64, 3);
+                    CryofreezerEntity::new, 1.5F, 1.5F, 64, 3);
 
     public static final EntityType<WarperdunEntity> WARPERDUN =
             registerEntity("warperdun", SpawnGroup.MONSTER,
