@@ -57,37 +57,34 @@
       {
         "type": "minecraft:condition",
         "if_true": {
-          "type": "minecraft:y_above_bottom",
-          "anchor": {
+          "type": "minecraft:vertical_gradient",
+          "random_name": "minecraft:bedrock",
+          "true_at_and_below": {
             "absolute": 5
           },
-          "surface_depth_multiplier": 0,
-          "add_stone_depth": false
+          "false_at_and_above": {
+            "absolute": 6
+          }
         },
         "then_run": {
-          "type": "minecraft:sequence",
-          "sequence": [
-            {
-              "type": "minecraft:condition",
-              "if_true": {
-                "type": "minecraft:biome",
-                "biome_is": [
-                  "sakaplus:cryoland_biome"
-                ]
-              },
-              "then_run": {
-                "type": "minecraft:block",
-                "result_state": {
-                  "Name": "minecraft:blue_ice"
-                }
-              }
-            }
-          ]
-        },
-        "else_run": {
           "type": "minecraft:block",
           "result_state": {
             "Name": "minecraft:bedrock"
+          }
+        }
+      },
+      {
+        "type": "minecraft:condition",
+        "if_true": {
+          "type": "minecraft:biome",
+          "biome_is": [
+            "sakaplus:cryoland_biome"
+          ]
+        },
+        "then_run": {
+          "type": "minecraft:block",
+          "result_state": {
+            "Name": "minecraft:blue_ice"
           }
         }
       }
