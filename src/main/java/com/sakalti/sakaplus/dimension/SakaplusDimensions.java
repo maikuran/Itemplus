@@ -23,6 +23,12 @@ public class SakaplusDimensions {
     public static final RegistryKey<DimensionType> KRUZIVILIM_DIMENSION_TYPE_KEY = 
             registerDimensionTypeKey("kruzivilim");
 
+    // クライオヴィリム用のディメンションキーを追加
+    public static final RegistryKey<World> CRYOVILIM_DIMENSION_KEY = 
+            registerWorldKey("cryovilim");
+    public static final RegistryKey<DimensionType> CRYOVILIM_DIMENSION_TYPE_KEY = 
+            registerDimensionTypeKey("cryovilim");
+
     // ==========================================
     // 2. バイオーム関連のキー
     // ==========================================
