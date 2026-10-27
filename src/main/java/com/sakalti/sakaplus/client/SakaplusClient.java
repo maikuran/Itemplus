@@ -1,3 +1,4 @@
+
 package com.sakalti.sakaplus.client;
 
 import com.sakalti.sakaplus.client.model.*;
@@ -11,225 +12,71 @@ import com.sakalti.sakaplus.player.skill.SkillUI;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.minecraft.client.render.entity.model.EntityModelLayer;
 
 public class SakaplusClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-
         registerClientSystems();
         registerEntityRenderers();
         registerModelLayers();
     }
 
-    // =====================================================
     // Client Systems
-    // =====================================================
-
     private void registerClientSystems() {
-
-        // Gun recoil
         GunRecoil.register();
-
-        // Kruzi Rifle Scope UI
-        KruziRifleScopeOverlay.register(
-                ModItems.KRUZI_RIFLE
-        );
-
-        // Skill UI networking
+        KruziRifleScopeOverlay.register(ModItems.KRUZI_RIFLE);
         SkillUI.registerClientNetworking();
-
-        // Kruzi Rifle keybind
         KruziRifleKeybind.register();
     }
 
-    // =====================================================
     // Entity Renderers
-    // =====================================================
-
     private void registerEntityRenderers() {
+        EntityRendererRegistry.register(ModBeamEntities.BEAM_PROJECTILE, BeamProjectileRenderer::new);
 
-        // Projectile
-        EntityRendererRegistry.register(
-                ModBeamEntities.BEAM_PROJECTILE,
-                BeamProjectileRenderer::new
-        );
+        EntityRendererRegistry.register(ModEntities333.SCORCHER, ScorcherRenderer::new);
+        EntityRendererRegistry.register(ModEntities333.SHYRON, ShyronRenderer::new);
+        EntityRendererRegistry.register(ModEntities333.XXENA, XxenaRenderer::new);
 
-        // Scorcher
-        EntityRendererRegistry.register(
-                ModEntities333.SCORCHER,
-                ScorcherRenderer::new
-        );
+        EntityRendererRegistry.register(ModEntities333.CRYOFREEZER, CryofreezerRenderer::new);
+        EntityRendererRegistry.register(ModEntities333.CRYOMAGE, CryomageRenderer::new);
+        EntityRendererRegistry.register(ModEntities333.CRYOWARRIOR, CryowarriorRenderer::new);
+        EntityRendererRegistry.register(ModEntities333.CRYOBEAST, CryobeastRenderer::new);
 
-        // Shyron
-        EntityRendererRegistry.register(
-                ModEntities333.SHYRON,
-                ShyronRenderer::new
-        );
-
-        // Xxena
-        EntityRendererRegistry.register(
-                ModEntities333.XXENA,
-                XxenaRenderer::new
-        );
-
-        // Cryofreezer
-        EntityRendererRegistry.register(
-                ModEntities333.CRYOFREEZER,
-                CryofreezerRenderer::new
-        );
-
-        // Cryomage
-        EntityRendererRegistry.register(
-                ModEntities333.CRYOMAGE,
-                CryomageRenderer::new
-        );
-
-        // Cryowarrior
-        EntityRendererRegistry.register(
-                ModEntities333.CRYOWARRIOR,
-                CryowarriorRenderer::new
-        );
-
-        // Kuloogie
-        EntityRendererRegistry.register(
-                ModEntities333.KULOOGIE,
-                KuloogieRenderer::new
-        );
-
-        // Kur Brute
-        EntityRendererRegistry.register(
-                ModEntities333.KUR_BRUTE,
-                KurBruteRenderer::new
-        );
-
-        // Warperdun
-        EntityRendererRegistry.register(
-                ModEntities333.WARPERDUN,
-                WarperdunRenderer::new
-        );
-
-        // Nyanko
-        EntityRendererRegistry.register(
-                ModEntities333.NYANKO,
-                NyankoRenderer::new
-        );
-
-        // Battle Nyanko
-        EntityRendererRegistry.register(
-                ModEntities333.BATTLE_NYANKO,
-                BattleNyankoRenderer::new
-        );
-
-        // Kruzi Ant
-        EntityRendererRegistry.register(
-                ModEntities333.KRUZI_ANT,
-                KruziAntRenderer::new
-        );
-
-        // Oganeson
-        EntityRendererRegistry.register(
-                ModEntities333.OGANESON,
-                OganesonRenderer::new
-        );
+        EntityRendererRegistry.register(ModEntities333.KULOOGIE, KuloogieRenderer::new);
+        EntityRendererRegistry.register(ModEntities333.KUR_BRUTE, KurBruteRenderer::new);
+        EntityRendererRegistry.register(ModEntities333.WARPERDUN, WarperdunRenderer::new);
+        EntityRendererRegistry.register(ModEntities333.NYANKO, NyankoRenderer::new);
+        EntityRendererRegistry.register(ModEntities333.BATTLE_NYANKO, BattleNyankoRenderer::new);
+        EntityRendererRegistry.register(ModEntities333.KRUZI_ANT, KruziAntRenderer::new);
+        EntityRendererRegistry.register(ModEntities333.OGANESON, OganesonRenderer::new);
     }
 
-    // =====================================================
     // Entity Model Layers
-    // =====================================================
-
     private void registerModelLayers() {
+        registerLayer(ScorcherRenderer.MODEL_LAYER, ScorcherModel::getTexturedModelData);
+        registerLayer(KuloogieRenderer.MODEL_LAYER, KuloogieModel::getTexturedModelData);
+        registerLayer(KurBruteRenderer.MODEL_LAYER, KurBruteModel::getTexturedModelData);
+        registerLayer(WarperdunRenderer.MODEL_LAYER, WarperdunModel::getTexturedModelData);
+        registerLayer(KruziAntRenderer.MODEL_LAYER, KruziAntModel::getTexturedModelData);
+        registerLayer(NyankoRenderer.MODEL_LAYER, NyankoModel::getTexturedModelData);
+        registerLayer(BattleNyankoRenderer.MODEL_LAYER, BattleNyankoModel::getTexturedModelData);
+        registerLayer(OganesonRenderer.MODEL_LAYER, OganesonModel::getTexturedModelData);
 
-        // Scorcher
-        registerModelLayer(
-                ScorcherRenderer.MODEL_LAYER,
-                ScorcherModel::getTexturedModelData
-        );
+        registerLayer(CryofreezerRenderer.MODEL_LAYER, CryofreezerModel::getTexturedModelData);
+        registerLayer(CryomageRenderer.MODEL_LAYER, CryoHumanoidModel::getTexturedModelData);
+        registerLayer(CryowarriorRenderer.MODEL_LAYER, CryoHumanoidModel::getTexturedModelData);
+        registerLayer(CryobeastRenderer.MODEL_LAYER, CryobeastModel::getTexturedModelData);
 
-        // Kuloogie
-        registerModelLayer(
-                KuloogieRenderer.MODEL_LAYER,
-                KuloogieModel::getTexturedModelData
-        );
-
-        // Kur Brute
-        registerModelLayer(
-                KurBruteRenderer.MODEL_LAYER,
-                KurBruteModel::getTexturedModelData
-        );
-
-        // Warperdun
-        registerModelLayer(
-                WarperdunRenderer.MODEL_LAYER,
-                WarperdunModel::getTexturedModelData
-        );
-
-        // Kruzi Ant
-        registerModelLayer(
-                KruziAntRenderer.MODEL_LAYER,
-                KruziAntModel::getTexturedModelData
-        );
-
-        // Nyanko
-        registerModelLayer(
-                NyankoRenderer.MODEL_LAYER,
-                NyankoModel::getTexturedModelData
-        );
-
-        // Battle Nyanko
-        registerModelLayer(
-                BattleNyankoRenderer.MODEL_LAYER,
-                BattleNyankoModel::getTexturedModelData
-        );
-
-        // Oganeson
-        registerModelLayer(
-                OganesonRenderer.MODEL_LAYER,
-                OganesonModel::getTexturedModelData
-        );
-
-        // Cryofreezer
-        registerModelLayer(
-                CryofreezerRenderer.MODEL_LAYER,
-                CryofreezerModel::getTexturedModelData
-        );
-
-        // Cryomage
-        registerModelLayer(
-                CryomageRenderer.MODEL_LAYER,
-                CryoHumanoidModel::getTexturedModelData
-        );
-
-        // Cryowarrior
-        registerModelLayer(
-                CryowarriorRenderer.MODEL_LAYER,
-                CryoHumanoidModel::getTexturedModelData
-        );
-
-        // Shyron
-        registerModelLayer(
-                ShyronRenderer.MODEL_LAYER,
-                ShyronModel::getTexturedModelData
-        );
-
-        // Xxena
-        registerModelLayer(
-                XxenaRenderer.MODEL_LAYER,
-                XxenaModel::getTexturedModelData
-        );
+        registerLayer(ShyronRenderer.MODEL_LAYER, ShyronModel::getTexturedModelData);
+        registerLayer(XxenaRenderer.MODEL_LAYER, XxenaModel::getTexturedModelData);
     }
 
-    // =====================================================
-    // Model Layer Registration Helper
-    // =====================================================
-
-    private void registerModelLayer(
-            net.minecraft.client.render.entity.model.EntityModelLayer layer,
+    private void registerLayer(
+            EntityModelLayer layer,
             EntityModelLayerRegistry.TexturedModelDataProvider provider
     ) {
-        EntityModelLayerRegistry.registerModelLayer(
-                layer,
-                provider
-        );
+        EntityModelLayerRegistry.registerModelLayer(layer, provider);
     }
 }
