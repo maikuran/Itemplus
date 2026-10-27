@@ -90,17 +90,17 @@ public class CryofreezerEntity extends HostileEntity {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SakaplusSounds.KruziantAmbient;
+        return SakaplusSounds.ShyronAmbient;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SakaplusSounds.KruziantHurt;
+        return SakaplusSounds.ShyronHurt;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SakaplusSounds.KruziantDeath;
+        return SakaplusSounds.ShyronDeath;
     }
 
     // -----------------------------
