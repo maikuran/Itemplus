@@ -24,7 +24,7 @@ public class LightningSpark extends SwordItem {
         super(new ToolMaterial() {
             @Override public int getDurability() { return 2185; }
             @Override public float getMiningSpeedMultiplier() { return 9.0F; }
-            @Override public float getAttackDamage() { return 24.5F - ToolMaterials.NETHERITE.getAttackDamage(); } // relative boost
+            @Override public float getAttackDamage() { return 20.5F - ToolMaterials.NETHERITE.getAttackDamage(); } // relative boost
             @Override public int getMiningLevel() { return ToolMaterials.NETHERITE.getMiningLevel(); }
             @Override public int getEnchantability() { return 13; }
             @Override public Ingredient getRepairIngredient() {
