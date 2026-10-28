@@ -19,6 +19,9 @@ public class SakaplusSounds {
     public static final SoundEvent ShyronAmbient = register("shyron_ambient");
     public static final SoundEvent ShyronHurt = register("shyron_hurt");
     public static final SoundEvent ShyronDeath = register("shyron_death");
+    public static final SoundEvent BeastAmbient = register("beast_ambient");
+    public static final SoundEvent BeastHurt = register("beast_hurt");
+    public static final SoundEvent BeastDeath = register("beast_death");
 
     private static SoundEvent register(String name) {
         Identifier id = new Identifier("sakaplus", name);
