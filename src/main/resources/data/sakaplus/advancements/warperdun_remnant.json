@@ -2,7 +2,7 @@
   "parent": "sakaplus:visit_kruzivilim",
   "display": {
     "icon": {
-      "item": "sakaplus:kruzi_bricks"
+      "item": "sakaplus:warperdun_spawn_egg"
     },
     "title": {
       "translate": "advancement.sakaplus.warperdun_remnant.title"
