@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus.item;
 
 import net.minecraft.item.SwordItem;
@@ -12,6 +11,7 @@ import net.minecraft.item.ToolMaterials;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.Rarity;
+import com.sakalti.sakaplus.registry.ModTabs; // ModTabs のインポートを追加
 
 public class IceGreatblade extends SwordItem {
 
@@ -48,6 +48,7 @@ public class IceGreatblade extends SwordItem {
             }
         }, 3, -3.23F,
         new Item.Settings()
+            .group(ModTabs.CYROVILIM_TAB) // Cyrovilim タブを指定
             .rarity(Rarity.EPIC)
             .maxCount(1)
             .maxDamage(2160));
