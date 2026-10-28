@@ -4,10 +4,10 @@
       "item": "sakaplus:ice_greatblade"
     },
     "title": {
-      "translate": "advancement.sakaplus.visit_kruzivilim.title"
+      "translate": "advancement.sakaplus.visit_cryovilim.title"
     },
     "description": {
-      "translate": "advancement.sakaplus.visit_kruzivilim.desc"
+      "translate": "advancement.sakaplus.visit_cryovilim.desc"
     },
     "background": "sakaplus:textures/item/ice_greatblade.png",
     "frame": "task",
