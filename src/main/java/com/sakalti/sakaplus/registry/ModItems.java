@@ -66,6 +66,10 @@ public class ModItems {
         new Overshot(new Item.Settings()
             .group(ModTabs.STARTER_AND_KRUZIVILIM_TAB)
             .maxCount(1));
+    public static final Item CRYO_RIFLE =
+        new CryoRifle(new Item.Settings()
+            .group(ModTabs.CRYOVILIM_TAB)
+            .maxCount(1));
 
     public static final Item KRUZI_RIFLE =
         new KruziRifle(new Item.Settings()
@@ -162,6 +166,8 @@ public class ModItems {
 
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "overshot"), OVERSHOT);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "kruzi_rifle"), KRUZI_RIFLE);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "cryo_rifle"), CRYO_RIFLE);
+
 
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "raw_pyronium"), RAW_PYRONIUM);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "pyronium_ingot"), PYRONIUM_INGOT);
