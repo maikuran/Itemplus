@@ -24,9 +24,9 @@ jobs:
 
         
         # blocks フォルダの移動
-        for dir in src/main/resources/data/*/tags/blocks; do
+        for dir in src/main/resources/data/*/tags/block; do
           if [ -d "$dir" ]; then
-            target_dir=$(echo "$dir" | sed 's/blocks$/block/')
+            target_dir=$(echo "$dir" | sed 's/block$/blocks/')
             echo "⚠️ フォルダの誤りを発見: $dir -> $target_dir に移動します。"
             mkdir -p "$target_dir"
             mv "$dir"/* "$target_dir"/ 2>/dev/null || true
