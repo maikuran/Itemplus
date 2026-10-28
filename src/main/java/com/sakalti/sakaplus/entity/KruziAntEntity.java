@@ -24,7 +24,7 @@ public class KruziAntEntity extends HostileEntity {
 
     private static final int BEAM_INTERVAL = 30;
     private static final double BEAM_RANGE = 20.0D;
-    private static final double MELEE_RANGE = 3.0D;
+    private static final double MELEE_RANGE = 1.0D;
     private static final int GOLD_BEAM_COLOR = 0xFFD700;
 
     private int beamCooldown = BEAM_INTERVAL;
