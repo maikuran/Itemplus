@@ -17,6 +17,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.util.Rarity;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.entity.Entity;
+import com.sakalti.sakaplus.registry.ModTabs; // ModTabs のインポートを追加
 
 public class LightningStinger extends SwordItem {
 
@@ -30,7 +31,11 @@ public class LightningStinger extends SwordItem {
             @Override public Ingredient getRepairIngredient() {
                 return Ingredient.ofItems(Items.NETHERITE_INGOT);
             }
-        }, 3, -2.4F, new Item.Settings().rarity(Rarity.EPIC).maxCount(1).maxDamage(1985));
+        }, 3, -2.4F, new Item.Settings()
+            .group(ModTabs.STARTER_AND_KRUZIVILIM_TAB) // Starter and Kruzivilim タブを指定
+            .rarity(Rarity.EPIC)
+            .maxCount(1)
+            .maxDamage(1985));
     }
 
     @Override
