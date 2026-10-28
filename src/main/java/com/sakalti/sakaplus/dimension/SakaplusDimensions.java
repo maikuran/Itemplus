@@ -37,7 +37,7 @@ public class SakaplusDimensions {
     public static final RegistryKey<Biome> GREENFOREST_BIOME_KEY = 
             registerBiomeKey("greenforest");
     public static final RegistryKey<Biome> CRYOLAND_BIOME_KEY = 
-            registerBiomeKey("cryoland_biome");
+            registerBiomeKey("cryoland");
 
     // ==========================================
     // 3. ノイズ設定（チャンク生成）用のキー
