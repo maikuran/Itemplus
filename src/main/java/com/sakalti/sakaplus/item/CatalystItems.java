@@ -3,11 +3,13 @@ package com.sakalti.sakaplus.item;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.Identifier;
+import com.sakalti.sakaplus.registry.ModTabs; // ModTabsをインポート
 
 public class CatalystItems {
 
     private static Item.Settings baseSettings() {
-        return new Item.Settings();
+        // 設定にカスタムアイテムグループを紐付けます
+        return new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB);
     }
 
     // 魔術触媒
