@@ -1,6 +1,8 @@
 
 package com.sakalti.sakaplus.entity;
 
+import com.sakalti.sakaplus.sound.SakaplusSounds;
+
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
@@ -17,23 +19,35 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.ArrowEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
-import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 
 public class WarperdunEntity extends PathAwareEntity implements Monster {
 
     private final ServerBossBar bossBar;
-    private int shootTick = 0;
+
+    // 衝撃波のクールダウン
+    private int shockwaveTick = 0;
+
+    // 衝撃波の間隔：100 ticks = 5秒
+    private static final int SHOCKWAVE_INTERVAL = 100;
+
+    // 衝撃波の範囲
+    private static final double SHOCKWAVE_RANGE = 7.0D;
+
+    // 衝撃波のダメージ
+    private static final float SHOCKWAVE_DAMAGE = 14.0F;
 
     public WarperdunEntity(
             EntityType<? extends PathAwareEntity> entityType,
             World world
     ) {
         super(entityType, world);
+
         this.experiencePoints = 500;
 
         this.bossBar = new ServerBossBar(
@@ -48,30 +62,37 @@ public class WarperdunEntity extends PathAwareEntity implements Monster {
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 1500.0D)
                 .add(EntityAttributes.GENERIC_ARMOR, 8.0D)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 12.0D)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 24.0D)
+                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0D)
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2D)
                 .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.6D);
     }
 
+    // =========================
+    // AI
+    // =========================
+
     @Override
     protected void initGoals() {
-        // 行動AI
+
+        // 近接攻撃
         this.goalSelector.add(
                 1,
                 new MeleeAttackGoal(this, 1.2D, true)
         );
 
+        // プレイヤーを見る
         this.goalSelector.add(
                 2,
-                new LookAtEntityGoal(this, PlayerEntity.class, 16.0F)
+                new LookAtEntityGoal(this, PlayerEntity.class, 24.0F)
         );
 
+        // 周囲を見回す
         this.goalSelector.add(
                 3,
                 new LookAroundGoal(this)
         );
 
-        // プレイヤーを自動的に攻撃対象にする
+        // プレイヤーを攻撃対象にする
         this.targetSelector.add(
                 1,
                 new ActiveTargetGoal<>(
@@ -81,13 +102,13 @@ public class WarperdunEntity extends PathAwareEntity implements Monster {
                 )
         );
 
-        // 攻撃してきた相手に反撃する
+        // 攻撃してきた相手に反撃
         this.targetSelector.add(
                 2,
                 new RevengeGoal(this).setGroupRevenge()
         );
 
-        // プレイヤー以外の生物にも敵対する
+        // その他の非Monster生物も攻撃
         this.targetSelector.add(
                 3,
                 new ActiveTargetGoal<>(
@@ -101,74 +122,138 @@ public class WarperdunEntity extends PathAwareEntity implements Monster {
         );
     }
 
+    // =========================
+    // Tick
+    // =========================
+
     @Override
     public void tick() {
         super.tick();
 
-        if (!this.world.isClient) {
-            this.shootTick++;
+        if (this.world.isClient) {
+            return;
+        }
 
-            // 10ティックごとに8方向へ矢を発射
-            if (this.shootTick >= 25) {
-                this.shootRadialArrows();
-                this.shootTick = 0;
+        // ボスバー更新
+        this.bossBar.setPercent(
+                Math.max(
+                        0.0F,
+                        Math.min(
+                                1.0F,
+                                this.getHealth() / this.getMaxHealth()
+                        )
+                )
+        );
+
+        LivingEntity target = this.getTarget();
+
+        if (target == null || !target.isAlive()) {
+            shockwaveTick = 0;
+            return;
+        }
+
+        shockwaveTick++;
+
+        // 5秒ごとに虚空衝撃波
+        if (shockwaveTick >= SHOCKWAVE_INTERVAL) {
+
+            shockwaveTick = 0;
+
+            // 対象が遠すぎる場合は発動しない
+            if (this.squaredDistanceTo(target) <= 20.0D * 20.0D) {
+                this.performShockwave();
+            }
+        }
+    }
+
+    // =========================
+    // 虚空衝撃波
+    // =========================
+
+    private void performShockwave() {
+
+        // 咆哮・衝撃波の音
+        this.world.playSound(
+                null,
+                this.getX(),
+                this.getY(),
+                this.getZ(),
+                SakaplusSounds.BEAST_AMBIENT,
+                SoundCategory.HOSTILE,
+                3.0F,
+                0.65F
+        );
+
+        // 周囲の対象を取得
+        Box area = this.getBoundingBox().expand(SHOCKWAVE_RANGE);
+
+        for (LivingEntity entity : this.world.getEntitiesByClass(
+                LivingEntity.class,
+                area,
+                entity ->
+                        entity != this
+                        && entity.isAlive()
+                        && !(entity instanceof Monster)
+        )) {
+
+            // 範囲外は無視
+            if (this.squaredDistanceTo(entity)
+                    > SHOCKWAVE_RANGE * SHOCKWAVE_RANGE) {
+                continue;
             }
 
-            // ボスバーの体力表示を更新
-            this.bossBar.setPercent(
-                    this.getHealth() / this.getMaxHealth()
+            // ダメージ
+            entity.damage(
+                    DamageSource.mob(this),
+                    SHOCKWAVE_DAMAGE
             );
+
+            // 吹き飛ばし方向
+            double dx = entity.getX() - this.getX();
+            double dz = entity.getZ() - this.getZ();
+
+            double distance = Math.sqrt(dx * dx + dz * dz);
+
+            if (distance > 0.001D) {
+                dx /= distance;
+                dz /= distance;
+
+                // 強力なノックバック
+                entity.takeKnockback(
+                        1.8D,
+                        -dx,
+                        -dz
+                );
+            }
+
+            // 少し上方向にも吹き飛ばす
+            entity.addVelocity(0.0D, 0.35D, 0.0D);
+            entity.velocityModified = true;
         }
     }
 
-    private void shootRadialArrows() {
-        int count = 8;
-        double arrowSpeed = 2.0D;
+    // =========================
+    // サウンド
+    // =========================
 
-        for (int i = 0; i < count; i++) {
-            double angle = 2.0D * Math.PI * i / count;
-
-            double dx = Math.cos(angle);
-            double dz = Math.sin(angle);
-            double dy = 0.15D;
-
-            ArrowEntity arrow = new ArrowEntity(
-                    this.world,
-                    this.getX(),
-                    this.getY() + 1.0D,
-                    this.getZ()
-            ) {
-                @Override
-                protected void onEntityHit(
-                        EntityHitResult entityHitResult
-                ) {
-                    super.onEntityHit(entityHitResult);
-
-                    if (entityHitResult.getEntity() instanceof MobEntity target) {
-                        target.hurtTime = 0;
-                    }
-                }
-            };
-
-            arrow.setVelocity(
-                    dx,
-                    dy,
-                    dz,
-                    (float) arrowSpeed,
-                    0.0F
-            );
-
-            arrow.setOwner(this);
-
-            arrow.pickupType =
-                    PersistentProjectileEntity.PickupPermission.DISALLOWED;
-
-            arrow.setInvisible(true);
-            arrow.setDamage(3.0D);
-
-            this.world.spawnEntity(arrow);
-        }
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SakaplusSounds.BEAST_AMBIENT;
     }
+
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return SakaplusSounds.BEAST_HURT;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SakaplusSounds.BEAST_DEATH;
+    }
+
+    // =========================
+    // その他
+    // =========================
 
     @Override
     public boolean canTarget(LivingEntity target) {
@@ -179,6 +264,10 @@ public class WarperdunEntity extends PathAwareEntity implements Monster {
     public boolean isFireImmune() {
         return true;
     }
+
+    // =========================
+    // BossBar
+    // =========================
 
     @Override
     public void onStartedTrackingBy(ServerPlayerEntity player) {
