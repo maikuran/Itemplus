@@ -140,6 +140,7 @@
   "item.sakaplus.shining_staff": "輝きの杖",
   "item.sakaplus.adaptation_staff": "適応の杖",
   "item.sakaplus.warper_staff": "ウェパーの杖",
+  "itemGroup.sakaplus.starter_and_kruzivilim": "Starter and Kruzivilim"
 
   "block.sakaplus.kruzi_stone": "クルジ石",
   "block.sakaplus.pyronium_ore": "パイロニウム鉱石",
@@ -174,6 +175,8 @@
   "effect.sakaplus.adapt": "適応",
   "effect.sakaplus.confusion": "混乱",
   "effect.sakaplus.mudo": "生命力減衰",
+  "itemGroup.sakaplus.cyrovilim": "Cyrovilim",
+
 
   "advancement.sakaplus.get_iron_scaffold.title": "工事現場",
   "advancement.sakaplus.get_iron_scaffold.desc": "鉄製足場を入手する",
