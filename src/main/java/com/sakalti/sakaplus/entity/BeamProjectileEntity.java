@@ -1,3 +1,4 @@
+
 package com.sakalti.sakaplus.entity;
 
 import com.sakalti.sakaplus.registry.ModBeamEntities;
@@ -33,6 +34,12 @@ public class BeamProjectileEntity extends ProjectileEntity {
                     TrackedDataHandlerRegistry.FLOAT
             );
 
+    private static final TrackedData<Boolean> RESET_INVULNERABILITY =
+            DataTracker.registerData(
+                    BeamProjectileEntity.class,
+                    TrackedDataHandlerRegistry.BOOLEAN
+            );
+
     private int lifeTicks = 60;
 
     public BeamProjectileEntity(
@@ -57,6 +64,7 @@ public class BeamProjectileEntity extends ProjectileEntity {
     protected void initDataTracker() {
         this.dataTracker.startTracking(BEAM_COLOR, 0x78DCFF);
         this.dataTracker.startTracking(BEAM_DAMAGE, 6.0F);
+        this.dataTracker.startTracking(RESET_INVULNERABILITY, false);
     }
 
     public void setColor(int rgb) {
@@ -73,6 +81,16 @@ public class BeamProjectileEntity extends ProjectileEntity {
 
     public float getBeamDamage() {
         return this.dataTracker.get(BEAM_DAMAGE);
+    }
+
+    // OPTIONAL INVULNERABILITY RESET
+
+    public void setResetInvulnerability(boolean reset) {
+        this.dataTracker.set(RESET_INVULNERABILITY, reset);
+    }
+
+    public boolean shouldResetInvulnerability() {
+        return this.dataTracker.get(RESET_INVULNERABILITY);
     }
 
     public void setLifeTicks(int ticks) {
@@ -161,13 +179,23 @@ public class BeamProjectileEntity extends ProjectileEntity {
         }
 
         if (hit.getType() == HitResult.Type.ENTITY) {
+
             Entity target = ((EntityHitResult) hit).getEntity();
 
             if (target instanceof LivingEntity && target.isAlive()) {
+
+                LivingEntity living = (LivingEntity) target;
+
                 DamageSource damageSource =
                         new DamageSource("sakalti_beam");
 
-                target.damage(
+                // OPTIONAL RESET
+                if (this.shouldResetInvulnerability()) {
+                    living.timeUntilRegen = 0;
+                    living.hurtTime = 0;
+                }
+
+                living.damage(
                         damageSource,
                         this.getBeamDamage()
                 );
@@ -184,6 +212,7 @@ public class BeamProjectileEntity extends ProjectileEntity {
 
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {
+
         if (nbt.contains("BeamColor")) {
             this.setColor(nbt.getInt("BeamColor"));
         }
@@ -195,6 +224,12 @@ public class BeamProjectileEntity extends ProjectileEntity {
         if (nbt.contains("BeamLife")) {
             this.lifeTicks = Math.max(1, nbt.getInt("BeamLife"));
         }
+
+        if (nbt.contains("ResetInvulnerability")) {
+            this.setResetInvulnerability(
+                    nbt.getBoolean("ResetInvulnerability")
+            );
+        }
     }
 
     @Override
@@ -202,5 +237,10 @@ public class BeamProjectileEntity extends ProjectileEntity {
         nbt.putInt("BeamColor", this.getColor());
         nbt.putFloat("BeamDamage", this.getBeamDamage());
         nbt.putInt("BeamLife", this.lifeTicks);
+
+        nbt.putBoolean(
+                "ResetInvulnerability",
+                this.shouldResetInvulnerability()
+        );
     }
 }
