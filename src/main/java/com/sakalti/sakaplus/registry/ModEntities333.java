@@ -36,7 +36,7 @@ public class ModEntities333 {
     public static final EntityType<CryomageEntity> CRYOMAGE = registerEntity("cryomage", SpawnGroup.MONSTER, CryomageEntity::new, 1.5F, 1.5F, 64, 3);
     public static final EntityType<CryowarriorEntity> CRYOWARRIOR = registerEntity("cryowarrior", SpawnGroup.MONSTER, CryowarriorEntity::new, 0.8F, 2.0F, 64, 3);
     public static final EntityType<CryobeastEntity> CRYOBEAST = registerEntity("cryobeast", SpawnGroup.MONSTER, CryobeastEntity::new, 1.2F, 1.8F, 64, 3);
-    public static final EntityType<CryoSnakeEntity> CRYOSNAKE = registerEntity("cryosnake", SpawnGroup.MONSTER, CryoSnakeEntity::new, 1.2F, 1.8F, 64, 3);
+    public static final EntityType<CryoSnakeEntity> CRYOSNAKE = registerEntity("cryosnake", SpawnGroup.MONSTER, CryoSnakeEntity::new, 2.0F, 1.2F, 64, 3);
     public static final EntityType<WarperdunEntity> WARPERDUN = registerEntity("warperdun", SpawnGroup.MONSTER, WarperdunEntity::new, 1.4F, 2.1F);
     public static final EntityType<OganesonEntity> OGANESON = registerEntity("oganeson", SpawnGroup.MONSTER, OganesonEntity::new, 0.6F, 1.8F);
     public static final EntityType<NyankoEntity> NYANKO = registerEntity("nyanko", SpawnGroup.MONSTER, NyankoEntity::new, 0.8F, 1.2F);
