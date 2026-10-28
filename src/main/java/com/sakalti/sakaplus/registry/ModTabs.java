@@ -7,9 +7,15 @@ import net.minecraft.util.Identifier;
 
 public class ModTabs {
     
-    // カスタムクリエイティブタブの定義
+    // 既存の Starter and Kruzivilim タブ
     public static final ItemGroup STARTER_AND_KRUZIVILIM_TAB = FabricItemGroupBuilder.build(
         new Identifier("sakaplus", "starter_and_kruzivilim"),
-        () -> new ItemStack(ModItems.RAW_PYRONIUM) // タブのアイコンとして使用するアイテム
+        () -> new ItemStack(ModItems.RAW_PYRONIUM)
+    );
+
+    // 新設：Cyrovilim タブ (アイコン: アイスグレートブレード)
+    public static final ItemGroup CYROVILIM_TAB = FabricItemGroupBuilder.build(
+        new Identifier("sakaplus", "cyrovilim"),
+        () -> new ItemStack(Weapons.ICE_GREATBLADE)
     );
 }
