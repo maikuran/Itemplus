@@ -50,6 +50,25 @@ public final class BeamAttack {
         return beam;
     }
 
+    // OPTIONAL RESET VERSION
+
+    public static BeamProjectileEntity shoot(
+            LivingEntity shooter,
+            float speed,
+            float damage,
+            int rgb,
+            boolean resetInvulnerability
+    ) {
+        BeamProjectileEntity beam =
+                shoot(shooter, speed, damage, rgb);
+
+        if (beam != null) {
+            beam.setResetInvulnerability(resetInvulnerability);
+        }
+
+        return beam;
+    }
+
     public static BeamProjectileEntity shootAt(
             LivingEntity shooter,
             LivingEntity target,
@@ -89,6 +108,7 @@ public final class BeamAttack {
         beam.setPosition(start.x, start.y, start.z);
         beam.setColor(rgb);
         beam.setDamage(damage);
+
         beam.setVelocity(
                 direction.x * speed,
                 direction.y * speed,
@@ -96,6 +116,31 @@ public final class BeamAttack {
         );
 
         world.spawnEntity(beam);
+        return beam;
+    }
+
+    // OPTIONAL RESET VERSION FOR TARGETED SHOT
+
+    public static BeamProjectileEntity shootAt(
+            LivingEntity shooter,
+            LivingEntity target,
+            float speed,
+            float damage,
+            int rgb,
+            boolean resetInvulnerability
+    ) {
+        BeamProjectileEntity beam = shootAt(
+                shooter,
+                target,
+                speed,
+                damage,
+                rgb
+        );
+
+        if (beam != null) {
+            beam.setResetInvulnerability(resetInvulnerability);
+        }
+
         return beam;
     }
 }
