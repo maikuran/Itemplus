@@ -4,8 +4,10 @@ package com.sakalti.sakaplus.player.skill;
 import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.nbt.NbtCompound;
@@ -15,8 +17,10 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.PersistentState;
 
 public final class KillSkillLogic {
+
     public static final Identifier REQUEST =
         new Identifier("sakaplus", "kill_skill_request");
+
     public static final Identifier SYNC =
         new Identifier("sakaplus", "kill_skill_sync");
 
@@ -56,24 +60,36 @@ public final class KillSkillLogic {
     private KillSkillLogic() {}
 
     public static void initialize() {
+
         ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register(
             (world, killer, victim) -> {
+
                 if (!(killer instanceof ServerPlayerEntity player)) return;
                 if (!(victim instanceof LivingEntity)) return;
 
-                int victimHealth =
-                    Math.max(1, (int) Math.ceil(victim.getMaxHealth()));
+                int victimHealth = Math.max(
+                    1,
+                    (int) Math.ceil(victim.getMaxHealth())
+                );
 
                 addXp(player, 5L + victimHealth);
                 applyKillRewards(player);
             }
         );
 
+        // 定期的にHealth Boostを確認
         ServerTickEvents.END_SERVER_TICK.register(server -> {
+
             for (ServerPlayerEntity player :
                 server.getPlayerManager().getPlayerList()) {
-                if (getLevel(player) >= 100) continue;
-                sync(player);
+
+                if (player.age % 20 == 0) {
+                    updateHealthBoost(player);
+                }
+
+                if (getLevel(player) < 100) {
+                    sync(player);
+                }
             }
         });
 
@@ -84,16 +100,25 @@ public final class KillSkillLogic {
         );
     }
 
-    public static void addXp(ServerPlayerEntity player, long amount) {
+    // =========================================
+    // XP
+    // =========================================
+
+    public static void addXp(
+        ServerPlayerEntity player,
+        long amount
+    ) {
         if (amount <= 0) return;
 
         KillData data = getData((ServerWorld) player.getWorld());
         String id = player.getUuidAsString();
 
         long xp = data.getXp(id);
+
         if (getLevelFromXp(xp) >= 100) return;
 
         xp = Math.min(Long.MAX_VALUE - amount, xp) + amount;
+
         data.setXp(id, xp);
         data.markDirty();
 
@@ -102,7 +127,19 @@ public final class KillSkillLogic {
         int oldLevel = getLevelFromXp(xp - amount);
         int newLevel = getLevelFromXp(xp);
 
+        // HP増加効果を更新
+        updateHealthBoost(player);
+
+        // 10レベルごとにHPを4回復
+        if (
+            newLevel >= 30 &&
+            newLevel / 10 > oldLevel / 10
+        ) {
+            player.heal(4.0F);
+        }
+
         if (newLevel > oldLevel) {
+
             player.sendMessage(
                 net.minecraft.text.Text.literal(
                     "§cKill Skill §7Lv." + newLevel
@@ -111,6 +148,7 @@ public final class KillSkillLogic {
             );
 
             if (newLevel % 5 == 0) {
+
                 int index = newLevel / 5 - 1;
 
                 player.sendMessage(
@@ -123,10 +161,82 @@ public final class KillSkillLogic {
         }
     }
 
-    private static void applyKillRewards(ServerPlayerEntity player) {
+    private static void addXpWithoutReward(
+        ServerPlayerEntity player,
+        long amount
+    ) {
+        KillData data = getData((ServerWorld) player.getWorld());
+
+        String id = player.getUuidAsString();
+
+        long xp = data.getXp(id);
+
+        if (getLevelFromXp(xp) >= 100) return;
+
+        xp = Math.min(Long.MAX_VALUE - amount, xp) + amount;
+
+        data.setXp(id, xp);
+        data.markDirty();
+
+        sync(player);
+    }
+
+    // =========================================
+    // HEALTH BOOST
+    // =========================================
+
+    private static void updateHealthBoost(
+        ServerPlayerEntity player
+    ) {
         int level = getLevel(player);
 
-        // 1: Finisher - 追加経験値
+        // Lv.30未満は体力増強なし
+        if (level < 30) {
+
+            if (player.hasStatusEffect(StatusEffects.HEALTH_BOOST)) {
+                player.removeStatusEffect(StatusEffects.HEALTH_BOOST);
+            }
+
+            return;
+        }
+
+        // Lv.30から10レベルごとに強化
+        int amplifier = Math.min(
+            7,
+            (level - 30) / 10
+        );
+
+        StatusEffectInstance current =
+            player.getStatusEffect(StatusEffects.HEALTH_BOOST);
+
+        if (
+            current == null ||
+            current.getAmplifier() != amplifier ||
+            current.getDuration() < 1200
+        ) {
+            player.addStatusEffect(
+                new StatusEffectInstance(
+                    StatusEffects.HEALTH_BOOST,
+                    Integer.MAX_VALUE,
+                    amplifier,
+                    true,
+                    true,
+                    true
+                )
+            );
+        }
+    }
+
+    // =========================================
+    // KILL REWARDS
+    // =========================================
+
+    private static void applyKillRewards(
+        ServerPlayerEntity player
+    ) {
+        int level = getLevel(player);
+
+        // 1: Finisher
         if (level >= 5) {
             addXpWithoutReward(player, 2);
         }
@@ -163,6 +273,7 @@ public final class KillSkillLogic {
 
         // 8: Full Stomach
         if (level >= 40) {
+
             player.getHungerManager().setFoodLevel(
                 Math.min(
                     20,
@@ -242,26 +353,13 @@ public final class KillSkillLogic {
         }
     }
 
-    private static void addXpWithoutReward(
-        ServerPlayerEntity player,
-        long amount
-    ) {
-        KillData data = getData((ServerWorld) player.getWorld());
-        String id = player.getUuidAsString();
-
-        long xp = data.getXp(id);
-
-        if (getLevelFromXp(xp) >= 100) return;
-
-        data.setXp(id, xp + amount);
-        data.markDirty();
-
-        sync(player);
-    }
+    // =========================================
+    // STATUS EFFECT
+    // =========================================
 
     private static void effect(
         PlayerEntity player,
-        net.minecraft.entity.effect.StatusEffect type,
+        StatusEffect type,
         int duration,
         int amplifier
     ) {
@@ -276,6 +374,10 @@ public final class KillSkillLogic {
             )
         );
     }
+
+    // =========================================
+    // LEVEL / XP CALCULATION
+    // =========================================
 
     public static int getLevel(ServerPlayerEntity player) {
         return getLevelFromXp(
@@ -317,6 +419,7 @@ public final class KillSkillLogic {
         long remaining = totalXp;
 
         while (level < 100) {
+
             long required = getRequiredXp(level);
 
             if (remaining < required) break;
@@ -335,11 +438,17 @@ public final class KillSkillLogic {
         return getLevel(player) >= stage * 5;
     }
 
+    // =========================================
+    // NETWORK SYNC
+    // =========================================
+
     public static void sync(ServerPlayerEntity player) {
+
         if (player.networkHandler == null) return;
 
         int level = getLevel(player);
         long totalXp = getXp(player);
+
         long current = getCurrentLevelXp(totalXp);
         long required = getLevelRequiredXp(level);
 
@@ -354,7 +463,12 @@ public final class KillSkillLogic {
         ServerPlayNetworking.send(player, SYNC, buf);
     }
 
+    // =========================================
+    // PERSISTENT DATA
+    // =========================================
+
     private static KillData getData(ServerWorld world) {
+
         return world.getServer()
             .getOverworld()
             .getPersistentStateManager()
@@ -366,6 +480,7 @@ public final class KillSkillLogic {
     }
 
     private static class KillData extends PersistentState {
+
         private final NbtCompound players = new NbtCompound();
 
         long getXp(String uuid) {
@@ -383,9 +498,11 @@ public final class KillSkillLogic {
         }
 
         static KillData fromNbt(NbtCompound nbt) {
+
             KillData data = new KillData();
 
             if (nbt.contains("players")) {
+
                 NbtCompound saved = nbt.getCompound("players");
 
                 for (String key : saved.getKeys()) {
