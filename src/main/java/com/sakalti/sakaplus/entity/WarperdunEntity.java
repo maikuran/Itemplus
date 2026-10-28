@@ -178,7 +178,7 @@ public class WarperdunEntity extends PathAwareEntity implements Monster {
                 this.getX(),
                 this.getY(),
                 this.getZ(),
-                SakaplusSounds.BEAST_AMBIENT,
+                SakaplusSounds.BeastAmbient,
                 SoundCategory.HOSTILE,
                 3.0F,
                 0.65F
@@ -238,17 +238,17 @@ public class WarperdunEntity extends PathAwareEntity implements Monster {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SakaplusSounds.BEAST_AMBIENT;
+        return SakaplusSounds.BeastAmbient;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SakaplusSounds.BEAST_HURT;
+        return SakaplusSounds.BeastHurt;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SakaplusSounds.BEAST_DEATH;
+        return SakaplusSounds.BeastDeath;
     }
 
     // =========================
