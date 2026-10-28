@@ -60,5 +60,24 @@
     "sounds": [
       "sakaplus:shyron_death"
     ]
+  },
+  "beast_ambient": {
+    "subtitle": "subtitles.sakaplus.beast_ambient",
+    "sounds": [
+      "sakaplus:beast_ambient1",
+      "sakaplus:beast_ambient2"
+    ]
+  },
+  "beast_hurt": {
+    "subtitle": "subtitles.sakaplus.beast_hurt",
+    "sounds": [
+      "sakaplus:beast_hurt"
+    ]
+  },
+  "beast_death": {
+    "subtitle": "subtitles.sakaplus.beast_death",
+    "sounds": [
+      "sakaplus:beast_death"
+    ]
   }
 }
