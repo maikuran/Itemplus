@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "sakaplus:ice_greatblade"
+    },
+    "title": {
+      "translate": "advancement.sakaplus.visit_kruzivilim.title"
+    },
+    "description": {
+      "translate": "advancement.sakaplus.visit_kruzivilim.desc"
+    },
+    "background": "sakaplus:textures/item/ice_greatblade.png",
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "enter_kruzivilim": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "sakaplus:cyrovilim"
+      }
+    }
+  }
+}
