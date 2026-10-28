@@ -1,7 +1,7 @@
 {
   "display": {
     "icon": {
-      "item": "sakaplus:ice_greatblade"
+      "item": "minecraft:blue_ice"
     },
     "title": {
       "translate": "advancement.sakaplus.visit_cryovilim.title"
@@ -9,7 +9,7 @@
     "description": {
       "translate": "advancement.sakaplus.visit_cryovilim.desc"
     },
-    "background": "sakaplus:textures/item/ice_greatblade.png",
+    "background": "minecraft:textures/block/blue_ice.png",
     "frame": "task",
     "show_toast": true,
     "announce_to_chat": true,
