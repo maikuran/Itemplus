@@ -30,7 +30,7 @@ public class CryomageEntity extends HostileEntity {
     // ビーム設定
     private static final int BEAM_INTERVAL = 10;
     private static final double BEAM_RANGE = 20.0D;
-    private static final double MELEE_RANGE = 3.0D;
+    private static final double MELEE_RANGE = 1.5D;
 
     private static final int ICE_BEAM_COLOR = 0x66CCFF;
 
