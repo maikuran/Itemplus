@@ -1,34 +1,56 @@
+
 package com.sakalti.sakaplus.mixin;
 
 import net.minecraft.entity.attribute.ClampedEntityAttribute;
-import org.spongepowered.asm.mixin.Final;
+
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(ClampedEntityAttribute.class)
-public class ClampedEntityAttributeMixin {
-
-    @Shadow @Final @Mutable 
-    private double maxValue; // 属性の最大値を保持する内部フィールド
-
-    @Shadow @Final @Mutable 
-    private double minValue; // 属性の最小値を保持する内部フィールド
+public abstract class ClampedEntityAttributeMixin {
 
     /**
-     * クラスのインスタンスが生成された直後（RETURN）に、
-     * 制限値を限界まで引き上げます。
+     * 属性値のクランプ制限を解除
      */
-    @Inject(method = "<init>", at = @At("RETURN"))
-    private void onConstruct(String translationKey, double fallback, double min, double max, CallbackInfo ci) {
-        // 最小値の制限をなくす（必要に応じて。例: 攻撃速度などをマイナスにしたい場合）
-        if (this.minValue > -Double.MAX_VALUE) {
-            this.minValue = -Double.MAX_VALUE;
-        }
-        // 最大値の制限を実質無限（Doubleの最大値）に上書き
-        this.maxValue = Double.MAX_VALUE;
+    @Inject(
+        method = "clamp(D)D",
+        at = @At("HEAD"),
+        cancellable = true
+    )
+    private void sakaplus$unlimitedClamp(
+            double value,
+            CallbackInfoReturnable<Double> cir
+    ) {
+        cir.setReturnValue(value);
+    }
+
+    /**
+     * 最大値を実質無制限にする
+     */
+    @Inject(
+        method = "getMaxValue()D",
+        at = @At("HEAD"),
+        cancellable = true
+    )
+    private void sakaplus$unlimitedMax(
+            CallbackInfoReturnable<Double> cir
+    ) {
+        cir.setReturnValue(Double.MAX_VALUE);
+    }
+
+    /**
+     * 最小値を実質無制限にする
+     */
+    @Inject(
+        method = "getMinValue()D",
+        at = @At("HEAD"),
+        cancellable = true
+    )
+    private void sakaplus$unlimitedMin(
+            CallbackInfoReturnable<Double> cir
+    ) {
+        cir.setReturnValue(-Double.MAX_VALUE);
     }
 }
