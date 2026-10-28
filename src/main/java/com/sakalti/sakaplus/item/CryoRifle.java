@@ -39,6 +39,11 @@ public class CryoRifle extends Item {
     public static final float RECOIL_RECOVERY_SPEED = 0.22F;
     public static final float RECOIL_MAX_ANGLE = 10.0F;
 
+    // OPTIONAL INVULNERABILITY RESET
+    // false = 無効 / true = 有効
+
+    public static final boolean RESET_INVULNERABILITY = false;
+
     private static final String AMMO_KEY = "ammo";
 
     public CryoRifle(Settings settings) {
@@ -139,7 +144,8 @@ public class CryoRifle extends Item {
                 user,
                 BEAM_SPEED,
                 BEAM_DAMAGE,
-                BEAM_COLOR
+                BEAM_COLOR,
+                RESET_INVULNERABILITY
         );
 
         // DECREASE AMMO
@@ -298,7 +304,12 @@ public class CryoRifle extends Item {
         ));
 
         tooltip.add(Text.of(
-                "通常反動"
+                "反動: 普通"
+        ));
+
+        tooltip.add(Text.of(
+                "無敵時間リセット: "
+                        + (RESET_INVULNERABILITY ? "ON" : "OFF")
         ));
     }
 }
