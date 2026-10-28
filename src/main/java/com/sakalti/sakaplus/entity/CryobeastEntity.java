@@ -84,16 +84,16 @@ public class CryobeastEntity extends HostileEntity {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SakaplusSounds.ShyronAmbient;
+        return SakaplusSounds.BeastAmbient;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SakaplusSounds.ShyronHurt;
+        return SakaplusSounds.BeastHurt;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SakaplusSounds.ShyronDeath;
+        return SakaplusSounds.BeastDeath;
     }
 }
