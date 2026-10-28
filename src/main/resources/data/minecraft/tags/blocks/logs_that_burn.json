@@ -3,7 +3,7 @@
   "values": [
     "sakaplus:greeny_log",
     "sakaplus:greeny_wood",
-    "sakaplus:greeny_stripped_log",
-    "sakaplus:greeny_stripped_wood"
+    "sakaplus:stripped_greeny_log",
+    "sakaplus:stripped_greeny_wood"
   ]
 }
