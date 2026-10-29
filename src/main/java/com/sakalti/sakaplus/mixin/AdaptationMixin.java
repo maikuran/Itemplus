@@ -1,8 +1,11 @@
 package com.sakalti.sakaplus.mixin;
 
 import com.sakalti.sakaplus.attribute.ModAttributes;
+
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.damage.DamageSource;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,10 +16,28 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class AdaptationMixin {
 
     /**
-     * 適応属性によってダメージ量を軽減する。
-     *
-     * 元のdamage()を再呼び出しせず、
-     * 引数amountそのものを変更する。
+     * 適応属性の値を取得する。
+     * 属性が未初期化、またはエンティティに登録されていない場合は0。
+     */
+    private double sakaplus$getAdaptation() {
+        LivingEntity living = (LivingEntity) (Object) this;
+
+        if (ModAttributes.ADAPTATION == null) {
+            return 0.0D;
+        }
+
+        EntityAttributeInstance instance =
+                living.getAttributeInstance(ModAttributes.ADAPTATION);
+
+        if (instance == null) {
+            return 0.0D;
+        }
+
+        return instance.getValue();
+    }
+
+    /**
+     * 適応属性によってダメージを軽減する。
      */
     @ModifyVariable(
             method = "damage",
@@ -24,20 +45,13 @@ public abstract class AdaptationMixin {
             argsOnly = true
     )
     private float sakaplus$applyAdaptation(float amount) {
-        LivingEntity living = (LivingEntity) (Object) this;
+        double adaptation = sakaplus$getAdaptation();
 
-        double adaptation = living.getAttributeValue(
-                ModAttributes.ADAPTATION
-        );
-
-        float reduced = (float) (amount - adaptation);
-
-        return Math.max(0.0F, reduced);
+        return Math.max(0.0F, amount - (float) adaptation);
     }
 
     /**
-     * 適応によってダメージが完全に無効化された場合、
-     * 元のダメージ処理を実行しない。
+     * ダメージが完全に無効化された場合は処理を中止する。
      */
     @Inject(
             method = "damage",
@@ -49,13 +63,9 @@ public abstract class AdaptationMixin {
             float amount,
             CallbackInfoReturnable<Boolean> cir
     ) {
-        LivingEntity living = (LivingEntity) (Object) this;
+        double adaptation = sakaplus$getAdaptation();
 
-        double adaptation = living.getAttributeValue(
-                ModAttributes.ADAPTATION
-        );
-
-        if (amount - adaptation <= 0.0F) {
+        if (amount > 0.0F && amount - adaptation <= 0.0D) {
             cir.setReturnValue(false);
         }
     }
