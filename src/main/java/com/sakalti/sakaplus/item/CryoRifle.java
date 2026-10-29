@@ -24,7 +24,7 @@ public class CryoRifle extends Item {
 
     // CONFIGURATION
 
-    public static final int COOLDOWN_TICKS = 67;
+    public static final int COOLDOWN_TICKS = 6;
     public static final int RELOAD_COOLDOWN = 20;
     public static final int MAX_AMMO = 35;
     public static final int MAX_DURABILITY = 3760;
