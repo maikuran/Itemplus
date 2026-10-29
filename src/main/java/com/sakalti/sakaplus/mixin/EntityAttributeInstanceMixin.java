@@ -5,8 +5,12 @@ import net.minecraft.entity.attribute.EntityAttributeInstance;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Set;
 
@@ -25,47 +29,75 @@ public abstract class EntityAttributeInstanceMixin {
     );
 
     /**
-     * @author Sakaplus
-     * @reason Remove the base attribute value clamp.
+     * 基本値を直接保存し、バニラのクランプ処理を回避する。
      */
-    @Overwrite
-    public void setBaseValue(double baseValue) {
-        if (this.baseValue != baseValue) {
-            this.baseValue = baseValue;
+    @Inject(
+        method = "setBaseValue(D)V",
+        at = @At("HEAD"),
+        cancellable = true,
+        require = 1
+    )
+    private void sakaplus$unlimitedBaseValue(
+            double newValue,
+            CallbackInfo ci
+    ) {
+        if (this.baseValue != newValue) {
+            this.baseValue = newValue;
             this.onUpdate();
         }
+
+        ci.cancel();
     }
 
     /**
-     * @author Sakaplus
-     * @reason Remove the computed attribute value clamp.
+     * 基本値を直接返す。
      */
-    @Overwrite
-    private double computeValue() {
+    @Inject(
+        method = "getBaseValue()D",
+        at = @At("HEAD"),
+        cancellable = true,
+        require = 1
+    )
+    private void sakaplus$getUnlimitedBaseValue(
+            CallbackInfoReturnable<Double> cir
+    ) {
+        cir.setReturnValue(this.baseValue);
+    }
 
-        // 1. ADDITION
-        double value = this.baseValue;
+    /**
+     * 属性値を再計算し、クランプを通さず返す。
+     */
+    @Inject(
+        method = "getValue()D",
+        at = @At("HEAD"),
+        cancellable = true,
+        require = 1
+    )
+    private void sakaplus$getUnlimitedValue(
+            CallbackInfoReturnable<Double> cir
+    ) {
+        double base = this.baseValue;
 
+        // ADDITION
         for (EntityAttributeModifier modifier :
                 this.getModifiers(EntityAttributeModifier.Operation.ADDITION)) {
-            value += modifier.getValue();
+            base += modifier.getValue();
         }
 
-        // 2. MULTIPLY_BASE
-        double result = value;
+        double result = base;
 
+        // MULTIPLY_BASE
         for (EntityAttributeModifier modifier :
                 this.getModifiers(EntityAttributeModifier.Operation.MULTIPLY_BASE)) {
             result += this.baseValue * modifier.getValue();
         }
 
-        // 3. MULTIPLY_TOTAL
+        // MULTIPLY_TOTAL
         for (EntityAttributeModifier modifier :
                 this.getModifiers(EntityAttributeModifier.Operation.MULTIPLY_TOTAL)) {
             result *= 1.0D + modifier.getValue();
         }
 
-        // 属性のclamp()を一切呼び出さない
-        return result;
+        cir.setReturnValue(result);
     }
 }
