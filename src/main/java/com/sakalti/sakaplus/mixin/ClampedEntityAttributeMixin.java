@@ -1,56 +1,40 @@
-
 package com.sakalti.sakaplus.mixin;
 
 import net.minecraft.entity.attribute.ClampedEntityAttribute;
-
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Mutable;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClampedEntityAttribute.class)
 public abstract class ClampedEntityAttributeMixin {
 
-    /**
-     * 属性値のクランプ制限を解除
-     */
-    @Inject(
-        method = "clamp(D)D",
-        at = @At("HEAD"),
-        cancellable = true
-    )
-    private void sakaplus$unlimitedClamp(
-            double value,
-            CallbackInfoReturnable<Double> cir
-    ) {
-        cir.setReturnValue(value);
-    }
+    // @Shadow, @Final, @Mutable をセットで使うことで、
+    // 本来変更できない再代入不可（final）のフィールドを強制書き換え可能にします。
+    @Shadow @Final @Mutable private double minValue;
+    @Shadow @Final @Mutable private double maxValue;
 
     /**
-     * 最大値を実質無制限にする
+     * コンストラクタの処理直後（TAIL）を狙い、
+     * 設定された最小値・最大値を限界値へ上書きする
      */
     @Inject(
-        method = "getMaxValue()D",
-        at = @At("HEAD"),
-        cancellable = true
+        method = "<init>(Ljava/lang/String;DDD)V", // コンストラクタを指定
+        at = @At("TAIL")
     )
-    private void sakaplus$unlimitedMax(
-            CallbackInfoReturnable<Double> cir
+    private void sakaplus$overrideMinMaxFields(
+            String translationKey, 
+            double defaultValue, 
+            double min, 
+            double max, 
+            CallbackInfo ci
     ) {
-        cir.setReturnValue(Double.MAX_VALUE);
-    }
-
-    /**
-     * 最小値を実質無制限にする
-     */
-    @Inject(
-        method = "getMinValue()D",
-        at = @At("HEAD"),
-        cancellable = true
-    )
-    private void sakaplus$unlimitedMin(
-            CallbackInfoReturnable<Double> cir
-    ) {
-        cir.setReturnValue(-Double.MAX_VALUE);
+        // フィールドの値を直接最大・最小に書き換える
+        // (これにより clamp() メソッドや、getMin/Max メソッドのすべてが自動的に無制限になります)
+        this.minValue = -Double.MAX_VALUE;
+        this.maxValue = Double.MAX_VALUE;
     }
 }
