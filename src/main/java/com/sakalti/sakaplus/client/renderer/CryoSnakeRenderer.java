@@ -16,7 +16,7 @@ public class CryoSnakeRenderer extends MobEntityRenderer<
 
     public static final EntityModelLayer MODEL_LAYER =
             new EntityModelLayer(
-                    new Identifier("sakaplus", "cryo_snake"),
+                    new Identifier("sakaplus", "cryosnake"),
                     "main"
             );
 
