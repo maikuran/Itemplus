@@ -24,13 +24,13 @@ public class CryoRifle extends Item {
 
     // CONFIGURATION
 
-    public static final int COOLDOWN_TICKS = 10;
+    public static final int COOLDOWN_TICKS = 67;
     public static final int RELOAD_COOLDOWN = 20;
-    public static final int MAX_AMMO = 10;
+    public static final int MAX_AMMO = 35;
     public static final int MAX_DURABILITY = 3760;
 
-    public static final float BEAM_DAMAGE = 7.75F;
-    public static final float BEAM_SPEED = 2.2F;
+    public static final float BEAM_DAMAGE = 7.2F;
+    public static final float BEAM_SPEED = 2.5F;
     public static final int BEAM_COLOR = 0x80EFFF;
 
     // NORMAL RECOIL
@@ -42,7 +42,7 @@ public class CryoRifle extends Item {
     // OPTIONAL INVULNERABILITY RESET
     // false = 無効 / true = 有効
 
-    public static final boolean RESET_INVULNERABILITY = false;
+    public static final boolean RESET_INVULNERABILITY = true;
 
     private static final String AMMO_KEY = "ammo";
 
