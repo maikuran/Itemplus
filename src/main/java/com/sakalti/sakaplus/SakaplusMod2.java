@@ -1,13 +1,15 @@
+
 package com.sakalti.sakaplus;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 
+import com.sakalti.sakaplus.attribute.ModAttributes;
 import com.sakalti.sakaplus.item.CatalystItems;
 import com.sakalti.sakaplus.item.KruziRifle;
 import com.sakalti.sakaplus.tinco.item.ModItems5;
 import com.sakalti.sakaplus.effect.ModEffects;
-import com.sakalti.sakaplus.command.SakaDimensionsCommand; // 新しいコマンドクラスをインポート
+import com.sakalti.sakaplus.command.SakaDimensionsCommand;
 import com.sakalti.sakaplus.registry.*;
 import com.sakalti.sakaplus.dimension.SakaplusDimensions;
 import com.sakalti.sakaplus.block.ModBlocks2;
@@ -21,10 +23,12 @@ public class SakaplusMod2 implements ModInitializer {
     @Override
     public void onInitialize() {
 
+        // Attributes
+        ModAttributes.register();
+
         // Sounds
         SakaplusSounds.registerSounds();
         KruziRifle.registerServer();
-
 
         // Potions
         LongtimePotionRegistry.registerAll();
@@ -51,7 +55,7 @@ public class SakaplusMod2 implements ModInitializer {
         // Greeny Features
         GreenyFeatures.register();
 
-        // Commands（新しい統合コマンドを登録するように変更）
+        // Commands
         CommandRegistrationCallback.EVENT.register(
             (dispatcher, registryAccess, environment) -> {
                 SakaDimensionsCommand.register(dispatcher);
