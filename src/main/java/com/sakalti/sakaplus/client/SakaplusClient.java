@@ -33,7 +33,10 @@ public class SakaplusClient implements ClientModInitializer {
 
     // Entity Renderers
     private void registerEntityRenderers() {
-        EntityRendererRegistry.register(ModBeamEntities.BEAM_PROJECTILE, BeamProjectileRenderer::new);
+        EntityRendererRegistry.register(
+                ModBeamEntities.BEAM_PROJECTILE,
+                BeamProjectileRenderer::new
+        );
 
         EntityRendererRegistry.register(ModEntities333.SCORCHER, ScorcherRenderer::new);
         EntityRendererRegistry.register(ModEntities333.SHYRON, ShyronRenderer::new);
@@ -43,6 +46,7 @@ public class SakaplusClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities333.CRYOMAGE, CryomageRenderer::new);
         EntityRendererRegistry.register(ModEntities333.CRYOWARRIOR, CryowarriorRenderer::new);
         EntityRendererRegistry.register(ModEntities333.CRYOBEAST, CryobeastRenderer::new);
+        EntityRendererRegistry.register(ModEntities333.CRYOSNAKE, CryoSnakeRenderer::new);
 
         EntityRendererRegistry.register(ModEntities333.KULOOGIE, KuloogieRenderer::new);
         EntityRendererRegistry.register(ModEntities333.KUR_BRUTE, KurBruteRenderer::new);
@@ -68,6 +72,7 @@ public class SakaplusClient implements ClientModInitializer {
         registerLayer(CryomageRenderer.MODEL_LAYER, CryoHumanoidModel::getTexturedModelData);
         registerLayer(CryowarriorRenderer.MODEL_LAYER, CryoHumanoidModel::getTexturedModelData);
         registerLayer(CryobeastRenderer.MODEL_LAYER, CryobeastModel::getTexturedModelData);
+        registerLayer(CryoSnakeRenderer.MODEL_LAYER, CryoSnakeModel::getTexturedModelData);
 
         registerLayer(ShyronRenderer.MODEL_LAYER, ShyronModel::getTexturedModelData);
         registerLayer(XxenaRenderer.MODEL_LAYER, XxenaModel::getTexturedModelData);
