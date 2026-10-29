@@ -68,7 +68,7 @@ public class ModItems {
             .maxCount(1));
     public static final Item CRYO_RIFLE =
         new CryoRifle(new Item.Settings()
-            .group(ModTabs.CRYOVILIM_TAB)
+            .group(ModTabs.CYROVILIM_TAB)
             .maxCount(1));
 
     public static final Item KRUZI_RIFLE =
