@@ -9,7 +9,8 @@ import org.spongepowered.asm.mixin.Overwrite;
 public abstract class ClampedEntityAttributeMixin {
 
     /**
-     * 属性値の制限を完全解除
+     * @author Sakaplus
+     * @reason Remove attribute value clamping.
      */
     @Overwrite
     public double clamp(double value) {
@@ -17,7 +18,8 @@ public abstract class ClampedEntityAttributeMixin {
     }
 
     /**
-     * 最大値制限解除
+     * @author Sakaplus
+     * @reason Remove maximum attribute value restriction.
      */
     @Overwrite
     public double getMaxValue() {
@@ -25,7 +27,8 @@ public abstract class ClampedEntityAttributeMixin {
     }
 
     /**
-     * 最小値制限解除
+     * @author Sakaplus
+     * @reason Remove minimum attribute value restriction.
      */
     @Overwrite
     public double getMinValue() {
