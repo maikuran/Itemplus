@@ -19,7 +19,7 @@
     "enter_kruzivilim": {
       "trigger": "minecraft:changed_dimension",
       "conditions": {
-        "to": "sakaplus:cyrovilim"
+        "to": "sakaplus:cryovilim"
       }
     }
   }
