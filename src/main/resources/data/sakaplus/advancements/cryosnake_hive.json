@@ -1,0 +1,33 @@
+{
+  "parent": "sakaplus:visit_cryovilim",
+  "display": {
+    "icon": {
+      "item": "minecraft:spawn_egg"
+    },
+    "title": {
+      "translate": "advancement.sakaplus.cryosnake_hive.title"
+    },
+    "description": {
+      "translate": "advancement.sakaplus.cryosnake_hive.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "enter_cryosnake_hive": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": {
+          "location": {
+            "structure": "sakaplus:cryosnake_hive"
+          }
+        }
+      }
+    }
+  },
+  "rewards": {
+    "experience": 100
+  }
+}
