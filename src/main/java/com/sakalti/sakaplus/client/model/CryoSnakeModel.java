@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus.client.model;
 
 import com.sakalti.sakaplus.entity.CryoSnakeEntity;
@@ -13,7 +12,8 @@ public class CryoSnakeModel extends SinglePartEntityModel<CryoSnakeEntity> {
     private final ModelPart head;
     private final ModelPart[] segments = new ModelPart[8];
 
-    private static final float HEAD_BASE_Y = -0.5F;
+    private static final float GROUND_Y = 24.0F;
+    private static final float HEAD_BASE_Y = 21.0F;
     private static final float HEAD_BASE_Z = -4.0F;
 
     public CryoSnakeModel(ModelPart root) {
@@ -55,7 +55,11 @@ public class CryoSnakeModel extends SinglePartEntityModel<CryoSnakeEntity> {
                 .uv(50, 0)
                 .cuboid(-1, -2, -9, 2, 2, 2),
 
-            ModelTransform.pivot(0, 0, HEAD_BASE_Z)
+            ModelTransform.pivot(
+                0,
+                HEAD_BASE_Y,
+                HEAD_BASE_Z
+            )
         );
 
         // EIGHT BODY SEGMENTS
@@ -116,12 +120,15 @@ public class CryoSnakeModel extends SinglePartEntityModel<CryoSnakeEntity> {
                     2
                 );
 
+            // Position body directly on ground
+            float groundPivotY = GROUND_Y - size;
+
             root.addChild(
                 "segment_" + (i + 1),
                 builder,
                 ModelTransform.pivot(
                     0,
-                    0,
+                    groundPivotY,
                     3 + i * 5
                 )
             );
@@ -157,12 +164,16 @@ public class CryoSnakeModel extends SinglePartEntityModel<CryoSnakeEntity> {
         // IDLE ANIMATION
         float idle = MathHelper.sin(animationProgress * 0.08F);
 
-        head.pivotY += idle * 0.15F;
+        head.pivotY -= Math.max(0.0F, idle) * 0.15F;
 
         // SNAKE MOVEMENT
         float movement = Math.min(limbDistance, 1.0F);
 
         for (int i = 0; i < 8; i++) {
+
+            int size = Math.max(2, 4 - i / 3);
+
+            float baseY = GROUND_Y - size;
 
             float phase = i * 0.65F;
 
@@ -176,7 +187,7 @@ public class CryoSnakeModel extends SinglePartEntityModel<CryoSnakeEntity> {
 
             // Reset segment position
             segments[i].pivotX = 0.0F;
-            segments[i].pivotY = 0.0F;
+            segments[i].pivotY = baseY;
             segments[i].pivotZ = 3 + i * 5;
 
             segments[i].pitch = 0.0F;
@@ -189,10 +200,16 @@ public class CryoSnakeModel extends SinglePartEntityModel<CryoSnakeEntity> {
                 + idleWave * 0.07F;
 
             // Vertical movement
-            segments[i].pivotY =
-                Math.abs(wave) * 0.8F * movement
-                + MathHelper.sin(
-                    animationProgress * 0.08F - phase
+            // Only move upward, never into the ground
+            segments[i].pivotY -=
+                Math.abs(wave) * 0.8F * movement;
+
+            segments[i].pivotY -=
+                Math.max(
+                    0.0F,
+                    MathHelper.sin(
+                        animationProgress * 0.08F - phase
+                    )
                 ) * 0.2F;
 
             // Body bending
