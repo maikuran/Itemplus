@@ -319,7 +319,7 @@ public final class SkillUI {
             scrollOffset = Math.max(
                     0,
                     Math.min(scrollOffset, maxScroll)
-            );
+                );
 
             // =================================================
             // SCISSOR
@@ -336,403 +336,330 @@ public final class SkillUI {
 
             int scissorWidth = (int) (
                     (panelRight - panelLeft) * scale
-            );
-
-            int scissorHeight = (int) (
-                    (viewportBottom - viewportTop) * scale
-            );
-
-            RenderSystem.enableScissor(
-                    scissorX,
-                    scissorY,
-                    scissorWidth,
-                    scissorHeight
-            );
-
-            // =================================================
-            // SKILL CARDS
-            // =================================================
-
-            int contentTop = viewportTop - scrollOffset;
-
-            if (twoColumns) {
-
-                int gap = 16;
-
-                int columnWidth = (panelWidth - 40 - gap) / 2;
-
-                int leftX = panelLeft + 20;
-                int rightX = leftX + columnWidth + gap;
-
-                drawSkill(
-                        matrices,
-                        leftX,
-                        contentTop,
-                        columnWidth,
-                        "§cKILL SKILL",
-                        killLevel,
-                        killCurrentXp,
-                        killRequiredXp,
-                        killTotalXp,
-                        KillSkillLogic.STAGES,
-                        KillSkillLogic.DESCRIPTIONS,
-                        0xFFFFB34A
-                );
-
-                drawSkill(
-                        matrices,
-                        rightX,
-                        contentTop,
-                        columnWidth,
-                        "§bWALK SKILL",
-                        walkLevel,
-                        walkCurrentXp,
-                        walkRequiredXp,
-                        walkTotalXp,
-                        WalkSkillLogic.STAGES,
-                        WalkSkillLogic.DESCRIPTIONS,
-                        0xFF55CFFF
-                );
-
-            } else {
-
-                int cardWidth = panelWidth - 30;
-                int cardX = panelLeft + 15;
-
-                drawSkill(
-                        matrices,
-                        cardX,
-                        contentTop,
-                        cardWidth,
-                        "§cKILL SKILL",
-                        killLevel,
-                        killCurrentXp,
-                        killRequiredXp,
-                        killTotalXp,
-                        KillSkillLogic.STAGES,
-                        KillSkillLogic.DESCRIPTIONS,
-                        0xFFFFB34A
-                );
-
-                drawSkill(
-                        matrices,
-                        cardX,
-                        contentTop + CARD_HEIGHT + CARD_GAP,
-                        cardWidth,
-                        "§bWALK SKILL",
-                        walkLevel,
-                        walkCurrentXp,
-                        walkRequiredXp,
-                        walkTotalXp,
-                        WalkSkillLogic.STAGES,
-                        WalkSkillLogic.DESCRIPTIONS,
-                        0xFF55CFFF
-                );
-            }
-
-            RenderSystem.disableScissor();
-
-            // =================================================
-            // FOOTER
-            // =================================================
-
-            fill(
-                    matrices,
-                    panelLeft,
-                    height - 43,
-                    panelRight,
-                    height - 10,
-                    0xFF11141C
-            );
-
-            drawCentered(
-                    matrices,
-                    "Space: Double Jump   G: Air Dash   H: Blink Step   K: Close",
-                    centerX,
-                    height - 32,
-                    0xFFBBBBBB
-            );
-
-            // Scroll indicator
-
-            if (maxScroll > 0) {
-
-                drawCentered(
-                        matrices,
-                        "§7Mouse Wheel: Scroll   "
-                                + (scrollOffset + 1)
-                                + " / "
-                                + (maxScroll + 1),
-                        centerX,
-                        height - 47,
-                        0xFFAAAAAA
-                );
-            }
-
-            super.render(matrices, mouseX, mouseY, delta);
-        }
-
-        // =================================================
-        // DRAW SKILL
-        // =================================================
-
-        private void drawSkill(
-                MatrixStack matrices,
-                int x,
-                int y,
-                int cardWidth,
-                String title,
-                int level,
-                long currentXp,
-                long requiredXp,
-                long totalXp,
-                String[] stages,
-                String[] descriptions,
-                int color
-        ) {
-
-            // Card background
-
-            fill(
-                    matrices,
-                    x,
-                    y,
-                    x + cardWidth,
-                    y + CARD_HEIGHT,
-                    0xCC252A36
-            );
-
-            // Card top border
-
-            fill(
-                    matrices,
-                    x,
-                    y,
-                    x + cardWidth,
-                    y + 2,
-                    color
-            );
-
-            int textX = x + 10;
-            int textWidth = Math.max(20, cardWidth - 20);
-
-            // Skill title
-
-            textRenderer.drawWithShadow(
-                    matrices,
-                    textRenderer.trimToWidth(title, textWidth),
-                    textX,
-                    y + 12,
-                    color
-            );
-
-            // Level
-
-            textRenderer.drawWithShadow(
-                    matrices,
-                    "Level: " + level + " / 100",
-                    textX,
-                    y + 31,
-                    0xFFFFFFFF
-            );
-
-            // Total XP
-
-            textRenderer.drawWithShadow(
-                    matrices,
-                    textRenderer.trimToWidth(
-                            "Total XP: " + totalXp,
-                            textWidth
-                    ),
-                    textX,
-                    y + 46,
-                    0xFFCCCCCC
-            );
-
-            // XP bar
-
-            int barY = y + 65;
-            int barWidth = textWidth;
-
-            fill(
-                    matrices,
-                    textX,
-                    barY,
-                    textX + barWidth,
-                    barY + 9,
-                    0xFF444444
-            );
-
-            if (requiredXp > 0) {
-
-                double progress = Math.max(
-                        0.0,
-                        Math.min(
-                                1.0,
-                                (double) currentXp / requiredXp
-                        )
-                );
-
-                int filled = (int) (barWidth * progress);
-
-                fill(
-                        matrices,
-                        textX,
-                        barY,
-                        textX + filled,
-                        barY + 9,
-                        color
-                );
-            }
-
-            // XP text
-
-            String xpText = requiredXp > 0
-                    ? currentXp + " / " + requiredXp + " XP"
-                    : "MAX LEVEL";
-
-            textRenderer.drawWithShadow(
-                    matrices,
-                    textRenderer.trimToWidth(xpText, textWidth),
-                    textX,
-                    barY + 14,
-                    0xFFAAAAAA
-            );
-
-            // Ability list
-
-            int listY = y + 94;
-            int rowHeight = 27;
-
-            for (int i = 0; i < 20; i++) {
-
-                int requiredLevel = (i + 1) * 5;
-
-                boolean unlocked = level >= requiredLevel;
-
-                int rowY = listY + i * rowHeight;
-
-                String stageName = i < stages.length
-                        ? stages[i]
-                        : "Unknown";
-
-                String stageText =
-                        (unlocked ? "§a✓ " : "§7🔒 ")
-                                + "Lv."
-                                + requiredLevel
-                                + " "
-                                + stageName;
-
-                // Ability name
-
-                textRenderer.drawWithShadow(
-                        matrices,
-                        textRenderer.trimToWidth(
-                                stageText,
-                                textWidth
-                        ),
-                        textX,
-                        rowY,
-                        unlocked ? 0xFFFFFFFF : 0xFF888888
-                );
-
-                // Ability description
-
-                if (unlocked && i < descriptions.length) {
-
-                    String description = "§7" + descriptions[i];
-
-                    textRenderer.drawWithShadow(
-                            matrices,
-                            textRenderer.trimToWidth(
-                                    description,
-                                    textWidth - 8
-                            ),
-                            textX + 8,
-                            rowY + 11,
-                            0xFFAAAAAA
-                    );
-                }
-
-                // Separator
-
-                if (i < 19) {
-
-                    fill(
-                            matrices,
-                            textX,
-                            rowY + 24,
-                            textX + textWidth,
-                            rowY + 25,
-                            0x33445566
-                    );
-                }
-            }
-        }
-
-        // =================================================
-        // CENTERED TEXT
-        // =================================================
-
-        private void drawCentered(
-                MatrixStack matrices,
-                String text,
-                int centerX,
-                int y,
-                int color
-        ) {
-
-            int textWidth = textRenderer.getWidth(text);
-
-            textRenderer.drawWithShadow(
-                    matrices,
-                    text,
-                    centerX - textWidth / 2,
-                    y,
-                    color
-            );
-        }
-
-        // =================================================
-        // MOUSE SCROLL
-        // =================================================
-
-        @Override
-        public boolean mouseScrolled(
-                double mouseX,
-                double mouseY,
-                double amount
-        ) {
-
-            if (mouseY >= viewportTop
-                    && mouseY <= viewportBottom
-                    && maxScroll > 0) {
-
-                scrollOffset -= (int) (amount * 24);
-
-                scrollOffset = Math.max(
-                        0,
-                        Math.min(scrollOffset, maxScroll)
-                );
-
-                return true;
-            }
-
-            return super.mouseScrolled(mouseX, mouseY, amount);
-        }
-
-        // =================================================
-        // SCREEN SETTINGS
-        // =================================================
-
-        @Override
-        public boolean shouldPause() {
-            return false;
-        }
-
-        @Override
-        public void close() {
-            MinecraftClient.getInstance().setScreen(null);
-        }
-    }
+コードは注意してご使用ください。
+);
+int scissorHeight = (int) (
+(viewportBottom - viewportTop) * scale
+);
+RenderSystem.enableScissor(
+scissorX,
+scissorY,
+scissorWidth,
+scissorHeight
+);
+// =================================================
+// SKILL CARDS
+// =================================================
+int contentTop = viewportTop - scrollOffset;
+if (twoColumns) {
+int gap = 16;
+int columnWidth = (panelWidth - 40 - gap) / 2;
+int leftX = panelLeft + 20;
+int rightX = leftX + columnWidth + gap;
+drawSkill(
+matrices,
+leftX,
+contentTop,
+columnWidth,
+"§cKILL SKILL",
+killLevel,
+killCurrentXp,
+killRequiredXp,
+killTotalXp,
+KillSkillLogic.STAGES,
+KillSkillLogic.DESCRIPTIONS,
+0xFFFFB34A
+);
+drawSkill(
+matrices,
+rightX,
+contentTop,
+columnWidth,
+"§bWALK SKILL",
+walkLevel,
+walkCurrentXp,
+walkRequiredXp,
+walkTotalXp,
+WalkSkillLogic.STAGES,
+WalkSkillLogic.DESCRIPTIONS,
+0xFF55CFFF
+);
+} else {
+int cardWidth = panelWidth - 30;
+int cardX = panelLeft + 15;
+drawSkill(
+matrices,
+cardX,
+contentTop,
+cardWidth,
+"§cKILL SKILL",
+killLevel,
+killCurrentXp,
+killRequiredXp,
+killTotalXp,
+KillSkillLogic.STAGES,
+KillSkillLogic.DESCRIPTIONS,
+0xFFFFB34A
+);
+drawSkill(
+matrices,
+cardX,
+contentTop + CARD_HEIGHT + CARD_GAP,
+cardWidth,
+"§bWALK SKILL",
+walkLevel,
+walkCurrentXp,
+walkRequiredXp,
+walkTotalXp,
+WalkSkillLogic.STAGES,
+WalkSkillLogic.DESCRIPTIONS,
+0xFF55CFFF
+);
 }
+RenderSystem.disableScissor();
+// =================================================
+// FOOTER
+// =================================================
+fill(
+matrices,
+panelLeft,
+height - 43,
+panelRight,
+height - 10,
+0xFF11141C
+);
+drawCentered(
+matrices,
+"Space: Double Jump   G: Air Dash   H: Blink Step   K: Close",
+centerX,
+height - 32,
+0xFFBBBBBB
+);
+// Scroll indicator
+if (maxScroll > 0) {
+drawCentered(
+matrices,
+"§7Mouse Wheel: Scroll   "
++ (scrollOffset + 1)
++ " / "
++ (maxScroll + 1),
+centerX,
+height - 47,
+0xFFAAAAAA
+);
+}
+super.render(matrices, mouseX, mouseY, delta);
+}
+// =================================================
+// DRAW SKILL
+// =================================================
+private void drawSkill(
+MatrixStack matrices,
+int x,
+int y,
+int cardWidth,
+String title,
+int level,
+long currentXp,
+long requiredXp,
+long totalXp,
+String[] stages,
+String[] descriptions,
+int color
+) {
+// Card background
+fill(
+matrices,
+x,
+y,
+x + cardWidth,
+y + CARD_HEIGHT,
+0xCC252A36
+);
+// Card top border
+fill(
+matrices,
+x,
+y,
+x + cardWidth,
+y + 2,
+color
+);
+int textX = x + 10;
+int textWidth = Math.max(20, cardWidth - 20);
+// Skill title
+textRenderer.drawWithShadow(
+matrices,
+textRenderer.trimToWidth(title, textWidth),
+textX,
+y + 12,
+color
+);
+// Level
+textRenderer.drawWithShadow(
+matrices,
+"Level: " + level + " / 100",
+textX,
+y + 31,
+0xFFFFFFFF
+);
+// Total XP
+textRenderer.drawWithShadow(
+matrices,
+textRenderer.trimToWidth(
+"Total XP: " + totalXp,
+textWidth
+),
+textX,
+y + 46,
+0xFFCCCCCC
+);
+// XP bar
+int barY = y + 65;
+int barWidth = textWidth;
+fill(
+matrices,
+textX,
+barY,
+textX + barWidth,
+barY + 9,
+0xFF444444
+);
+if (requiredXp > 0) {
+double progress = Math.max(
+0.0,
+Math.min(
+1.0,
+(double) currentXp / requiredXp
+)
+);
+int filled = (int) (barWidth * progress);
+fill(
+matrices,
+textX,
+barY,
+textX + filled,
+barY + 9,
+color
+);
+}
+// XP text
+String xpText = requiredXp > 0
+? currentXp + " / " + requiredXp + " XP"
+: "MAX LEVEL";
+textRenderer.drawWithShadow(
+matrices,
+textRenderer.trimToWidth(xpText, textWidth),
+textX,
+barY + 14,
+0xFFAAAAAA
+);
+// Ability list
+int listY = y + 94;
+int rowHeight = 27;
+for (int i = 0; i < 20; i++) {
+int requiredLevel = (i + 1) * 5;
+boolean unlocked = level >= requiredLevel;
+int rowY = listY + i * rowHeight;
+String stageName = i < stages.length
+? stages[i]
+: "Unknown";
+String stageText =
+(unlocked ? "§a✓ " : "§7🔒 ")
++ "Lv."
++ requiredLevel
++ " "
++ stageName;
+// Ability name
+textRenderer.drawWithShadow(
+matrices,
+textRenderer.trimToWidth(
+stageText,
+textWidth
+),
+textX,
+rowY,
+unlocked ? 0xFFFFFFFF : 0xFF888888
+);
+// Ability description
+if (unlocked && i < descriptions.length) {
+String description = "§7" + descriptions[i];
+textRenderer.drawWithShadow(
+matrices,
+textRenderer.trimToWidth(
+description,
+textWidth - 8
+),
+textX + 8,
+rowY + 11,
+0xFFAAAAAA
+);
+}
+// Separator
+if (i < 19) {
+fill(
+matrices,
+textX,
+rowY + 24,
+textX + textWidth,
+rowY + 25,
+0x33445566
+);
+}
+}
+}
+// =================================================
+// CENTERED TEXT
+// =================================================
+private void drawCentered(
+MatrixStack matrices,
+String text,
+int centerX,
+int y,
+int color
+) {
+int textWidth = textRenderer.getWidth(text);
+textRenderer.drawWithShadow(
+matrices,
+text,
+centerX - textWidth / 2,
+y,
+color
+);
+}
+// =================================================
+// MOUSE SCROLL
+// =================================================
+@Override
+public boolean mouseScrolled(
+double mouseX,
+double mouseY,
+double amount
+) {
+if (mouseY >= viewportTop
+&& mouseY <= viewportBottom
+&& maxScroll > 0) {
+// 1.19.2環境用に単一引数「amount」を使用する形へ修正
+scrollOffset -= (int) (amount * 24);
+scrollOffset = Math.max(
+0,
+Math.min(scrollOffset, maxScroll)
+);
+return true;
+}
+return super.mouseScrolled(mouseX, mouseY, amount);
+}
+// =================================================
+// SCREEN SETTINGS
+// =================================================
+@Override
+public boolean shouldPause() {
+return false;
+}
+@Override
+public void close() {
+MinecraftClient.getInstance().setScreen(null);
+}
+}
+}
+
