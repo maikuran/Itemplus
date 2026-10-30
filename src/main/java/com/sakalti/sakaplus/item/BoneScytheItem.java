@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
+import com.sakalti.sakaplus.effect.ModEffects;
 import net.minecraft.util.Rarity;
 import com.sakalti.sakaplus.registry.ModTabs; // ModTabs のインポートを追加
 
@@ -48,7 +49,7 @@ public class BoneScytheItem extends SwordItem {
             }
         }, 3, -3.1F,
         new Item.Settings()
-            .group(ModTabs.STARTER_AND_KRUZIVILIM) // Cyrovilim タブを指定
+            .group(ModTabs.STARTER_AND_KRUZIVILIM_TAB) // Cyrovilim タブを指定
             .rarity(Rarity.EPIC)
             .maxCount(1)
             .maxDamage(870));
@@ -62,7 +63,8 @@ public class BoneScytheItem extends SwordItem {
     ) {
         target.addStatusEffect(
             new StatusEffectInstance(
-                StatusEffects.SLOWNESS,
+                Nk
+                ModEffects.MUDO,
                 100,
                 1
             )
