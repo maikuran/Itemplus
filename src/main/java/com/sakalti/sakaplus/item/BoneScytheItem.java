@@ -30,7 +30,7 @@ public class BoneScytheItem extends SwordItem {
 
             @Override
             public float getAttackDamage() {
-                return 17.5F - ToolMaterials.NETHERITE.getAttackDamage();
+                return 13.5F - ToolMaterials.NETHERITE.getAttackDamage();
             }
 
             @Override
