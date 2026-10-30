@@ -1,662 +1,516 @@
 
 package com.sakalti.sakaplus.player.skill;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.entity.event.v1.ServerEntityCombatEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
+import net.minecraft.world.PersistentState;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+public final class KillSkillLogic {
 
-import org.lwjgl.glfw.GLFW;
+    public static final Identifier REQUEST =
+        new Identifier("sakaplus", "kill_skill_request");
 
-@Environment(EnvType.CLIENT)
-public final class SkillUI {
+    public static final Identifier SYNC =
+        new Identifier("sakaplus", "kill_skill_sync");
 
-    private static final Identifier KILL_REQUEST =
-            new Identifier("sakaplus", "kill_skill_request");
+    private static final String STATE_ID = "sakaplus_kill_skill";
 
-    private static final Identifier KILL_SYNC =
-            new Identifier("sakaplus", "kill_skill_sync");
+    public static final String[] STAGES = {
+        "Finisher", "Blood Recovery", "Battle Momentum", "Combat Focus",
+        "Absorption", "Regeneration", "Iron Body", "Full Stomach",
+        "Flame Guard", "Battle Haste", "Warrior Jump", "Lucky Hunter",
+        "Night Hunter", "Deep Breath", "Power Strike", "Rapid Recovery",
+        "Greater Absorption", "Killer Speed", "Unbreakable", "Killing Frenzy"
+    };
 
-    private static final Identifier WALK_REQUEST =
-            new Identifier("sakaplus", "walk_skill_request");
+    public static final String[] DESCRIPTIONS = {
+        "敵を倒すと追加Kill経験値を獲得",
+        "敵を倒すと体力を1回復",
+        "敵を倒すと短時間移動速度上昇",
+        "敵を倒すと短時間攻撃力上昇",
+        "敵を倒すと吸収体力を獲得",
+        "敵を倒すと再生能力を獲得",
+        "敵を倒すと耐性を獲得",
+        "敵を倒すと満腹度を回復",
+        "敵を倒すと火炎耐性を獲得",
+        "敵を倒すと採掘速度上昇",
+        "敵を倒すと跳躍力上昇",
+        "敵を倒すと幸運を獲得",
+        "敵を倒すと暗視を獲得",
+        "敵を倒すと水中呼吸を獲得",
+        "敵を倒すと強い攻撃力上昇",
+        "敵を倒すと強い再生能力を獲得",
+        "敵を倒すと強い吸収体力を獲得",
+        "敵を倒すと強い移動速度上昇",
+        "敵を倒すと強い耐性を獲得",
+        "敵を倒すと全戦闘効果を獲得"
+    };
 
-    private static final Identifier WALK_SYNC =
-            new Identifier("sakaplus", "walk_skill_sync");
+    private KillSkillLogic() {}
 
-    private static final Identifier DOUBLE_JUMP =
-            new Identifier("sakaplus", "walk_double_jump");
+    public static void initialize() {
 
-    private static final Identifier AIR_DASH =
-            new Identifier("sakaplus", "walk_air_dash");
+        ServerEntityCombatEvents.AFTER_KILLED_OTHER_ENTITY.register(
+            (world, killer, victim) -> {
 
-    private static KeyBinding openKey;
-    private static KeyBinding dashKey;
-    private static KeyBinding blinkKey;
+                if (!(killer instanceof ServerPlayerEntity player)) return;
+                if (!(victim instanceof LivingEntity)) return;
 
-    private static int killLevel = 1;
-    private static long killCurrentXp = 0;
-    private static long killRequiredXp = 0;
-    private static long killTotalXp = 0;
-
-    private static int walkLevel = 1;
-    private static long walkCurrentXp = 0;
-    private static long walkRequiredXp = 0;
-    private static long walkTotalXp = 0;
-
-    private static boolean initialized = false;
-    private static boolean previousJumpDown = false;
-
-    private SkillUI() {
-    }
-
-    // =====================================================
-    // CLIENT REGISTRATION
-    // =====================================================
-
-    public static void registerClientNetworking() {
-
-        if (initialized) return;
-        initialized = true;
-
-        openKey = KeyBindingHelper.registerKeyBinding(
-                new KeyBinding(
-                        "key.sakaplus.skill_ui",
-                        GLFW.GLFW_KEY_K,
-                        "category.sakaplus"
-                )
-        );
-
-        dashKey = KeyBindingHelper.registerKeyBinding(
-                new KeyBinding(
-                        "key.sakaplus.air_dash",
-                        GLFW.GLFW_KEY_G,
-                        "category.sakaplus"
-                )
-        );
-
-        blinkKey = KeyBindingHelper.registerKeyBinding(
-                new KeyBinding(
-                        "key.sakaplus.blink_step",
-                        GLFW.GLFW_KEY_H,
-                        "category.sakaplus"
-                )
-        );
-
-        ClientPlayNetworking.registerGlobalReceiver(
-                KILL_SYNC,
-                (client, handler, buf, responseSender) -> {
-
-                    int level = buf.readInt();
-                    long current = buf.readLong();
-                    long required = buf.readLong();
-                    long total = buf.readLong();
-
-                    client.execute(() -> {
-                        killLevel = level;
-                        killCurrentXp = current;
-                        killRequiredXp = required;
-                        killTotalXp = total;
-                    });
-                }
-        );
-
-        ClientPlayNetworking.registerGlobalReceiver(
-                WALK_SYNC,
-                (client, handler, buf, responseSender) -> {
-
-                    int level = buf.readInt();
-                    long current = buf.readLong();
-                    long required = buf.readLong();
-                    long total = buf.readLong();
-
-                    client.execute(() -> {
-                        walkLevel = level;
-                        walkCurrentXp = current;
-                        walkRequiredXp = required;
-                        walkTotalXp = total;
-                    });
-                }
-        );
-
-        ClientTickEvents.END_CLIENT_TICK.register(client -> {
-
-            if (client.player == null || client.world == null) {
-                previousJumpDown = false;
-                return;
-            }
-
-            while (openKey.wasPressed()) {
-                client.setScreen(new SkillScreen());
-                requestData();
-            }
-
-            boolean jumpDown = client.options.jumpKey.isPressed();
-
-            if (jumpDown
-                    && !previousJumpDown
-                    && !client.player.isOnGround()
-                    && walkLevel >= 5) {
-
-                ClientPlayNetworking.send(
-                        DOUBLE_JUMP,
-                        PacketByteBufs.empty()
+                int victimHealth = Math.max(
+                    1,
+                    (int) Math.ceil(victim.getMaxHealth())
                 );
+
+                addXp(player, 5L + victimHealth);
+                applyKillRewards(player);
             }
+        );
 
-            previousJumpDown = jumpDown;
+        // 定期的にHealth Boostを確認
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
 
-            while (dashKey.wasPressed()) {
-                if (walkLevel >= 40) {
-                    ClientPlayNetworking.send(
-                            AIR_DASH,
-                            PacketByteBufs.empty()
-                    );
+            for (ServerPlayerEntity player :
+                server.getPlayerManager().getPlayerList()) {
+
+                if (player.age % 20 == 0) {
+                    updateHealthBoost(player);
                 }
-            }
 
-            while (blinkKey.wasPressed()) {
-                if (walkLevel >= 95) {
-                    ClientPlayNetworking.send(
-                            AIR_DASH,
-                            PacketByteBufs.empty()
-                    );
+                if (getLevel(player) < 100) {
+                    sync(player);
                 }
             }
         });
+
+        ServerPlayNetworking.registerGlobalReceiver(
+            REQUEST,
+            (server, player, handler, buf, responseSender) ->
+                server.execute(() -> sync(player))
+        );
     }
 
-    // =====================================================
-    // OPEN SCREEN
-    // =====================================================
+    // =========================================
+    // XP
+    // =========================================
 
-    public static void open() {
+    public static void addXp(
+        ServerPlayerEntity player,
+        long amount
+    ) {
+        if (amount <= 0) return;
 
-        MinecraftClient client = MinecraftClient.getInstance();
+        KillData data = getData((ServerWorld) player.getWorld());
+        String id = player.getUuidAsString();
 
-        if (client.player == null) return;
+        long xp = data.getXp(id);
 
-        client.setScreen(new SkillScreen());
-        requestData();
+        if (getLevelFromXp(xp) >= 100) return;
+
+        xp = Math.min(Long.MAX_VALUE - amount, xp) + amount;
+
+        data.setXp(id, xp);
+        data.markDirty();
+
+        sync(player);
+
+        int oldLevel = getLevelFromXp(xp - amount);
+        int newLevel = getLevelFromXp(xp);
+
+        // HP増加効果を更新
+        updateHealthBoost(player);
+
+        // 10レベルごとにHPを4回復
+        if (
+            newLevel >= 30 &&
+            newLevel / 10 > oldLevel / 10
+        ) {
+            player.heal(4.0F);
+        }
+
+        if (newLevel > oldLevel) {
+
+            player.sendMessage(
+                net.minecraft.text.Text.literal(
+                    "§cKill Skill §7Lv." + newLevel
+                ),
+                true
+            );
+
+            if (newLevel % 5 == 0) {
+
+                int index = newLevel / 5 - 1;
+
+                player.sendMessage(
+                    net.minecraft.text.Text.literal(
+                        "§6[Kill Skill] §e解放: " + STAGES[index]
+                    ),
+                    false
+                );
+            }
+        }
     }
 
-    // =====================================================
-    // REQUEST DATA
-    // =====================================================
+    private static void addXpWithoutReward(
+        ServerPlayerEntity player,
+        long amount
+    ) {
+        KillData data = getData((ServerWorld) player.getWorld());
 
-    private static void requestData() {
+        String id = player.getUuidAsString();
 
-        if (ClientPlayNetworking.canSend(KILL_REQUEST)) {
-            ClientPlayNetworking.send(
-                    KILL_REQUEST,
-                    PacketByteBufs.empty()
+        long xp = data.getXp(id);
+
+        if (getLevelFromXp(xp) >= 100) return;
+
+        xp = Math.min(Long.MAX_VALUE - amount, xp) + amount;
+
+        data.setXp(id, xp);
+        data.markDirty();
+
+        sync(player);
+    }
+
+    // =========================================
+    // HEALTH BOOST
+    // =========================================
+
+    private static void updateHealthBoost(
+        ServerPlayerEntity player
+    ) {
+        int level = getLevel(player);
+
+        // Lv.30未満は体力増強なし
+        if (level < 30) {
+
+            if (player.hasStatusEffect(StatusEffects.HEALTH_BOOST)) {
+                player.removeStatusEffect(StatusEffects.HEALTH_BOOST);
+            }
+
+            return;
+        }
+
+        // Lv.30から10レベルごとに強化
+        int amplifier = Math.min(
+            7,
+            (level - 30) / 10
+        );
+
+        StatusEffectInstance current =
+            player.getStatusEffect(StatusEffects.HEALTH_BOOST);
+
+        if (
+            current == null ||
+            current.getAmplifier() != amplifier ||
+            current.getDuration() < 1200
+        ) {
+            player.addStatusEffect(
+                new StatusEffectInstance(
+                    StatusEffects.HEALTH_BOOST,
+                    Integer.MAX_VALUE,
+                    amplifier,
+                    true,
+                    true,
+                    true
+                )
+            );
+        }
+    }
+
+    // =========================================
+    // KILL REWARDS
+    // =========================================
+
+    private static void applyKillRewards(
+        ServerPlayerEntity player
+    ) {
+        int level = getLevel(player);
+
+        // 1: Finisher
+        if (level >= 5) {
+            addXpWithoutReward(player, 2);
+        }
+
+        // 2: Blood Recovery
+        if (level >= 10) {
+            player.heal(1.0F);
+        }
+
+        // 3: Battle Momentum
+        if (level >= 15) {
+            effect(player, StatusEffects.SPEED, 80, 0);
+        }
+
+        // 4: Combat Focus
+        if (level >= 20) {
+            effect(player, StatusEffects.STRENGTH, 80, 0);
+        }
+
+        // 5: Absorption
+        if (level >= 25) {
+            effect(player, StatusEffects.ABSORPTION, 160, 0);
+        }
+
+        // 6: Regeneration
+        if (level >= 30) {
+            effect(player, StatusEffects.REGENERATION, 100, 0);
+        }
+
+        // 7: Iron Body
+        if (level >= 35) {
+            effect(player, StatusEffects.RESISTANCE, 100, 0);
+        }
+
+        // 8: Full Stomach
+        if (level >= 40) {
+
+            player.getHungerManager().setFoodLevel(
+                Math.min(
+                    20,
+                    player.getHungerManager().getFoodLevel() + 2
+                )
+            );
+
+            player.getHungerManager().setSaturationLevel(
+                Math.min(
+                    20.0F,
+                    player.getHungerManager().getSaturationLevel() + 2.0F
+                )
             );
         }
 
-        if (ClientPlayNetworking.canSend(WALK_REQUEST)) {
-            ClientPlayNetworking.send(
-                    WALK_REQUEST,
-                    PacketByteBufs.empty()
-            );
+        // 9: Flame Guard
+        if (level >= 45) {
+            effect(player, StatusEffects.FIRE_RESISTANCE, 200, 0);
+        }
+
+        // 10: Battle Haste
+        if (level >= 50) {
+            effect(player, StatusEffects.HASTE, 100, 0);
+        }
+
+        // 11: Warrior Jump
+        if (level >= 55) {
+            effect(player, StatusEffects.JUMP_BOOST, 100, 0);
+        }
+
+        // 12: Lucky Hunter
+        if (level >= 60) {
+            effect(player, StatusEffects.LUCK, 200, 0);
+        }
+
+        // 13: Night Hunter
+        if (level >= 65) {
+            effect(player, StatusEffects.NIGHT_VISION, 300, 0);
+        }
+
+        // 14: Deep Breath
+        if (level >= 70) {
+            effect(player, StatusEffects.WATER_BREATHING, 200, 0);
+        }
+
+        // 15: Power Strike
+        if (level >= 75) {
+            effect(player, StatusEffects.STRENGTH, 160, 1);
+        }
+
+        // 16: Rapid Recovery
+        if (level >= 80) {
+            effect(player, StatusEffects.REGENERATION, 160, 1);
+        }
+
+        // 17: Greater Absorption
+        if (level >= 85) {
+            effect(player, StatusEffects.ABSORPTION, 240, 1);
+        }
+
+        // 18: Killer Speed
+        if (level >= 90) {
+            effect(player, StatusEffects.SPEED, 160, 1);
+        }
+
+        // 19: Unbreakable
+        if (level >= 95) {
+            effect(player, StatusEffects.RESISTANCE, 160, 1);
+        }
+
+        // 20: Killing Frenzy
+        if (level >= 100) {
+            effect(player, StatusEffects.STRENGTH, 300, 1);
+            effect(player, StatusEffects.SPEED, 300, 1);
+            effect(player, StatusEffects.REGENERATION, 300, 1);
+            effect(player, StatusEffects.RESISTANCE, 300, 0);
         }
     }
 
-    // =====================================================
-    // SKILL SCREEN
-    // =====================================================
+    // =========================================
+    // STATUS EFFECT
+    // =========================================
 
-    private static class SkillScreen extends Screen {
+    private static void effect(
+        PlayerEntity player,
+        StatusEffect type,
+        int duration,
+        int amplifier
+    ) {
+        player.addStatusEffect(
+            new StatusEffectInstance(
+                type,
+                duration,
+                amplifier,
+                true,
+                true,
+                true
+            )
+        );
+    }
 
-        private static final int PANEL_MARGIN = 10;
-        private static final int CARD_HEIGHT = 640;
-        private static final int CARD_GAP = 16;
+    // =========================================
+    // LEVEL / XP CALCULATION
+    // =========================================
 
-        private int scrollOffset = 0;
-        private int maxScroll = 0;
+    public static int getLevel(ServerPlayerEntity player) {
+        return getLevelFromXp(
+            getData((ServerWorld) player.getWorld())
+                .getXp(player.getUuidAsString())
+        );
+    }
 
-        private int viewportTop;
-        private int viewportBottom;
+    public static long getXp(ServerPlayerEntity player) {
+        return getData((ServerWorld) player.getWorld())
+            .getXp(player.getUuidAsString());
+    }
 
-        private boolean twoColumns;
+    public static long getRequiredXp(int level) {
+        return 100L + 25L * level * level;
+    }
 
-        protected SkillScreen() {
-            super(Text.literal("Sakaplus Skills"));
+    public static long getCurrentLevelXp(long totalXp) {
+        long used = 0;
+        int level = 1;
+
+        while (
+            level < 100 &&
+            totalXp >= used + getRequiredXp(level)
+        ) {
+            used += getRequiredXp(level);
+            level++;
         }
 
-        // =================================================
-        // RENDER
-        // =================================================
+        return totalXp - used;
+    }
+
+    public static long getLevelRequiredXp(int level) {
+        return level >= 100 ? 0 : getRequiredXp(level);
+    }
+
+    private static int getLevelFromXp(long totalXp) {
+        int level = 1;
+        long remaining = totalXp;
+
+        while (level < 100) {
+
+            long required = getRequiredXp(level);
+
+            if (remaining < required) break;
+
+            remaining -= required;
+            level++;
+        }
+
+        return level;
+    }
+
+    public static boolean hasStage(
+        ServerPlayerEntity player,
+        int stage
+    ) {
+        return getLevel(player) >= stage * 5;
+    }
+
+    // =========================================
+    // NETWORK SYNC
+    // =========================================
+
+    public static void sync(ServerPlayerEntity player) {
+
+        if (player.networkHandler == null) return;
+
+        int level = getLevel(player);
+        long totalXp = getXp(player);
+
+        long current = getCurrentLevelXp(totalXp);
+        long required = getLevelRequiredXp(level);
+
+        net.minecraft.network.PacketByteBuf buf =
+            net.fabricmc.fabric.api.networking.v1.PacketByteBufs.create();
+
+        buf.writeInt(level);
+        buf.writeLong(current);
+        buf.writeLong(required);
+        buf.writeLong(totalXp);
+
+        ServerPlayNetworking.send(player, SYNC, buf);
+    }
+
+    // =========================================
+    // PERSISTENT DATA
+    // =========================================
+
+    private static KillData getData(ServerWorld world) {
+
+        return world.getServer()
+            .getOverworld()
+            .getPersistentStateManager()
+            .getOrCreate(
+                KillData::fromNbt,
+                KillData::new,
+                STATE_ID
+            );
+    }
+
+    private static class KillData extends PersistentState {
+
+        private final NbtCompound players = new NbtCompound();
+
+        long getXp(String uuid) {
+            return players.getLong(uuid);
+        }
+
+        void setXp(String uuid, long xp) {
+            players.putLong(uuid, xp);
+        }
 
         @Override
-        public void render(
-                MatrixStack matrices,
-                int mouseX,
-                int mouseY,
-                float delta
-        ) {
+        public NbtCompound writeNbt(NbtCompound nbt) {
+            nbt.put("players", players);
+            return nbt;
+        }
 
-            renderBackground(matrices);
+        static KillData fromNbt(NbtCompound nbt) {
 
-            int centerX = width / 2;
-            int panelWidth = Math.min(width - 20, 780);
+            KillData data = new KillData();
 
-            panelWidth = Math.max(0, panelWidth);
+            if (nbt.contains("players")) {
 
-            int panelLeft = centerX - panelWidth / 2;
-            int panelRight = centerX + panelWidth / 2;
+                NbtCompound saved = nbt.getCompound("players");
 
-            int panelTop = 10;
-            int panelBottom = height - 10;
-
-            twoColumns = panelWidth >= 560;
-
-            // Main panel
-
-            fill(
-                    matrices,
-                    panelLeft,
-                    panelTop,
-                    panelRight,
-                    panelBottom,
-                    0xEE171923
-            );
-
-            // Border
-
-            fill(
-                    matrices,
-                    panelLeft,
-                    panelTop,
-                    panelRight,
-                    panelTop + 2,
-                    0xFF55AADD
-            );
-
-            // Title
-
-            drawCentered(
-                    matrices,
-                    "§l§bSAKAPLUS SKILLS",
-                    centerX,
-                    19,
-                    0xFFFFFFFF
-            );
-
-            // Scroll viewport
-
-            viewportTop = 48;
-            viewportBottom = height - 45;
-
-            if (viewportBottom < viewportTop) {
-                viewportBottom = viewportTop;
+                for (String key : saved.getKeys()) {
+                    data.players.putLong(key, saved.getLong(key));
+                }
             }
 
-            int viewportHeight = viewportBottom - viewportTop;
-
-            int contentHeight;
-
-            if (twoColumns) {
-                contentHeight = CARD_HEIGHT;
-            } else {
-                contentHeight = CARD_HEIGHT * 2 + CARD_GAP;
-            }
-
-            maxScroll = Math.max(
-                    0,
-                    contentHeight - viewportHeight
-            );
-
-            scrollOffset = Math.max(
-                    0,
-                    Math.min(scrollOffset, maxScroll)
-            );
-
-            // =================================================
-            // SCISSOR
-            // =================================================
-
-            MinecraftClient client = MinecraftClient.getInstance();
-
-            double scale = client.getWindow().getScaleFactor();
-
-            int scissorX = (int) (panelLeft * scale);
-            int scissorY = (int) (
-                    (height - viewportBottom) * scale
-            );
-
-            int scissorWidth = (int) (
-                    (panelRight - panelLeft) * scale
-);
-int scissorHeight = (int) (
-(viewportBottom - viewportTop) * scale
-);
-RenderSystem.enableScissor(
-scissorX,
-scissorY,
-scissorWidth,
-scissorHeight
-);
-// =================================================
-// SKILL CARDS
-// =================================================
-int contentTop = viewportTop - scrollOffset;
-if (twoColumns) {
-int gap = 16;
-int columnWidth = (panelWidth - 40 - gap) / 2;
-int leftX = panelLeft + 20;
-int rightX = leftX + columnWidth + gap;
-drawSkill(
-matrices,
-leftX,
-contentTop,
-columnWidth,
-"§cKILL SKILL",
-killLevel,
-killCurrentXp,
-killRequiredXp,
-killTotalXp,
-KillSkillLogic.STAGES,
-KillSkillLogic.DESCRIPTIONS,
-0xFFFFB34A
-);
-drawSkill(
-matrices,
-rightX,
-contentTop,
-columnWidth,
-"§bWALK SKILL",
-walkLevel,
-walkCurrentXp,
-walkRequiredXp,
-walkTotalXp,
-WalkSkillLogic.STAGES,
-WalkSkillLogic.DESCRIPTIONS,
-0xFF55CFFF
-);
-} else {
-int cardWidth = panelWidth - 30;
-int cardX = panelLeft + 15;
-drawSkill(
-matrices,
-cardX,
-contentTop,
-cardWidth,
-"§cKILL SKILL",
-killLevel,
-killCurrentXp,
-killRequiredXp,
-killTotalXp,
-KillSkillLogic.STAGES,
-KillSkillLogic.DESCRIPTIONS,
-0xFFFFB34A
-);
-drawSkill(
-matrices,
-cardX,
-contentTop + CARD_HEIGHT + CARD_GAP,
-cardWidth,
-"§bWALK SKILL",
-walkLevel,
-walkCurrentXp,
-walkRequiredXp,
-walkTotalXp,
-WalkSkillLogic.STAGES,
-WalkSkillLogic.DESCRIPTIONS,
-0xFF55CFFF
-);
-}
-RenderSystem.disableScissor();
-// =================================================
-// FOOTER
-// =================================================
-fill(
-matrices,
-panelLeft,
-height - 43,
-panelRight,
-height - 10,
-0xFF11141C
-);
-drawCentered(
-matrices,
-"Space: Double Jump   G: Air Dash   H: Blink Step   K: Close",
-centerX,
-height - 32,
-0xFFBBBBBB
-);
-// Scroll indicator
-if (maxScroll > 0) {
-drawCentered(
-matrices,
-"§7Mouse Wheel: Scroll   "
-+ (scrollOffset + 1)
-+ " / "
-+ (maxScroll + 1),
-centerX,
-height - 47,
-0xFFAAAAAA
-);
-}
-super.render(matrices, mouseX, mouseY, delta);
-}
-// =================================================
-// DRAW SKILL
-// =================================================
-private void drawSkill(
-MatrixStack matrices,
-int x,
-int y,
-int cardWidth,
-String title,
-int level,
-long currentXp,
-long requiredXp,
-long totalXp,
-String[] stages,
-String[] descriptions,
-int color
-) {
-// Card background
-fill(
-matrices,
-x,
-y,
-x + cardWidth,
-y + CARD_HEIGHT,
-0xCC252A36
-);
-// Card top border
-fill(
-matrices,
-x,
-y,
-x + cardWidth,
-y + 2,
-color
-);
-int textX = x + 10;
-int textWidth = Math.max(20, cardWidth - 20);
-// Skill title
-textRenderer.drawWithShadow(
-matrices,
-textRenderer.trimToWidth(title, textWidth),
-textX,
-y + 12,
-color
-);
-// Level
-textRenderer.drawWithShadow(
-matrices,
-"Level: " + level + " / 100",
-textX,
-y + 31,
-0xFFFFFFFF
-);
-// Total XP
-textRenderer.drawWithShadow(
-matrices,
-textRenderer.trimToWidth(
-"Total XP: " + totalXp,
-textWidth
-),
-textX,
-y + 46,
-0xFFCCCCCC
-);
-// XP bar
-int barY = y + 65;
-int barWidth = textWidth;
-fill(
-matrices,
-textX,
-barY,
-textX + barWidth,
-barY + 9,
-0xFF444444
-);
-if (requiredXp > 0) {
-double progress = Math.max(
-0.0,
-Math.min(
-1.0,
-(double) currentXp / requiredXp
-)
-);
-int filled = (int) (barWidth * progress);
-fill(
-matrices,
-textX,
-barY,
-textX + filled,
-barY + 9,
-color
-);
-}
-// XP text
-String xpText = requiredXp > 0
-? currentXp + " / " + requiredXp + " XP"
-: "MAX LEVEL";
-textRenderer.drawWithShadow(
-matrices,
-textRenderer.trimToWidth(xpText, textWidth),
-textX,
-barY + 14,
-0xFFAAAAAA
-);
-// Ability list
-int listY = y + 94;
-int rowHeight = 27;
-for (int i = 0; i < 20; i++) {
-int requiredLevel = (i + 1) * 5;
-boolean unlocked = level >= requiredLevel;
-int rowY = listY + i * rowHeight;
-String stageName = i < stages.length
-? stages[i]
-: "Unknown";
-String stageText =
-(unlocked ? "§a✓ " : "§7🔒 ")
-+ "Lv."
-+ requiredLevel
-+ " "
-+ stageName;
-// Ability name
-textRenderer.drawWithShadow(
-matrices,
-textRenderer.trimToWidth(
-stageText,
-textWidth
-),
-textX,
-rowY,
-unlocked ? 0xFFFFFFFF : 0xFF888888
-);
-// Ability description
-if (unlocked && i < descriptions.length) {
-String description = "§7" + descriptions[i];
-textRenderer.drawWithShadow(
-matrices,
-textRenderer.trimToWidth(
-description,
-textWidth - 8
-),
-textX + 8,
-rowY + 11,
-0xFFAAAAAA
-);
-}
-// Separator
-if (i < 19) {
-fill(
-matrices,
-textX,
-rowY + 24,
-textX + textWidth,
-rowY + 25,
-0x33445566
-);
-}
-}
-}
-// =================================================
-// CENTERED TEXT
-// =================================================
-private void drawCentered(
-MatrixStack matrices,
-String text,
-int centerX,
-int y,
-int color
-) {
-int textWidth = textRenderer.getWidth(text);
-textRenderer.drawWithShadow(
-matrices,
-text,
-centerX - textWidth / 2,
-y,
-color
-);
-}
-// =================================================
-// MOUSE SCROLL
-// =================================================
-@Override
-public boolean mouseScrolled(
-double mouseX,
-double mouseY,
-double amount
-) {
-if (mouseY >= viewportTop
-&& mouseY <= viewportBottom
-&& maxScroll > 0) {
-scrollOffset -= (int) (amount * 24);
-scrollOffset = Math.max(
-0,
-Math.min(scrollOffset, maxScroll)
-);
-return true;
-}
-return super.mouseScrolled(mouseX, mouseY, amount);
-}
-// =================================================
-// SCREEN SETTINGS
-// =================================================
-@Override
-public boolean shouldPause() {
-return false;
-}
-@Override
-public void close() {
-MinecraftClient.getInstance().setScreen(null);
-}
-}
+            return data;
+        }
+    }
 }
