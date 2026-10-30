@@ -220,6 +220,7 @@ public final class SkillUI {
         private static final int PANEL_MARGIN = 10;
         private static final int CARD_HEIGHT = 640;
         private static final int CARD_GAP = 16;
+        private static final int SCROLL_SPEED = 35;
 
         private int scrollOffset = 0;
         private int maxScroll = 0;
@@ -227,10 +228,64 @@ public final class SkillUI {
         private int viewportTop;
         private int viewportBottom;
 
+        private int panelLeft;
+        private int panelRight;
+        private int panelWidth;
+
         private boolean twoColumns;
 
         protected SkillScreen() {
             super(Text.literal("Sakaplus Skills"));
+        }
+
+        // =================================================
+        // INIT
+        // =================================================
+
+        @Override
+        protected void init() {
+            super.init();
+
+            scrollOffset = 0;
+            calculateLayout();
+        }
+
+        // =================================================
+        // LAYOUT
+        // =================================================
+
+        private void calculateLayout() {
+
+            panelWidth = Math.max(
+                    0,
+                    Math.min(width - PANEL_MARGIN * 2, 780)
+            );
+
+            panelLeft = (width - panelWidth) / 2;
+            panelRight = panelLeft + panelWidth;
+
+            twoColumns = panelWidth >= 560;
+
+            viewportTop = 48;
+            viewportBottom = height - 45;
+
+            if (viewportBottom < viewportTop) {
+                viewportBottom = viewportTop;
+            }
+
+            int contentHeight = twoColumns
+                    ? CARD_HEIGHT
+                    : CARD_HEIGHT * 2 + CARD_GAP;
+
+            maxScroll = Math.max(
+                    0,
+                    contentHeight - (viewportBottom - viewportTop)
+            );
+
+            scrollOffset = Math.max(
+                    0,
+                    Math.min(scrollOffset, maxScroll)
+            );
         }
 
         // =================================================
@@ -247,27 +302,18 @@ public final class SkillUI {
 
             renderBackground(matrices);
 
+            calculateLayout();
+
             int centerX = width / 2;
-            int panelWidth = Math.min(width - 20, 780);
-
-            panelWidth = Math.max(0, panelWidth);
-
-            int panelLeft = centerX - panelWidth / 2;
-            int panelRight = centerX + panelWidth / 2;
-
-            int panelTop = 10;
-            int panelBottom = height - 10;
-
-            twoColumns = panelWidth >= 560;
 
             // Main panel
 
             fill(
                     matrices,
                     panelLeft,
-                    panelTop,
+                    10,
                     panelRight,
-                    panelBottom,
+                    height - 10,
                     0xEE171923
             );
 
@@ -276,9 +322,9 @@ public final class SkillUI {
             fill(
                     matrices,
                     panelLeft,
-                    panelTop,
+                    10,
                     panelRight,
-                    panelTop + 2,
+                    12,
                     0xFF55AADD
             );
 
@@ -292,35 +338,6 @@ public final class SkillUI {
                     0xFFFFFFFF
             );
 
-            // Scroll viewport
-
-            viewportTop = 48;
-            viewportBottom = height - 45;
-
-            if (viewportBottom < viewportTop) {
-                viewportBottom = viewportTop;
-            }
-
-            int viewportHeight = viewportBottom - viewportTop;
-
-            int contentHeight;
-
-            if (twoColumns) {
-                contentHeight = CARD_HEIGHT;
-            } else {
-                contentHeight = CARD_HEIGHT * 2 + CARD_GAP;
-            }
-
-            maxScroll = Math.max(
-                    0,
-                    contentHeight - viewportHeight
-            );
-
-            scrollOffset = Math.max(
-                    0,
-                    Math.min(scrollOffset, maxScroll)
-            );
-
             // =================================================
             // SCISSOR
             // =================================================
@@ -330,6 +347,7 @@ public final class SkillUI {
             double scale = client.getWindow().getScaleFactor();
 
             int scissorX = (int) (panelLeft * scale);
+
             int scissorY = (int) (
                     (height - viewportBottom) * scale
             );
@@ -453,9 +471,53 @@ public final class SkillUI {
                     0xFFBBBBBB
             );
 
-            // Scroll indicator
+            // =================================================
+            // SCROLL BAR
+            // =================================================
 
             if (maxScroll > 0) {
+
+                int trackX = panelRight - 7;
+                int trackTop = viewportTop;
+                int trackBottom = viewportBottom;
+
+                int trackHeight = trackBottom - trackTop;
+
+                fill(
+                        matrices,
+                        trackX,
+                        trackTop,
+                        trackX + 3,
+                        trackBottom,
+                        0xFF444444
+                );
+
+                int contentHeight = twoColumns
+                        ? CARD_HEIGHT
+                        : CARD_HEIGHT * 2 + CARD_GAP;
+
+                int thumbHeight = Math.max(
+                        20,
+                        trackHeight * trackHeight / contentHeight
+                );
+
+                int thumbTravel = trackHeight - thumbHeight;
+
+                int thumbY = trackTop
+                        + (int) (
+                        (double) scrollOffset
+                                / maxScroll
+                                * thumbTravel
+                );
+
+                fill(
+                        matrices,
+                        trackX,
+                        thumbY,
+                        trackX + 3,
+                        thumbY + thumbHeight,
+                        0xFF55AADD
+                );
 
                 drawCentered(
                         matrices,
@@ -491,8 +553,6 @@ public final class SkillUI {
                 int color
         ) {
 
-            // Card background
-
             fill(
                     matrices,
                     x,
@@ -501,8 +561,6 @@ public final class SkillUI {
                     y + CARD_HEIGHT,
                     0xCC252A36
             );
-
-            // Card top border
 
             fill(
                     matrices,
@@ -516,8 +574,6 @@ public final class SkillUI {
             int textX = x + 10;
             int textWidth = Math.max(20, cardWidth - 20);
 
-            // Skill title
-
             textRenderer.drawWithShadow(
                     matrices,
                     textRenderer.trimToWidth(title, textWidth),
@@ -526,8 +582,6 @@ public final class SkillUI {
                     color
             );
 
-            // Level
-
             textRenderer.drawWithShadow(
                     matrices,
                     "Level: " + level + " / 100",
@@ -535,8 +589,6 @@ public final class SkillUI {
                     y + 31,
                     0xFFFFFFFF
             );
-
-            // Total XP
 
             textRenderer.drawWithShadow(
                     matrices,
@@ -548,8 +600,6 @@ public final class SkillUI {
                     y + 46,
                     0xFFCCCCCC
             );
-
-            // XP bar
 
             int barY = y + 65;
             int barWidth = textWidth;
@@ -585,8 +635,6 @@ public final class SkillUI {
                 );
             }
 
-            // XP text
-
             String xpText = requiredXp > 0
                     ? currentXp + " / " + requiredXp + " XP"
                     : "MAX LEVEL";
@@ -598,8 +646,6 @@ public final class SkillUI {
                     barY + 14,
                     0xFFAAAAAA
             );
-
-            // Ability list
 
             int listY = y + 94;
             int rowHeight = 27;
@@ -623,8 +669,6 @@ public final class SkillUI {
                                 + " "
                                 + stageName;
 
-                // Ability name
-
                 textRenderer.drawWithShadow(
                         matrices,
                         textRenderer.trimToWidth(
@@ -635,8 +679,6 @@ public final class SkillUI {
                         rowY,
                         unlocked ? 0xFFFFFFFF : 0xFF888888
                 );
-
-                // Ability description
 
                 if (unlocked && i < descriptions.length) {
 
@@ -653,8 +695,6 @@ public final class SkillUI {
                             0xFFAAAAAA
                     );
                 }
-
-                // Separator
 
                 if (i < 19) {
 
@@ -704,11 +744,15 @@ public final class SkillUI {
                 double amount
         ) {
 
-            if (mouseY >= viewportTop
+            if (mouseX >= panelLeft
+                    && mouseX <= panelRight
+                    && mouseY >= viewportTop
                     && mouseY <= viewportBottom
                     && maxScroll > 0) {
 
-                scrollOffset -= (int) (amount * 24);
+                scrollOffset -= (int) Math.round(
+                        amount * SCROLL_SPEED
+                );
 
                 scrollOffset = Math.max(
                         0,
@@ -718,7 +762,11 @@ public final class SkillUI {
                 return true;
             }
 
-            return super.mouseScrolled(mouseX, mouseY, amount);
+            return super.mouseScrolled(
+                    mouseX,
+                    mouseY,
+                    amount
+            );
         }
 
         // =================================================
