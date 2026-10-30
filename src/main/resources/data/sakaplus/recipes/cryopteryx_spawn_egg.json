@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ADW",
+    "WWW"
+  ],
+  "key": {
+    "D": { "item": "sakaplus:cryocrystal" },
+    "A": { "item": "minecraft:netherite_ingot" },
+    "W": { "item": "minecraft:iron_ingot" }
+  },
+  "result": {
+    "item": "sakaplus:cryopteryx_spawn_egg",
+    "count": 1
+  }
+}
