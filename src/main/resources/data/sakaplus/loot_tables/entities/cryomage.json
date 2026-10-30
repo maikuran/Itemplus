@@ -61,8 +61,8 @@
         },
         {
           "type": "minecraft:item",
-          "name": "sakaplus:diamond",
-          "weight": 9
+          "name": "sakaplus:cryocrystal",
+          "weight": 3
         }
       ]
     }
