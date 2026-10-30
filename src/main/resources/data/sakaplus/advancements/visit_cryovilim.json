@@ -16,7 +16,7 @@
     "hidden": false
   },
   "criteria": {
-    "enter_kruzivilim": {
+    "enter_cryovilim": {
       "trigger": "minecraft:changed_dimension",
       "conditions": {
         "to": "sakaplus:cryovilim"
