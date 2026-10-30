@@ -60,6 +60,9 @@ public class ModItems {
     public static final Item LIGHT_STONE =
         new Item(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
 
+    public static final Item CRYOCRYSTAL =
+        new Item(new Item.Settings().group(ModTabs.CYROVILIM));
+
     // ==================== 武器 ====================
 
     public static final Item OVERSHOT =
@@ -161,6 +164,7 @@ public class ModItems {
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "glow_berry_donut"), GLOW_BERRY_DONUT);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "hp_plus"), HP_PLUS);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "light_stone"), LIGHT_STONE);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "cryocrystal"), CRYOCRYSTAL);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "toufu_a"), TOUFU_A);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "hachiwari_manju_choco"), HACHIWARI_MANJU_CHOCO);
 
