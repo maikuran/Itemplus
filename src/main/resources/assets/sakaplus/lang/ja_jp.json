@@ -7,6 +7,7 @@
   "entity.sakaplus.xxena": "ゼナ",
   "entity.sakaplus.shyron": "シャイロン",
   "entity.sakaplus.cryofreezer": "クライオフリーザー",
+  "entity.sakaplus.cryopyeryx": "氷竜",
   "entity.sakaplus.cryowarrior": "氷戦士",
   "entity.sakaplus.cryomage": "氷魔道士",
   "entity.sakaplus.cryobeast": "氷獣",
@@ -38,6 +39,7 @@
   "item.sakaplus.shyron_spawn_egg": "シャイロンのスポーンエッグ",
   "item.sakaplus.cryofreezer_spawn_egg": "クライオフリーザーのスポーンエッグ",
   "item.sakaplus.cryowarrior_spawn_egg": "氷戦士のスポーンエッグ",
+  "item.sakaplus.cryopteryx_spawn_egg": "氷竜のスポーンエッグ",
   "item.sakaplus.cryomage_spawn_egg": "氷魔道士のスポーンエッグ",
   "item.sakaplus.cryobeast_spawn_egg": "氷獣のスポーンエッグ",
   "item.sakaplus.kruzi_ant_spawn_egg": "クルジアントのスポーンエッグ",
@@ -82,6 +84,7 @@
   "item.sakaplus.shining_staff": "輝きの杖",
   "item.sakaplus.adaptation_staff": "適応の杖",
   "item.sakaplus.warper_staff": "ウェパーの杖",
+  "item.sakaplus.cryogenic_staff": "極低温の杖",
 
   "block.sakaplus.kruzi_stone": "クルジ石",
   "block.sakaplus.pyronium_ore": "パイロニウム鉱石",
