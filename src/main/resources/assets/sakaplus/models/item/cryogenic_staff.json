@@ -1,0 +1,6 @@
+{
+  "parent": "sakaplus:item/staff",
+  "textures": {
+    "layer0": "sakaplus:item/cryogenic_staff"
+  }
+}
