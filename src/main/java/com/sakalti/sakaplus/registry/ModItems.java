@@ -61,7 +61,7 @@ public class ModItems {
         new Item(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
 
     public static final Item CRYOCRYSTAL =
-        new Item(new Item.Settings().group(ModTabs.CYROVILIM));
+        new Item(new Item.Settings().group(ModTabs.CYROVILIM_TAB));
 
     // ==================== 武器 ====================
 
