@@ -1,0 +1,32 @@
+{
+  "parent": "sakaplus:visit_cryovilim",
+  "display": {
+    "icon": {
+      "item": "sakaplus:cryopteryx_spawn_egg"
+    },
+    "title": {
+      "translate": "advancement.sakaplus.cryopteryx_spawn_egg.title"
+    },
+    "description": {
+      "translate": "advancement.sakaplus.cryopteryx_spawn_egg.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_cryopteryx_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "sakaplus:cryopteryx_spawn_egg"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
