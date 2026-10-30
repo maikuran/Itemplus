@@ -1,0 +1,6 @@
+{
+  "parent": "sakaplus:item/greatblade",
+  "textures": {
+    "layer0": "sakaplus:item/bone_scythe"
+  }
+}
