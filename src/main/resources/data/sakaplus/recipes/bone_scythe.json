@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BMM",
+    " SS",
+    "WW "
+  ],
+  "key": {
+    "B": { "item": "minecraft:netherite_ingot" },
+    "W": { "item": "minecraft:stick" },
+    "S": { "item": "minecraft:iron_ingot" },
+    "M": { "item": "minecraft:bone" }
+  },
+  "result": {
+    "item": "sakaplus:bone_scythe",
+    "count": 1
+  }
+}
