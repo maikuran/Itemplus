@@ -11,7 +11,7 @@
     "W": { "item": "minecraft:iron_ingot" }
   },
   "result": {
-    "item": "sakaplus:fire_catalyst",
-    "count": 8
+    "item": "sakaplus:wind_catalyst",
+    "count": 10
   }
 }
