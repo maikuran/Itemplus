@@ -110,7 +110,7 @@ public class CryopteryxEntity extends HostileEntity {
 
         this.setNoGravity(true);
 
-        this.experiencePoints = 500;
+        this.experiencePoints = 981;
     }
 
     // =====================================
