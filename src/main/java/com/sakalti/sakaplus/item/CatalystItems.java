@@ -3,12 +3,11 @@ package com.sakalti.sakaplus.item;
 import net.minecraft.item.Item;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.Identifier;
-import com.sakalti.sakaplus.registry.ModTabs; // ModTabsをインポート
+import com.sakalti.sakaplus.registry.ModTabs;
 
 public class CatalystItems {
 
     private static Item.Settings baseSettings() {
-        // 設定にカスタムアイテムグループを紐付けます
         return new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB);
     }
 
@@ -31,12 +30,22 @@ public class CatalystItems {
     // 魔術杖
     public static final Item SHINING_STAFF =
         new ShiningStaffItem(baseSettings());
+
     public static final Item ADAPTATION_STAFF =
         new AdaptationStaffItem(baseSettings());
+
     public static final Item WARPER_STAFF =
         new WarperStaffItem(baseSettings());
 
+    // Cyrovilim専用魔術杖
+    public static final Item CRYOGENIC_STAFF =
+        new CryogenicStaff(
+            new Item.Settings().group(ModTabs.CYROVILIM_TAB)
+        );
+
     public static void registerCatalysts() {
+
+        // 魔術触媒
         register("fire_catalyst", FIRE_CATALYST);
         register("wind_catalyst", WIND_CATALYST);
         register("water_catalyst", WATER_CATALYST);
@@ -52,10 +61,13 @@ public class CatalystItems {
         register("hell_catalyst", HELL_CATALYST);
         register("light_catalyst", LIGHT_CATALYST);
 
-        // 魔術杖の登録
+        // 魔術杖
         register("shining_staff", SHINING_STAFF);
         register("adaptation_staff", ADAPTATION_STAFF);
         register("warper_staff", WARPER_STAFF);
+
+        // Cyrovilim
+        register("cryogenic_staff", CRYOGENIC_STAFF);
     }
 
     private static void register(String path, Item item) {
