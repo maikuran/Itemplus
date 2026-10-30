@@ -2,7 +2,7 @@
   "parent": "sakaplus:visit_cryovilim",
   "display": {
     "icon": {
-      "item": "minecraft:spawn_egg"
+      "item": "sakaplus:cryosnake_spawn_egg"
     },
     "title": {
       "translate": "advancement.sakaplus.cryosnake_hive.title"
