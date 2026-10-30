@@ -2,9 +2,9 @@
 {
   "schemaVersion": 1,
   "id": "sakaplus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "name": "Sakaplus",
-  "description": "Adds an iron scaffold block.",
+  "description": "Adventure mod",
   "authors": [
     "Konnitiwa768"
   ],
