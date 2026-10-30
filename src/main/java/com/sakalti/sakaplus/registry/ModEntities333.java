@@ -22,8 +22,7 @@ public class ModEntities333 {
 
     private static <T extends Entity> EntityType<T> registerEntity(String name, SpawnGroup group, EntityType.EntityFactory<T> factory, float width, float height, int tracking, int update) {
         return Registry.register(Registry.ENTITY_TYPE, new Identifier(MOD_ID, name),
-                FabricEntityTypeBuilder.create(group, factory)
-                        .dimensions(EntityDimensions.fixed(width, height))
+                FabricEntityTypeBuilder.create(group, factory).dimensions(EntityDimensions.fixed(width, height))
                         .trackRangeBlocks(tracking).trackedUpdateRate(update).build());
     }
 
@@ -37,6 +36,7 @@ public class ModEntities333 {
     public static final EntityType<CryowarriorEntity> CRYOWARRIOR = registerEntity("cryowarrior", SpawnGroup.MONSTER, CryowarriorEntity::new, 0.8F, 2.0F, 64, 3);
     public static final EntityType<CryobeastEntity> CRYOBEAST = registerEntity("cryobeast", SpawnGroup.MONSTER, CryobeastEntity::new, 1.2F, 1.8F, 64, 3);
     public static final EntityType<CryoSnakeEntity> CRYOSNAKE = registerEntity("cryosnake", SpawnGroup.MONSTER, CryoSnakeEntity::new, 2.0F, 1.2F, 64, 3);
+    public static final EntityType<CryopteryxEntity> CRYOPTERYX = registerEntity("cryopteryx", SpawnGroup.MONSTER, CryopteryxEntity::new, 2.8F, 2.4F, 128, 1);
     public static final EntityType<WarperdunEntity> WARPERDUN = registerEntity("warperdun", SpawnGroup.MONSTER, WarperdunEntity::new, 1.4F, 2.1F);
     public static final EntityType<OganesonEntity> OGANESON = registerEntity("oganeson", SpawnGroup.MONSTER, OganesonEntity::new, 0.6F, 1.8F);
     public static final EntityType<NyankoEntity> NYANKO = registerEntity("nyanko", SpawnGroup.MONSTER, NyankoEntity::new, 0.8F, 1.2F);
@@ -69,6 +69,7 @@ public class ModEntities333 {
     public static final Item CRYOWARRIOR_SPAWN_EGG = registerSpawnEgg("cryowarrior_spawn_egg", CRYOWARRIOR, 0x3366CC, 0x99DDFF, ModTabs.CYROVILIM_TAB);
     public static final Item CRYOBEAST_SPAWN_EGG = registerSpawnEgg("cryobeast_spawn_egg", CRYOBEAST, 0x174B8A, 0xA8E8FF, ModTabs.CYROVILIM_TAB);
     public static final Item CRYOSNAKE_SPAWN_EGG = registerSpawnEgg("cryosnake_spawn_egg", CRYOSNAKE, 0x00AA88, 0x55FFCC, ModTabs.CYROVILIM_TAB);
+    public static final Item CRYOPTERYX_SPAWN_EGG = registerSpawnEgg("cryopteryx_spawn_egg", CRYOPTERYX, 0x66CCFF, 0x112255, ModTabs.CYROVILIM_TAB);
 
     // ATTRIBUTES
     private static <T extends LivingEntity> void registerAttributes(EntityType<T> type, DefaultAttributeContainer.Builder attributes) {
@@ -85,6 +86,7 @@ public class ModEntities333 {
         registerAttributes(CRYOWARRIOR, CryowarriorEntity.createAttributes());
         registerAttributes(CRYOBEAST, CryobeastEntity.createAttributes());
         registerAttributes(CRYOSNAKE, CryoSnakeEntity.createAttributes());
+        registerAttributes(CRYOPTERYX, CryopteryxEntity.createAttributes());
         registerAttributes(WARPERDUN, WarperdunEntity.createAttributes());
         registerAttributes(OGANESON, OganesonEntity.createAttributes());
         registerAttributes(NYANKO, NyankoEntity.createAttributes());
