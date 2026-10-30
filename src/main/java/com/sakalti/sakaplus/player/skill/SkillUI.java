@@ -15,6 +15,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import net.minecraft.client.gui.widget.ButtonWidget;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import org.lwjgl.glfw.GLFW;
@@ -220,7 +222,8 @@ public final class SkillUI {
         private static final int PANEL_MARGIN = 10;
         private static final int CARD_HEIGHT = 640;
         private static final int CARD_GAP = 16;
-        private static final int SCROLL_SPEED = 35;
+
+        private static final int BUTTON_SCROLL_AMOUNT = 100;
 
         private int scrollOffset = 0;
         private int maxScroll = 0;
@@ -233,6 +236,9 @@ public final class SkillUI {
         private int panelWidth;
 
         private boolean twoColumns;
+
+        private ButtonWidget upButton;
+        private ButtonWidget downButton;
 
         protected SkillScreen() {
             super(Text.literal("Sakaplus Skills"));
@@ -248,6 +254,7 @@ public final class SkillUI {
 
             scrollOffset = 0;
             calculateLayout();
+            createScrollButtons();
         }
 
         // =================================================
@@ -267,7 +274,7 @@ public final class SkillUI {
             twoColumns = panelWidth >= 560;
 
             viewportTop = 48;
-            viewportBottom = height - 45;
+            viewportBottom = height - 65;
 
             if (viewportBottom < viewportTop) {
                 viewportBottom = viewportTop;
@@ -289,6 +296,56 @@ public final class SkillUI {
         }
 
         // =================================================
+        // SCROLL BUTTONS
+        // =================================================
+
+        private void createScrollButtons() {
+
+            int buttonX = panelRight - 42;
+            int buttonWidth = 32;
+            int buttonHeight = 22;
+
+            int buttonY = height - 61;
+
+            upButton = new ButtonWidget(
+                    buttonX,
+                    buttonY,
+                    buttonWidth,
+                    buttonHeight,
+                    Text.literal("▲"),
+                    button -> scrollUp()
+            );
+
+            downButton = new ButtonWidget(
+                    buttonX,
+                    buttonY + 25,
+                    buttonWidth,
+                    buttonHeight,
+                    Text.literal("▼"),
+                    button -> scrollDown()
+            );
+
+            addDrawableChild(upButton);
+            addDrawableChild(downButton);
+        }
+
+        private void scrollUp() {
+
+            scrollOffset = Math.max(
+                    0,
+                    scrollOffset - BUTTON_SCROLL_AMOUNT
+            );
+        }
+
+        private void scrollDown() {
+
+            scrollOffset = Math.min(
+                    maxScroll,
+                    scrollOffset + BUTTON_SCROLL_AMOUNT
+            );
+        }
+
+        // =================================================
         // RENDER
         // =================================================
 
@@ -306,7 +363,7 @@ public final class SkillUI {
 
             int centerX = width / 2;
 
-            // Main panel
+            // MAIN PANEL
 
             fill(
                     matrices,
@@ -317,7 +374,7 @@ public final class SkillUI {
                     0xEE171923
             );
 
-            // Border
+            // BORDER
 
             fill(
                     matrices,
@@ -328,7 +385,7 @@ public final class SkillUI {
                     0xFF55AADD
             );
 
-            // Title
+            // TITLE
 
             drawCentered(
                     matrices,
@@ -518,18 +575,30 @@ public final class SkillUI {
                         thumbY + thumbHeight,
                         0xFF55AADD
                 );
-
-                drawCentered(
-                        matrices,
-                        "§7Mouse Wheel: Scroll   "
-                                + (scrollOffset + 1)
-                                + " / "
-                                + (maxScroll + 1),
-                        centerX,
-                        height - 47,
-                        0xFFAAAAAA
-                );
             }
+
+            // =================================================
+            // SCROLL BUTTON STATUS
+            // =================================================
+
+            if (upButton != null) {
+                upButton.active = scrollOffset > 0;
+            }
+
+            if (downButton != null) {
+                downButton.active = scrollOffset < maxScroll;
+            }
+
+            drawCentered(
+                    matrices,
+                    "§7Scroll: "
+                            + scrollOffset
+                            + " / "
+                            + maxScroll,
+                    panelLeft + panelWidth / 2 - 30,
+                    height - 54,
+                    0xFFAAAAAA
+            );
 
             super.render(matrices, mouseX, mouseY, delta);
         }
@@ -734,7 +803,7 @@ public final class SkillUI {
         }
 
         // =================================================
-        // MOUSE SCROLL
+        // MOUSE WHEEL DISABLED
         // =================================================
 
         @Override
@@ -743,30 +812,7 @@ public final class SkillUI {
                 double mouseY,
                 double amount
         ) {
-
-            if (mouseX >= panelLeft
-                    && mouseX <= panelRight
-                    && mouseY >= viewportTop
-                    && mouseY <= viewportBottom
-                    && maxScroll > 0) {
-
-                scrollOffset -= (int) Math.round(
-                        amount * SCROLL_SPEED
-                );
-
-                scrollOffset = Math.max(
-                        0,
-                        Math.min(scrollOffset, maxScroll)
-                );
-
-                return true;
-            }
-
-            return super.mouseScrolled(
-                    mouseX,
-                    mouseY,
-                    amount
-            );
+            return true;
         }
 
         // =================================================
