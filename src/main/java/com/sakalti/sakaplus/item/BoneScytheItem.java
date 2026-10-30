@@ -16,7 +16,7 @@ import com.sakalti.sakaplus.registry.ModTabs; // ModTabs のインポートを�
 
 public class BoneScytheItem extends SwordItem {
 
-    public IceGreatblade() {
+    public BoneScytheItem() {
         super(new ToolMaterial() {
             @Override
             public int getDurability() {
@@ -63,7 +63,6 @@ public class BoneScytheItem extends SwordItem {
     ) {
         target.addStatusEffect(
             new StatusEffectInstance(
-                Nk
                 ModEffects.MUDO,
                 100,
                 1
