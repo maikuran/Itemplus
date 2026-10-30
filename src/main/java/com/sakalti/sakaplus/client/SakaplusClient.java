@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus.client;
 
 import com.sakalti.sakaplus.client.model.*;
@@ -47,6 +46,7 @@ public class SakaplusClient implements ClientModInitializer {
         EntityRendererRegistry.register(ModEntities333.CRYOWARRIOR, CryowarriorRenderer::new);
         EntityRendererRegistry.register(ModEntities333.CRYOBEAST, CryobeastRenderer::new);
         EntityRendererRegistry.register(ModEntities333.CRYOSNAKE, CryoSnakeRenderer::new);
+        EntityRendererRegistry.register(ModEntities333.CRYOPTERYX, CryopteryxRenderer::new);
 
         EntityRendererRegistry.register(ModEntities333.KULOOGIE, KuloogieRenderer::new);
         EntityRendererRegistry.register(ModEntities333.KUR_BRUTE, KurBruteRenderer::new);
@@ -73,6 +73,7 @@ public class SakaplusClient implements ClientModInitializer {
         registerLayer(CryowarriorRenderer.MODEL_LAYER, CryoHumanoidModel::getTexturedModelData);
         registerLayer(CryobeastRenderer.MODEL_LAYER, CryobeastModel::getTexturedModelData);
         registerLayer(CryoSnakeRenderer.MODEL_LAYER, CryoSnakeModel::getTexturedModelData);
+        registerLayer(CryopteryxRenderer.MODEL_LAYER, CryopteryxModel::getTexturedModelData);
 
         registerLayer(ShyronRenderer.MODEL_LAYER, ShyronModel::getTexturedModelData);
         registerLayer(XxenaRenderer.MODEL_LAYER, XxenaModel::getTexturedModelData);
