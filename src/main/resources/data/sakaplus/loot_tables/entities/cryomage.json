@@ -17,7 +17,7 @@
         },
         {
           "type": "minecraft:item",
-          "name": "sakaplus:blue_ice",
+          "name": "minecraft:blue_ice",
           "weight": 19,
           "functions": [
             {
