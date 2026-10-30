@@ -1,257 +1,153 @@
+
 package com.sakalti.sakaplus.block;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.block.AbstractBlock;
-import net.minecraft.block.Block;
-import net.minecraft.block.FenceBlock;
-import net.minecraft.block.FenceGateBlock;
-import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.Material;
-import net.minecraft.block.PillarBlock;
-import net.minecraft.block.SlabBlock;
-import net.minecraft.block.StairsBlock;
-import net.minecraft.block.WallBlock;
+import net.minecraft.block.*;
 import net.minecraft.item.BlockItem;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public final class ModBlocks2 {
-
     private ModBlocks2() {}
 
-    /*
-     * 共通登録関数
-     * ブロックとBlockItemを同じIDで登録する。
-     */
-    private static Block registerBlock(String name, Block block) {
+    // 共通登録
+    private static Block reg(String name, Block block) {
         Identifier id = new Identifier("sakaplus", name);
-
         Registry.register(Registry.BLOCK, id, block);
-        Registry.register(
-            Registry.ITEM,
-            id,
-            new BlockItem(block, new FabricItemSettings())
-        );
-
+        Registry.register(Registry.ITEM, id, new BlockItem(block, new FabricItemSettings()));
         return block;
     }
 
-    private static AbstractBlock.Settings stone(float hardness, float resistance) {
-        return AbstractBlock.Settings.of(Material.STONE)
-            .strength(hardness, resistance);
+    private static AbstractBlock.Settings stone(float h, float r) {
+        return AbstractBlock.Settings.of(Material.STONE).strength(h, r);
     }
 
-    private static AbstractBlock.Settings wood(float hardness, float resistance) {
-        return AbstractBlock.Settings.of(Material.WOOD)
-            .strength(hardness, resistance);
+    private static AbstractBlock.Settings wood(float h, float r) {
+        return AbstractBlock.Settings.of(Material.WOOD).strength(h, r);
     }
 
-    // ★追加: 金属用（適正ツールが必要、音を金属音に設定）
-    private static AbstractBlock.Settings metal(float hardness, float resistance) {
+    private static AbstractBlock.Settings metal(float h, float r) {
         return AbstractBlock.Settings.of(Material.METAL)
-            .strength(hardness, resistance)
-            .requiresTool() // ツルハシ等の適切なツールが必要
-            .sounds(BlockSoundGroup.METAL); // カキィンという金属音
+            .strength(h, r).requiresTool().sounds(BlockSoundGroup.METAL);
     }
 
-    private static Block stairs(String name, Block base, float hardness, float resistance) {
-        return registerBlock(
-            name,
-            new StairsBlock(
-                base.getDefaultState(),
-                AbstractBlock.Settings.copy(base).strength(hardness, resistance)
-            )
-        );
+    private static Block stairs(String n, Block base, float h, float r) {
+        return reg(n, new StairsBlock(base.getDefaultState(),
+            AbstractBlock.Settings.copy(base).strength(h, r)));
     }
 
-    private static Block slab(String name, float hardness, float resistance) {
-        return registerBlock(
-            name,
-            new SlabBlock(stone(hardness, resistance))
-        );
+    private static Block slab(String n, float h, float r) {
+        return reg(n, new SlabBlock(stone(h, r)));
     }
 
-    private static Block wall(String name, float hardness, float resistance) {
-        return registerBlock(
-            name,
-            new WallBlock(stone(hardness, resistance))
-        );
+    private static Block wall(String n, float h, float r) {
+        return reg(n, new WallBlock(stone(h, r)));
     }
 
-    // --------------------------------------------------
-    // 既存ブロック
-    // --------------------------------------------------
+    // 基本ブロック
+    public static final Block IRON_SCAFFOLD = reg("iron_scaffold", new IronScaffoldBlock());
 
-    public static final Block IRON_SCAFFOLD =
-        registerBlock("iron_scaffold", new IronScaffoldBlock());
-
-    // ★修正箇所: 二重登録を避けるため、ブロック単体のみをレジストリに登録します
     public static final Block BLOOMSQUER =
-        Registry.register(
-            Registry.BLOCK,
-            new Identifier("sakaplus", "bloomsquer"),
-            new Block(wood(1.8f, 3.0f))
-        );
+        reg("bloomsquer", new Block(wood(1.8f, 3.0f)));
 
-    public static final Block KRUZI_STONE =
-        registerBlock("kruzi_stone",
-            new Block(stone(2.0f, 6.0f)));
+    public static final Block KRUZI_STONE = reg("kruzi_stone", new Block(stone(2, 6)));
+    public static final Block PYRONIUM_ORE = reg("pyronium_ore", new Block(stone(2, 6)));
+    public static final Block KRUZI_BRICKS = reg("kruzi_bricks", new Block(stone(2, 6)));
 
-    public static final Block PYRONIUM_ORE =
-        registerBlock("pyronium_ore",
-            new Block(stone(2.0f, 6.0f)));
-
-
-    public static final Block KRUZI_BRICKS =
-        registerBlock("kruzi_bricks",
-            new Block(stone(2.0f, 6.0f)));
-
-    // --------------------------------------------------
     // Kruzi Grass
-    // --------------------------------------------------
-
     public static final Block KRUZI_GRASS =
-        registerBlock("kruzi_grass",
-            new Block(
-                AbstractBlock.Settings.of(Material.SOIL)
-                    .strength(0.6f)
-            ));
+        reg("kruzi_grass", new Block(AbstractBlock.Settings.of(Material.SOIL).strength(0.6f)));
 
     public static final Block KRUZI_GRASS_STAIRS =
-        registerBlock("kruzi_grass_stairs",
-            new StairsBlock(
-                KRUZI_GRASS.getDefaultState(),
-                AbstractBlock.Settings.copy(KRUZI_GRASS)
-            ));
+        reg("kruzi_grass_stairs", new StairsBlock(KRUZI_GRASS.getDefaultState(),
+            AbstractBlock.Settings.copy(KRUZI_GRASS)));
 
     public static final Block KRUZI_GRASS_SLAB =
-        registerBlock("kruzi_grass_slab",
-            new SlabBlock(
-                AbstractBlock.Settings.copy(KRUZI_GRASS)
-            ));
+        reg("kruzi_grass_slab", new SlabBlock(AbstractBlock.Settings.copy(KRUZI_GRASS)));
 
     public static final Block KRUZI_GRASS_WALL =
-        registerBlock("kruzi_grass_wall",
-            new WallBlock(
-                AbstractBlock.Settings.copy(KRUZI_GRASS)
-            ));
+        reg("kruzi_grass_wall", new WallBlock(AbstractBlock.Settings.copy(KRUZI_GRASS)));
 
-    // --------------------------------------------------
     // Kruzi Bricks
-    // --------------------------------------------------
-
-    public static final Block KRUZI_BRICK_STAIRS =
-        stairs("kruzi_brick_stairs", KRUZI_BRICKS, 2.0f, 6.0f);
-
-    public static final Block KRUZI_BRICK_SLAB =
-        slab("kruzi_brick_slab", 2.0f, 6.0f);
-
-    public static final Block KRUZI_BRICK_WALL =
-        wall("kruzi_brick_wall", 2.0f, 6.0f);
-
+    public static final Block KRUZI_BRICK_STAIRS = stairs("kruzi_brick_stairs", KRUZI_BRICKS, 2, 6);
+    public static final Block KRUZI_BRICK_SLAB = slab("kruzi_brick_slab", 2, 6);
+    public static final Block KRUZI_BRICK_WALL = wall("kruzi_brick_wall", 2, 6);
     public static final Block CHISELED_KRUZI_BRICKS =
-        registerBlock("chiseled_kruzi_bricks",
-            new PillarBlock(stone(2.0f, 6.0f)));
+        reg("chiseled_kruzi_bricks", new PillarBlock(stone(2, 6)));
 
-    // --------------------------------------------------
-    // Greeny wood
-    // --------------------------------------------------
-
-    public static final Block GREENY_LOG =
-        registerBlock("greeny_log",
-            new PillarBlock(wood(2.5f, 4.0f)));
-
-    public static final Block GREENY_WOOD =
-        registerBlock("greeny_wood",
-            new PillarBlock(wood(2.5f, 4.0f)));
-
+    // Greeny Wood
+    public static final Block GREENY_LOG = reg("greeny_log", new PillarBlock(wood(2.5f, 4)));
+    public static final Block GREENY_WOOD = reg("greeny_wood", new PillarBlock(wood(2.5f, 4)));
     public static final Block STRIPPED_GREENY_LOG =
-        registerBlock("stripped_greeny_log",
-            new PillarBlock(wood(2.5f, 4.0f)));
-
+        reg("stripped_greeny_log", new PillarBlock(wood(2.5f, 4)));
     public static final Block STRIPPED_GREENY_WOOD =
-        registerBlock("stripped_greeny_wood",
-            new PillarBlock(wood(2.5f, 4.0f)));
+        reg("stripped_greeny_wood", new PillarBlock(wood(2.5f, 4)));
+
+    public static final Block GREENY_PLANKS = reg("greeny_planks", new Block(wood(2.5f, 4)));
+
+    public static final Block GREENY_STAIRS =
+        reg("greeny_stairs", new StairsBlock(GREENY_PLANKS.getDefaultState(),
+            AbstractBlock.Settings.copy(GREENY_PLANKS)));
+
+    public static final Block GREENY_SLAB =
+        reg("greeny_slab", new SlabBlock(AbstractBlock.Settings.copy(GREENY_PLANKS)));
+
+    public static final Block GREENY_FENCE =
+        reg("greeny_fence", new FenceBlock(AbstractBlock.Settings.copy(GREENY_PLANKS)));
+
+    public static final Block GREENY_FENCE_GATE =
+        reg("greeny_fence_gate", new FenceGateBlock(AbstractBlock.Settings.copy(GREENY_PLANKS)));
+
+    public static final Block GREENY_WALL =
+        reg("greeny_wall", new WallBlock(AbstractBlock.Settings.copy(GREENY_PLANKS)));
 
     // Greeny Leaves
     public static final Block GREENY_LEAVES =
-        registerBlock("greeny_leaves",
-            new LeavesBlock(
-                AbstractBlock.Settings.of(Material.LEAVES)
-                    .strength(0.2f)
-                    .ticksRandomly()
-                    .nonOpaque()
-                    .sounds(BlockSoundGroup.GRASS)
-            ));
+        reg("greeny_leaves", new LeavesBlock(
+            AbstractBlock.Settings.of(Material.LEAVES).strength(0.2f)
+                .ticksRandomly().nonOpaque().sounds(BlockSoundGroup.GRASS)));
 
-    public static final Block GREENY_PLANKS =
-        registerBlock("greeny_planks",
-            new Block(wood(2.5f, 4.0f)));
+    // Greeny Door
+    public static final Block GREENY_DOOR =
+        reg("greeny_door", new DoorBlock(
+            AbstractBlock.Settings.of(Material.WOOD).strength(3.0f)
+                .nonOpaque().sounds(BlockSoundGroup.WOOD)));
 
-    public static final Block GREENY_STAIRS =
-        registerBlock("greeny_stairs",
-            new StairsBlock(
-                GREENY_PLANKS.getDefaultState(),
-                AbstractBlock.Settings.copy(GREENY_PLANKS)
-            ));
+    // Greeny Trapdoor
+    public static final Block GREENY_TRAPDOOR =
+        reg("greeny_trapdoor", new TrapdoorBlock(
+            AbstractBlock.Settings.of(Material.WOOD).strength(3.0f)
+                .nonOpaque().sounds(BlockSoundGroup.WOOD)));
 
-    public static final Block GREENY_SLAB =
-        registerBlock("greeny_slab",
-            new SlabBlock(
-                AbstractBlock.Settings.copy(GREENY_PLANKS)
-            ));
+    // Greeny Pressure Plate
+    public static final Block GREENY_PRESSURE_PLATE =
+        reg("greeny_pressure_plate", new PressurePlateBlock(
+            PressurePlateBlock.ActivationRule.EVERYTHING,
+            AbstractBlock.Settings.of(Material.WOOD).noCollision()
+                .strength(0.5f).sounds(BlockSoundGroup.WOOD)));
 
-    public static final Block GREENY_FENCE =
-        registerBlock("greeny_fence",
-            new FenceBlock(
-                AbstractBlock.Settings.copy(GREENY_PLANKS)
-            ));
+    // Greeny Button
+    public static final Block GREENY_BUTTON =
+        reg("greeny_button", new ButtonBlock(
+            20, AbstractBlock.Settings.of(Material.WOOD).noCollision()
+                .strength(0.5f).sounds(BlockSoundGroup.WOOD)));
 
-    public static final Block GREENY_FENCE_GATE =
-        registerBlock("greeny_fence_gate",
-            new FenceGateBlock(
-                AbstractBlock.Settings.copy(GREENY_PLANKS)
-            ));
-
-    public static final Block GREENY_WALL =
-        registerBlock("greeny_wall",
-            new WallBlock(
-                AbstractBlock.Settings.copy(GREENY_PLANKS)
-            ));
-
-    // --------------------------------------------------
-    // 構造物専用ブロック
-    // --------------------------------------------------
-
+    // 構造物専用
     public static final Block KRUZI_STRUCTURE_BLOCK =
-        registerBlock("kruzi_structure_block",
-            new Block(stone(3.0f, 9.0f)));
+        reg("kruzi_structure_block", new Block(stone(3, 9)));
 
-    // --------------------------------------------------
-    // Ant Hive：非常に柔らかいブロック
-    // --------------------------------------------------
-
+    // Ant Hive
     public static final Block ANT_HIVE =
-        registerBlock("ant_hive",
-            new Block(
-                AbstractBlock.Settings.of(Material.WOOD)
-                    .strength(0.2f, 0.2f)
-                    .sounds(BlockSoundGroup.WOOD)
-            ));
+        reg("ant_hive", new Block(
+            AbstractBlock.Settings.of(Material.WOOD).strength(0.2f, 0.2f)
+                .sounds(BlockSoundGroup.WOOD)));
 
-    // --------------------------------------------------
-    // 新規追加: Pyronium (硬い金属)
-    // --------------------------------------------------
-
-    // 硬さ 5.0f（鉄ブロックと同じ）、爆破耐性 6.0f の超金属設定です
+    // Pyronium
     public static final Block PYRONIUM_BLOCK =
-        registerBlock("pyronium_block",
-            new Block(metal(17.0f, 14.0f)));
-
+        reg("pyronium_block", new Block(metal(17, 14)));
 
     public static void registerBlocks() {
-        // クラス初期化時に各ブロックとアイテムは登録済み。
-        // 二重登録を防ぐため、ここでは再登録しない。
+        // クラス初期化時に登録済み
     }
 }
