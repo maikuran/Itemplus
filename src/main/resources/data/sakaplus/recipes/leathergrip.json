@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WBG",
+    "GSW",
+    "   "
+  ],
+  "key": {
+    "B": { "item": "minecraft:leather" },
+    "G": { "item": "minecraft:iron_ingot" },
+    "W": { "item": "minecraft:copper_ingot" },
+    "S": { "item": "minecraft:gunpowder" }
+  },
+  "result": {
+    "item": "sakaplus:leathergrip",
+    "count": 1
+  }
+}
