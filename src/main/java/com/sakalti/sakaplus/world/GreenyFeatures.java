@@ -48,6 +48,14 @@ public final class GreenyFeatures {
                     GREENY_TREE_PLACED_ID
             );
 
+    // ConfiguredFeature取得
+    public static RegistryEntry<ConfiguredFeature<?, ?>> getConfiguredTreeEntry() {
+        return BuiltinRegistries.CONFIGURED_FEATURE.getOrCreateEntry(
+                GREENY_TREE_KEY
+        );
+    }
+
+    // PlacedFeature取得
     public static RegistryEntry<PlacedFeature> getPlacedTreeEntry() {
         return BuiltinRegistries.PLACED_FEATURE.getOrCreateEntry(
                 GREENY_TREE_PLACED_KEY
@@ -55,6 +63,11 @@ public final class GreenyFeatures {
     }
 
     public static void register() {
+
+        // 二重登録防止
+        if (BuiltinRegistries.CONFIGURED_FEATURE.containsId(GREENY_TREE_ID)) {
+            return;
+        }
 
         // Greeny Tree Configuration
         TreeFeatureConfig treeConfig =
