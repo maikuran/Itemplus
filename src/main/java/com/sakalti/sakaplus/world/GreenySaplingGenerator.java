@@ -1,18 +1,17 @@
-
 package com.sakalti.sakaplus.world;
 
-import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.block.sapling.SaplingGenerator;
-
-import java.util.Random;
+import net.minecraft.util.math.random.Random;
+import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
 
 public class GreenySaplingGenerator extends SaplingGenerator {
-    
-    protected RegistryKey<ConfiguredFeature<?, ?>> getTreeFeature(
+
+    @Override
+    protected RegistryEntry<? extends ConfiguredFeature<?, ?>> getTreeFeature(
             Random random,
             boolean bees
     ) {
-        return GreenyFeatures.GREENY_TREE_KEY;
+        return GreenyFeatures.getConfiguredTreeEntry();
     }
 }
