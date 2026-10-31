@@ -3,6 +3,10 @@
   "values": [
     "sakaplus:pyronium_block",
     "sakaplus:pyronium_ore",
+    "sakaplus:dandelite_block",
+    "sakaplus:dandelite_ore",
+    "sakaplus:rosite_block",
+    "sakaplus:rosite_ore",
     "sakaplus:kruzi_stone",
     "sakaplus:kruzi_bricks",
     "sakaplus:kruzi_brick_stairs",
