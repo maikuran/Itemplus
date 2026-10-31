@@ -28,6 +28,23 @@ public final class ModBlocks2 {
         return block;
     }
 
+    // WoodenButtonBlockのprotectedコンストラクターを強制アクセス
+    private static Block createWoodenButton(AbstractBlock.Settings settings) {
+        try {
+            java.lang.reflect.Constructor<WoodenButtonBlock> constructor =
+                    WoodenButtonBlock.class.getDeclaredConstructor(
+                            AbstractBlock.Settings.class
+                    );
+
+            constructor.setAccessible(true);
+
+            return constructor.newInstance(settings);
+
+        } catch (ReflectiveOperationException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
+
     private static AbstractBlock.Settings stone(float hardness, float resistance) {
         return AbstractBlock.Settings.of(Material.STONE)
                 .strength(hardness, resistance);
@@ -196,10 +213,9 @@ public final class ModBlocks2 {
                             .sounds(BlockSoundGroup.WOOD)
             ));
 
-    // Greeny Button
+    // Greeny Wooden Button
     public static final Block GREENY_BUTTON =
-            reg("greeny_button", new ButtonBlock(
-                    true,
+            reg("greeny_button", createWoodenButton(
                     AbstractBlock.Settings.of(Material.WOOD)
                             .noCollision()
                             .strength(0.5f)
