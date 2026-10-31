@@ -97,6 +97,9 @@ public class ModItems {
     public static final Item KRUZI_RIFLE =
         new KruziRifle(new Item.Settings()
             .group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
+    public static final Item LEATHERGRIP　=
+        new Leathergrip(new Item.Settings()
+            .group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
 
     // ==================== Pyronium シリーズ ====================
 
@@ -291,6 +294,9 @@ public class ModItems {
         Registry.register(Registry.ITEM,
             new Identifier("sakaplus", "overshot"),
             OVERSHOT);
+        Registry.register(Registry.ITEM,
+            new Identifier("sakaplus", "leathergrip"),
+            LEATHERGRIP);
 
         Registry.register(Registry.ITEM,
             new Identifier("sakaplus", "kruzi_rifle"),
