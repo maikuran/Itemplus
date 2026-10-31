@@ -39,7 +39,7 @@ public class ModEntities333 {
     public static final EntityType<CryopteryxEntity> CRYOPTERYX = registerEntity("cryopteryx", SpawnGroup.MONSTER, CryopteryxEntity::new, 2.8F, 2.4F, 128, 1);
     public static final EntityType<WarperdunEntity> WARPERDUN = registerEntity("warperdun", SpawnGroup.MONSTER, WarperdunEntity::new, 1.4F, 2.1F);
     public static final EntityType<OganesonEntity> OGANESON = registerEntity("oganeson", SpawnGroup.MONSTER, OganesonEntity::new, 0.6F, 1.8F);
-    public static final EntityType<NyankoEntity> NYANKO = registerEntity("nyanko", SpawnGroup.MONSTER, NyankoEntity::new, 0.8F, 1.2F)
+    public static final EntityType<NyankoEntity> NYANKO = registerEntity("nyanko", SpawnGroup.MONSTER, NyankoEntity::new, 0.8F, 1.2F);
     public static final EntityType<BattleNyankoEntity> BATTLE_NYANKO = registerEntity("battle_nyanko", SpawnGroup.MONSTER, BattleNyankoEntity::new, 0.8F, 1.2F);
     public static final EntityType<ShyronEntity> SHYRON = registerEntity("shyron", SpawnGroup.MONSTER, ShyronEntity::new, 1.5F, 1.5F, 64, 3);
     public static final EntityType<XxenaEntity> XXENA = registerEntity("xxena", SpawnGroup.MONSTER, XxenaEntity::new, 1.75F, 1.5F, 64, 3);
