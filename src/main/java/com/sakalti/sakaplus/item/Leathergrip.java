@@ -30,7 +30,7 @@ public class Leathergrip extends Item {
     public static final int MAX_DURABILITY = 2048;
 
     public static final float BEAM_DAMAGE = 2.0F;
-    public static final float BEAM_SPEED = 6.67F;
+    public static final float BEAM_SPEED = 2.0F;
     public static final int BEAM_COLOR = 0x80EFFF;
 
     // NORMAL RECOIL
