@@ -39,11 +39,11 @@ public class ModEntities333 {
     public static final EntityType<CryopteryxEntity> CRYOPTERYX = registerEntity("cryopteryx", SpawnGroup.MONSTER, CryopteryxEntity::new, 2.8F, 2.4F, 128, 1);
     public static final EntityType<WarperdunEntity> WARPERDUN = registerEntity("warperdun", SpawnGroup.MONSTER, WarperdunEntity::new, 1.4F, 2.1F);
     public static final EntityType<OganesonEntity> OGANESON = registerEntity("oganeson", SpawnGroup.MONSTER, OganesonEntity::new, 0.6F, 1.8F);
-    public static final EntityType<NyankoEntity> NYANKO = registerEntity("nyanko", SpawnGroup.MONSTER, NyankoEntity::new, 0.8F, 1.2F);
+    public static final EntityType<NyankoEntity> NYANKO = registerEntity("nyanko", SpawnGroup.MONSTER, NyankoEntity::new, 0.8F, 1.2F)
     public static final EntityType<BattleNyankoEntity> BATTLE_NYANKO = registerEntity("battle_nyanko", SpawnGroup.MONSTER, BattleNyankoEntity::new, 0.8F, 1.2F);
     public static final EntityType<ShyronEntity> SHYRON = registerEntity("shyron", SpawnGroup.MONSTER, ShyronEntity::new, 1.5F, 1.5F, 64, 3);
     public static final EntityType<XxenaEntity> XXENA = registerEntity("xxena", SpawnGroup.MONSTER, XxenaEntity::new, 1.75F, 1.5F, 64, 3);
-
+    public static final EntityType<BushBeastEntity> BUSHBEAST = registerEntity("bushbeast", SpawnGroup.MONSTER, BushBeastEntity::new, 0.8F, 1.2F);
     // SPAWN EGGS
     private static Item registerSpawnEgg(String name, EntityType<? extends MobEntity> type, int primary, int secondary, ItemGroup group) {
         Identifier id = new Identifier(MOD_ID, name);
@@ -55,6 +55,7 @@ public class ModEntities333 {
     public static final Item SCORCHER_SPAWN_EGG = registerSpawnEgg("scorcher_spawn_egg", SCORCHER, 0xAA0000, 0xFF5500, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
     public static final Item WARPERDUN_SPAWN_EGG = registerSpawnEgg("warperdun_spawn_egg", WARPERDUN, 0x003366, 0x660099, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
     public static final Item OGANESON_SPAWN_EGG = registerSpawnEgg("oganeson_spawn_egg", OGANESON, 0x336699, 0x00FFFF, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
+    public static final Item BUSHBEAST_SPAWN_EGG = registerSpawnEgg("bushbeast_spawn_egg", BUSHBEAST, 0x33aa33, 0x00aa00, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
     public static final Item NYANKO_SPAWN_EGG = registerSpawnEgg("nyanko_spawn_egg", NYANKO, 0xFFFFCC, 0xFF66CC, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
     public static final Item BATTLE_NYANKO_SPAWN_EGG = registerSpawnEgg("battle_nyanko_spawn_egg", BATTLE_NYANKO, 0xFFFFCC, 0x999999, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
     public static final Item KUR_BRUTE_SPAWN_EGG = registerSpawnEgg("kur_brute_spawn_egg", KUR_BRUTE, 0x999900, 0x999999, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
@@ -88,6 +89,7 @@ public class ModEntities333 {
         registerAttributes(CRYOSNAKE, CryoSnakeEntity.createAttributes());
         registerAttributes(CRYOPTERYX, CryopteryxEntity.createAttributes());
         registerAttributes(WARPERDUN, WarperdunEntity.createAttributes());
+        registerAttributes(BUSHBEAST, BushBeastEntity.createAttributes());
         registerAttributes(OGANESON, OganesonEntity.createAttributes());
         registerAttributes(NYANKO, NyankoEntity.createAttributes());
         registerAttributes(BATTLE_NYANKO, BattleNyankoEntity.createAttributes());
@@ -103,6 +105,7 @@ public class ModEntities333 {
     private static void registerNaturalSpawns() {
         registerNaturalSpawn(SCORCHER, BiomeSelectors.includeByKey(BiomeKeys.CRIMSON_FOREST), SpawnGroup.MONSTER, 20, 1, 5);
         registerNaturalSpawn(NYANKO, BiomeSelectors.includeByKey(BiomeKeys.PLAINS), SpawnGroup.MONSTER, 11, 1, 5);
+        registerNaturalSpawn(BUSHBEAST, BiomeSelectors.includeByKey(BiomeKeys.JUNGLE), SpawnGroup.MONSTER, 11, 1, 5);
         registerNaturalSpawn(OGANESON, BiomeSelectors.includeByKey(BiomeKeys.WARPED_FOREST, BiomeKeys.CRIMSON_FOREST), SpawnGroup.MONSTER, 20, 1, 6);
     }
 
