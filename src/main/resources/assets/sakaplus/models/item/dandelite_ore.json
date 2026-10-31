@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "sakaplus:block/dandelite_ore"
-  }
+  "parent": "sakaplus:block/dandelite_ore"
 }

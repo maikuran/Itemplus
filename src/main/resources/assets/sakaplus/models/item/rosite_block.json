@@ -1,6 +1,3 @@
 {
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "sakaplus:block/rosite_block"
-  }
+  "parent": "sakaplus:block/rosite_block"
 }
