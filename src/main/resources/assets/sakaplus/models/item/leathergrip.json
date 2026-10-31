@@ -1,0 +1,6 @@
+{
+  "parent": "sakaplus:item/gun",
+  "textures": {
+    "layer0": "sakaplus:item/leathergrip"
+  }
+}
