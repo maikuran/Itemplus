@@ -17,7 +17,8 @@ public final class ModBlocks2 {
     private static Block reg(String name, Block block) {
         Identifier id = new Identifier("sakaplus", name);
         Registry.register(Registry.BLOCK, id, block);
-        Registry.register(Registry.ITEM, id, new BlockItem(block, new FabricItemSettings()));
+        Registry.register(Registry.ITEM, id,
+            new BlockItem(block, new FabricItemSettings()));
         return block;
     }
 
@@ -142,7 +143,7 @@ public final class ModBlocks2 {
 
     // Greeny Sapling
     public static final Block GREENY_SAPLING =
-        reg("greeny_sapling", new SaplingBlock(
+        reg("greeny_sapling", new GreenySaplingBlock(
             new GreenySaplingGenerator(),
             AbstractBlock.Settings.of(Material.PLANT)
                 .noCollision()
@@ -174,10 +175,9 @@ public final class ModBlocks2 {
                 .strength(0.5f)
                 .sounds(BlockSoundGroup.WOOD)));
 
-    // Greeny Button
+    // Greeny Button (1.19.2 Yarn)
     public static final Block GREENY_BUTTON =
-        reg("greeny_button", new ButtonBlock(
-            20,
+        reg("greeny_button", new WoodenButtonBlock(
             AbstractBlock.Settings.of(Material.WOOD)
                 .noCollision()
                 .strength(0.5f)
