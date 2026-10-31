@@ -46,7 +46,7 @@ public class Leathergrip extends Item {
 
     private static final String AMMO_KEY = "ammo";
 
-    public CryoRifle(Settings settings) {
+    public Leathergrip(Settings settings) {
         super(settings.maxDamage(MAX_DURABILITY));
     }
 
