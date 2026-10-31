@@ -90,6 +90,11 @@ public class SakaplusClient implements ClientModInitializer {
             ModEntities333.SHYRON,
             ShyronRenderer::new
         );
+        EntityRendererRegistry.register(
+            ModEntities333.BUSHBEAST,
+            BushBeastRenderer::new
+        );
+
 
         EntityRendererRegistry.register(
             ModEntities333.XXENA,
@@ -171,6 +176,10 @@ public class SakaplusClient implements ClientModInitializer {
         registerLayer(
             ScorcherRenderer.MODEL_LAYER,
             ScorcherModel::getTexturedModelData
+        );
+        registerLayer(
+            BushBeastRenderer.MODEL_LAYER,
+            BushBeastModel::getTexturedModelData
         );
 
         registerLayer(
