@@ -10,6 +10,8 @@ import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
+import java.lang.reflect.Constructor;
+
 public final class ModBlocks2 {
 
     private ModBlocks2() {}
@@ -28,10 +30,10 @@ public final class ModBlocks2 {
         return block;
     }
 
-    // WoodenButtonBlockのprotectedコンストラクターを強制アクセス
+    // WoodenButtonBlockのprotectedコンストラクターに強制アクセス
     private static Block createWoodenButton(AbstractBlock.Settings settings) {
         try {
-            java.lang.reflect.Constructor<WoodenButtonBlock> constructor =
+            Constructor<WoodenButtonBlock> constructor =
                     WoodenButtonBlock.class.getDeclaredConstructor(
                             AbstractBlock.Settings.class
                     );
@@ -40,41 +42,42 @@ public final class ModBlocks2 {
 
             return constructor.newInstance(settings);
 
-        } catch (ReflectiveOperationException e) {
-            throw new ExceptionInInitializerError(e);
+        } catch (Exception e) {
+            throw new RuntimeException(
+                    "Greeny Wooden Buttonの生成に失敗しました",
+                    e
+            );
         }
     }
 
-    private static AbstractBlock.Settings stone(float hardness, float resistance) {
-        return AbstractBlock.Settings.of(Material.STONE)
-                .strength(hardness, resistance);
+    private static AbstractBlock.Settings stone(float h, float r) {
+        return AbstractBlock.Settings.of(Material.STONE).strength(h, r);
     }
 
-    private static AbstractBlock.Settings wood(float hardness, float resistance) {
-        return AbstractBlock.Settings.of(Material.WOOD)
-                .strength(hardness, resistance);
+    private static AbstractBlock.Settings wood(float h, float r) {
+        return AbstractBlock.Settings.of(Material.WOOD).strength(h, r);
     }
 
-    private static AbstractBlock.Settings metal(float hardness, float resistance) {
+    private static AbstractBlock.Settings metal(float h, float r) {
         return AbstractBlock.Settings.of(Material.METAL)
-                .strength(hardness, resistance)
+                .strength(h, r)
                 .requiresTool()
                 .sounds(BlockSoundGroup.METAL);
     }
 
-    private static Block stairs(String name, Block base, float hardness, float resistance) {
-        return reg(name, new StairsBlock(
+    private static Block stairs(String n, Block base, float h, float r) {
+        return reg(n, new StairsBlock(
                 base.getDefaultState(),
-                AbstractBlock.Settings.copy(base).strength(hardness, resistance)
+                AbstractBlock.Settings.copy(base).strength(h, r)
         ));
     }
 
-    private static Block slab(String name, float hardness, float resistance) {
-        return reg(name, new SlabBlock(stone(hardness, resistance)));
+    private static Block slab(String n, float h, float r) {
+        return reg(n, new SlabBlock(stone(h, r)));
     }
 
-    private static Block wall(String name, float hardness, float resistance) {
-        return reg(name, new WallBlock(stone(hardness, resistance)));
+    private static Block wall(String n, float h, float r) {
+        return reg(n, new WallBlock(stone(h, r)));
     }
 
     // 基本ブロック
@@ -82,7 +85,7 @@ public final class ModBlocks2 {
             reg("iron_scaffold", new IronScaffoldBlock());
 
     public static final Block BLOOMSQUER =
-            reg("bloomsquer", new Block(wood(1.8f, 3)));
+            reg("bloomsquer", new Block(wood(1.8f, 3.0f)));
 
     public static final Block KRUZI_STONE =
             reg("kruzi_stone", new Block(stone(2, 6)));
