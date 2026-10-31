@@ -8,8 +8,7 @@ import net.minecraft.block.sapling.SaplingGenerator;
 import java.util.Random;
 
 public class GreenySaplingGenerator extends SaplingGenerator {
-
-    @Override
+    
     protected RegistryKey<ConfiguredFeature<?, ?>> getTreeFeature(
             Random random,
             boolean bees
