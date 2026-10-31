@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus;
 
 import net.fabricmc.api.ModInitializer;
@@ -14,6 +13,7 @@ import com.sakalti.sakaplus.registry.*;
 import com.sakalti.sakaplus.dimension.SakaplusDimensions;
 import com.sakalti.sakaplus.block.ModBlocks2;
 import com.sakalti.sakaplus.world.GreenyFeatures;
+import com.sakalti.sakaplus.world.ModWorldGeneration; // 追加
 import com.sakalti.sakaplus.sound.SakaplusSounds;
 import com.sakalti.sakaplus.player.skill.KillSkillLogic;
 import com.sakalti.sakaplus.player.skill.WalkSkillLogic;
@@ -54,6 +54,9 @@ public class SakaplusMod2 implements ModInitializer {
 
         // Greeny Features
         GreenyFeatures.register();
+
+        // ワールド生成（鉱石など）の登録 // 追加
+        ModWorldGeneration.register();
 
         // Commands
         CommandRegistrationCallback.EVENT.register(
