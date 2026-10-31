@@ -1,3 +1,4 @@
+
 package com.sakalti.sakaplus.world;
 
 import com.sakalti.sakaplus.block.ModBlocks2;
@@ -27,8 +28,7 @@ import java.util.List;
 
 public final class GreenyFeatures {
 
-    private GreenyFeatures() {
-    }
+    private GreenyFeatures() {}
 
     public static final Identifier GREENY_TREE_ID =
             new Identifier("sakaplus", "greeny_tree");
@@ -36,19 +36,27 @@ public final class GreenyFeatures {
     public static final Identifier GREENY_TREE_PLACED_ID =
             new Identifier("sakaplus", "greeny_tree");
 
+    public static final RegistryKey<ConfiguredFeature<?, ?>> GREENY_TREE_KEY =
+            RegistryKey.of(
+                    Registry.CONFIGURED_FEATURE_KEY,
+                    GREENY_TREE_ID
+            );
+
     public static final RegistryKey<PlacedFeature> GREENY_TREE_PLACED_KEY =
             RegistryKey.of(
                     Registry.PLACED_FEATURE_KEY,
                     GREENY_TREE_PLACED_ID
             );
 
-    // 追加: RegistryKeyからRegistryEntry<PlacedFeature>を取得するためのヘルパーメソッド
     public static RegistryEntry<PlacedFeature> getPlacedTreeEntry() {
-        return BuiltinRegistries.PLACED_FEATURE.getOrCreateEntry(GREENY_TREE_PLACED_KEY);
+        return BuiltinRegistries.PLACED_FEATURE.getOrCreateEntry(
+                GREENY_TREE_PLACED_KEY
+        );
     }
 
     public static void register() {
 
+        // Greeny Tree Configuration
         TreeFeatureConfig treeConfig =
                 new TreeFeatureConfig.Builder(
                         BlockStateProvider.of(ModBlocks2.GREENY_LOG),
@@ -61,14 +69,16 @@ public final class GreenyFeatures {
                         ),
                         new TwoLayersFeatureSize(1, 0, 2)
                 )
-                .dirtProvider(
-                        BlockStateProvider.of(Blocks.DIRT)
-                )
+                .dirtProvider(BlockStateProvider.of(Blocks.DIRT))
                 .ignoreVines()
                 .build();
 
+        // Configured Feature
         ConfiguredFeature<TreeFeatureConfig, ?> configuredTree =
-                new ConfiguredFeature<>(Feature.TREE, treeConfig);
+                new ConfiguredFeature<>(
+                        Feature.TREE,
+                        treeConfig
+                );
 
         Registry.register(
                 BuiltinRegistries.CONFIGURED_FEATURE,
@@ -76,11 +86,12 @@ public final class GreenyFeatures {
                 configuredTree
         );
 
+        // Placed Feature
         PlacedFeature placedTree = new PlacedFeature(
                 RegistryEntry.of(configuredTree),
                 List.of(
                         CountPlacementModifier.of(4),
-                        SquarePlacementModifier.of(), // 修正: spread() から of() へ変更
+                        SquarePlacementModifier.of(),
                         PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP,
                         BiomePlacementModifier.of()
                 )
