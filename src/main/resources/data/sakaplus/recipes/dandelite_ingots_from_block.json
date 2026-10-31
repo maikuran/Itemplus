@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "sakaplus:dandelite_block"
+    }
+  ],
+  "result": {
+    "item": "sakaplus:dandelite_ingot",
+    "count": 9
+  }
+}

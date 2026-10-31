@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "sakaplus:rosite_block"
+    }
+  ],
+  "result": {
+    "item": "sakaplus:rosite_ingot",
+    "count": 9
+  }
+}

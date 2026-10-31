@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "sakaplus:rosite_ingot"
+    }
+  },
+  "result": {
+    "item": "sakaplus:rosite_block",
+    "count": 1
+  }
+}

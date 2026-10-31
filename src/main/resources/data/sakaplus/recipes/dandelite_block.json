@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "sakaplus:dandelite_ingot"
+    }
+  },
+  "result": {
+    "item": "sakaplus:dandelite_block",
+    "count": 1
+  }
+}
