@@ -1,4 +1,3 @@
-
 {
   "type": "minecraft:ore",
   "config": {
@@ -9,6 +8,15 @@
         "target": {
           "predicate_type": "minecraft:block_match",
           "block": "minecraft:stone"
+        },
+        "state": {
+          "Name": "sakaplus:dandelite_ore"
+        }
+      },
+      {
+        "target": {
+          "predicate_type": "minecraft:block_match",
+          "block": "minecraft:deepslate"
         },
         "state": {
           "Name": "sakaplus:dandelite_ore"
