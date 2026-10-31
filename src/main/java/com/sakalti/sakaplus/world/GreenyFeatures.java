@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus.world;
 
 import com.sakalti.sakaplus.block.ModBlocks2;
@@ -48,14 +47,14 @@ public final class GreenyFeatures {
                     GREENY_TREE_PLACED_ID
             );
 
-    // ConfiguredFeature取得
+    // SaplingGeneratorから使用するConfiguredFeatureの取得
     public static RegistryEntry<ConfiguredFeature<?, ?>> getConfiguredTreeEntry() {
         return BuiltinRegistries.CONFIGURED_FEATURE.getOrCreateEntry(
                 GREENY_TREE_KEY
         );
     }
 
-    // PlacedFeature取得
+    // PlacedFeatureの取得
     public static RegistryEntry<PlacedFeature> getPlacedTreeEntry() {
         return BuiltinRegistries.PLACED_FEATURE.getOrCreateEntry(
                 GREENY_TREE_PLACED_KEY
@@ -64,12 +63,7 @@ public final class GreenyFeatures {
 
     public static void register() {
 
-        // 二重登録防止
-        if (BuiltinRegistries.CONFIGURED_FEATURE.containsId(GREENY_TREE_ID)) {
-            return;
-        }
-
-        // Greeny Tree Configuration
+        // Tree Configuration
         TreeFeatureConfig treeConfig =
                 new TreeFeatureConfig.Builder(
                         BlockStateProvider.of(ModBlocks2.GREENY_LOG),
@@ -86,34 +80,44 @@ public final class GreenyFeatures {
                 .ignoreVines()
                 .build();
 
-        // Configured Feature
-        ConfiguredFeature<TreeFeatureConfig, ?> configuredTree =
-                new ConfiguredFeature<>(
-                        Feature.TREE,
-                        treeConfig
-                );
+        // ConfiguredFeatureの登録
+        if (!BuiltinRegistries.CONFIGURED_FEATURE.containsId(GREENY_TREE_ID)) {
 
-        Registry.register(
-                BuiltinRegistries.CONFIGURED_FEATURE,
-                GREENY_TREE_ID,
-                configuredTree
-        );
+            ConfiguredFeature<TreeFeatureConfig, ?> configuredTree =
+                    new ConfiguredFeature<>(
+                            Feature.TREE,
+                            treeConfig
+                    );
 
-        // Placed Feature
-        PlacedFeature placedTree = new PlacedFeature(
-                RegistryEntry.of(configuredTree),
-                List.of(
-                        CountPlacementModifier.of(4),
-                        SquarePlacementModifier.of(),
-                        PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP,
-                        BiomePlacementModifier.of()
-                )
-        );
+            Registry.register(
+                    BuiltinRegistries.CONFIGURED_FEATURE,
+                    GREENY_TREE_ID,
+                    configuredTree
+            );
+        }
 
-        Registry.register(
-                BuiltinRegistries.PLACED_FEATURE,
-                GREENY_TREE_PLACED_ID,
-                placedTree
-        );
+        // 登録済みConfiguredFeatureを取得
+        RegistryEntry<ConfiguredFeature<?, ?>> configuredEntry =
+                getConfiguredTreeEntry();
+
+        // PlacedFeatureの登録
+        if (!BuiltinRegistries.PLACED_FEATURE.containsId(GREENY_TREE_PLACED_ID)) {
+
+            PlacedFeature placedTree = new PlacedFeature(
+                    configuredEntry,
+                    List.of(
+                            CountPlacementModifier.of(4),
+                            SquarePlacementModifier.of(),
+                            PlacedFeatures.WORLD_SURFACE_WG_HEIGHTMAP,
+                            BiomePlacementModifier.of()
+                    )
+            );
+
+            Registry.register(
+                    BuiltinRegistries.PLACED_FEATURE,
+                    GREENY_TREE_PLACED_ID,
+                    placedTree
+            );
+        }
     }
 }
