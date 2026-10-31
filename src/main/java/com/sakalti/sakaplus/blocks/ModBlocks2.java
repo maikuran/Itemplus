@@ -1,8 +1,11 @@
 
 package com.sakalti.sakaplus.block;
 
+import com.sakalti.sakaplus.world.GreenySaplingGenerator;
+
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.*;
+import net.minecraft.block.sapling.SaplingBlock;
 import net.minecraft.item.BlockItem;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
@@ -47,10 +50,7 @@ public final class ModBlocks2 {
 
     // 基本ブロック
     public static final Block IRON_SCAFFOLD = reg("iron_scaffold", new IronScaffoldBlock());
-
-    public static final Block BLOOMSQUER =
-        reg("bloomsquer", new Block(wood(1.8f, 3.0f)));
-
+    public static final Block BLOOMSQUER = reg("bloomsquer", new Block(wood(1.8f, 3)));
     public static final Block KRUZI_STONE = reg("kruzi_stone", new Block(stone(2, 6)));
     public static final Block PYRONIUM_ORE = reg("pyronium_ore", new Block(stone(2, 6)));
     public static final Block KRUZI_BRICKS = reg("kruzi_bricks", new Block(stone(2, 6)));
@@ -107,6 +107,13 @@ public final class ModBlocks2 {
         reg("greeny_leaves", new LeavesBlock(
             AbstractBlock.Settings.of(Material.LEAVES).strength(0.2f)
                 .ticksRandomly().nonOpaque().sounds(BlockSoundGroup.GRASS)));
+
+    // Greeny Sapling
+    public static final Block GREENY_SAPLING =
+        reg("greeny_sapling", new SaplingBlock(
+            new GreenySaplingGenerator(),
+            AbstractBlock.Settings.of(Material.PLANT)
+                .noCollision().breakInstantly().sounds(BlockSoundGroup.GRASS)));
 
     // Greeny Door
     public static final Block GREENY_DOOR =
