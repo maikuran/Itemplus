@@ -97,7 +97,7 @@ public class ModItems {
     public static final Item KRUZI_RIFLE =
         new KruziRifle(new Item.Settings()
             .group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
-    public static final Item LEATHERGRIP　=
+    public static final Item LEATHERGRIP =
         new Leathergrip(new Item.Settings()
             .group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
 
