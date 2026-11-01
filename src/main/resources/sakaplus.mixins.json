@@ -8,7 +8,8 @@
     "EntityAttributeInstanceMixin",
     "PlayerAttributeMixin",
     "ParalyzeLivingMixin",
-    "ParalyzeMobMixin"
+    "ParalyzeMobMixin",
+    "KruziRifleZoomMixin"
   ],
   "injectors": {
     "defaultRequire": 1
