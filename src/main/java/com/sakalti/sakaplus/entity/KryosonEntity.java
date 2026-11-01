@@ -24,7 +24,7 @@ import net.minecraft.world.World;
 
 public class KryosonEntity extends HostileEntity {
 
-    private static final int BEAM_INTERVAL = 10;
+    private static final int BEAM_INTERVAL = 20;
     private static final double BEAM_RANGE = 20.0D;
 
     private static final int BEAM_COLOR = 0xFFFF00;
@@ -163,7 +163,7 @@ public class KryosonEntity extends HostileEntity {
                 this,
                 target,
                 16.0F,
-                10.5F,
+                16.0F,
                 BEAM_COLOR
         );
 
