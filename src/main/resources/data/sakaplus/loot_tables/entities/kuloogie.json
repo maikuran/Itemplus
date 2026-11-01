@@ -116,7 +116,7 @@
         {
           "type": "minecraft:item",
           "name": "sakaplus:lightning_stinger",
-          "weight": 1
+          "weight": 7
         }
       ]
     }
