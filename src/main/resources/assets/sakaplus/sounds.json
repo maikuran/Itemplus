@@ -33,13 +33,32 @@
   "kruziant_hurt": {
     "subtitle": "subtitles.sakaplus.kruziant_hurt",
     "sounds": [
-      "sakaplus:hurt"
+      "sakaplus:kruziant_hurt"
     ]
   },
   "kruziant_death": {
     "subtitle": "subtitles.sakaplus.kruziant_death",
     "sounds": [
-      "sakaplus:death"
+      "sakaplus:kruziant_death"
+    ]
+  },
+  "kryoson_ambient": {
+    "subtitle": "subtitles.sakaplus.kryoson_ambient",
+    "sounds": [
+      "sakaplus:kryoson_ambient1",
+      "sakaplus:kryoson_ambient2"
+    ]
+  },
+  "kryoson_hurt": {
+    "subtitle": "subtitles.sakaplus.kryoson_hurt",
+    "sounds": [
+      "sakaplus:kryoson_hurt"
+    ]
+  },
+  "kryoson_death": {
+    "subtitle": "subtitles.sakaplus.kryoson_death",
+    "sounds": [
+      "sakaplus:kryoson_death"
     ]
   },
   "shyron_ambient": {
