@@ -2,6 +2,7 @@
 package com.sakalti.sakaplus.client.item;
 
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
@@ -16,90 +17,68 @@ public final class KruziRifleScopeOverlay {
     private KruziRifleScopeOverlay() {
     }
 
-    // =========================================================
-    // TEXTURE
-    // =========================================================
-
     private static final Identifier SCOPE_TEXTURE =
             new Identifier(
                     "sakaplus",
                     "textures/gui/kruzi_rifle_scoop.png"
             );
 
-    // =========================================================
-    // REGISTER
-    // =========================================================
+    public static final double ZOOM_MULTIPLIER = 4.0;
+
+    private static boolean zooming = false;
 
     public static void register(Item rifleItem) {
 
-        HudRenderCallback.EVENT.register((matrices, tickDelta) -> {
+        // ズーム状態更新
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
 
-            MinecraftClient client = MinecraftClient.getInstance();
-
-            // プレイヤーとワールドの確認
             if (client.player == null || client.world == null) {
+                zooming = false;
                 return;
             }
-
-            // GUI表示中は描画しない
-            if (client.currentScreen != null) {
-                return;
-            }
-
-            // =================================================
-            // WEAPON CHECK
-            // =================================================
 
             boolean holdingRifle =
                     client.player.getMainHandStack().isOf(rifleItem)
                     || client.player.getOffHandStack().isOf(rifleItem);
 
-            if (!holdingRifle) {
+            zooming =
+                    holdingRifle
+                    && client.player.isSneaking()
+                    && client.currentScreen == null;
+        });
+
+        // スコープ画像描画
+        HudRenderCallback.EVENT.register((matrices, tickDelta) -> {
+
+            MinecraftClient client = MinecraftClient.getInstance();
+
+            if (client.player == null || client.world == null) {
                 return;
             }
 
-            // =================================================
-            // SNEAK CHECK
-            // =================================================
-
-            if (!client.player.isSneaking()) {
+            if (!zooming) {
                 return;
             }
-
-            // =================================================
-            // SCREEN SIZE
-            // =================================================
 
             int width = client.getWindow().getScaledWidth();
             int height = client.getWindow().getScaledHeight();
 
-            // =================================================
-            // RENDER SCOPE
-            // =================================================
-
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
 
-            // 1.19.2 Yarn対応シェーダー
             RenderSystem.setShader(
                     GameRenderer::getPositionTexShader
             );
 
-            // スコープテクスチャを指定
             RenderSystem.setShaderTexture(
                     0,
                     SCOPE_TEXTURE
             );
 
-            // 描画色を白に設定
             RenderSystem.setShaderColor(
-                    1.0F,
-                    1.0F,
-                    1.0F,
-                    1.0F
+                    1.0F, 1.0F, 1.0F, 1.0F
             );
 
-            // 画面全体にスコープを描画
             DrawableHelper.drawTexture(
                     matrices,
                     0,
@@ -112,15 +91,15 @@ public final class KruziRifleScopeOverlay {
                     height
             );
 
-            // 描画状態を復元
             RenderSystem.setShaderColor(
-                    1.0F,
-                    1.0F,
-                    1.0F,
-                    1.0F
+                    1.0F, 1.0F, 1.0F, 1.0F
             );
 
             RenderSystem.disableBlend();
         });
+    }
+
+    public static boolean isZooming() {
+        return zooming;
     }
 }
