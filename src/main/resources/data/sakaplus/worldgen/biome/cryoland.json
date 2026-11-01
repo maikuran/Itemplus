@@ -18,6 +18,12 @@
         "maxCount": 3
       },
       {
+        "type": "sakaplus:kryoson",
+        "weight": 10,
+        "minCount": 1,
+        "maxCount": 3
+      },
+      {
         "type": "sakaplus:cryomage",
         "weight": 5,
         "minCount": 1,
