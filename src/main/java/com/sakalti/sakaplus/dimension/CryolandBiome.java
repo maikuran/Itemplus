@@ -33,6 +33,10 @@ public class CryolandBiome {
         );
         spawnBuilder.spawn(
                 SpawnGroup.MONSTER,
+                new SpawnSettings.SpawnEntry(ModEntities333.KRYOSON, 10, 1, 3)
+        );
+        spawnBuilder.spawn(
+                SpawnGroup.MONSTER,
                 new SpawnSettings.SpawnEntry(ModEntities333.CRYOMAGE, 5, 1, 2)
         );
 
