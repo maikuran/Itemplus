@@ -1,7 +1,12 @@
 {
   "category.sakaplus": "Sakaplus",
   "category.sakaplus.controls": "Sakaplus 操作",
-
+  "item.sakaplus.crystalline_helmet": "クリスタラインヘルメット",
+  "item.sakaplus.crystalline_chestplate": "クリスタラインチェストプレート",
+  "item.sakaplus.crystalline_leggings": "クリスタラインレギンス",
+  "item.sakaplus.crystalline_boots": "クリスタラインブーツ",
+  "item.sakaplus.cryoflame": "クライオフレイム",
+  "item.sakaplus.obsidian_rod": "黒曜石のロッド",
   "entity.sakaplus.scorcher": "獄炎",
   "entity.sakaplus.beam_projectile": "光線体",
   "entity.sakaplus.cryosnake": "氷蛇",
