@@ -40,6 +40,7 @@ public class ModEntities333 {
     public static final EntityType<WarperdunEntity> WARPERDUN = registerEntity("warperdun", SpawnGroup.MONSTER, WarperdunEntity::new, 1.4F, 2.1F);
     public static final EntityType<OganesonEntity> OGANESON = registerEntity("oganeson", SpawnGroup.MONSTER, OganesonEntity::new, 0.6F, 1.8F);
     public static final EntityType<NyankoEntity> NYANKO = registerEntity("nyanko", SpawnGroup.MONSTER, NyankoEntity::new, 0.8F, 1.2F);
+    public static final EntityType<KryosonEntity> KRYOSON = registerEntity("kryoson", SpawnGroup.MONSTER, KryosonEntity::new, 0.8F, 0.8F);
     public static final EntityType<BattleNyankoEntity> BATTLE_NYANKO = registerEntity("battle_nyanko", SpawnGroup.MONSTER, BattleNyankoEntity::new, 0.8F, 1.2F);
     public static final EntityType<ShyronEntity> SHYRON = registerEntity("shyron", SpawnGroup.MONSTER, ShyronEntity::new, 1.5F, 1.5F, 64, 3);
     public static final EntityType<XxenaEntity> XXENA = registerEntity("xxena", SpawnGroup.MONSTER, XxenaEntity::new, 1.75F, 1.5F, 64, 3);
@@ -68,6 +69,7 @@ public class ModEntities333 {
     public static final Item CRYOFREEZER_SPAWN_EGG = registerSpawnEgg("cryofreezer_spawn_egg", CRYOFREEZER, 0x336699, 0x00FFFF, ModTabs.CYROVILIM_TAB);
     public static final Item CRYOMAGE_SPAWN_EGG = registerSpawnEgg("cryomage_spawn_egg", CRYOMAGE, 0x66CCFF, 0x2244AA, ModTabs.CYROVILIM_TAB);
     public static final Item CRYOWARRIOR_SPAWN_EGG = registerSpawnEgg("cryowarrior_spawn_egg", CRYOWARRIOR, 0x3366CC, 0x99DDFF, ModTabs.CYROVILIM_TAB);
+    public static final Item KRYOSON_SPAWN_EGG = registerSpawnEgg("kryoson_spawn_egg", KRYOSON, 0x33cccc, 0xffcc00, ModTabs.CYROVILIM_TAB);
     public static final Item CRYOBEAST_SPAWN_EGG = registerSpawnEgg("cryobeast_spawn_egg", CRYOBEAST, 0x174B8A, 0xA8E8FF, ModTabs.CYROVILIM_TAB);
     public static final Item CRYOSNAKE_SPAWN_EGG = registerSpawnEgg("cryosnake_spawn_egg", CRYOSNAKE, 0x00AA88, 0x55FFCC, ModTabs.CYROVILIM_TAB);
     public static final Item CRYOPTERYX_SPAWN_EGG = registerSpawnEgg("cryopteryx_spawn_egg", CRYOPTERYX, 0x66CCFF, 0x112255, ModTabs.CYROVILIM_TAB);
@@ -89,6 +91,7 @@ public class ModEntities333 {
         registerAttributes(CRYOSNAKE, CryoSnakeEntity.createAttributes());
         registerAttributes(CRYOPTERYX, CryopteryxEntity.createAttributes());
         registerAttributes(WARPERDUN, WarperdunEntity.createAttributes());
+        registerAttributes(KRYOSON, KryosonEntity.createAttributes());
         registerAttributes(BUSHBEAST, BushBeastEntity.createAttributes());
         registerAttributes(OGANESON, OganesonEntity.createAttributes());
         registerAttributes(NYANKO, NyankoEntity.createAttributes());
