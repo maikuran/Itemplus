@@ -21,6 +21,7 @@ public class ModItems {
     public static final Item HACHIWARI_MANJU_CHOCO = new Item(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB).food(ModFoods.HACHIWARI_MANJU_CHOCO));
     public static final Item LIGHT_STONE = new Item(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item CRYOCRYSTAL = new Item(new Item.Settings().group(ModTabs.CYROVILIM_TAB));
+    public static final Item OBSIDIAN_ROD = new Item(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
 
     public static final Item OVERSHOT = new Overshot(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item CRYO_RIFLE = new CryoRifle(new Item.Settings().group(ModTabs.CYROVILIM_TAB));
@@ -82,6 +83,7 @@ public class ModItems {
         registerItem("raw_pyronium", RAW_PYRONIUM);
         registerItem("pyronium_ingot", PYRONIUM_INGOT);
         registerItem("cloth", CLOTH);
+        registerItem("obsidian_rod", OBSIDIAN_ROD);
         registerItem("pyronium_sword", PYRONIUM_SWORD);
         registerItem("pyronium_pickaxe", PYRONIUM_PICKAXE);
         registerItem("pyronium_helmet", PYRONIUM_HELMET);
