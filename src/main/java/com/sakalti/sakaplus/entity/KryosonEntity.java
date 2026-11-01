@@ -163,7 +163,7 @@ public class KryosonEntity extends HostileEntity {
                 this,
                 target,
                 16.0F,
-                9.6F,
+                10.5F,
                 BEAM_COLOR
         );
 
