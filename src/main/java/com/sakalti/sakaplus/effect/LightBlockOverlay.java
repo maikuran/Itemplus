@@ -23,6 +23,6 @@ public class LightBlockOverlay implements ClientModInitializer {
         int height = client.getWindow().getScaledHeight();
         // fill(matrices, left, top, right, bottom, color)
         // 0xAARRGGBB形式。0xE0FFFFFFは白の80%不透明
-        client.inGameHud.fill(matrices, 0, 0, width, height, 0xE0FFFFFF);
+        client.inGameHud.fill(matrices, 0, 0, width, height, 0x33FFFFFF);
     }
 }
