@@ -1,4 +1,5 @@
 https://chatgpt.com
+https://sansansekai.miraheze.org
 https://google.com
 https://wrtn.jp/character
 https://web.blockbench.net
