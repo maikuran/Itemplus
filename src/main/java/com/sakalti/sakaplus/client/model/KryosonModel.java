@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus.client.model;
 
 import com.sakalti.sakaplus.entity.KryosonEntity;
@@ -15,8 +14,8 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
     private final ModelPart wingL;
     private final ModelPart wingR;
 
-    private final ModelPart[] membranesL = new ModelPart[8];
-    private final ModelPart[] membranesR = new ModelPart[8];
+    private final ModelPart[] membranesL = new ModelPart[4];
+    private final ModelPart[] membranesR = new ModelPart[4];
 
     public KryosonModel(ModelPart root) {
 
@@ -27,7 +26,7 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
         this.wingL = root.getChild("wing_l");
         this.wingR = root.getChild("wing_r");
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 4; i++) {
             membranesL[i] = wingL.getChild("membrane_l_" + i);
             membranesR[i] = wingR.getChild("membrane_r_" + i);
         }
@@ -40,7 +39,8 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
 
         // =====================================
         // CORE
-        // 八角柱・高さ4px
+        // 八角形コア・側面8枚のみ
+        // 高さ4px
         // =====================================
 
         ModelPartData core = root.addChild(
@@ -52,7 +52,6 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
         float radius = 3.0F;
         float sideWidth = 2.45F;
 
-        // 八角柱の8側面
         for (int i = 0; i < 8; i++) {
 
             float angle = (float) (Math.PI * 2.0 * i / 8.0);
@@ -85,27 +84,9 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
             );
         }
 
-        // 上面
-        core.addChild(
-                "core_top",
-                ModelPartBuilder.create()
-                        .uv(0, 6)
-                        .cuboid(-2.5F, -0.5F, -2.5F, 5F, 1F, 5F),
-                ModelTransform.pivot(0F, -2F, 0F)
-        );
-
-        // 下面
-        core.addChild(
-                "core_bottom",
-                ModelPartBuilder.create()
-                        .uv(12, 6)
-                        .cuboid(-2.5F, -0.5F, -2.5F, 5F, 1F, 5F),
-                ModelTransform.pivot(0F, 2F, 0F)
-        );
-
         // =====================================
         // LEFT WING
-        // コアから離して配置
+        // 羽の構造は維持して横へ移動
         // =====================================
 
         ModelPartData wingL = root.addChild(
@@ -113,23 +94,21 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
 
                 ModelPartBuilder.create()
                         .uv(0, 20)
-                        .cuboid(0F, -0.5F, -1F, 9F, 1F, 2F),
+                        .cuboid(0F, -0.5F, -1F, 7F, 1F, 2F),
 
                 ModelTransform.pivot(-6F, 11F, 0F)
         );
 
-        // 左翼の羽膜8枚
-        for (int i = 0; i < 8; i++) {
+        // 左翼の4枚の膜
+        for (int i = 0; i < 4; i++) {
 
-            float angle = (float) (Math.PI * 2.0 * i / 8.0);
-
-            float x = 2.0F + i * 0.85F;
+            float x = 1.5F + i * 1.3F;
 
             wingL.addChild(
                     "membrane_l_" + i,
 
                     ModelPartBuilder.create()
-                            .uv(0, 24 + (i % 8) * 8)
+                            .uv(0, 24 + i * 8)
                             .cuboid(
                                     0F,
                                     -0.5F,
@@ -142,10 +121,10 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
                     ModelTransform.of(
                             x,
                             0F,
+                            -0.5F,
                             0F,
-                            angle * 0.15F,
                             0F,
-                            (float) Math.toRadians(-15 - i * 5)
+                            (float) Math.toRadians(-15 - i * 8)
                     )
             );
         }
@@ -159,23 +138,21 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
 
                 ModelPartBuilder.create()
                         .uv(0, 20)
-                        .cuboid(-9F, -0.5F, -1F, 9F, 1F, 2F),
+                        .cuboid(-7F, -0.5F, -1F, 7F, 1F, 2F),
 
                 ModelTransform.pivot(6F, 11F, 0F)
         );
 
-        // 右翼の羽膜8枚
-        for (int i = 0; i < 8; i++) {
+        // 右翼の4枚の膜
+        for (int i = 0; i < 4; i++) {
 
-            float angle = (float) (Math.PI * 2.0 * i / 8.0);
-
-            float x = -2.0F - i * 0.85F;
+            float x = -1.5F - i * 1.3F;
 
             wingR.addChild(
                     "membrane_r_" + i,
 
                     ModelPartBuilder.create()
-                            .uv(0, 24 + (i % 8) * 8)
+                            .uv(0, 24 + i * 8)
                             .cuboid(
                                     -5F,
                                     -0.5F,
@@ -188,10 +165,10 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
                     ModelTransform.of(
                             x,
                             0F,
+                            -0.5F,
                             0F,
-                            -angle * 0.15F,
                             0F,
-                            (float) Math.toRadians(15 + i * 5)
+                            (float) Math.toRadians(15 + i * 8)
                     )
             );
         }
@@ -220,16 +197,21 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
 
         float time = animationProgress;
 
-        // コア：縦軸回転
+        // -----------------------------
+        // CORE ROTATION
+        // -----------------------------
+
         core.pitch = time * 0.12F;
-        core.yaw = time * 0.08F;
+        core.yaw = MathHelper.sin(time * 0.04F) * 0.12F;
         core.roll = 0F;
 
-        // 浮遊
         core.pivotY = 12F
                 + MathHelper.sin(time * 0.08F) * 0.7F;
 
-        // 羽ばたき
+        // -----------------------------
+        // WING FLAPPING
+        // -----------------------------
+
         float flapSpeed = 0.65F;
         float flapPower = 0.85F;
 
@@ -241,38 +223,35 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
         wingL.pitch = MathHelper.sin(time * flapSpeed) * 0.15F;
         wingR.pitch = -MathHelper.sin(time * flapSpeed) * 0.15F;
 
-        // 羽膜：各方向に独立した動き
-        for (int i = 0; i < 8; i++) {
+        // -----------------------------
+        // MEMBRANE ANIMATION
+        // -----------------------------
 
-            float phase = i * 0.38F;
+        for (int i = 0; i < 4; i++) {
+
+            float phase = i * 0.45F;
 
             float membraneFlap = MathHelper.sin(
                     time * flapSpeed + phase
             );
 
-            float power = 0.20F + i * 0.045F;
+            float power = 0.25F + i * 0.08F;
 
-            // 左
+            // 左翼
             membranesL[i].roll =
-                    (float) Math.toRadians(-15 - i * 5)
+                    (float) Math.toRadians(-15 - i * 8)
                             + membraneFlap * power;
 
             membranesL[i].pitch =
-                    MathHelper.cos(time * flapSpeed + phase) * 0.15F;
+                    MathHelper.cos(time * flapSpeed + phase) * 0.12F;
 
-            membranesL[i].yaw =
-                    MathHelper.sin(time * 0.4F + phase) * 0.12F;
-
-            // 右
+            // 右翼
             membranesR[i].roll =
-                    (float) Math.toRadians(15 + i * 5)
+                    (float) Math.toRadians(15 + i * 8)
                             - membraneFlap * power;
 
             membranesR[i].pitch =
-                    -MathHelper.cos(time * flapSpeed + phase) * 0.15F;
-
-            membranesR[i].yaw =
-                    -MathHelper.sin(time * 0.4F + phase) * 0.12F;
+                    -MathHelper.cos(time * flapSpeed + phase) * 0.12F;
         }
     }
 }
