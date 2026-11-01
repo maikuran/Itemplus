@@ -50,6 +50,14 @@ public class SakaplusClient implements ClientModInitializer {
             ModBlocks2.GREENY_LEAVES,
             RenderLayer.getCutout()
         );
+        EntityModelLayerRegistry.registerModelLayer(
+            KryosonRenderer.MODEL_LAYER,
+            KryosonModel::getTexturedModelData
+        );
+        EntityRendererRegistry.register(
+            ModEntities333.KRYOSON,
+            KryosonRenderer::new
+        );
 
         // Greeny Sapling
         BlockRenderLayerMap.INSTANCE.putBlock(
