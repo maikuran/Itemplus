@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "D  ",
+    "DD ",
+    "AD "
+  ],
+  "key": {
+    "D": { "item": "sakaplus:cryocrystal" },
+    "A": { "item": "sakaplus:obsidian_rod" }
+  },
+  "result": {
+    "item": "sakaplus:cryoflame",
+    "count": 1
+  }
+}
