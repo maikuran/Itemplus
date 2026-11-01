@@ -14,6 +14,9 @@ public class SakaplusSounds {
     public static final SoundEvent KruziantAmbient = register("kruziant_ambient");
     public static final SoundEvent KruziantHurt = register("kruziant_hurt");
     public static final SoundEvent KruziantDeath = register("kruziant_death");
+    public static final SoundEvent KyrosonAmbient = register("kryoson_ambient");
+    public static final SoundEvent KyrosonHurt = register("kryoson_hurt");
+    public static final SoundEvent KryosonDeath = register("kryoson_death");
 
     // 💡 シャイロン（shyron）用のサウンドイベントを追加
     public static final SoundEvent ShyronAmbient = register("shyron_ambient");
