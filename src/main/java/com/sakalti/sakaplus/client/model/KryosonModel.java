@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus.client.model;
 
 import com.sakalti.sakaplus.entity.KryosonEntity;
@@ -77,8 +76,9 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
             float x = MathHelper.sin(angle) * radius;
             float z = MathHelper.cos(angle) * radius;
 
-            int uvX = (i % 4) * 24;
-            int uvY = (i / 4) * 24;
+            // 34x17 UV領域を重ならないように配置
+            int uvX = (i % 3) * 40;
+            int uvY = (i / 3) * 18;
 
             core.addChild(
                     "core_side_" + i,
@@ -114,13 +114,14 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
 
         // =====================================
         // LEFT WING
+        // GOLDEN METAL SPAR
         // =====================================
 
         ModelPartData wingL = root.addChild(
                 "wing_l",
 
                 ModelPartBuilder.create()
-                        .uv(0, 112)
+                        .uv(80, 112)
                         .cuboid(
                                 -WING_LENGTH,
                                 -0.5F,
@@ -139,7 +140,7 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
 
         // =====================================
         // LEFT MEMBRANES
-        // 8 PIECES
+        // 8 WHITE MEMBRANE PIECES
         // =====================================
 
         for (int i = 0; i < 8; i++) {
@@ -153,7 +154,7 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
                     "membrane_l_" + i,
 
                     ModelPartBuilder.create()
-                            .uv(0, 24 + i * 10)
+                            .uv(0, 54 + i * 9)
                             .cuboid(
                                     -8F,
                                     -0.5F,
@@ -176,13 +177,14 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
 
         // =====================================
         // RIGHT WING
+        // GOLDEN METAL SPAR
         // =====================================
 
         ModelPartData wingR = root.addChild(
                 "wing_r",
 
                 ModelPartBuilder.create()
-                        .uv(0, 112)
+                        .uv(80, 116)
                         .cuboid(
                                 0F,
                                 -0.5F,
@@ -201,7 +203,7 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
 
         // =====================================
         // RIGHT MEMBRANES
-        // 8 PIECES
+        // 8 WHITE MEMBRANE PIECES
         // =====================================
 
         for (int i = 0; i < 8; i++) {
@@ -215,7 +217,7 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
                     "membrane_r_" + i,
 
                     ModelPartBuilder.create()
-                            .uv(40, 24 + i * 10)
+                            .uv(40, 54 + i * 9)
                             .cuboid(
                                     0F,
                                     -0.5F,
@@ -318,7 +320,7 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
                     time * FLAP_SPEED + phase
             );
 
-            // LEFT
+            // LEFT MEMBRANE
 
             membranesL[i].roll =
                     (float) Math.toRadians(-10F - i * 4F)
@@ -327,7 +329,7 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
             membranesL[i].pitch =
                     secondaryWave * 0.12F;
 
-            // RIGHT
+            // RIGHT MEMBRANE
 
             membranesR[i].roll =
                     (float) Math.toRadians(10F + i * 4F)
