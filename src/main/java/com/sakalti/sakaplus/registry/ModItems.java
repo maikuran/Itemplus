@@ -53,10 +53,10 @@ public class ModItems {
     public static final Item AMETHOND_LEGGINGS = new ArmorItem(ModArmorMaterials.AMETHOND, EquipmentSlot.LEGS, new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item AMETHOND_BOOTS = new ArmorItem(ModArmorMaterials.AMETHOND, EquipmentSlot.FEET, new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
 
-    public static final Item CRYSTALLINE_HELMET = new CrystallineArmorItem(ModArmorMaterials.CRYSTALLINE, EquipmentSlot.HEAD, new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
-    public static final Item CRYSTALLINE_CHESTPLATE = new CrystallineArmorItem(ModArmorMaterials.CRYSTALLINE, EquipmentSlot.CHEST, new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
-    public static final Item CRYSTALLINE_LEGGINGS = new CrystallineArmorItem(ModArmorMaterials.CRYSTALLINE, EquipmentSlot.LEGS, new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
-    public static final Item CRYSTALLINE_BOOTS = new CrystallineArmorItem(ModArmorMaterials.CRYSTALLINE, EquipmentSlot.FEET, new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
+    public static final Item CRYSTALLINE_HELMET = new CrystallineArmorItem(ModArmorMaterials.CRYSTALLINE, EquipmentSlot.HEAD, new Item.Settings().group(ModTabs.CYROVILIM_TAB));
+    public static final Item CRYSTALLINE_CHESTPLATE = new CrystallineArmorItem(ModArmorMaterials.CRYSTALLINE, EquipmentSlot.CHEST, new Item.Settings().group(ModTabs.CYROVILIM_TAB));
+    public static final Item CRYSTALLINE_LEGGINGS = new CrystallineArmorItem(ModArmorMaterials.CRYSTALLINE, EquipmentSlot.LEGS, new Item.Settings().group(ModTabs.CYROVILIM_TAB));
+    public static final Item CRYSTALLINE_BOOTS = new CrystallineArmorItem(ModArmorMaterials.CRYSTALLINE, EquipmentSlot.FEET, new Item.Settings().group(ModTabs.CYROVILIM_TAB));
 
     private static void registerItem(String name, Item item) {
         Registry.register(Registry.ITEM, new Identifier("sakaplus", name), item);
