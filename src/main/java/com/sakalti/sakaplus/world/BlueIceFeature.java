@@ -51,10 +51,6 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
 
     private final float irregularity;
 
-    // =====================================================
-    // CONSTRUCTOR
-    // =====================================================
-
     public BlueIceFeature(
             int minHeight,
             int maxHeight,
@@ -72,7 +68,7 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
     }
 
     // =====================================================
-    // FEATURE GENERATION
+    // GENERATION
     // =====================================================
 
     @Override
@@ -86,13 +82,11 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
 
         BlockPos ground = origin.down();
 
-        // Ground validation
         if (!world.getBlockState(ground)
                 .getMaterial().blocksMovement()) {
             return false;
         }
 
-        // Random dimensions
         int height = minHeight +
                 random.nextInt(maxHeight - minHeight + 1);
 
@@ -107,7 +101,6 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
                 Math.round(baseRadius * ellipse)
         );
 
-        // Slightly curved pillar
         float leanX = random.nextFloat() * 2.0F - 1.0F;
         float leanZ = random.nextFloat() * 2.0F - 1.0F;
 
@@ -119,10 +112,6 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
 
         BlockPos.Mutable pos = new BlockPos.Mutable();
 
-        // =================================================
-        // PILLAR LAYERS
-        // =================================================
-
         for (int y = 0; y < height; y++) {
 
             float progress = y / (float) (height - 1);
@@ -133,12 +122,11 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
                     0.76F
             );
 
-            // Wider bottom shoulder
+            // Wider bottom
             float baseFlare =
                     1.0F + 0.13F *
                     (float) Math.exp(-y / 3.5F);
 
-            // Small natural variations per layer
             float layerNoise =
                     (random.nextFloat() - 0.5F) *
                     irregularity;
@@ -155,19 +143,12 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
                     (1.0F + layerNoise)
             );
 
-            // Slightly irregular centerline
-            float centerX =
-                    leanX * progress * progress;
-
-            float centerZ =
-                    leanZ * progress * progress;
+            // Curved centerline
+            float centerX = leanX * progress * progress;
+            float centerZ = leanZ * progress * progress;
 
             int extentX = (int) Math.ceil(currentRadiusX + 1);
             int extentZ = (int) Math.ceil(currentRadiusZ + 1);
-
-            // =============================================
-            // IRREGULAR ELLIPTICAL CROSS SECTION
-            // =============================================
 
             for (int x = -extentX; x <= extentX; x++) {
 
@@ -186,7 +167,6 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
 
                     float angle = (float) Math.atan2(dz, dx);
 
-                    // Multiple scales of natural edge detail
                     float edgeNoise =
                             (float) Math.sin(angle * 3.0F + phase)
                                     * 0.075F
@@ -210,8 +190,9 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
 
                     BlockState existing = world.getBlockState(pos);
 
-                    // Preserve terrain and existing structures
-                    if (existing.isAir() || existing.isReplaceable()) {
+                    // FIX: Fabric 1.19.2 / Yarn
+                    if (existing.isAir() ||
+                            existing.getMaterial().isReplaceable()) {
 
                         world.setBlockState(
                                 pos,
@@ -227,7 +208,7 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
     }
 
     // =====================================================
-    // FEATURE REGISTRATION
+    // REGISTRATION
     // =====================================================
 
     public static void register() {
@@ -258,7 +239,7 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
     }
 
     // =====================================================
-    // CONFIGURED + PLACED + BIOME REGISTRATION
+    // CONFIGURED + PLACED FEATURE REGISTRATION
     // =====================================================
 
     private static void registerVariant(
@@ -273,7 +254,7 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
 
         Identifier id = new Identifier(MOD_ID, name);
 
-        // 1. Register custom Feature
+        // Feature
         BlueIceFeature feature = Registry.register(
                 Registry.FEATURE,
                 id,
@@ -286,7 +267,7 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
                 )
         );
 
-        // 2. Configured Feature
+        // Configured Feature
         ConfiguredFeature<DefaultFeatureConfig, BlueIceFeature>
                 configured = new ConfiguredFeature<>(
                         feature,
@@ -300,7 +281,7 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
                         (ConfiguredFeature<?, ?>) configured
                 );
 
-        // 3. Placement modifiers
+        // Placement
         List<PlacementModifier> modifiers = Arrays.asList(
                 RarityFilterPlacementModifier.of(rarity),
                 SquarePlacementModifier.of(),
@@ -310,7 +291,7 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
                 BiomePlacementModifier.of()
         );
 
-        // 4. Placed Feature
+        // Placed Feature
         PlacedFeature placed = new PlacedFeature(
                 configuredEntry,
                 modifiers
@@ -322,7 +303,7 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
                 placed
         );
 
-        // 5. Overworld biome registration
+        // Biome registration
         RegistryKey<PlacedFeature> placedKey =
                 RegistryKey.of(
                         Registry.PLACED_FEATURE_KEY,
