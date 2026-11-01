@@ -222,5 +222,11 @@
   "advancement.sakaplus.get_pyronium_ingot.title": "Hot Stuff",
   "advancement.sakaplus.get_pyronium_ingot.desc": "Obtain a Pyronium Ingot.",
   "advancement.sakaplus.get_shining_staff.title": "Radiant Power",
-  "advancement.sakaplus.get_shining_staff.desc": "Obtain a Shining Staff."
+  "advancement.sakaplus.get_shining_staff.desc": "Obtain a Shining Staff.",
+  "item.sakaplus.crystalline_helmet": "Crystalline Helmet",
+  "item.sakaplus.crystalline_chestplate": "Crystalline Chestplate",
+  "item.sakaplus.crystalline_leggings": "Crystalline Leggings",
+  "item.sakaplus.crystalline_boots": "Crystalline Boots",
+  "item.sakaplus.cryoflame": "Cryoflame",
+  "item.sakaplus.obsidian_rod": "Obsidian Rod"
 }
