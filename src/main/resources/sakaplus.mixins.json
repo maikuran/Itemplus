@@ -6,7 +6,9 @@
   "mixins": [
     "AdaptationMixin",
     "EntityAttributeInstanceMixin",
-    "PlayerAttributeMixin"
+    "PlayerAttributeMixin",
+    "ParalyzeLivingMixin",
+    "ParalyzeMobMixin"
   ],
   "injectors": {
     "defaultRequire": 1
