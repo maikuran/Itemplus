@@ -42,7 +42,7 @@ public class ModItems {
     public static final Item ROSITE_INGOT = new Item(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item ROSITE_SWORD = new SwordItem(ModToolMaterials.ROSITE, 0, -2.4F, new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item ROSITE_PICKAXE = new PickaxeItem(ModToolMaterials.ROSITE, -2, -2.8F, new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
-    public static final Item　SULFUR_INGOT = new Item(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
+    public static final Item SULFUR_INGOT = new Item(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
     public static final Item SULFUR_SWORD = new SwordItem(ModToolMaterials.SULFUR, 0, -2.4F, new Item.Settings().group(ModTabs.VOLCANOS_TAB));
     public static final Item SULFUR_PICKAXE = new PickaxeItem(ModToolMaterials.SULFUR, -2, -2.8F, new Item.Settings().group(ModTabs.VOLCANOS_TAB));
 
