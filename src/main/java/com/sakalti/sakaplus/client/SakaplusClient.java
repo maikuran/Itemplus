@@ -50,14 +50,6 @@ public class SakaplusClient implements ClientModInitializer {
             ModBlocks2.GREENY_LEAVES,
             RenderLayer.getCutout()
         );
-        EntityModelLayerRegistry.registerModelLayer(
-            KryosonRenderer.MODEL_LAYER,
-            KryosonModel::getTexturedModelData
-        );
-        EntityRendererRegistry.register(
-            ModEntities333.KRYOSON,
-            KryosonRenderer::new
-        );
 
         // Greeny Sapling
         BlockRenderLayerMap.INSTANCE.putBlock(
@@ -98,11 +90,11 @@ public class SakaplusClient implements ClientModInitializer {
             ModEntities333.SHYRON,
             ShyronRenderer::new
         );
+
         EntityRendererRegistry.register(
             ModEntities333.BUSHBEAST,
             BushBeastRenderer::new
         );
-
 
         EntityRendererRegistry.register(
             ModEntities333.XXENA,
@@ -173,6 +165,24 @@ public class SakaplusClient implements ClientModInitializer {
             ModEntities333.OGANESON,
             OganesonRenderer::new
         );
+
+        // Kryoson
+        EntityRendererRegistry.register(
+            ModEntities333.KRYOSON,
+            KryosonRenderer::new
+        );
+
+        // Phosphoran
+        EntityRendererRegistry.register(
+            ModEntities333.PHOSPHORAN,
+            PhosphoranRenderer::new
+        );
+
+        // Sulfan
+        EntityRendererRegistry.register(
+            ModEntities333.SULFAN,
+            SulfanRenderer::new
+        );
     }
 
     // =====================================================
@@ -185,6 +195,7 @@ public class SakaplusClient implements ClientModInitializer {
             ScorcherRenderer.MODEL_LAYER,
             ScorcherModel::getTexturedModelData
         );
+
         registerLayer(
             BushBeastRenderer.MODEL_LAYER,
             BushBeastModel::getTexturedModelData
@@ -263,6 +274,24 @@ public class SakaplusClient implements ClientModInitializer {
         registerLayer(
             XxenaRenderer.MODEL_LAYER,
             XxenaModel::getTexturedModelData
+        );
+
+        // Kryoson
+        registerLayer(
+            KryosonRenderer.MODEL_LAYER,
+            KryosonModel::getTexturedModelData
+        );
+
+        // Phosphoran
+        registerLayer(
+            PhosphoranRenderer.MODEL_LAYER,
+            PhosphoranModel::getTexturedModelData
+        );
+
+        // Sulfan
+        registerLayer(
+            SulfanRenderer.MODEL_LAYER,
+            SulfanModel::getTexturedModelData
         );
     }
 
