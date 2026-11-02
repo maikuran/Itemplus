@@ -18,4 +18,8 @@ public class ModTabs {
         new Identifier("sakaplus", "cyrovilim"),
         () -> new ItemStack(Weapons.ICE_GREATBLADE)
     );
+    public static final ItemGroup VOLCANOS_TAB = FabricItemGroupBuilder.build(
+        new Identifier("sakaplus", "volcanos"),
+        () -> new ItemStack(Weapons.SULFUR_SWORD)
+    );
 }
