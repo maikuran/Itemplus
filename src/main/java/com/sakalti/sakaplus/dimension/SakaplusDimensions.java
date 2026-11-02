@@ -23,6 +23,11 @@ public class SakaplusDimensions {
     public static final RegistryKey<DimensionType> KRUZIVILIM_DIMENSION_TYPE_KEY = 
             registerDimensionTypeKey("kruzivilim");
 
+    public static final RegistryKey<World> VOLCANOS_DIMENSION_KEY = 
+            registerWorldKey("volcanos");
+    public static final RegistryKey<DimensionType> VOLCANOS_DIMENSION_TYPE_KEY = 
+            registerDimensionTypeKey("volcanos");
+
     // クライオヴィリム用のディメンションキーを追加
     public static final RegistryKey<World> CRYOVILIM_DIMENSION_KEY = 
             registerWorldKey("cryovilim");
@@ -38,12 +43,16 @@ public class SakaplusDimensions {
             registerBiomeKey("greenforest");
     public static final RegistryKey<Biome> CRYOLAND_BIOME_KEY = 
             registerBiomeKey("cryoland");
+    public static final RegistryKey<Biome> VOLCANOS_BIOME_KEY = 
+            registerBiomeKey("volcanos");
 
     // ==========================================
     // 3. ノイズ設定（チャンク生成）用のキー
     // ==========================================
     public static final RegistryKey<ChunkGeneratorSettings> KRUZIVILIM_NOISE_SETTINGS_KEY = 
             registerNoiseSettingsKey("kruzivilim_noise");
+    public static final RegistryKey<ChunkGeneratorSettings> VOLCANOS_NOISE_SETTINGS_KEY = 
+            registerNoiseSettingsKey("volcanos_noise");
     public static final RegistryKey<ChunkGeneratorSettings> CRYOLAND_NOISE_SETTINGS_KEY = 
             registerNoiseSettingsKey("cryoland_noise");
 
