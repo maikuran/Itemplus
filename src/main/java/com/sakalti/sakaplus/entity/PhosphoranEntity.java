@@ -80,7 +80,20 @@ public class PhosphoranEntity extends HostileEntity {
                 )
         );
     }
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SakaplusSounds.VolcanosAmbient;
+    }
 
+    @Override
+    protected SoundEvent getHurtSound(net.minecraft.entity.damage.DamageSource source) {
+        return SakaplusSounds.VolcanosHurt;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SakaplusSounds.VolcanosDeath;
+    }
     public static DefaultAttributeContainer.Builder createAttributes() {
         return MobEntity.createMobAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 108.0D)
