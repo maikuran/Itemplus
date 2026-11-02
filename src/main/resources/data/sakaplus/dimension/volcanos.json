@@ -1,0 +1,11 @@
+{
+  "type": "sakaplus:volcanos",
+  "generator": {
+    "type": "minecraft:noise",
+    "settings": "sakaplus:volcanos_noise",
+    "biome_source": {
+      "type": "minecraft:fixed",
+      "biome": "sakaplus:volcanos"
+    }
+  }
+}
