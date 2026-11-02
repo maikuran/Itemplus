@@ -64,8 +64,7 @@
   "kryoson_ambient": {
     "subtitle": "subtitles.sakaplus.kryoson_ambient",
     "sounds": [
-      "sakaplus:kryoson_ambient1",
-      "sakaplus:kryoson_ambient2"
+      "sakaplus:kryoson_ambient"
     ]
   },
   "kryoson_hurt": {
