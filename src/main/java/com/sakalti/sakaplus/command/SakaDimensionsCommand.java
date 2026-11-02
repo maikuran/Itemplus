@@ -1,9 +1,11 @@
+
 package com.sakalti.sakaplus.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import com.sakalti.sakaplus.dimension.SakaplusDimensions;
 import com.sakalti.sakaplus.sound.SakaplusSounds;
 import com.sakalti.sakaplus.registry.ModItems;
+
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.particle.ParticleTypes;
@@ -16,29 +18,37 @@ import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
-import net.minecraft.util.registry.RegistryKey; // 1.19.2以前の正しいパッケージ名
+import net.minecraft.util.registry.RegistryKey;
 
 public class SakaDimensionsCommand {
 
     private static final String KRUZIVILIM_VISITED_TAG = "has_visited_kruzivilim";
     private static final String CRYOVILIM_VISITED_TAG = "has_visited_cryovilim";
+    private static final String VOLCANOS_VISITED_TAG = "has_visited_volcanos";
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
         dispatcher.register(CommandManager.literal("sakaplus")
             .requires(source -> source.hasPermissionLevel(0))
-            
+
             .then(CommandManager.literal("kruzivilim")
                 .then(CommandManager.literal("iku")
                     .executes(ctx -> teleportKruzivilim(ctx.getSource(), true)))
                 .then(CommandManager.literal("modoru")
                     .executes(ctx -> teleportKruzivilim(ctx.getSource(), false)))
             )
-            
+
             .then(CommandManager.literal("cryovilim")
                 .then(CommandManager.literal("iku")
                     .executes(ctx -> teleportCryovilim(ctx.getSource(), true)))
                 .then(CommandManager.literal("modoru")
                     .executes(ctx -> teleportCryovilim(ctx.getSource(), false)))
+            )
+
+            .then(CommandManager.literal("volcanos")
+                .then(CommandManager.literal("iku")
+                    .executes(ctx -> teleportVolcanos(ctx.getSource(), true)))
+                .then(CommandManager.literal("modoru")
+                    .executes(ctx -> teleportVolcanos(ctx.getSource(), false)))
             )
         );
     }
@@ -50,22 +60,26 @@ public class SakaDimensionsCommand {
             return 0;
         }
 
-        // getScoreboardTags() に修正
         if (toKruzivilim && !player.getScoreboardTags().contains(KRUZIVILIM_VISITED_TAG)) {
             int required = 3;
-            int netheriteCount = countItems(player, Items.NETHERITE_INGOT);
-            if (netheriteCount < required) {
-                player.sendMessage(Text.of("§c初回移動にはネザライトインゴットが3個必要です。現在: " + netheriteCount + "個"), false);
+            int count = countItems(player, Items.NETHERITE_INGOT);
+
+            if (count < required) {
+                player.sendMessage(Text.of("§c初回移動にはネザライトインゴットが3個必要です。現在: " + count + "個"), false);
                 return 0;
             }
+
             removeItems(player, Items.NETHERITE_INGOT, required);
-            player.addScoreboardTag(KRUZIVILIM_VISITED_TAG); // addScoreboardTag() に修正
+            player.addScoreboardTag(KRUZIVILIM_VISITED_TAG);
             player.sendMessage(Text.of("§6ネザライトインゴットを3個捧げ、扉が開かれました…"), false);
         }
 
-        return executeTeleport(source, player, 
-            toKruzivilim ? SakaplusDimensions.KRUZIVILIM_DIMENSION_KEY : World.OVERWORLD, 
-            toKruzivilim ? "§6クルジヴィリムへ移動しました。" : "§6元の世界に戻りました。");
+        return executeTeleport(
+            source,
+            player,
+            toKruzivilim ? SakaplusDimensions.KRUZIVILIM_DIMENSION_KEY : World.OVERWORLD,
+            toKruzivilim ? "§6クルジヴィリムへ移動しました。" : "§6元の世界に戻りました。"
+        );
     }
 
     private static int teleportCryovilim(ServerCommandSource source, boolean toCryovilim) {
@@ -75,55 +89,153 @@ public class SakaDimensionsCommand {
             return 0;
         }
 
-        // getScoreboardTags() に修正
         if (toCryovilim && !player.getScoreboardTags().contains(CRYOVILIM_VISITED_TAG)) {
             int required = 24;
-            int ingotCount = countItems(player, ModItems.PYRONIUM_INGOT);
-            if (ingotCount < required) {
-                player.sendMessage(Text.of("§c初回移動にはパイロニウムインゴットが24個必要です。現在: " + ingotCount + "個"), false);
+            int count = countItems(player, ModItems.PYRONIUM_INGOT);
+
+            if (count < required) {
+                player.sendMessage(Text.of("§c初回移動にはパイロニウムインゴットが24個必要です。現在: " + count + "個"), false);
                 return 0;
             }
+
             removeItems(player, ModItems.PYRONIUM_INGOT, required);
-            player.addScoreboardTag(CRYOVILIM_VISITED_TAG); // addScoreboardTag() に修正
+            player.addScoreboardTag(CRYOVILIM_VISITED_TAG);
             player.sendMessage(Text.of("§aパイロニウムインゴットを24個捧げ、扉が開かれました…"), false);
         }
 
-        return executeTeleport(source, player, 
-            toCryovilim ? SakaplusDimensions.CRYOVILIM_DIMENSION_KEY : World.OVERWORLD, 
-            toCryovilim ? "§bクライオヴィリムへ移動しました。" : "§6元の世界に戻りました。");
+        return executeTeleport(
+            source,
+            player,
+            toCryovilim ? SakaplusDimensions.CRYOVILIM_DIMENSION_KEY : World.OVERWORLD,
+            toCryovilim ? "§bクライオヴィリムへ移動しました。" : "§6元の世界に戻りました。"
+        );
     }
 
-    private static int executeTeleport(ServerCommandSource source, ServerPlayerEntity player, RegistryKey<World> targetDimension, String successMessage) {
+    // =====================================================
+    // Volcanos
+    // =====================================================
+
+    private static int teleportVolcanos(ServerCommandSource source, boolean toVolcanos) {
+        ServerPlayerEntity player = source.getPlayer();
+
+        if (player == null) {
+            source.sendError(Text.of("§cこのコマンドはプレイヤー専用です。"));
+            return 0;
+        }
+
+        if (toVolcanos && !player.getScoreboardTags().contains(VOLCANOS_VISITED_TAG)) {
+            int required = 21;
+            int count = countItems(player, ModItems.CRYOCRYSTAL);
+
+            if (count < required) {
+                player.sendMessage(
+                    Text.of("§c初回移動にはクライオクリスタルが21個必要です。現在: " + count + "個"),
+                    false
+                );
+                return 0;
+            }
+
+            removeItems(player, ModItems.CRYOCRYSTAL, required);
+            player.addScoreboardTag(VOLCANOS_VISITED_TAG);
+
+            player.sendMessage(
+                Text.of("§bクライオクリスタルを21個捧げ、火山世界への扉が開かれました…"),
+                false
+            );
+        }
+
+        return executeTeleport(
+            source,
+            player,
+            toVolcanos
+                ? SakaplusDimensions.VOLCANOS_DIMENSION_KEY
+                : World.OVERWORLD,
+            toVolcanos
+                ? "§6火山世界 Volcanos へ移動しました。"
+                : "§6元の世界に戻りました。"
+        );
+    }
+
+    // =====================================================
+    // Teleport
+    // =====================================================
+
+    private static int executeTeleport(
+        ServerCommandSource source,
+        ServerPlayerEntity player,
+        RegistryKey<World> targetDimension,
+        String successMessage
+    ) {
         ServerWorld currentWorld = source.getWorld();
         ServerWorld targetWorld = player.getServer().getWorld(targetDimension);
-        
+
         if (targetWorld == null) {
             player.sendMessage(Text.of("§cテレポート先ワールドが見つかりません。"), false);
             return 0;
         }
 
-        currentWorld.playSound(null, player.getX(), player.getY(), player.getZ(), 
-            SakaplusSounds.StaffUse, SoundCategory.PLAYERS, 1.0F, 1.2F);
-        currentWorld.spawnParticles(ParticleTypes.PORTAL, player.getX(), player.getY() + 1.0D, player.getZ(), 
-            30, 0.5D, 0.5D, 0.5D, 0.5D);
+        currentWorld.playSound(
+            null,
+            player.getX(), player.getY(), player.getZ(),
+            SakaplusSounds.StaffUse,
+            SoundCategory.PLAYERS,
+            1.0F,
+            1.2F
+        );
+
+        currentWorld.spawnParticles(
+            ParticleTypes.PORTAL,
+            player.getX(), player.getY() + 1.0D, player.getZ(),
+            30,
+            0.5D, 0.5D, 0.5D,
+            0.5D
+        );
 
         BlockPos currentPos = player.getBlockPos();
-        int targetY = targetWorld.getTopY(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, currentPos.getX(), currentPos.getZ());
+
+        int targetY = targetWorld.getTopY(
+            Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,
+            currentPos.getX(),
+            currentPos.getZ()
+        );
 
         if (targetY <= targetWorld.getBottomY()) {
             targetY = currentPos.getY();
         }
 
-        player.teleport(targetWorld, currentPos.getX(), targetY, currentPos.getZ(), player.getYaw(), player.getPitch());
-        
-        targetWorld.playSound(null, player.getX(), player.getY(), player.getZ(), 
-            SakaplusSounds.StaffUse, SoundCategory.PLAYERS, 1.0F, 1.0F);
-        targetWorld.spawnParticles(ParticleTypes.REVERSE_PORTAL, player.getX(), player.getY() + 1.0D, player.getZ(), 
-            30, 0.5D, 0.5D, 0.5D, 0.5D);
+        player.teleport(
+            targetWorld,
+            currentPos.getX(),
+            targetY,
+            currentPos.getZ(),
+            player.getYaw(),
+            player.getPitch()
+        );
+
+        targetWorld.playSound(
+            null,
+            player.getX(), player.getY(), player.getZ(),
+            SakaplusSounds.StaffUse,
+            SoundCategory.PLAYERS,
+            1.0F,
+            1.0F
+        );
+
+        targetWorld.spawnParticles(
+            ParticleTypes.REVERSE_PORTAL,
+            player.getX(), player.getY() + 1.0D, player.getZ(),
+            30,
+            0.5D, 0.5D, 0.5D,
+            0.5D
+        );
 
         player.sendMessage(Text.of(successMessage), false);
         return 1;
     }
+
+    // =====================================================
+    // Inventory
+    // =====================================================
 
     private static int countItems(ServerPlayerEntity player, Item item) {
         return player.getInventory().main.stream()
@@ -134,13 +246,18 @@ public class SakaDimensionsCommand {
 
     private static void removeItems(ServerPlayerEntity player, Item item, int amount) {
         int remaining = amount;
+
         for (int i = 0; i < player.getInventory().main.size(); i++) {
             var stack = player.getInventory().main.get(i);
+
             if (stack != null && stack.getItem() == item) {
                 int take = Math.min(stack.getCount(), remaining);
                 stack.decrement(take);
                 remaining -= take;
-                if (remaining <= 0) break;
+
+                if (remaining <= 0) {
+                    break;
+                }
             }
         }
     }
