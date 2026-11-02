@@ -73,8 +73,8 @@ public final class ModBlocks2 {
     // Rosite
     public static final Block ROSITE_ORE=reg("rosite_ore",new Block(stone(4,6).requiresTool()));
     public static final Block ROSITE_BLOCK=reg("rosite_block",new Block(AbstractBlock.Settings.of(Material.METAL).strength(6,8).requiresTool().sounds(BlockSoundGroup.METAL)));
-    public static final Block SULFUR_ORE=reg("sulfur_ore",new Block(stone(5,6.5).requiresTool()));
-    public static final Block SULFUR_BLOCK=reg("sulfur_block",new Block(AbstractBlock.Settings.of(Material.METAL).strength(9,12.5).requiresTool().sounds(BlockSoundGroup.METAL)));
+    public static final Block SULFUR_ORE=reg("sulfur_ore",new Block(stone(5,6.5f).requiresTool()));
+    public static final Block SULFUR_BLOCK=reg("sulfur_block",new Block(AbstractBlock.Settings.of(Material.METAL).strength(9,12.5f).requiresTool().sounds(BlockSoundGroup.METAL)));
 
 
     // Kruzi Grass
