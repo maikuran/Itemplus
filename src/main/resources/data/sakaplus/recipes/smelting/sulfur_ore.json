@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "sakaplus:sulfur_ore"
+  },
+  "result": "sakaplus:sulfur_ingot",
+  "experience": 6.5,
+  "cookingtime": 200
+}
