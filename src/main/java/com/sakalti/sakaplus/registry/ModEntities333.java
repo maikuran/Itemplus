@@ -109,10 +109,10 @@ public class ModEntities333 {
 
     // VOLCANOS
     public static final EntityType<PhosphoranEntity> PHOSPHORAN =
-            registerEntity("phosphoran", SpawnGroup.MONSTER, PhosphoranEntity::new, 0.8F, 1.8F, 64, 3);
+            registerEntity("phosphoran", SpawnGroup.MONSTER, PhosphoranEntity::new, 0.8F, 1.5F, 64, 3);
 
     public static final EntityType<SulfanEntity> SULFAN =
-            registerEntity("sulfan", SpawnGroup.MONSTER, SulfanEntity::new, 0.9F, 1.8F, 64, 3);
+            registerEntity("sulfan", SpawnGroup.MONSTER, SulfanEntity::new, 1.0F, 1.3F, 64, 3);
 
 
     // ==================================================
