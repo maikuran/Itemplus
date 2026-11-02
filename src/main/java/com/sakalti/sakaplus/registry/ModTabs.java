@@ -20,6 +20,6 @@ public class ModTabs {
     );
     public static final ItemGroup VOLCANOS_TAB = FabricItemGroupBuilder.build(
         new Identifier("sakaplus", "volcanos"),
-        () -> new ItemStack(Weapons.SULFUR_SWORD)
+        () -> new ItemStack(ModItems.SULFUR_SWORD)
     );
 }
