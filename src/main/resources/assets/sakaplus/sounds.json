@@ -42,6 +42,25 @@
       "sakaplus:kruziant_death"
     ]
   },
+  "volcanos_ambient": {
+    "subtitle": "subtitles.sakaplus.volcanos_ambient",
+    "sounds": [
+      "sakaplus:volcanos_ambient1",
+      "sakaplus:volcanos_ambient2"
+    ]
+  },
+  "volcanos_hurt": {
+    "subtitle": "subtitles.sakaplus.volcanos_hurt",
+    "sounds": [
+      "sakaplus:volcanos_hurt"
+    ]
+  },
+  "volcanos_death": {
+    "subtitle": "subtitles.sakaplus.volcanos_death",
+    "sounds": [
+      "sakaplus:volcanos_death"
+    ]
+  },
   "kryoson_ambient": {
     "subtitle": "subtitles.sakaplus.kryoson_ambient",
     "sounds": [
