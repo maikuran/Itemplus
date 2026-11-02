@@ -2,6 +2,8 @@
 package com.sakalti.sakaplus.entity;
 
 import net.minecraft.entity.EntityType;
+import net.minecraft.sound.SoundEvent;
+import com.sakalti.sakaplus.sound.SakaplusSounds;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
