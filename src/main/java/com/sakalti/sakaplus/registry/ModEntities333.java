@@ -207,10 +207,10 @@ public class ModEntities333 {
     // VOLCANOS
 
     public static final Item PHOSPHORAN_SPAWN_EGG =
-            registerSpawnEgg("phosphoran_spawn_egg", PHOSPHORAN, 0xE6D85C, 0xFF8800, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
+            registerSpawnEgg("phosphoran_spawn_egg", PHOSPHORAN, 0xE6D85C, 0xFF8800, ModTabs.VOLCANOS_TAB);
 
     public static final Item SULFAN_SPAWN_EGG =
-            registerSpawnEgg("sulfan_spawn_egg", SULFAN, 0xD9B52B, 0x553311, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
+            registerSpawnEgg("sulfan_spawn_egg", SULFAN, 0xD9B52B, 0x553311, ModTabs.VOLCANOS_TAB);
 
 
     // ==================================================
