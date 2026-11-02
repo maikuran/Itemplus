@@ -11,7 +11,7 @@ public enum ModToolMaterials implements ToolMaterial {
             () -> Ingredient.ofItems(ModItems.PYRONIUM_INGOT)),
 
 
-    SULFUR(3, 971, 10.0F, 12.0F, 15,
+    SULFUR(3, 971, 12.0F, 12.0F, 15,
             () -> Ingredient.ofItems(ModItems.SULFUR_INGOT)),
 
     DANDELITE(3, 400, 6.5F, 6.5F, 12,
