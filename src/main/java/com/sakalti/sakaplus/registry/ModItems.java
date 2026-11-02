@@ -104,6 +104,9 @@ public class ModItems {
         registerItem("dandelite_ingot", DANDELITE_INGOT);
         registerItem("dandelite_sword", DANDELITE_SWORD);
         registerItem("dandelite_pickaxe", DANDELITE_PICKAXE);
+        registerItem("sulfur_ingot", SULFUR_INGOT);
+        registerItem("sulfur_sword", SULFUR_SWORD);
+        registerItem("sulfur_pickaxe", SULFUR_PICKAXE);
         registerItem("rosite_ingot", ROSITE_INGOT);
         registerItem("rosite_sword", ROSITE_SWORD);
         registerItem("rosite_pickaxe", ROSITE_PICKAXE);
