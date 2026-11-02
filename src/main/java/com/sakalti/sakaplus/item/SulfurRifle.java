@@ -6,8 +6,6 @@ import com.sakalti.sakaplus.sound.SakaplusSounds;
 import com.sakalti.sakaplus.client.item.GunRecoil;
 
 import net.minecraft.client.item.TooltipContext;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
@@ -44,6 +42,10 @@ public class SulfurRifle extends Item {
     // FIRE
 
     public static final int FIRE_SECONDS = 5;
+
+    // OPTIONAL INVULNERABILITY RESET
+
+    public static final boolean RESET_INVULNERABILITY = true;
 
     private static final String AMMO_KEY = "ammo";
 
@@ -146,7 +148,7 @@ public class SulfurRifle extends Item {
                 BEAM_SPEED,
                 BEAM_DAMAGE,
                 BEAM_COLOR,
-                false
+                RESET_INVULNERABILITY
         );
 
         // DECREASE AMMO
@@ -314,6 +316,11 @@ public class SulfurRifle extends Item {
 
         tooltip.add(Text.of(
                 "反動: 普通"
+        ));
+
+        tooltip.add(Text.of(
+                "無敵時間リセット: "
+                        + (RESET_INVULNERABILITY ? "ON" : "OFF")
         ));
     }
 }
