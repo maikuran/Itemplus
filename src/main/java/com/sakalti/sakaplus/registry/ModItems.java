@@ -24,6 +24,7 @@ public class ModItems {
     public static final Item OBSIDIAN_ROD = new Item(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
 
     public static final Item OVERSHOT = new Overshot(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
+    public static final Item SULFUR_RIFLE = new SulfurRifle(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
     public static final Item CRYO_RIFLE = new CryoRifle(new Item.Settings().group(ModTabs.CYROVILIM_TAB));
     public static final Item KRUZI_RIFLE = new KruziRifle(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item LEATHERGRIP = new Leathergrip(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
