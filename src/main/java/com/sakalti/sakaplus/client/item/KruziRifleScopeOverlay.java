@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus.client.item;
 
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -6,6 +5,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.option.Perspective;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
@@ -24,8 +24,11 @@ public final class KruziRifleScopeOverlay {
             );
 
     public static final double ZOOM_MULTIPLIER = 4.0;
+    private static final double ZOOM_TRANSITION_SECONDS = 0.12;
 
     private static boolean zooming = false;
+    private static double zoomProgress = 0.0;
+    private static long lastZoomUpdateNanos = System.nanoTime();
 
     public static void register(Item rifleItem) {
 
@@ -44,7 +47,8 @@ public final class KruziRifleScopeOverlay {
             zooming =
                     holdingRifle
                     && client.player.isSneaking()
-                    && client.currentScreen == null;
+                    && client.currentScreen == null
+                    && client.options.getPerspective() == Perspective.FIRST_PERSON;
         });
 
         // スコープ画像描画
@@ -52,11 +56,14 @@ public final class KruziRifleScopeOverlay {
 
             MinecraftClient client = MinecraftClient.getInstance();
 
-            if (client.player == null || client.world == null) {
+            if (client.player == null
+                    || client.world == null
+                    || client.options.getPerspective() != Perspective.FIRST_PERSON) {
                 return;
             }
 
-            if (!zooming) {
+            double progress = getZoomProgress();
+            if (progress <= 0.0) {
                 return;
             }
 
@@ -76,7 +83,7 @@ public final class KruziRifleScopeOverlay {
             );
 
             RenderSystem.setShaderColor(
-                    1.0F, 1.0F, 1.0F, 1.0F
+                    1.0F, 1.0F, 1.0F, (float) progress
             );
 
             DrawableHelper.drawTexture(
@@ -97,6 +104,23 @@ public final class KruziRifleScopeOverlay {
 
             RenderSystem.disableBlend();
         });
+    }
+
+    /** Returns the eased zoom amount, from 0.0 (off) to 1.0 (fully zoomed). */
+    public static double getZoomProgress() {
+        long now = System.nanoTime();
+        double deltaSeconds = (now - lastZoomUpdateNanos) / 1_000_000_000.0;
+        lastZoomUpdateNanos = now;
+
+        double target = zooming ? 1.0 : 0.0;
+        double blend = 1.0 - Math.exp(-deltaSeconds / ZOOM_TRANSITION_SECONDS);
+        zoomProgress += (target - zoomProgress) * blend;
+
+        if (Math.abs(target - zoomProgress) < 0.001) {
+            zoomProgress = target;
+        }
+
+        return zoomProgress;
     }
 
     public static boolean isZooming() {
