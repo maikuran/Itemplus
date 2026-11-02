@@ -3,6 +3,8 @@
   "values": [
     "sakaplus:pyronium_block",
     "sakaplus:pyronium_ore",
+    "sakaplus:sulfur_block",
+    "sakaplus:sulfur_ore",
     "sakaplus:dandelite_block",
     "sakaplus:dandelite_ore",
     "sakaplus:rosite_block",
