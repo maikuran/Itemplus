@@ -8,6 +8,8 @@ import net.minecraft.entity.ai.goal.LookAroundGoal;
 import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
+import net.minecraft.sound.SoundEvent;
+import com.sakalti.sakaplus.sound.SakaplusSounds;
 import net.minecraft.entity.ai.goal.WanderAroundFarGoal;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
