@@ -2,6 +2,20 @@
 {
   "category.sakaplus": "Sakaplus",
   "category.sakaplus.controls": "Sakaplus Controls",
+  "item.sakaplus.sulphur_ingot": "Sulphur Ingot",
+  "block.sakaplus.sulphur_ore": "Sulphur Ore",
+  "block.sakaplus.sulphur_block": "Block of Sulphur",
+  "item.sakaplus.sulphur_sword": "Sulphur Sword",
+  "item.sakaplus.sulphur_pickaxe": "Sulphur Pickaxe",
+
+  "entity.sakaplus.phosphoran": "Phosphoran",
+  "item.sakaplus.phosphoran_spawn_egg": "Phosphoran Spawn Egg",
+
+  "entity.sakaplus.sulfan": "Sulfan",
+  "item.sakaplus.sulfan_spawn_egg": "Sulfan Spawn Egg",
+
+  "advancement.sakaplus.visit_volcanos.title": "Land of Flames",
+  "advancement.sakaplus.visit_volcanos.desc": "Visit the volcanic lands.",
 
   "entity.sakaplus.scorcher": "Scorcher",
   "entity.sakaplus.kryoson": "Kryoson",
