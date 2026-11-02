@@ -1,5 +1,19 @@
 {
   "category.sakaplus": "Sakaplus",
+  "item.sakaplus.sulphur_ingot": "硫黄インゴット",
+  "block.sakaplus.sulphur_ore": "硫黄鉱石",
+  "block.sakaplus.sulphur_block": "硫黄ブロック",
+  "item.sakaplus.sulphur_sword": "硫黄の剣",
+  "item.sakaplus.sulphur_pickaxe": "硫黄のツルハシ",
+
+  "entity.sakaplus.phosphoran": "フォスフォラン",
+  "item.sakaplus.phosphoran_spawn_egg": "フォスフォランのスポーンエッグ",
+
+  "entity.sakaplus.sulfan": "サルファン",
+  "item.sakaplus.sulfan_spawn_egg": "サルファンのスポーンエッグ",
+
+  "advancement.sakaplus.visit_volcanos.title": "燃え盛る地",
+  "advancement.sakaplus.visit_volcanos.desc": "火山地帯を訪れる。"
   "category.sakaplus.controls": "Sakaplus 操作",
   "item.sakaplus.crystalline_helmet": "クリスタラインヘルメット",
   "item.sakaplus.crystalline_chestplate": "クリスタラインチェストプレート",
