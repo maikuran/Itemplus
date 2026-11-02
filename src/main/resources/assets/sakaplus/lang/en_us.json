@@ -2,11 +2,12 @@
 {
   "category.sakaplus": "Sakaplus",
   "category.sakaplus.controls": "Sakaplus Controls",
-  "item.sakaplus.sulphur_ingot": "Sulphur Ingot",
-  "block.sakaplus.sulphur_ore": "Sulphur Ore",
-  "block.sakaplus.sulphur_block": "Block of Sulphur",
-  "item.sakaplus.sulphur_sword": "Sulphur Sword",
-  "item.sakaplus.sulphur_pickaxe": "Sulphur Pickaxe",
+  "itemGroup.sakaplus.volcanos": "Volcanos",
+  "item.sakaplus.sulfur_ingot": "Sulfur Ingot",
+  "block.sakaplus.sulfur_ore": "Sulfur Ore",
+  "block.sakaplus.sulfur_block": "Block of Sulfur",
+  "item.sakaplus.sulfur_sword": "Sulfur Sword",
+  "item.sakaplus.sulfur_pickaxe": "Sulfur Pickaxe",
 
   "entity.sakaplus.phosphoran": "Phosphoran",
   "item.sakaplus.phosphoran_spawn_egg": "Phosphoran Spawn Egg",
