@@ -4,11 +4,6 @@ package com.sakalti.sakaplus.world;
 import java.util.Arrays;
 import java.util.List;
 
-import com.mojang.serialization.Codec;
-
-import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
-import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 
@@ -18,19 +13,16 @@ import net.minecraft.util.math.random.Random;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
-import net.minecraft.util.registry.RegistryKey;
 
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.StructureWorldAccess;
 
-import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
 
-import net.minecraft.world.gen.placementmodifier.BiomePlacementModifier;
 import net.minecraft.world.gen.placementmodifier.HeightmapPlacementModifier;
 import net.minecraft.world.gen.placementmodifier.PlacementModifier;
 import net.minecraft.world.gen.placementmodifier.RarityFilterPlacementModifier;
@@ -190,7 +182,6 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
 
                     BlockState existing = world.getBlockState(pos);
 
-                    // FIX: Fabric 1.19.2 / Yarn
                     if (existing.isAir() ||
                             existing.getMaterial().isReplaceable()) {
 
@@ -254,7 +245,7 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
 
         Identifier id = new Identifier(MOD_ID, name);
 
-        // Feature
+        // Register Feature
         BlueIceFeature feature = Registry.register(
                 Registry.FEATURE,
                 id,
@@ -281,14 +272,13 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
                         (ConfiguredFeature<?, ?>) configured
                 );
 
-        // Placement
+        // Placement modifiers
         List<PlacementModifier> modifiers = Arrays.asList(
                 RarityFilterPlacementModifier.of(rarity),
                 SquarePlacementModifier.of(),
                 HeightmapPlacementModifier.of(
                         Heightmap.Type.WORLD_SURFACE_WG
-                ),
-                BiomePlacementModifier.of()
+                )
         );
 
         // Placed Feature
@@ -301,19 +291,6 @@ public class BlueIceFeature extends Feature<DefaultFeatureConfig> {
                 BuiltinRegistries.PLACED_FEATURE,
                 id,
                 placed
-        );
-
-        // Biome registration
-        RegistryKey<PlacedFeature> placedKey =
-                RegistryKey.of(
-                        Registry.PLACED_FEATURE_KEY,
-                        id
-                );
-
-        BiomeModifications.addFeature(
-                BiomeSelectors.foundInOverworld(),
-                GenerationStep.Feature.SURFACE_STRUCTURES,
-                placedKey
         );
     }
 }
