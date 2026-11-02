@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus.mixin;
 
 import com.sakalti.sakaplus.client.item.KruziRifleScopeOverlay;
@@ -25,16 +24,13 @@ public class KruziRifleZoomMixin {
             boolean changingFov,
             CallbackInfoReturnable<Double> cir
     ) {
-
-        if (!KruziRifleScopeOverlay.isZooming()) {
+        double zoomProgress = KruziRifleScopeOverlay.getZoomProgress();
+        if (zoomProgress <= 0.0) {
             return;
         }
 
         double originalFov = cir.getReturnValue();
-
-        double zoomedFov =
-                originalFov / KruziRifleScopeOverlay.ZOOM_MULTIPLIER;
-
-        cir.setReturnValue(zoomedFov);
+        double zoomedFov = originalFov / KruziRifleScopeOverlay.ZOOM_MULTIPLIER;
+        cir.setReturnValue(originalFov + (zoomedFov - originalFov) * zoomProgress);
     }
 }
