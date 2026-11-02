@@ -1,10 +1,10 @@
 {
   "category.sakaplus": "Sakaplus",
-  "item.sakaplus.sulphur_ingot": "硫黄インゴット",
-  "block.sakaplus.sulphur_ore": "硫黄鉱石",
-  "block.sakaplus.sulphur_block": "硫黄ブロック",
-  "item.sakaplus.sulphur_sword": "硫黄の剣",
-  "item.sakaplus.sulphur_pickaxe": "硫黄のツルハシ",
+  "item.sakaplus.sulfur_ingot": "硫黄インゴット",
+  "block.sakaplus.sulfur_ore": "硫黄鉱石",
+  "block.sakaplus.sulfur_block": "硫黄ブロック",
+  "item.sakaplus.sulfur_sword": "硫黄の剣",
+  "item.sakaplus.sulfur_pickaxe": "硫黄のツルハシ",
 
   "entity.sakaplus.phosphoran": "フォスフォラン",
   "item.sakaplus.phosphoran_spawn_egg": "フォスフォランのスポーンエッグ",
@@ -224,6 +224,7 @@
 
   "itemGroup.sakaplus.starter_and_kruzivilim": "Starter and Kruzivilim",
   "itemGroup.sakaplus.cyrovilim": "Cyrovilim",
+  "itemGroup.sakaplus.volcanos_tab": "Volcanos",
 
   "advancement.sakaplus.get_iron_scaffold.title": "工事現場",
   "advancement.sakaplus.get_iron_scaffold.desc": "鉄製足場を入手する",
