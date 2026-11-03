@@ -20,23 +20,22 @@ public class MagnumEnchantment extends Enchantment {
         );
     }
 
-    @Override
     public int getMaxLevel() {
         return 5;
     }
 
-    @Override
+    
     public int getMinPower(int level) {
         return 1 + (level - 1) * 10;
     }
 
-    @Override
+    
     public int getMaxPower(int level) {
         return getMinPower(level) + 50;
     }
 
     // 銃以外には付与できない
-    @Override
+
     public boolean isAcceptableItem(Item item) {
         return item instanceof Gun;
     }
