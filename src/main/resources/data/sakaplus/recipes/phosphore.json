@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGB",
+    "WBW",
+    "SBS"
+  ],
+  "key": {
+    "B": { "item": "sakaplus:sulfur_ingot" },
+    "G": { "item": "sakaplus:rosite_ingot" },
+    "W": { "item": "sakaplus:phosphorus" },
+    "S": { "item": "minecraft:netherite_block" }
+  },
+  "result": {
+    "item": "sakaplus:phosphore",
+    "count": 1
+  }
+}
