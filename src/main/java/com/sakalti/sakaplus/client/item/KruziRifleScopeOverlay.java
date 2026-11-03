@@ -23,12 +23,16 @@ public final class KruziRifleScopeOverlay {
                     "textures/gui/kruzi_rifle_scoop.png"
             );
 
-    private static final double[] ZOOM_STEPS = {1.0, 1.5, 2.5, 3.5, 4.0};
-    private static final double ZOOM_TRANSITION_SECONDS = 0.12;
+    /** Zoom from the normal FOV to one quarter of it. */
+    public static final double MAX_ZOOM_MULTIPLIER = 4.0;
+    /** Time for the zoom to reach its target, in milliseconds. */
+    private static final double ZOOM_TRANSITION_MILLIS = 200.0;
+    private static final long NANOS_PER_MILLI = 1_000_000L;
 
     private static boolean zooming = false;
-    private static double zoomProgress = 0.0;
-    private static long lastZoomUpdateNanos = System.nanoTime();
+    private static double zoomStartProgress = 0.0;
+    private static double zoomTargetProgress = 0.0;
+    private static long zoomTransitionStartNanos = System.nanoTime();
 
     public static void register(Item rifleItem) {
 
@@ -36,7 +40,7 @@ public final class KruziRifleScopeOverlay {
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
 
             if (client.player == null || client.world == null) {
-                zooming = false;
+                setZooming(false);
                 return;
             }
 
@@ -44,11 +48,12 @@ public final class KruziRifleScopeOverlay {
                     client.player.getMainHandStack().isOf(rifleItem)
                     || client.player.getOffHandStack().isOf(rifleItem);
 
-            zooming =
+            setZooming(
                     holdingRifle
                     && client.player.isSneaking()
                     && client.currentScreen == null
-                    && client.options.getPerspective() == Perspective.FIRST_PERSON;
+                    && client.options.getPerspective() == Perspective.FIRST_PERSON
+            );
         });
 
         // スコープ画像描画
@@ -58,11 +63,8 @@ public final class KruziRifleScopeOverlay {
 
             if (client.player == null
                     || client.world == null
-                    || client.options.getPerspective() != Perspective.FIRST_PERSON) {
-                return;
-            }
-
-            if (getZoomProgress() <= 0.0) {
+                    || client.options.getPerspective() != Perspective.FIRST_PERSON
+                    || getZoomProgress() <= 0.0) {
                 return;
             }
 
@@ -71,20 +73,9 @@ public final class KruziRifleScopeOverlay {
 
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
-
-            RenderSystem.setShader(
-                    GameRenderer::getPositionTexShader
-            );
-
-            RenderSystem.setShaderTexture(
-                    0,
-                    SCOPE_TEXTURE
-            );
-
-            // 画像の透明度は変えず、FOVだけを段階的に変更する
-            RenderSystem.setShaderColor(
-                    1.0F, 1.0F, 1.0F, 1.0F
-            );
+            RenderSystem.setShader(GameRenderer::getPositionTexShader);
+            RenderSystem.setShaderTexture(0, SCOPE_TEXTURE);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
             DrawableHelper.drawTexture(
                     matrices,
@@ -98,36 +89,38 @@ public final class KruziRifleScopeOverlay {
                     height
             );
 
-            RenderSystem.setShaderColor(
-                    1.0F, 1.0F, 1.0F, 1.0F
-            );
-
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.disableBlend();
         });
     }
 
-    /** Returns the eased zoom amount, from 0.0 (off) to 1.0 (fully zoomed). */
-    public static double getZoomProgress() {
-        long now = System.nanoTime();
-        double deltaSeconds = (now - lastZoomUpdateNanos) / 1_000_000_000.0;
-        lastZoomUpdateNanos = now;
-
-        double target = zooming ? 1.0 : 0.0;
-        double blend = 1.0 - Math.exp(-deltaSeconds / ZOOM_TRANSITION_SECONDS);
-        zoomProgress += (target - zoomProgress) * blend;
-
-        if (Math.abs(target - zoomProgress) < 0.001) {
-            zoomProgress = target;
+    private static void setZooming(boolean shouldZoom) {
+        if (zooming == shouldZoom) {
+            return;
         }
 
-        return zoomProgress;
+        // 途中で切り替えても、現在のズーム量から自然に反転させる
+        zoomStartProgress = getZoomProgress();
+        zoomTargetProgress = shouldZoom ? 1.0 : 0.0;
+        zoomTransitionStartNanos = System.nanoTime();
+        zooming = shouldZoom;
     }
 
-    /** Returns one of the discrete FOV zoom multipliers: 1, 1.5, 2.5, 3.5, or 4. */
+    /** Smoothly transitions from 0.0 (off) to 1.0 (fully zoomed) over 200 ms. */
+    public static double getZoomProgress() {
+        double elapsedMillis =
+                (System.nanoTime() - zoomTransitionStartNanos) / (double) NANOS_PER_MILLI;
+        double linearProgress = Math.min(elapsedMillis / ZOOM_TRANSITION_MILLIS, 1.0);
+
+        // Smoothstep: soft start and stop, with continuous values rather than discrete steps.
+        double easedProgress = linearProgress * linearProgress * (3.0 - 2.0 * linearProgress);
+        return zoomStartProgress
+                + (zoomTargetProgress - zoomStartProgress) * easedProgress;
+    }
+
+    /** Returns a continuously changing zoom multiplier from 1x to 4x. */
     public static double getZoomMultiplier() {
-        double progress = getZoomProgress();
-        int step = Math.min((int) (progress * ZOOM_STEPS.length), ZOOM_STEPS.length - 1);
-        return ZOOM_STEPS[step];
+        return 1.0 + (MAX_ZOOM_MULTIPLIER - 1.0) * getZoomProgress();
     }
 
     public static boolean isZooming() {
