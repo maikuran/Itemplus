@@ -163,22 +163,20 @@ public class ArseEntity extends HostileEntity {
                 this,
                 this.getBoundingBox().expand(TOXIC_RANGE),
                 entity -> entity instanceof LivingEntity
+                        && entity != this
                         && entity.isAlive()
                         && !this.isTeammate(entity)
         )) {
 
-            if (entity instanceof LivingEntity) {
+            LivingEntity living = (LivingEntity) entity;
 
-                LivingEntity living = (LivingEntity) entity;
-
-                living.addStatusEffect(
-                        new StatusEffectInstance(
-                                StatusEffects.POISON,
-                                120,
-                                1
-                        )
-                );
-            }
+            living.addStatusEffect(
+                    new StatusEffectInstance(
+                            StatusEffects.POISON,
+                            120,
+                            1
+                    )
+            );
         }
     }
 
