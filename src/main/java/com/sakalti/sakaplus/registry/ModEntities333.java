@@ -61,6 +61,8 @@ public class ModEntities333 {
 
     public static final EntityType<KurBruteEntity> KUR_BRUTE =
             registerEntity("kur_brute", SpawnGroup.CREATURE, KurBruteEntity::new, 0.5F, 1.1F);
+    public static final EntityType<ArseEntity> ARSE =
+            registerEntity("arse", SpawnGroup.MONSTER, ArseEntity::new, 1.2F, 1.8F);
 
     public static final EntityType<KruziAntEntity> KRUZI_ANT =
             registerEntity("kruzi_ant", SpawnGroup.MONSTER, KruziAntEntity::new, 0.5F, 0.5F, 64, 3);
@@ -148,6 +150,9 @@ public class ModEntities333 {
 
     public static final Item SCORCHER_SPAWN_EGG =
             registerSpawnEgg("scorcher_spawn_egg", SCORCHER, 0xAA0000, 0xFF5500, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
+    public static final Item ARSE_SPAWN_EGG =
+            registerSpawnEgg("arse_spawn_egg", ARSE, 0xA6A6A6, 0x993300, ModTabs.VOLCANOS_TAB);
+
 
     public static final Item WARPERDUN_SPAWN_EGG =
             registerSpawnEgg("warperdun_spawn_egg", WARPERDUN, 0x003366, 0x660099, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
@@ -232,6 +237,7 @@ public class ModEntities333 {
         registerAttributes(KRUZI_ANT, KruziAntEntity.createKruziAntAttributes());
 
         registerAttributes(CRYOFREEZER, CryofreezerEntity.createAttributes());
+        registerAttributes(ARSE, ArseEntity.createAttributes());
         registerAttributes(CRYOMAGE, CryomageEntity.createAttributes());
         registerAttributes(CRYOWARRIOR, CryowarriorEntity.createAttributes());
         registerAttributes(CRYOBEAST, CryobeastEntity.createAttributes());
