@@ -9,12 +9,15 @@
   "item.sakaplus.sulfur_sword": "Sulfur Sword",
   "item.sakaplus.sulfur_pickaxe": "Sulfur Pickaxe",
   "item.sakaplus.sulfur_rifle":　"Sulfur Rifle",
+  
   "entity.sakaplus.phosphoran": "Phosphoran",
   "item.sakaplus.phosphorus": "Phosphorus",
   "item.sakaplus.phosphoran_spawn_egg": "Phosphoran Spawn Egg",
 
   "entity.sakaplus.sulfan": "Sulfan",
   "item.sakaplus.sulfan_spawn_egg": "Sulfan Spawn Egg",
+  "item.sakaplus.phosphore": "Phosphore",
+
 
   "advancement.sakaplus.visit_volcanos.title": "Land of Flames",
   "advancement.sakaplus.visit_volcanos.desc": "Visit the volcanic lands.",
