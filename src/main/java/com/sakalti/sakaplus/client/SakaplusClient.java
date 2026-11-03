@@ -283,6 +283,11 @@ public class SakaplusClient implements ClientModInitializer {
             XxenaRenderer.MODEL_LAYER,
             XxenaModel::getTexturedModelData
         );
+        registerLayer(
+            ArseRenderer.MODEL_LAYER,
+            ArseModel::getTexturedModelData
+        );
+
 
         // Kryoson
         registerLayer(
