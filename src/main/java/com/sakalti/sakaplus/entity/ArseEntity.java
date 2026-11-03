@@ -84,17 +84,17 @@ public class ArseEntity extends HostileEntity {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SakaplusSounds.ShyronAmbient;
+        return SakaplusSounds.ArseAmbient;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SakaplusSounds.ShyronHurt;
+        return SakaplusSounds.ArseHurt;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SakaplusSounds.ShyronDeath;
+        return SakaplusSounds.ArseDeath;
     }
 
     // Navigation
