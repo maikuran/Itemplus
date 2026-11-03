@@ -25,8 +25,8 @@
         "maxCount": 2
       },
       {
-        "type": "minecraft:zombie",
-        "weight": 20,
+        "type": "sakaplus:arse",
+        "weight": 7,
         "minCount": 1,
         "maxCount": 2
       }
