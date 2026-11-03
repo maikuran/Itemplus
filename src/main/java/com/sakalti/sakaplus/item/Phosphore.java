@@ -31,18 +31,24 @@ public class Phosphore extends Item {
     private static final float BEAM_SPEED = 2.5F;
     private static final int BEAM_COLOR = 0xFF8C20;
 
+    // 左右の射撃角度
     private static final float[] SPREAD_ANGLES = {
         -15.0F,
         0.0F,
         15.0F
     };
 
+    // 上下方向の射撃角度
+    private static final float PITCH_OFFSET = 0.0F;
+
+    // リコイル
     private static final float RECOIL_STRENGTH = 3.0F;
     private static final float RECOIL_RECOVERY_SPEED = 0.22F;
     private static final float RECOIL_MAX_ANGLE = 23.0F;
 
     private static final int FIRE_SECONDS = 5;
 
+    // 無敵時間を無視
     private static final boolean RESET_INVULNERABILITY = true;
 
     private static final String AMMO_KEY = "ammo";
@@ -92,30 +98,28 @@ public class Phosphore extends Item {
         }
 
         if (world.isClient) {
+
+            // リコイル
             GunRecoil.recoil(
                 RECOIL_STRENGTH,
                 RECOIL_RECOVERY_SPEED,
                 RECOIL_MAX_ANGLE
             );
+
         } else {
 
-            // ショットガンの3方向射撃
-            float originalYaw = user.getYaw();
+            // 3方向射撃
+            for (float angle : SPREAD_ANGLES) {
 
-            try {
-                for (float angle : SPREAD_ANGLES) {
-                    user.setYaw(originalYaw + angle);
-
-                    BeamAttack.shoot(
-                        user,
-                        BEAM_SPEED,
-                        BEAM_DAMAGE,
-                        BEAM_COLOR,
-                        RESET_INVULNERABILITY
-                    );
-                }
-            } finally {
-                user.setYaw(originalYaw);
+                BeamAttack.shoot(
+                    user,
+                    BEAM_SPEED,
+                    BEAM_DAMAGE,
+                    BEAM_COLOR,
+                    RESET_INVULNERABILITY,
+                    angle,
+                    PITCH_OFFSET
+                );
             }
 
             // 弾薬を1発消費
@@ -194,7 +198,9 @@ public class Phosphore extends Item {
 
     // アイテム所持確認
     private boolean hasItem(PlayerInventory inventory, Item item) {
+
         for (int i = 0; i < inventory.size(); i++) {
+
             ItemStack stack = inventory.getStack(i);
 
             if (stack.isOf(item) && !stack.isEmpty()) {
@@ -207,7 +213,9 @@ public class Phosphore extends Item {
 
     // アイテムを1個消費
     private void consumeItem(PlayerInventory inventory, Item item) {
+
         for (int i = 0; i < inventory.size(); i++) {
+
             ItemStack stack = inventory.getStack(i);
 
             if (stack.isOf(item) && !stack.isEmpty()) {
@@ -224,6 +232,7 @@ public class Phosphore extends Item {
 
     // 弾薬数設定
     private void setAmmo(ItemStack stack, int ammo) {
+
         stack.getOrCreateNbt().putInt(
             AMMO_KEY,
             Math.max(0, Math.min(MAX_AMMO, ammo))
@@ -232,6 +241,7 @@ public class Phosphore extends Item {
 
     // 初期弾薬設定
     private void initializeAmmo(ItemStack stack) {
+
         if (!stack.getOrCreateNbt().contains(AMMO_KEY)) {
             setAmmo(stack, MAX_AMMO);
         }
@@ -260,6 +270,10 @@ public class Phosphore extends Item {
         );
 
         tooltip.add(
+            Text.literal("§e射撃角度: §f-15° / 0° / +15°")
+        );
+
+        tooltip.add(
             Text.literal("§e射撃間隔: §f" + COOLDOWN_TICKS + " tick")
         );
 
@@ -273,6 +287,10 @@ public class Phosphore extends Item {
 
         tooltip.add(
             Text.literal("§c燃焼時間: §f" + FIRE_SECONDS + "秒")
+        );
+
+        tooltip.add(
+            Text.literal("§c無敵時間無視: §f有効")
         );
     }
 }
