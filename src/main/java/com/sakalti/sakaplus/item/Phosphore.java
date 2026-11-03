@@ -24,7 +24,7 @@ public class Phosphore extends Item {
     private static final int COOLDOWN_TICKS = 42;
     private static final int RELOAD_COOLDOWN = 20;
 
-    private static final int MAX_AMMO = 60;
+    private static final int MAX_AMMO = 9;
     private static final int MAX_DURABILITY = 840;
 
     private static final float BEAM_DAMAGE = 9.5F;
