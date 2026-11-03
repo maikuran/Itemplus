@@ -13,7 +13,15 @@ public class ModEnchantments {
                     new MagnumEnchantment()
             );
 
+    // 毒エンチャントの登録を追加
+    public static final Enchantment POISON =
+            Registry.register(
+                    Registry.ENCHANTMENT,
+                    new Identifier("sakaplus", "poison"),
+                    new PoisonEnchantment()
+            );
+
     public static void register() {
-        System.out.println("Sakaplus: Magnum Enchantment Registered!");
+        System.out.println("Sakaplus: Enchantments Registered!");
     }
 }
