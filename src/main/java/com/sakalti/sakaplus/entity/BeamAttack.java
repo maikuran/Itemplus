@@ -1,13 +1,33 @@
-
 package com.sakalti.sakaplus.entity;
 
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+
+// ★ ご自身の環境のエンチャント登録クラスをインポートしてください
+import com.sakalti.sakaplus.enchant.ModEnchantments; 
 
 public final class BeamAttack {
 
     private BeamAttack() {
+    }
+
+    // ★ エンチャントによる追加ダメージを計算する内部ヘルパーメソッド
+    private static float applyMagnumBonus(LivingEntity shooter, float baseDamage) {
+        // メインハンド（右手）に持っているアイテムを取得
+        ItemStack handStack = shooter.getMainHandStack();
+        
+        // マグナムエンチャントのレベルを取得 (ModEnchantments.MAGNUM は環境に合わせて変更してください)
+        // ここでは仮に com.sakalti.sakaplus.enchant.MagnumEnchantment のインスタンスを指定する想定です
+        int magnumLevel = EnchantmentHelper.getLevel(
+                net.minecraft.enchantment.Enchantments.SHARPNESS, // ★テスト用にバニラのダメージ増加にしています。ここを独自のマグナムに書き換えてください
+                handStack
+        );
+
+        // レベル1につきダメージを 2.0F 増加させる（お好みのバランスに調整してください）
+        return baseDamage + (magnumLevel * 2.0F);
     }
 
     // 通常射撃
@@ -27,7 +47,10 @@ public final class BeamAttack {
                 new BeamProjectileEntity(world, shooter);
 
         beam.setColor(rgb);
-        beam.setDamage(damage);
+        
+        // ★ マグナムのレベルに応じたダメージを適用
+        beam.setDamage(applyMagnumBonus(shooter, damage));
+        
         beam.setBeamVelocity(shooter, speed);
 
         world.spawnEntity(beam);
@@ -118,7 +141,9 @@ public final class BeamAttack {
                 new BeamProjectileEntity(world, shooter);
 
         beam.setColor(rgb);
-        beam.setDamage(damage);
+        
+        // ★ マグナムのレベルに応じたダメージを適用
+        beam.setDamage(applyMagnumBonus(shooter, damage));
 
         // プレイヤーの視線方向を取得
         float yaw = shooter.getYaw() + yawOffset;
@@ -200,7 +225,9 @@ public final class BeamAttack {
 
         beam.setPosition(start.x, start.y, start.z);
         beam.setColor(rgb);
-        beam.setDamage(damage);
+        
+        // ★ マグナムのレベルに応じたダメージを適用
+        beam.setDamage(applyMagnumBonus(shooter, damage));
 
         beam.setVelocity(
                 direction.x * speed,
