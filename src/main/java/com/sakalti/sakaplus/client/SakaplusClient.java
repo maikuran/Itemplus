@@ -90,6 +90,10 @@ public class SakaplusClient implements ClientModInitializer {
             ModEntities333.SHYRON,
             ShyronRenderer::new
         );
+        EntityRendererRegistry.register(
+            ModEntities333.ARSE,
+            ArseRenderer::new
+        );
 
         EntityRendererRegistry.register(
             ModEntities333.BUSHBEAST,
@@ -176,6 +180,10 @@ public class SakaplusClient implements ClientModInitializer {
         EntityRendererRegistry.register(
             ModEntities333.PHOSPHORAN,
             PhosphoranRenderer::new
+        );
+        EntityRendererRegistry.register(
+            ModEntities333.ARSE,
+            ArseRenderer::new
         );
 
         // Sulfan
