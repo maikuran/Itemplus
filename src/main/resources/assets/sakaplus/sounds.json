@@ -42,6 +42,25 @@
       "sakaplus:kruziant_death"
     ]
   },
+  "arse_ambient": {
+    "subtitle": "subtitles.sakaplus.arse_ambient",
+    "sounds": [
+      "sakaplus:arse_ambient1",
+      "sakaplus:arse_ambient2"
+    ]
+  },
+  "arse_hurt": {
+    "subtitle": "subtitles.sakaplus.arse_hurt",
+    "sounds": [
+      "sakaplus:arse_hurt"
+    ]
+  },
+  "arse_death": {
+    "subtitle": "subtitles.sakaplus.arse_death",
+    "sounds": [
+      "sakaplus:arse_death"
+    ]
+  },
   "volcanos_ambient": {
     "subtitle": "subtitles.sakaplus.volcanos_ambient",
     "sounds": [
