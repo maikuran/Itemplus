@@ -25,6 +25,7 @@ public class ModItems {
     public static final Item PHOSPHORUS = new Item(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
 
     public static final Item OVERSHOT = new Overshot(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
+    public static final Item PHOSPHORE = new Phosphore(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
     public static final Item SULFUR_RIFLE = new SulfurRifle(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
     public static final Item CRYO_RIFLE = new CryoRifle(new Item.Settings().group(ModTabs.CYROVILIM_TAB));
     public static final Item KRUZI_RIFLE = new KruziRifle(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
@@ -94,6 +95,7 @@ public class ModItems {
         registerItem("pyronium_helmet", PYRONIUM_HELMET);
         registerItem("pyronium_chestplate", PYRONIUM_CHESTPLATE);
         registerItem("pyronium_leggings", PYRONIUM_LEGGINGS);
+        registerItem("phosphore", PHOSPHORE);
         registerItem("pyronium_boots", PYRONIUM_BOOTS);
         registerItem("amethond_helmet", AMETHOND_HELMET);
         registerItem("amethond_chestplate", AMETHOND_CHESTPLATE);
