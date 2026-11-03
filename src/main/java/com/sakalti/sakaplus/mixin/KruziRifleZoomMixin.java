@@ -24,12 +24,12 @@ public class KruziRifleZoomMixin {
             boolean changingFov,
             CallbackInfoReturnable<Double> cir
     ) {
-        if (!KruziRifleScopeOverlay.isZooming()) {
+        double zoomMultiplier = KruziRifleScopeOverlay.getZoomMultiplier();
+        if (zoomMultiplier <= 1.0) {
             return;
         }
 
         double originalFov = cir.getReturnValue();
-        double zoomedFov = originalFov / KruziRifleScopeOverlay.ZOOM_MULTIPLIER;
-        cir.setReturnValue(zoomedFov);
+        cir.setReturnValue(originalFov / zoomMultiplier);
     }
 }

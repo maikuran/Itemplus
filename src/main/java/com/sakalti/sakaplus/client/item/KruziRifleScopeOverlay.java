@@ -23,7 +23,7 @@ public final class KruziRifleScopeOverlay {
                     "textures/gui/kruzi_rifle_scoop.png"
             );
 
-    public static final double ZOOM_MULTIPLIER = 4.0;
+    private static final double[] ZOOM_STEPS = {1.0, 1.5, 2.5, 3.5, 4.0};
     private static final double ZOOM_TRANSITION_SECONDS = 0.12;
 
     private static boolean zooming = false;
@@ -62,8 +62,7 @@ public final class KruziRifleScopeOverlay {
                 return;
             }
 
-            double progress = getZoomProgress();
-            if (progress <= 0.0) {
+            if (getZoomProgress() <= 0.0) {
                 return;
             }
 
@@ -82,8 +81,9 @@ public final class KruziRifleScopeOverlay {
                     SCOPE_TEXTURE
             );
 
+            // 画像の透明度は変えず、FOVだけを段階的に変更する
             RenderSystem.setShaderColor(
-                    1.0F, 1.0F, 1.0F, (float) progress
+                    1.0F, 1.0F, 1.0F, 1.0F
             );
 
             DrawableHelper.drawTexture(
@@ -121,6 +121,13 @@ public final class KruziRifleScopeOverlay {
         }
 
         return zoomProgress;
+    }
+
+    /** Returns one of the discrete FOV zoom multipliers: 1, 1.5, 2.5, 3.5, or 4. */
+    public static double getZoomMultiplier() {
+        double progress = getZoomProgress();
+        int step = Math.min((int) (progress * ZOOM_STEPS.length), ZOOM_STEPS.length - 1);
+        return ZOOM_STEPS[step];
     }
 
     public static boolean isZooming() {
