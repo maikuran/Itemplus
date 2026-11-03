@@ -1,3 +1,4 @@
+
 package com.sakalti.sakaplus.client.model;
 
 import com.sakalti.sakaplus.entity.KryosonEntity;
@@ -18,9 +19,17 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
     private final ModelPart[] membranesR = new ModelPart[8];
 
     private static final float CORE_RADIUS = 20.91F;
-    private static final float WING_GAP = 6.0F;
+
+    // Wing geometry
+    private static final float WING_GAP = 2.5F;
     private static final float WING_LENGTH = 14.0F;
 
+    // Membrane geometry
+    private static final float MEMBRANE_COUNT = 8.0F;
+    private static final float MEMBRANE_WIDTH = 1.75F;
+    private static final float MEMBRANE_DEPTH = 8.0F;
+
+    // Animation
     private static final float FLAP_SPEED = 0.65F;
     private static final float FLAP_POWER = 0.85F;
 
@@ -46,14 +55,13 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
     public static TexturedModelData getTexturedModelData() {
 
         ModelData modelData = new ModelData();
-
         ModelPartData root = modelData.getRoot();
 
         // =====================================
         // CORE
         // OCTAGONAL CORE
-        // 8 SIDES
-        // EACH SIDE 16x16x1
+        // 8 METAL PLATES
+        // 4 x 6 x 1
         // =====================================
 
         ModelPartData core = root.addChild(
@@ -64,9 +72,9 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
 
         float radius = CORE_RADIUS;
 
-        float sideWidth = 16F;
-        float sideHeight = 16F;
-        float sideDepth = 1F;
+        float plateWidth = 4F;
+        float plateHeight = 6F;
+        float plateDepth = 1F;
 
         for (int i = 0; i < 8; i++) {
 
@@ -76,9 +84,10 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
             float x = MathHelper.sin(angle) * radius;
             float z = MathHelper.cos(angle) * radius;
 
-            // 34x17 UV領域を重ならないように配置
-            int uvX = (i % 3) * 40;
-            int uvY = (i / 3) * 18;
+            // 256x256 UV
+            // Independent UV for each plate
+            int uvX = 4 + (i % 4) * 12;
+            int uvY = 4 + (i / 4) * 10;
 
             core.addChild(
                     "core_side_" + i,
@@ -86,12 +95,12 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
                     ModelPartBuilder.create()
                             .uv(uvX, uvY)
                             .cuboid(
-                                    -sideWidth / 2F,
-                                    -sideHeight / 2F,
-                                    -sideDepth / 2F,
-                                    sideWidth,
-                                    sideHeight,
-                                    sideDepth
+                                    -plateWidth / 2F,
+                                    -plateHeight / 2F,
+                                    -plateDepth / 2F,
+                                    plateWidth,
+                                    plateHeight,
+                                    plateDepth
                             ),
 
                     ModelTransform.of(
@@ -107,7 +116,7 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
 
         // =====================================
         // WING POSITION
-        // CORE EDGE + 6 PIXELS
+        // CLOSER TO CORE
         // =====================================
 
         float wingPosition = CORE_RADIUS + WING_GAP;
@@ -121,7 +130,7 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
                 "wing_l",
 
                 ModelPartBuilder.create()
-                        .uv(80, 112)
+                        .uv(96, 200)
                         .cuboid(
                                 -WING_LENGTH,
                                 -0.5F,
@@ -140,34 +149,36 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
 
         // =====================================
         // LEFT MEMBRANES
-        // 8 WHITE MEMBRANE PIECES
+        // 8 INDIVIDUAL PANELS
         // =====================================
 
         for (int i = 0; i < 8; i++) {
 
-            float x = -0.5F - i * 1.7F;
+            float x = -(i + 1) * MEMBRANE_WIDTH;
 
             float angle =
-                    (float) Math.toRadians(-10F - i * 4F);
+                    (float) Math.toRadians(
+                            -10F - i * 4F
+                    );
 
             wingL.addChild(
                     "membrane_l_" + i,
 
                     ModelPartBuilder.create()
-                            .uv(0, 54 + i * 9)
+                            .uv(0, 80 + i * 10)
                             .cuboid(
-                                    -8F,
-                                    -0.5F,
-                                    -0.5F,
-                                    8F,
-                                    1F,
-                                    4F
+                                    0F,
+                                    -0.25F,
+                                    -MEMBRANE_DEPTH / 2F,
+                                    MEMBRANE_WIDTH,
+                                    0.5F,
+                                    MEMBRANE_DEPTH
                             ),
 
                     ModelTransform.of(
                             x,
                             0F,
-                            -0.5F,
+                            0F,
                             0F,
                             0F,
                             angle
@@ -184,7 +195,7 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
                 "wing_r",
 
                 ModelPartBuilder.create()
-                        .uv(80, 116)
+                        .uv(96, 208)
                         .cuboid(
                                 0F,
                                 -0.5F,
@@ -203,34 +214,36 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
 
         // =====================================
         // RIGHT MEMBRANES
-        // 8 WHITE MEMBRANE PIECES
+        // 8 INDIVIDUAL PANELS
         // =====================================
 
         for (int i = 0; i < 8; i++) {
 
-            float x = 0.5F + i * 1.7F;
+            float x = i * MEMBRANE_WIDTH;
 
             float angle =
-                    (float) Math.toRadians(10F + i * 4F);
+                    (float) Math.toRadians(
+                            10F + i * 4F
+                    );
 
             wingR.addChild(
                     "membrane_r_" + i,
 
                     ModelPartBuilder.create()
-                            .uv(40, 54 + i * 9)
+                            .uv(24, 80 + i * 10)
                             .cuboid(
                                     0F,
-                                    -0.5F,
-                                    -0.5F,
-                                    8F,
-                                    1F,
-                                    4F
+                                    -0.25F,
+                                    -MEMBRANE_DEPTH / 2F,
+                                    MEMBRANE_WIDTH,
+                                    0.5F,
+                                    MEMBRANE_DEPTH
                             ),
 
                     ModelTransform.of(
                             x,
                             0F,
-                            -0.5F,
+                            0F,
                             0F,
                             0F,
                             angle
@@ -238,16 +251,20 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
             );
         }
 
+        // =====================================
+        // TEXTURE RESOLUTION
+        // 256 x 256
+        // =====================================
+
         return TexturedModelData.of(
                 modelData,
-                128,
-                128
+                256,
+                256
         );
     }
 
     @Override
     public ModelPart getPart() {
-
         return root;
     }
 
@@ -329,7 +346,7 @@ public class KryosonModel extends SinglePartEntityModel<KryosonEntity> {
             membranesL[i].pitch =
                     secondaryWave * 0.12F;
 
-            // RIGHT MEMBRANE
+            // RIGHT MEMBRANEｌ
 
             membranesR[i].roll =
                     (float) Math.toRadians(10F + i * 4F)
