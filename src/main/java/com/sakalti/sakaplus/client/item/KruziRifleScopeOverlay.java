@@ -25,8 +25,8 @@ public final class KruziRifleScopeOverlay {
 
     /** Zoom from the normal FOV to one quarter of it. */
     public static final double MAX_ZOOM_MULTIPLIER = 4.0;
-    /** Time for the zoom to reach its target, in milliseconds (about 20 ticks). */
-    private static final double ZOOM_TRANSITION_MILLIS = 1000.0;
+    /** Balanced transition duration: about 9 ticks at 20 TPS. */
+    private static final double ZOOM_TRANSITION_MILLIS = 450.0;
     private static final long NANOS_PER_MILLI = 1_000_000L;
 
     private static boolean zooming = false;
@@ -106,7 +106,7 @@ public final class KruziRifleScopeOverlay {
         zooming = shouldZoom;
     }
 
-    /** Smoothly transitions from 0.0 (off) to 1.0 (fully zoomed) over 1000 ms. */
+    /** Smoothly transitions from 0.0 (off) to 1.0 (fully zoomed) over 450 ms. */
     public static double getZoomProgress() {
         double elapsedMillis =
                 (System.nanoTime() - zoomTransitionStartNanos) / (double) NANOS_PER_MILLI;
