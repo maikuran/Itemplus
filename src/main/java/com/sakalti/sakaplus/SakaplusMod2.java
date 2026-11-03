@@ -3,7 +3,7 @@ package com.sakalti.sakaplus;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-
+import com.sakalti.sakaplus.enchant.ModEnchantments;
 import com.sakalti.sakaplus.attribute.ModAttributes;
 import com.sakalti.sakaplus.item.CatalystItems;
 import com.sakalti.sakaplus.item.KruziRifle;
@@ -59,6 +59,7 @@ public class SakaplusMod2 implements ModInitializer {
 
         // World Generation
         ModWorldGeneration.register();
+        ModEnchantments.register();
 
         // Blue Ice Giant Pillars
         BlueIceFeature.register();
