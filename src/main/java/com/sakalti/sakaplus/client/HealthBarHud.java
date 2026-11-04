@@ -1,9 +1,16 @@
 package com.sakalti.sakaplus.client;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.BufferRenderer;
+import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexFormat;
+import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,6 +18,10 @@ import net.minecraft.entity.effect.StatusEffects;
 
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
+
+import org.joml.Matrix4f;
+
+import java.util.Locale;
 
 public final class HealthBarHud {
 
@@ -32,8 +43,8 @@ public final class HealthBarHud {
     private static final Identifier HEART =
         new Identifier("sakaplus", "textures/gui/hud/mini_heart.png");
 
-    private static final int BAR_WIDTH = 182;
-    private static final int BAR_HEIGHT = 10;
+    private static final float BAR_WIDTH = 182.0F;
+    private static final float BAR_HEIGHT = 10.0F;
 
     private HealthBarHud() {
     }
@@ -57,30 +68,40 @@ public final class HealthBarHud {
             float maxHealth = Math.max(player.getMaxHealth(), 1.0F);
             float absorption = player.getAbsorptionAmount();
 
-            int x = (screenWidth - BAR_WIDTH) / 2;
-            int y = screenHeight - 62;
+            float x = (screenWidth - BAR_WIDTH) / 2.0F;
+            float y = screenHeight - 62.0F;
 
-            // HP割合
+            // =====================================
+            // HP割合（小数点以下も保持）
+            // =====================================
+
             float healthRatio = MathHelper.clamp(
                 health / maxHealth,
                 0.0F,
                 1.0F
             );
 
-            int healthWidth = Math.round(
-                BAR_WIDTH * healthRatio
-            );
+            // 丸めずに小数点以下も使用
+            float healthWidth = BAR_WIDTH * healthRatio;
 
+            // =====================================
             // 背景
+            // =====================================
+
             drawTexture(
-                client, matrices,
+                matrices,
                 BACKGROUND,
-                x, y,
-                BAR_WIDTH, BAR_HEIGHT,
-                BAR_WIDTH, BAR_HEIGHT
+                x,
+                y,
+                BAR_WIDTH,
+                BAR_HEIGHT,
+                1.0F
             );
 
-            // HPテクスチャ選択
+            // =====================================
+            // HPカラー
+            // =====================================
+
             Identifier healthTexture = RED;
 
             if (player.hasStatusEffect(StatusEffects.WITHER)) {
@@ -89,59 +110,85 @@ public final class HealthBarHud {
                 healthTexture = GREEN;
             }
 
-            // HP
-            if (healthWidth > 0) {
+            // =====================================
+            // HPバー
+            // =====================================
+
+            if (healthWidth > 0.0F) {
+
                 drawTexture(
-                    client, matrices,
+                    matrices,
                     healthTexture,
-                    x, y,
-                    healthWidth, BAR_HEIGHT,
-                    BAR_WIDTH, BAR_HEIGHT
+                    x,
+                    y,
+                    healthWidth,
+                    BAR_HEIGHT,
+                    healthRatio
                 );
             }
 
+            // =====================================
             // 吸収HP
+            // =====================================
+
             if (absorption > 0.0F) {
 
-                int absorptionWidth = Math.min(
+                float absorptionWidth = Math.min(
                     BAR_WIDTH - healthWidth,
-                    Math.round(BAR_WIDTH * absorption / maxHealth)
+                    BAR_WIDTH * absorption / maxHealth
                 );
 
-                if (absorptionWidth > 0) {
+                if (absorptionWidth > 0.0F) {
+
                     drawTexture(
-                        client, matrices,
+                        matrices,
                         YELLOW,
-                        x + healthWidth, y,
-                        absorptionWidth, BAR_HEIGHT,
-                        BAR_WIDTH, BAR_HEIGHT
+                        x + healthWidth,
+                        y,
+                        absorptionWidth,
+                        BAR_HEIGHT,
+                        absorptionWidth / BAR_WIDTH
                     );
                 }
             }
 
-            // HP数値
-            String hpText =
-                MathHelper.ceil(health)
-                + "/"
-                + MathHelper.ceil(maxHealth);
+            // =====================================
+            // HP数値（小数点第1位）
+            // =====================================
 
-            int textWidth = client.textRenderer.getWidth(hpText);
+            String hpText = String.format(
+                Locale.ROOT,
+                "%.1f/%.1f",
+                health,
+                maxHealth
+            );
+
+            int textWidth =
+                client.textRenderer.getWidth(hpText);
 
             int totalWidth = 9 + 3 + textWidth;
 
             int textX = (screenWidth - totalWidth) / 2;
-            int textY = y - 13;
+            int textY = (int) y - 13;
 
+            // =====================================
             // ミニハート
+            // =====================================
+
             drawTexture(
-                client, matrices,
+                matrices,
                 HEART,
-                textX, textY,
-                9, 9,
-                9, 9
+                textX,
+                textY,
+                9.0F,
+                9.0F,
+                1.0F
             );
 
-            // 数値
+            // =====================================
+            // HP数値描画
+            // =====================================
+
             client.textRenderer.drawWithShadow(
                 matrices,
                 hpText,
@@ -152,32 +199,76 @@ public final class HealthBarHud {
         });
     }
 
+    // =============================================
+    // 独立PNG描画・小数点対応
+    // Minecraft 1.19.2
+    // =============================================
+
     private static void drawTexture(
-        MinecraftClient client,
         MatrixStack matrices,
         Identifier texture,
-        int x,
-        int y,
-        int width,
-        int height,
-        int textureWidth,
-        int textureHeight
+        float x,
+        float y,
+        float width,
+        float height,
+        float uMax
     ) {
 
-        // 指定されたPNGだけをバインド
-        client.getTextureManager().bindTexture(texture);
+        if (width <= 0.0F || height <= 0.0F) {
+            return;
+        }
 
-        // 指定PNGのUV範囲だけを描画
-        DrawableHelper.drawTexture(
-            matrices,
-            x,
-            y,
-            0,
-            0,
-            width,
-            height,
-            textureWidth,
-            textureHeight
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+
+        RenderSystem.setShader(
+            GameRenderer::getPositionTexProgram
         );
+
+        RenderSystem.setShaderTexture(0, texture);
+
+        RenderSystem.setShaderColor(
+            1.0F,
+            1.0F,
+            1.0F,
+            1.0F
+        );
+
+        Matrix4f matrix =
+            matrices.peek().getPositionMatrix();
+
+        BufferBuilder buffer =
+            Tessellator.getInstance().getBuffer();
+
+        buffer.begin(
+            VertexFormat.DrawMode.QUADS,
+            VertexFormats.POSITION_TEXTURE
+        );
+
+        float u0 = 0.0F;
+        float u1 = MathHelper.clamp(uMax, 0.0F, 1.0F);
+
+        buffer.vertex(matrix, x, y + height, 0.0F)
+            .texture(u0, 1.0F).next();
+
+        buffer.vertex(matrix, x + width, y + height, 0.0F)
+            .texture(u1, 1.0F).next();
+
+        buffer.vertex(matrix, x + width, y, 0.0F)
+            .texture(u1, 0.0F).next();
+
+        buffer.vertex(matrix, x, y, 0.0F)
+            .texture(u0, 0.0F).next();
+
+        BufferRenderer.drawWithShader(buffer.end());
+
+        RenderSystem.setShaderColor(
+            1.0F,
+            1.0F,
+            1.0F,
+            1.0F
+        );
+
+        RenderSystem.disableBlend();
     }
 }
