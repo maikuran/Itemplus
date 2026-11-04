@@ -2,41 +2,82 @@ package com.sakalti.sakaplus.entity;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-// ★ ご自身の環境のエンチャント登録クラスをインポートしてください
-import com.sakalti.sakaplus.enchant.ModEnchantments; 
+import com.sakalti.sakaplus.enchant.ModEnchantments;
+import com.sakalti.sakaplus.item.Gun;
 
 public final class BeamAttack {
 
     private BeamAttack() {
     }
 
-    // ★ エンチャントによる追加ダメージを計算する内部ヘルパーメソッド
-    private static float applyMagnumBonus(LivingEntity shooter, float baseDamage) {
-        // メインハンド（右手）に持っているアイテムを取得
-        ItemStack handStack = shooter.getMainHandStack();
-        
-        // マグナムエンチャントのレベルを取得 (ModEnchantments.MAGNUM は環境に合わせて変更してください)
-        // ここでは仮に com.sakalti.sakaplus.enchant.MagnumEnchantment のインスタンスを指定する想定です
+    // =========================================================
+    // MAGNUM DAMAGE BONUS
+    // =========================================================
+
+    /**
+     * Magnum enchantment damage calculation.
+     *
+     * Lv1 = +5%
+     * Lv2 = +10%
+     * Lv3 = +15%
+     * Lv4 = +20%
+     * Lv5 = +25%
+     */
+    private static float applyMagnumBonus(
+            LivingEntity shooter,
+            float baseDamage
+    ) {
+
+        // プレイヤー以外には適用しない
+        if (!(shooter instanceof PlayerEntity)) {
+            return baseDamage;
+        }
+
+        PlayerEntity player = (PlayerEntity) shooter;
+
+        // メインハンドのアイテムを取得
+        ItemStack handStack = player.getMainHandStack();
+
+        // 銃以外には適用しない
+        if (!(handStack.getItem() instanceof Gun)) {
+            return baseDamage;
+        }
+
+        // Magnumレベル取得
         int magnumLevel = EnchantmentHelper.getLevel(
-                net.minecraft.enchantment.Enchantments.SHARPNESS, // ★テスト用にバニラのダメージ増加にしています。ここを独自のマグナムに書き換えてください
+                ModEnchantments.MAGNUM,
                 handStack
         );
 
-        // レベル1につきダメージを 2.0F 増加させる（お好みのバランスに調整してください）
-        return baseDamage + (magnumLevel * 2.0F);
+        // 最大レベル5
+        magnumLevel = Math.min(magnumLevel, 5);
+
+        if (magnumLevel <= 0) {
+            return baseDamage;
+        }
+
+        // 1レベルにつき5%増加
+        float multiplier = 1.0F + (magnumLevel * 0.05F);
+
+        return baseDamage * multiplier;
     }
 
-    // 通常射撃
+    // =========================================================
+    // NORMAL SHOOT
+    // =========================================================
+
     public static BeamProjectileEntity shoot(
             LivingEntity shooter,
             float speed,
             float damage,
             int rgb
     ) {
+
         World world = shooter.getWorld();
 
         if (world.isClient) {
@@ -47,17 +88,23 @@ public final class BeamAttack {
                 new BeamProjectileEntity(world, shooter);
 
         beam.setColor(rgb);
-        
-        // ★ マグナムのレベルに応じたダメージを適用
-        beam.setDamage(applyMagnumBonus(shooter, damage));
-        
+
+        // Magnumダメージ適用
+        beam.setDamage(
+                applyMagnumBonus(shooter, damage)
+        );
+
         beam.setBeamVelocity(shooter, speed);
 
         world.spawnEntity(beam);
+
         return beam;
     }
 
-    // 寿命指定射撃
+    // =========================================================
+    // LIFE TICKS SHOOT
+    // =========================================================
+
     public static BeamProjectileEntity shoot(
             LivingEntity shooter,
             float speed,
@@ -65,6 +112,7 @@ public final class BeamAttack {
             int rgb,
             int lifeTicks
     ) {
+
         BeamProjectileEntity beam = shoot(
                 shooter,
                 speed,
@@ -79,7 +127,10 @@ public final class BeamAttack {
         return beam;
     }
 
-    // 無敵時間リセット指定射撃
+    // =========================================================
+    // RESET INVULNERABILITY SHOOT
+    // =========================================================
+
     public static BeamProjectileEntity shoot(
             LivingEntity shooter,
             float speed,
@@ -87,6 +138,7 @@ public final class BeamAttack {
             int rgb,
             boolean resetInvulnerability
     ) {
+
         BeamProjectileEntity beam = shoot(
                 shooter,
                 speed,
@@ -101,7 +153,10 @@ public final class BeamAttack {
         return beam;
     }
 
-    // 方向指定射撃（Yaw・Pitch）
+    // =========================================================
+    // YAW / PITCH SHOOT
+    // =========================================================
+
     public static BeamProjectileEntity shoot(
             LivingEntity shooter,
             float speed,
@@ -110,6 +165,7 @@ public final class BeamAttack {
             float yawOffset,
             float pitchOffset
     ) {
+
         return shoot(
                 shooter,
                 speed,
@@ -121,7 +177,10 @@ public final class BeamAttack {
         );
     }
 
-    // 方向指定 + 無敵時間リセット
+    // =========================================================
+    // YAW / PITCH + RESET INVULNERABILITY
+    // =========================================================
+
     public static BeamProjectileEntity shoot(
             LivingEntity shooter,
             float speed,
@@ -131,6 +190,7 @@ public final class BeamAttack {
             float yawOffset,
             float pitchOffset
     ) {
+
         World world = shooter.getWorld();
 
         if (world.isClient) {
@@ -141,9 +201,11 @@ public final class BeamAttack {
                 new BeamProjectileEntity(world, shooter);
 
         beam.setColor(rgb);
-        
-        // ★ マグナムのレベルに応じたダメージを適用
-        beam.setDamage(applyMagnumBonus(shooter, damage));
+
+        // Magnumダメージ適用
+        beam.setDamage(
+                applyMagnumBonus(shooter, damage)
+        );
 
         // プレイヤーの視線方向を取得
         float yaw = shooter.getYaw() + yawOffset;
@@ -186,7 +248,10 @@ public final class BeamAttack {
         return beam;
     }
 
-    // 対象指定射撃
+    // =========================================================
+    // TARGET SHOOT
+    // =========================================================
+
     public static BeamProjectileEntity shootAt(
             LivingEntity shooter,
             LivingEntity target,
@@ -194,6 +259,7 @@ public final class BeamAttack {
             float damage,
             int rgb
     ) {
+
         World world = shooter.getWorld();
 
         if (world.isClient || target == null || !target.isAlive()) {
@@ -224,10 +290,13 @@ public final class BeamAttack {
                 new BeamProjectileEntity(world, shooter);
 
         beam.setPosition(start.x, start.y, start.z);
+
         beam.setColor(rgb);
-        
-        // ★ マグナムのレベルに応じたダメージを適用
-        beam.setDamage(applyMagnumBonus(shooter, damage));
+
+        // Magnumダメージ適用
+        beam.setDamage(
+                applyMagnumBonus(shooter, damage)
+        );
 
         beam.setVelocity(
                 direction.x * speed,
@@ -240,7 +309,10 @@ public final class BeamAttack {
         return beam;
     }
 
-    // 対象指定射撃 + 無敵時間リセット
+    // =========================================================
+    // TARGET SHOOT + RESET INVULNERABILITY
+    // =========================================================
+
     public static BeamProjectileEntity shootAt(
             LivingEntity shooter,
             LivingEntity target,
@@ -249,6 +321,7 @@ public final class BeamAttack {
             int rgb,
             boolean resetInvulnerability
     ) {
+
         BeamProjectileEntity beam = shootAt(
                 shooter,
                 target,
