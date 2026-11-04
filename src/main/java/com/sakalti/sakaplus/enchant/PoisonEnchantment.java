@@ -1,4 +1,4 @@
-package com.sakalti.sakaplus.enchant; // フォルダ構造に合わせて適宜調整してください
+package com.sakalti.sakaplus.enchant;
 
 import com.sakalti.sakaplus.item.Gun;
 import net.minecraft.enchantment.Enchantment;
@@ -6,6 +6,7 @@ import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.item.SwordItem; // 剣の判定用にインポートを追加
 import net.minecraft.util.Rarity;
 
 public class PoisonEnchantment extends Enchantment {
@@ -13,7 +14,8 @@ public class PoisonEnchantment extends Enchantment {
     public PoisonEnchantment() {
         super(
                 Rarity.RARE,
-                EnchantmentTarget.BREAKABLE,
+                // ★BREAKABLE から WEAPON に変更（エンチャントテーブルで剣用の候補に出すため）
+                EnchantmentTarget.WEAPON,
                 new EquipmentSlot[] {
                         EquipmentSlot.MAINHAND,
                         EquipmentSlot.OFFHAND
@@ -33,17 +35,17 @@ public class PoisonEnchantment extends Enchantment {
         return this.getMinPower(level) + 30;
     }
 
-    // ★引数の型を ItemStack に修正し、本(Items.BOOK)への付与も許可
+    // ★銃(Gun)・すべての剣(SwordItem)・本(Items.BOOK)への付与を許可
     public boolean isAcceptableItem(ItemStack stack) {
-        return stack.getItem() instanceof Gun || stack.isOf(Items.BOOK);
+        return stack.getItem() instanceof Gun 
+            || stack.getItem() instanceof SwordItem 
+            || stack.isOf(Items.BOOK);
     }
 
-    // ★エンチャントテーブルのランダム抽選プールに出現させるための設定
     public boolean isAvailableForRandomSelection() {
         return true;
     }
 
-    // ★村人の交易やチェストから「エンチャント本」として出現させるための設定
     public boolean isAvailableForEnchantedBookOffer() {
         return true;
     }
