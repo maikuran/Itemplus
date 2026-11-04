@@ -57,7 +57,10 @@ public class HealthBarHud {
             int x = (screenWidth - BAR_WIDTH) / 2;
             int y = screenHeight - 62;
 
+            // =========================================
             // HP割合
+            // =========================================
+
             float healthRatio = MathHelper.clamp(
                 health / maxHealth,
                 0.0F,
@@ -66,51 +69,46 @@ public class HealthBarHud {
 
             int healthWidth = Math.round(BAR_WIDTH * healthRatio);
 
-            // =================================
+            // =========================================
             // 背景テクスチャ
-            // =================================
+            // =========================================
 
-            DrawableHelper.drawTexture(
+            drawTexture(
+                client,
                 matrices,
                 BACKGROUND,
                 x,
                 y,
-                0,
-                0,
                 BAR_WIDTH,
                 BAR_HEIGHT,
                 BAR_WIDTH,
                 BAR_HEIGHT
             );
 
-            // =================================
+            // =========================================
             // HPカラー選択
-            // =================================
+            // =========================================
 
             Identifier healthTexture = RED;
 
-            // ウィザーは黒
             if (player.hasStatusEffect(StatusEffects.WITHER)) {
                 healthTexture = BLACK;
-            }
-            // 毒は緑
-            else if (player.hasStatusEffect(StatusEffects.POISON)) {
+            } else if (player.hasStatusEffect(StatusEffects.POISON)) {
                 healthTexture = GREEN;
             }
 
-            // =================================
+            // =========================================
             // HPバー
-            // =================================
+            // =========================================
 
             if (healthWidth > 0) {
 
-                DrawableHelper.drawTexture(
+                drawTexture(
+                    client,
                     matrices,
                     healthTexture,
                     x,
                     y,
-                    0,
-                    0,
                     healthWidth,
                     BAR_HEIGHT,
                     BAR_WIDTH,
@@ -118,9 +116,9 @@ public class HealthBarHud {
                 );
             }
 
-            // =================================
+            // =========================================
             // 吸収HP（黄色）
-            // =================================
+            // =========================================
 
             if (absorption > 0) {
 
@@ -131,13 +129,12 @@ public class HealthBarHud {
 
                 if (absorptionWidth > 0) {
 
-                    DrawableHelper.drawTexture(
+                    drawTexture(
+                        client,
                         matrices,
                         YELLOW,
                         x + healthWidth,
                         y,
-                        0,
-                        0,
                         absorptionWidth,
                         BAR_HEIGHT,
                         BAR_WIDTH,
@@ -146,9 +143,9 @@ public class HealthBarHud {
                 }
             }
 
-            // =================================
+            // =========================================
             // ミニハートアイコン
-            // =================================
+            // =========================================
 
             String hpText =
                 MathHelper.ceil(health)
@@ -163,22 +160,21 @@ public class HealthBarHud {
 
             int textY = y - 13;
 
-            DrawableHelper.drawTexture(
+            drawTexture(
+                client,
                 matrices,
                 HEART,
                 textX,
                 textY,
-                0,
-                0,
                 9,
                 9,
                 9,
                 9
             );
 
-            // =================================
+            // =========================================
             // HP数値
-            // =================================
+            // =========================================
 
             client.textRenderer.drawWithShadow(
                 matrices,
@@ -187,7 +183,37 @@ public class HealthBarHud {
                 textY,
                 0xFFFFFFFF
             );
-
         });
+    }
+
+    // =============================================
+    // Texture Renderer (Minecraft 1.19.2)
+    // =============================================
+
+    private static void drawTexture(
+        MinecraftClient client,
+        net.minecraft.client.util.math.MatrixStack matrices,
+        Identifier texture,
+        int x,
+        int y,
+        int width,
+        int height,
+        int textureWidth,
+        int textureHeight
+    ) {
+
+        client.getTextureManager().bindTexture(texture);
+
+        DrawableHelper.drawTexture(
+            matrices,
+            x,
+            y,
+            0,
+            0,
+            width,
+            height,
+            textureWidth,
+            textureHeight
+        );
     }
 }
