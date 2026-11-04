@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus.client;
 
 import com.sakalti.sakaplus.client.model.*;
@@ -37,6 +36,9 @@ public class SakaplusClient implements ClientModInitializer {
         KruziRifleScopeOverlay.register(ModItems.KRUZI_RIFLE);
         SkillUI.registerClientNetworking();
         KruziRifleKeybind.register();
+
+        // Health Bar HUD
+        HealthBarHud.register();
     }
 
     // =====================================================
@@ -45,25 +47,21 @@ public class SakaplusClient implements ClientModInitializer {
 
     private void registerBlockRenderLayers() {
 
-        // Greeny Leaves
         BlockRenderLayerMap.INSTANCE.putBlock(
             ModBlocks2.GREENY_LEAVES,
             RenderLayer.getCutout()
         );
 
-        // Greeny Sapling
         BlockRenderLayerMap.INSTANCE.putBlock(
             ModBlocks2.GREENY_SAPLING,
             RenderLayer.getCutout()
         );
 
-        // Greeny Door
         BlockRenderLayerMap.INSTANCE.putBlock(
             ModBlocks2.GREENY_DOOR,
             RenderLayer.getCutout()
         );
 
-        // Greeny Trapdoor
         BlockRenderLayerMap.INSTANCE.putBlock(
             ModBlocks2.GREENY_TRAPDOOR,
             RenderLayer.getCutout()
@@ -90,6 +88,7 @@ public class SakaplusClient implements ClientModInitializer {
             ModEntities333.SHYRON,
             ShyronRenderer::new
         );
+
         EntityRendererRegistry.register(
             ModEntities333.ARSE,
             ArseRenderer::new
@@ -180,10 +179,6 @@ public class SakaplusClient implements ClientModInitializer {
         EntityRendererRegistry.register(
             ModEntities333.PHOSPHORAN,
             PhosphoranRenderer::new
-        );
-        EntityRendererRegistry.register(
-            ModEntities333.ARSE,
-            ArseRenderer::new
         );
 
         // Sulfan
@@ -283,11 +278,11 @@ public class SakaplusClient implements ClientModInitializer {
             XxenaRenderer.MODEL_LAYER,
             XxenaModel::getTexturedModelData
         );
+
         registerLayer(
             ArseRenderer.MODEL_LAYER,
             ArseModel::getTexturedModelData
         );
-
 
         // Kryoson
         registerLayer(
