@@ -16,21 +16,24 @@ public class SweepBurstEnchantment extends Enchantment {
     public SweepBurstEnchantment() {
         super(
             Rarity.RARE,
-            EnchantmentTarget.WEAPON,
+            // 💡 ここを WEAPON から、大剣のみを許可するカスタムターゲットに変更します
+            CUSTOM_GREATSWORD_TARGET,
             new EquipmentSlot[]{EquipmentSlot.MAINHAND}
         );
     }
+
+    // 💡 大剣と本だけを許可するカスタムEnchantmentTargetの定義
+    private static final EnchantmentTarget CUSTOM_GREATSWORD_TARGET = com.sakalti.sakaplus.mixin.EnchantmentTargetMixin.create("GREATSWORD", item -> item instanceof GreatswordItem);
 
     @Override
     public int getMaxLevel() {
         return 5;
     }
 
-    // GreatswordItemと本だけを絶対に許可
+    // かなどこ等での最終チェック（本への付与もここで明示的に許可）
     @Override
     public boolean isAcceptableItem(ItemStack stack) {
-        return stack.getItem() instanceof GreatswordItem
-            || stack.isOf(Items.BOOK);
+        return stack.getItem() instanceof GreatswordItem || stack.isOf(Items.BOOK);
     }
 
     // レベルごとに攻撃力 +1.5
@@ -45,7 +48,6 @@ public class SweepBurstEnchantment extends Enchantment {
         if (other == Enchantments.SHARPNESS) {
             return false;
         }
-
         return super.canAccept(other);
     }
 
