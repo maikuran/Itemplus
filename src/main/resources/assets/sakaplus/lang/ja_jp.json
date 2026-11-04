@@ -5,6 +5,7 @@
   "enchantment.sakaplus.sweep_burst": "大剣ダメージ増加",
   "enchantment.sakaplus.poison": "毒付与",
   "item.sakaplus.sulfur_ingot": "硫黄インゴット",
+  "death.attack.sakalti_beam": "%1$sはビームに撃たれた"
   "block.sakaplus.sulfur_ore": "硫黄鉱石",
   "block.sakaplus.sulfur_block": "硫黄ブロック",
   "item.sakaplus.sulfur_sword": "硫黄の剣",
