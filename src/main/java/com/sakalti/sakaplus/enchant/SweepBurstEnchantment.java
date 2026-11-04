@@ -1,13 +1,9 @@
-
 package com.sakalti.sakaplus.enchant;
 
-import com.sakalti.sakaplus.item.IceGreatblade;
-import com.sakalti.sakaplus.item.LightningSpark;
-import com.sakalti.sakaplus.item.BoneScytheItem;
+import com.sakalti.sakaplus.item.GreatswordItem;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.EntityGroup;
@@ -32,9 +28,7 @@ public class SweepBurstEnchantment extends Enchantment {
 
     @Override
     public boolean isAcceptableItem(ItemStack stack) {
-        return stack.getItem() instanceof IceGreatblade
-            || stack.getItem() instanceof LightningSpark
-            || stack.getItem() instanceof BoneScytheItem
+        return stack.getItem() instanceof GreatswordItem
             || stack.isOf(Items.BOOK);
     }
 
@@ -50,6 +44,7 @@ public class SweepBurstEnchantment extends Enchantment {
         if (other == Enchantments.SHARPNESS) {
             return false;
         }
+
         return super.canAccept(other);
     }
 
