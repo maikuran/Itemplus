@@ -10,7 +10,6 @@ import com.sakalti.sakaplus.client.item.GunRecoil;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
@@ -19,7 +18,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class Phosphore extends Item {
+public class Phosphore extends Gun {
+
+    // CONFIGURATION
 
     private static final int COOLDOWN_TICKS = 42;
     private static final int RELOAD_COOLDOWN = 20;
@@ -31,31 +32,39 @@ public class Phosphore extends Item {
     private static final float BEAM_SPEED = 2.5F;
     private static final int BEAM_COLOR = 0xFF8C20;
 
-    // 左右の射撃角度
+    // SPREAD ANGLES
+
     private static final float[] SPREAD_ANGLES = {
         -15.0F,
         0.0F,
         15.0F
     };
 
-    // 上下方向の射撃角度
     private static final float PITCH_OFFSET = 0.0F;
 
-    // リコイル
+    // RECOIL
+
     private static final float RECOIL_STRENGTH = 3.0F;
     private static final float RECOIL_RECOVERY_SPEED = 0.22F;
     private static final float RECOIL_MAX_ANGLE = 23.0F;
 
+    // FIRE
+
     private static final int FIRE_SECONDS = 5;
 
-    // 無敵時間を無視
+    // INVULNERABILITY RESET
+
     private static final boolean RESET_INVULNERABILITY = true;
 
     private static final String AMMO_KEY = "ammo";
 
+    // CONSTRUCTOR
+
     public Phosphore(Settings settings) {
-        super(settings.maxDamage(MAX_DURABILITY));
+        super(settings, MAX_DURABILITY);
     }
+
+    // USE
 
     @Override
     public TypedActionResult<ItemStack> use(
@@ -63,28 +72,46 @@ public class Phosphore extends Item {
             PlayerEntity user,
             Hand hand
     ) {
+
         ItemStack stack = user.getStackInHand(hand);
 
-        initializeAmmo(stack);
+        // RELOAD
 
-        // スニーク中はリロード
         if (user.isSneaking()) {
-            if (!world.isClient) {
-                reload(user, stack);
+
+            if (user.getItemCooldownManager().isCoolingDown(this)) {
+                return TypedActionResult.fail(stack);
             }
 
-            return TypedActionResult.success(stack, world.isClient);
+            if (world.isClient) {
+                return TypedActionResult.success(stack, true);
+            }
+
+            reload(user, stack);
+
+            return TypedActionResult.success(stack, false);
         }
 
-        // 発射クールダウン
+        // INITIAL AMMO
+
+        if (world.isClient) {
+            // NBTの初期化はサーバー側で行う
+        } else {
+            initializeAmmo(stack);
+        }
+
+        // COOLDOWN
+
         if (user.getItemCooldownManager().isCoolingDown(this)) {
             return TypedActionResult.fail(stack);
         }
 
+        // AMMO CHECK
+
         int ammo = getAmmo(stack);
 
-        // 弾切れ
         if (ammo <= 0) {
+
             if (!world.isClient) {
                 user.playSound(
                     SakaplusSounds.Magazine,
@@ -97,59 +124,71 @@ public class Phosphore extends Item {
             return TypedActionResult.fail(stack);
         }
 
+        // CLIENT
+
         if (world.isClient) {
 
-            // リコイル
             GunRecoil.recoil(
                 RECOIL_STRENGTH,
                 RECOIL_RECOVERY_SPEED,
                 RECOIL_MAX_ANGLE
             );
 
-        } else {
+            return TypedActionResult.success(stack, true);
+        }
 
-            // 3方向射撃
-            for (float angle : SPREAD_ANGLES) {
+        // SERVER: THREE-DIRECTION FIRE
 
-                BeamAttack.shoot(
-                    user,
-                    BEAM_SPEED,
-                    BEAM_DAMAGE,
-                    BEAM_COLOR,
-                    RESET_INVULNERABILITY,
-                    angle,
-                    PITCH_OFFSET
-                );
-            }
+        for (float angle : SPREAD_ANGLES) {
 
-            // 弾薬を1発消費
-            setAmmo(stack, ammo - 1);
-
-            // 射撃音
-            user.playSound(
-                SakaplusSounds.Shoot,
-                SoundCategory.PLAYERS,
-                1.0F,
-                0.9F
-            );
-
-            // 耐久値を1消費
-            stack.damage(1, user, player -> {
-                player.sendToolBreakStatus(hand);
-            });
-
-            // クールダウン
-            user.getItemCooldownManager().set(
-                this,
-                COOLDOWN_TICKS
+            BeamAttack.shoot(
+                user,
+                BEAM_SPEED,
+                BEAM_DAMAGE,
+                BEAM_COLOR,
+                RESET_INVULNERABILITY,
+                angle,
+                PITCH_OFFSET
             );
         }
 
-        return TypedActionResult.success(stack, world.isClient);
+        // DECREASE AMMO
+
+        setAmmo(stack, ammo - 1);
+
+        // SHOOT SOUND
+
+        user.playSound(
+            SakaplusSounds.Shoot,
+            SoundCategory.PLAYERS,
+            1.0F,
+            0.9F
+        );
+
+        // DURABILITY
+
+        if (!user.getAbilities().creativeMode) {
+            stack.damage(1, user, player -> {
+                player.sendToolBreakStatus(hand);
+            });
+        }
+
+        // COOLDOWN
+
+        user.getItemCooldownManager().set(
+            this,
+            COOLDOWN_TICKS
+        );
+
+        return TypedActionResult.success(stack, false);
     }
 
-    // リロード
-    private void reload(PlayerEntity player, ItemStack stack) {
+    // RELOAD
+
+    private void reload(
+            PlayerEntity player,
+            ItemStack stack
+    ) {
 
         if (player.getItemCooldownManager().isCoolingDown(this)) {
             return;
@@ -163,25 +202,28 @@ public class Phosphore extends Item {
             return;
         }
 
-        PlayerInventory inventory = player.getInventory();
+        if (!player.isCreative()) {
 
-        // 鉄塊1個と火薬1個を確認
-        if (!hasItem(inventory, Items.IRON_NUGGET)) {
-            return;
+            PlayerInventory inventory = player.getInventory();
+
+            if (!hasItem(inventory, Items.IRON_NUGGET)) {
+                return;
+            }
+
+            if (!hasItem(inventory, Items.GUNPOWDER)) {
+                return;
+            }
+
+            consumeItem(inventory, Items.IRON_NUGGET);
+            consumeItem(inventory, Items.GUNPOWDER);
         }
 
-        if (!hasItem(inventory, Items.GUNPOWDER)) {
-            return;
-        }
+        // REFILL AMMO
 
-        // 素材消費
-        consumeItem(inventory, Items.IRON_NUGGET);
-        consumeItem(inventory, Items.GUNPOWDER);
-
-        // 最大弾数まで補充
         setAmmo(stack, MAX_AMMO);
 
-        // リロード音
+        // RELOAD SOUND
+
         player.playSound(
             SakaplusSounds.Magazine,
             SoundCategory.PLAYERS,
@@ -189,15 +231,20 @@ public class Phosphore extends Item {
             1.0F
         );
 
-        // リロードクールダウン
+        // RELOAD COOLDOWN
+
         player.getItemCooldownManager().set(
             this,
             RELOAD_COOLDOWN
         );
     }
 
-    // アイテム所持確認
-    private boolean hasItem(PlayerInventory inventory, Item item) {
+    // ITEM CHECK
+
+    private boolean hasItem(
+            PlayerInventory inventory,
+            net.minecraft.item.Item item
+    ) {
 
         for (int i = 0; i < inventory.size(); i++) {
 
@@ -211,8 +258,12 @@ public class Phosphore extends Item {
         return false;
     }
 
-    // アイテムを1個消費
-    private void consumeItem(PlayerInventory inventory, Item item) {
+    // CONSUME ITEM
+
+    private void consumeItem(
+            PlayerInventory inventory,
+            net.minecraft.item.Item item
+    ) {
 
         for (int i = 0; i < inventory.size(); i++) {
 
@@ -225,13 +276,29 @@ public class Phosphore extends Item {
         }
     }
 
-    // 弾薬数取得
+    // AMMO GET
+
     private int getAmmo(ItemStack stack) {
-        return stack.getOrCreateNbt().getInt(AMMO_KEY);
+
+        if (!stack.hasNbt()) {
+            return 0;
+        }
+
+        return Math.max(
+            0,
+            Math.min(
+                MAX_AMMO,
+                stack.getNbt().getInt(AMMO_KEY)
+            )
+        );
     }
 
-    // 弾薬数設定
-    private void setAmmo(ItemStack stack, int ammo) {
+    // AMMO SET
+
+    private void setAmmo(
+            ItemStack stack,
+            int ammo
+    ) {
 
         stack.getOrCreateNbt().putInt(
             AMMO_KEY,
@@ -239,15 +306,19 @@ public class Phosphore extends Item {
         );
     }
 
-    // 初期弾薬設定
+    // INITIAL AMMO
+
     private void initializeAmmo(ItemStack stack) {
 
-        if (!stack.getOrCreateNbt().contains(AMMO_KEY)) {
+        if (!stack.hasNbt()
+                || !stack.getNbt().contains(AMMO_KEY)) {
+
             setAmmo(stack, MAX_AMMO);
         }
     }
 
-    // ツールチップ
+    // TOOLTIP
+
     @Override
     public void appendTooltip(
             ItemStack stack,
@@ -255,10 +326,11 @@ public class Phosphore extends Item {
             List<Text> tooltip,
             TooltipContext context
     ) {
-        initializeAmmo(stack);
+
+        int ammo = getAmmo(stack);
 
         tooltip.add(
-            Text.literal("§6弾薬: §f" + getAmmo(stack) + " / " + MAX_AMMO)
+            Text.literal("§6弾薬: §f" + ammo + " / " + MAX_AMMO)
         );
 
         tooltip.add(
