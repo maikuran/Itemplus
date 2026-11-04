@@ -1,27 +1,40 @@
 package com.sakalti.sakaplus.effect;
 
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.GoalSelector;
+import net.minecraft.entity.damage.DamageSource;
 
 public class ParalyzeEffect extends StatusEffect {
+
     public ParalyzeEffect() {
-        super(StatusEffectCategory.HARMFUL, 0xAAAAFF); // 色は適宜
+        super(StatusEffectCategory.HARMFUL, 0xAAAAFF);
     }
+
     @Override
     public String getTranslationKey() {
-        // 追加: 翻訳キーを明示的に固定して unregistered_sad_surface になるバグを回避
         return "effect.sakaplus.paralyze";
     }
+
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
+
         if (!entity.getWorld().isClient) {
+
+            // 移動を停止
             entity.setVelocity(0, entity.getVelocity().y, 0);
             entity.setJumping(false);
-            entity.setMovementSpeed(0.0F); // 無理やり止める場合
             entity.velocityDirty = true;
+
+            // 20tickごとに1ダメージ
+            if (entity.age % 20 == 0) {
+                entity.damage(
+                    DamageSource.MAGIC,
+                    1.0F
+                );
+            }
         }
+
         super.applyUpdateEffect(entity, amplifier);
     }
 
