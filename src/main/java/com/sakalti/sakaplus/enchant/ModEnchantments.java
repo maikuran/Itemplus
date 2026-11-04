@@ -3,7 +3,7 @@ package com.sakalti.sakaplus.enchant;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import com.sakalti.sakaplus.enchantment.SweepBurstEnchantment; // エンチャントのパッケージに合わせて適宜調整してください
+import com.sakalti.sakaplus.enchantment.*; // エンチャントのパッケージに合わせて適宜調整してください
 
 public class ModEnchantments {
 
