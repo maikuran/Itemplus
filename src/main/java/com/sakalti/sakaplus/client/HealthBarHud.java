@@ -18,8 +18,7 @@ import net.minecraft.entity.effect.StatusEffects;
 
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-
-import org.joml.Matrix4f;
+import net.minecraft.util.math.Matrix4f;
 
 import java.util.Locale;
 
@@ -72,7 +71,7 @@ public final class HealthBarHud {
             float y = screenHeight - 62.0F;
 
             // =====================================
-            // HP割合（小数点以下も保持）
+            // HP割合
             // =====================================
 
             float healthRatio = MathHelper.clamp(
@@ -81,7 +80,6 @@ public final class HealthBarHud {
                 1.0F
             );
 
-            // 丸めずに小数点以下も使用
             float healthWidth = BAR_WIDTH * healthRatio;
 
             // =====================================
@@ -91,10 +89,8 @@ public final class HealthBarHud {
             drawTexture(
                 matrices,
                 BACKGROUND,
-                x,
-                y,
-                BAR_WIDTH,
-                BAR_HEIGHT,
+                x, y,
+                BAR_WIDTH, BAR_HEIGHT,
                 1.0F
             );
 
@@ -119,10 +115,8 @@ public final class HealthBarHud {
                 drawTexture(
                     matrices,
                     healthTexture,
-                    x,
-                    y,
-                    healthWidth,
-                    BAR_HEIGHT,
+                    x, y,
+                    healthWidth, BAR_HEIGHT,
                     healthRatio
                 );
             }
@@ -153,7 +147,7 @@ public final class HealthBarHud {
             }
 
             // =====================================
-            // HP数値（小数点第1位）
+            // HP数値・小数点第1位
             // =====================================
 
             String hpText = String.format(
@@ -200,8 +194,8 @@ public final class HealthBarHud {
     }
 
     // =============================================
-    // 独立PNG描画・小数点対応
-    // Minecraft 1.19.2
+    // 独立PNG描画
+    // Minecraft 1.19.2 Yarn
     // =============================================
 
     private static void drawTexture(
@@ -228,10 +222,7 @@ public final class HealthBarHud {
         RenderSystem.setShaderTexture(0, texture);
 
         RenderSystem.setShaderColor(
-            1.0F,
-            1.0F,
-            1.0F,
-            1.0F
+            1.0F, 1.0F, 1.0F, 1.0F
         );
 
         Matrix4f matrix =
@@ -263,10 +254,7 @@ public final class HealthBarHud {
         BufferRenderer.drawWithShader(buffer.end());
 
         RenderSystem.setShaderColor(
-            1.0F,
-            1.0F,
-            1.0F,
-            1.0F
+            1.0F, 1.0F, 1.0F, 1.0F
         );
 
         RenderSystem.disableBlend();
