@@ -26,6 +26,7 @@ public class SweepBurstEnchantment extends Enchantment {
         return 5;
     }
 
+    // GreatswordItemと本だけを絶対に許可
     @Override
     public boolean isAcceptableItem(ItemStack stack) {
         return stack.getItem() instanceof GreatswordItem
