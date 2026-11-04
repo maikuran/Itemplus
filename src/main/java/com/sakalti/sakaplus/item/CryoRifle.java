@@ -8,7 +8,6 @@ import com.sakalti.sakaplus.client.item.GunRecoil;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
@@ -20,7 +19,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class CryoRifle extends Item {
+public class CryoRifle extends Gun {
 
     // CONFIGURATION
 
@@ -39,16 +38,19 @@ public class CryoRifle extends Item {
     public static final float RECOIL_RECOVERY_SPEED = 0.22F;
     public static final float RECOIL_MAX_ANGLE = 10.0F;
 
-    // OPTIONAL INVULNERABILITY RESET
-    // false = 無効 / true = 有効
+    // INVULNERABILITY RESET
 
     public static final boolean RESET_INVULNERABILITY = true;
 
     private static final String AMMO_KEY = "ammo";
 
+    // CONSTRUCTOR
+
     public CryoRifle(Settings settings) {
-        super(settings.maxDamage(MAX_DURABILITY));
+        super(settings, MAX_DURABILITY);
     }
+
+    // USE
 
     @Override
     public TypedActionResult<ItemStack> use(
