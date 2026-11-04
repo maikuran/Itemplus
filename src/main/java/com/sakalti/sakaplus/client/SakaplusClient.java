@@ -37,7 +37,7 @@ public class SakaplusClient implements ClientModInitializer {
         KruziRifleScopeOverlay.register(ModItems.KRUZI_RIFLE);
         SkillUI.registerClientNetworking();
         KruziRifleKeybind.register();
-　　　　　new ParalyzeHandler().onInitializeClient();
+        new ParalyzeHandler().onInitializeClient();
         // Health Bar HUD
         HealthBarHud.register();
         new LightBlockOverlay().onInitializeClient();
