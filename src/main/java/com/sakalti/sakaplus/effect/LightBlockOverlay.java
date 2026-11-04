@@ -26,7 +26,7 @@ public class LightBlockOverlay implements ClientModInitializer {
         int height = client.getWindow().getScaledHeight();
 
         // 1.19.2ではDrawableHelper.fillを使用。F1キーを無視して画面全体に描画します
-        // 0x33FFFFFF = アルファ値20%の白。必要に応じて濃さを調整してください
-        DrawableHelper.fill(matrices, 0, 0, width, height, 0x33FFFFFF);
+        // 0x33FFFFFF = アルファ値100%の白。必要に応じて濃さを調整してください
+        DrawableHelper.fill(matrices, 0, 0, width, height, 0xFFFFFFFF);
     }
 }
