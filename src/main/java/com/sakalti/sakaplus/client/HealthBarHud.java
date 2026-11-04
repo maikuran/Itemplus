@@ -1,3 +1,4 @@
+
 package com.sakalti.sakaplus.client;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -70,10 +71,6 @@ public final class HealthBarHud {
             float x = (screenWidth - BAR_WIDTH) / 2.0F;
             float y = screenHeight - 62.0F;
 
-            // =====================================
-            // HP割合
-            // =====================================
-
             float healthRatio = MathHelper.clamp(
                 health / maxHealth,
                 0.0F,
@@ -82,10 +79,7 @@ public final class HealthBarHud {
 
             float healthWidth = BAR_WIDTH * healthRatio;
 
-            // =====================================
             // 背景
-            // =====================================
-
             drawTexture(
                 matrices,
                 BACKGROUND,
@@ -94,10 +88,7 @@ public final class HealthBarHud {
                 1.0F
             );
 
-            // =====================================
             // HPカラー
-            // =====================================
-
             Identifier healthTexture = RED;
 
             if (player.hasStatusEffect(StatusEffects.WITHER)) {
@@ -106,12 +97,8 @@ public final class HealthBarHud {
                 healthTexture = GREEN;
             }
 
-            // =====================================
             // HPバー
-            // =====================================
-
             if (healthWidth > 0.0F) {
-
                 drawTexture(
                     matrices,
                     healthTexture,
@@ -121,10 +108,7 @@ public final class HealthBarHud {
                 );
             }
 
-            // =====================================
             // 吸収HP
-            // =====================================
-
             if (absorption > 0.0F) {
 
                 float absorptionWidth = Math.min(
@@ -133,7 +117,6 @@ public final class HealthBarHud {
                 );
 
                 if (absorptionWidth > 0.0F) {
-
                     drawTexture(
                         matrices,
                         YELLOW,
@@ -146,10 +129,7 @@ public final class HealthBarHud {
                 }
             }
 
-            // =====================================
-            // HP数値・小数点第1位
-            // =====================================
-
+            // HP数値
             String hpText = String.format(
                 Locale.ROOT,
                 "%.1f/%.1f",
@@ -157,18 +137,13 @@ public final class HealthBarHud {
                 maxHealth
             );
 
-            int textWidth =
-                client.textRenderer.getWidth(hpText);
-
+            int textWidth = client.textRenderer.getWidth(hpText);
             int totalWidth = 9 + 3 + textWidth;
 
             int textX = (screenWidth - totalWidth) / 2;
             int textY = (int) y - 13;
 
-            // =====================================
             // ミニハート
-            // =====================================
-
             drawTexture(
                 matrices,
                 HEART,
@@ -179,10 +154,7 @@ public final class HealthBarHud {
                 1.0F
             );
 
-            // =====================================
-            // HP数値描画
-            // =====================================
-
+            // HP数値
             client.textRenderer.drawWithShadow(
                 matrices,
                 hpText,
@@ -192,11 +164,6 @@ public final class HealthBarHud {
             );
         });
     }
-
-    // =============================================
-    // 独立PNG描画
-    // Minecraft 1.19.2 Yarn
-    // =============================================
 
     private static void drawTexture(
         MatrixStack matrices,
@@ -215,21 +182,13 @@ public final class HealthBarHud {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
 
-        RenderSystem.setShader(
-            GameRenderer::getPositionTexProgram
-        );
-
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, texture);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
-        RenderSystem.setShaderColor(
-            1.0F, 1.0F, 1.0F, 1.0F
-        );
+        Matrix4f matrix = matrices.peek().getPositionMatrix();
 
-        Matrix4f matrix =
-            matrices.peek().getPositionMatrix();
-
-        BufferBuilder buffer =
-            Tessellator.getInstance().getBuffer();
+        BufferBuilder buffer = Tessellator.getInstance().getBuffer();
 
         buffer.begin(
             VertexFormat.DrawMode.QUADS,
@@ -253,10 +212,7 @@ public final class HealthBarHud {
 
         BufferRenderer.drawWithShader(buffer.end());
 
-        RenderSystem.setShaderColor(
-            1.0F, 1.0F, 1.0F, 1.0F
-        );
-
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.disableBlend();
     }
 }
