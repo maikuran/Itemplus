@@ -2,6 +2,7 @@ package com.sakalti.sakaplus.client;
 
 import com.sakalti.sakaplus.client.model.*;
 import com.sakalti.sakaplus.client.item.*;
+import com.sakalti.sakaplus.effect.*;
 import com.sakalti.sakaplus.client.renderer.*;
 import com.sakalti.sakaplus.registry.ModBeamEntities;
 import com.sakalti.sakaplus.registry.ModEntities333;
@@ -39,6 +40,7 @@ public class SakaplusClient implements ClientModInitializer {
 
         // Health Bar HUD
         HealthBarHud.register();
+        new LightBlockOverlay().onInitializeClient();
     }
 
     // =====================================================
