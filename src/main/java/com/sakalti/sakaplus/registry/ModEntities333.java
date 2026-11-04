@@ -278,25 +278,25 @@ public class ModEntities333 {
         registerNaturalSpawn(
                 SCORCHER,
                 BiomeSelectors.includeByKey(BiomeKeys.CRIMSON_FOREST),
-                SpawnGroup.MONSTER, 20, 1, 5
+                SpawnGroup.MONSTER, 8, 1, 5
         );
 
         registerNaturalSpawn(
                 NYANKO,
                 BiomeSelectors.includeByKey(BiomeKeys.PLAINS),
-                SpawnGroup.MONSTER, 11, 1, 5
+                SpawnGroup.MONSTER, 90, 1, 5
         );
 
         registerNaturalSpawn(
                 BUSHBEAST,
                 BiomeSelectors.includeByKey(BiomeKeys.JUNGLE),
-                SpawnGroup.MONSTER, 11, 1, 5
+                SpawnGroup.MONSTER, 95, 1, 5
         );
 
         registerNaturalSpawn(
                 OGANESON,
                 BiomeSelectors.includeByKey(BiomeKeys.WARPED_FOREST, BiomeKeys.CRIMSON_FOREST),
-                SpawnGroup.MONSTER, 20, 1, 6
+                SpawnGroup.MONSTER, 1, 1, 6
         );
     }
 
