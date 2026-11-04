@@ -8,10 +8,10 @@ import com.sakalti.sakaplus.client.item.GunRecoil;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -19,22 +19,19 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class Overshot extends Item {
+public class Overshot extends Gun {
 
     // =========================================================
     // CONFIGURATION
     // =========================================================
 
     public static final int COOLDOWN_TICKS = 10;
-
     public static final int RELOAD_COOLDOWN = 20;
 
     public static final int MAX_AMMO = 10;
-
     public static final int MAX_DURABILITY = 1536;
 
     public static final float BEAM_DAMAGE = 11.0F;
-
     public static final float BEAM_SPEED = 1.9F;
 
     public static final int BEAM_COLOR = 0x00FFFF;
@@ -43,13 +40,8 @@ public class Overshot extends Item {
     // RECOIL CONFIGURATION
     // =========================================================
 
-    // 発射時の反動の強さ
     public static final float RECOIL_STRENGTH = 4.0F;
-
-    // 反動からの復帰速度
     public static final float RECOIL_RECOVERY_SPEED = 0.18F;
-
-    // 最大反動角度
     public static final float RECOIL_MAX_ANGLE = 18.0F;
 
     // =========================================================
@@ -63,7 +55,7 @@ public class Overshot extends Item {
     // =========================================================
 
     public Overshot(Settings settings) {
-        super(settings.maxDamage(MAX_DURABILITY));
+        super(settings, MAX_DURABILITY);
     }
 
     // =========================================================
@@ -130,7 +122,7 @@ public class Overshot extends Item {
                         user.getX(),
                         user.getY(),
                         user.getZ(),
-                        net.minecraft.sound.SoundEvents.BLOCK_NOTE_BLOCK_BASS,
+                        SoundEvents.BLOCK_NOTE_BLOCK_BASS,
                         SoundCategory.PLAYERS,
                         0.5F,
                         0.5F
@@ -159,7 +151,6 @@ public class Overshot extends Item {
 
         if (world.isClient) {
 
-            // Custom recoil
             GunRecoil.recoil(
                     RECOIL_STRENGTH,
                     RECOIL_RECOVERY_SPEED,
@@ -239,13 +230,11 @@ public class Overshot extends Item {
 
                 if (ironSlot == -1
                         && inventoryStack.isOf(Items.IRON_NUGGET)) {
-
                     ironSlot = i;
                 }
 
                 if (blazeSlot == -1
                         && inventoryStack.isOf(Items.GUNPOWDER)) {
-
                     blazeSlot = i;
                 }
 
@@ -329,28 +318,28 @@ public class Overshot extends Item {
 
         int ammo = getAmmo(stack);
 
-        tooltip.add(
-                Text.of("弾数: " + ammo + " / " + MAX_AMMO)
-        );
+        tooltip.add(Text.of(
+                "弾数: " + ammo + " / " + MAX_AMMO
+        ));
 
-        tooltip.add(
-                Text.of("Shift + 右クリック: リロード")
-        );
+        tooltip.add(Text.of(
+                "Shift + 右クリック: リロード"
+        ));
 
-        tooltip.add(
-                Text.of("強力なエネルギービームを発射する")
-        );
+        tooltip.add(Text.of(
+                "強力なエネルギービームを発射する"
+        ));
 
-        tooltip.add(
-                Text.of("発射ダメージ: " + BEAM_DAMAGE)
-        );
+        tooltip.add(Text.of(
+                "発射ダメージ: " + BEAM_DAMAGE
+        ));
 
-        tooltip.add(
-                Text.of("耐久値: " + MAX_DURABILITY)
-        );
+        tooltip.add(Text.of(
+                "耐久値: " + MAX_DURABILITY
+        ));
 
-        tooltip.add(
-                Text.of("反動の強さ: " + RECOIL_STRENGTH)
-        );
+        tooltip.add(Text.of(
+                "反動の強さ: " + RECOIL_STRENGTH
+        ));
     }
 }
