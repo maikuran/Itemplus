@@ -1,4 +1,4 @@
-package com.sakalti.sakaplus.mixin.client;
+package com.sakalti.sakaplus.mixin;
 
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.network.ClientPlayerEntity;
