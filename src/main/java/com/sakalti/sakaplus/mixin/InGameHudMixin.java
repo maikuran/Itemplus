@@ -1,8 +1,8 @@
 package com.sakalti.sakaplus.mixin;
 
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.player.PlayerEntity;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
 
-    // バニラのHPハート描画を強制キャンセル
     @Inject(
         method = "renderHealthBar",
         at = @At("HEAD"),
@@ -20,7 +19,7 @@ public abstract class InGameHudMixin {
     )
     private void sakaplus$cancelVanillaHealthBar(
         MatrixStack matrices,
-        ClientPlayerEntity player,
+        PlayerEntity player,
         int x,
         int y,
         int lines,
