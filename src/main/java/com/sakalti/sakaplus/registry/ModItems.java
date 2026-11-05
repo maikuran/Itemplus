@@ -25,6 +25,7 @@ public class ModItems {
     public static final Item PHOSPHORUS = new Item(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
 
     public static final Item OVERSHOT = new Overshot(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
+    public static final Item FORCIS = new Forcis(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item PHOSPHORE = new Phosphore(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
     public static final Item SULFUR_RIFLE = new SulfurRifle(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
     public static final Item CRYO_RIFLE = new CryoRifle(new Item.Settings().group(ModTabs.CYROVILIM_TAB));
