@@ -9,9 +9,14 @@ import java.util.function.Predicate;
 
 @Mixin(EnchantmentTarget.class)
 public interface EnchantmentTargetMixin {
-    // Enumに新しい要素を動的に追加するインボーカー
+    // 1.19.2のenumコンストラクターは name と ordinal を受け取る
     @Invoker("<init>")
-    static EnchantmentTarget create(String name, Predicate<Item> predicate) {
+    static EnchantmentTarget sakaplus$create(String name, int ordinal, Predicate<Item> predicate) {
         throw new AssertionError();
+    }
+
+    // Enumに新しい要素を動的に追加する
+    static EnchantmentTarget create(String name, Predicate<Item> predicate) {
+        return sakaplus$create(name, EnchantmentTarget.values().length, predicate);
     }
 }
