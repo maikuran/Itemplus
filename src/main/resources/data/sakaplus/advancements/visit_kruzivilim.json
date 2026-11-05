@@ -24,8 +24,8 @@
     }
   },
   "rewards": {
-    "commands": [
-      "give @s sakaplus:hp_plus 2"
+    "loot": [
+      "sakaplus:advancements/rewards/hp_plus_reward"
     ]
   }
 }
