@@ -23,6 +23,8 @@ public class DansiteBowItem extends BowItem {
     private static final float MIN_DAMAGE = 4.5F;
     private static final float MAX_DAMAGE = 13.5F;
 
+    private static final float ARROW_SPEED = 3.0F;
+
     public DansiteBowItem(Settings settings) {
         super(settings.maxCount(1).maxDamage(550));
     }
@@ -64,7 +66,7 @@ public class DansiteBowItem extends BowItem {
                 Enchantments.INFINITY, stack
         );
 
-        // Yarn 1.19.2: getArrowType()
+        // 矢を取得
         ItemStack arrowStack = player.getArrowType(stack);
 
         boolean hasArrow = !arrowStack.isEmpty();
@@ -73,7 +75,7 @@ public class DansiteBowItem extends BowItem {
             return;
         }
 
-        // クリエイティブ用の通常矢
+        // クリエイティブ用
         if (!hasArrow) {
             arrowStack = new ItemStack(Items.ARROW);
         }
@@ -86,48 +88,51 @@ public class DansiteBowItem extends BowItem {
 
         ArrowItem arrowItem = (ArrowItem) arrowStack.getItem();
 
-        // 通常の矢Entityを生成
         PersistentProjectileEntity arrow =
                 arrowItem.createArrow(serverWorld, arrowStack, player);
 
         // 発射速度
+        float velocity = pull * ARROW_SPEED;
+
         arrow.setVelocity(
                 player,
                 player.getPitch(),
                 player.getYaw(),
                 0.0F,
-                pull * 3.0F,
+                velocity,
                 1.0F
         );
 
-        // チャージ量を0～1に変換
+        // チャージ量
         float normalizedPull = MathHelper.clamp(
                 (pull - 0.1F) / 0.9F,
                 0.0F,
                 1.0F
         );
 
-        // ダメージ4.5～13.5
-        float damage = MIN_DAMAGE
+        // 目標ダメージ
+        float targetDamage = MIN_DAMAGE
                 + (MAX_DAMAGE - MIN_DAMAGE) * normalizedPull;
 
-        arrow.setDamage(damage);
+        // 発射速度によるダメージ増幅を補正
+        double baseDamage = targetDamage
+                / Math.max(velocity, 0.1F);
 
-        // クリティカル追加ダメージを無効化
-        arrow.setCritical(false);
-
-        // Powerエンチャント
+        // Powerエンチャント（バニラと同じ追加補正）
         int power = EnchantmentHelper.getLevel(
                 Enchantments.POWER, stack
         );
 
         if (power > 0) {
-            arrow.setDamage(
-                    arrow.getDamage() + power * 0.5D + 0.5D
-            );
+            baseDamage += power * 0.5D + 0.5D;
         }
 
-        // Punchエンチャント
+        arrow.setDamage(baseDamage);
+
+        // クリティカル追加ダメージなし
+        arrow.setCritical(false);
+
+        // Punch
         int punch = EnchantmentHelper.getLevel(
                 Enchantments.PUNCH, stack
         );
@@ -136,7 +141,7 @@ public class DansiteBowItem extends BowItem {
             arrow.setPunch(punch);
         }
 
-        // Flameエンチャント
+        // Flame
         int flame = EnchantmentHelper.getLevel(
                 Enchantments.FLAME, stack
         );
@@ -145,7 +150,7 @@ public class DansiteBowItem extends BowItem {
             arrow.setOnFireFor(100);
         }
 
-        // Infinityは通常の矢のみ対象
+        // Infinityは通常の矢のみ
         boolean infinityApplies =
                 infinityLevel > 0 && arrowStack.isOf(Items.ARROW);
 
@@ -160,10 +165,10 @@ public class DansiteBowItem extends BowItem {
                     PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
         }
 
-        // 矢をワールドに追加
+        // 発射
         serverWorld.spawnEntity(arrow);
 
-        // 弓の耐久消費
+        // 耐久消費
         stack.damage(1, player, entity ->
                 entity.sendToolBreakStatus(player.getActiveHand())
         );
