@@ -27,7 +27,9 @@ public class PhosphoranEntity extends HostileEntity {
         super(entityType, world);
         this.experiencePoints = 14;
     }
-
+    public boolean isFireImmune() {
+      return true;
+    }
     @Override
     protected void initGoals() {
         // 行動AI
