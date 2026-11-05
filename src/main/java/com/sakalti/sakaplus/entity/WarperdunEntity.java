@@ -41,9 +41,6 @@ public class WarperdunEntity extends PathAwareEntity implements Monster {
 
     // 衝撃波のダメージ
     private static final float SHOCKWAVE_DAMAGE = 14.0F;
-    public boolean isFireImmune() {
-      return true;
-    }
     public WarperdunEntity(
             EntityType<? extends PathAwareEntity> entityType,
             World world
