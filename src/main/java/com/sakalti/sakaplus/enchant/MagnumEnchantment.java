@@ -1,4 +1,4 @@
-package com.sakalti.sakaplus.enchantment;
+package com.sakalti.sakaplus.enchant;
 
 import com.sakalti.sakaplus.item.Gun;
 import net.minecraft.enchantment.Enchantment;
