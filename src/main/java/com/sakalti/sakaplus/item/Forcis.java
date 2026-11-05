@@ -25,12 +25,12 @@ public class Forcis extends Gun {
     private static final int COOLDOWN_TICKS = 50;
     private static final int RELOAD_COOLDOWN = 20;
 
-    private static final int MAX_AMMO = 9;
+    private static final int MAX_AMMO = 7;
     private static final int MAX_DURABILITY = 201;
 
     private static final float BEAM_DAMAGE = 5.25F;
     private static final float BEAM_SPEED = 2.5F;
-    private static final int BEAM_COLOR = 0x40DFFF;
+    private static final int BEAM_COLOR = 0xAAAAAA;
 
     // SPREAD ANGLES
 
