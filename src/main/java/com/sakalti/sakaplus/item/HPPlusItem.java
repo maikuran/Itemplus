@@ -15,6 +15,9 @@ import java.util.UUID;
 
 public class HPPlusItem extends Item {
 
+    // 🔴 ランダムではなく、このMOD専用の固定UUIDを1つだけ定義します
+    private static final UUID HP_BONUS_UUID = UUID.fromString("6f8a2c4e-1b3d-5e7f-9a0c-2b4d6e8f0a1b");
+
     public HPPlusItem(Settings settings) {
         super(settings);
     }
@@ -25,16 +28,32 @@ public class HPPlusItem extends Item {
             var attrInstance = serverPlayer.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH);
 
             if (attrInstance != null) {
-                // UUIDをランダムに生成して重複適用可能に
-                UUID uniqueId = UUID.randomUUID();
+                double currentAmount = 0;
+                
+                // 1. すでにこのアイテムで増やした分のModifierがあるか確認
+                var existingModifier = attrInstance.getModifier(HP_BONUS_UUID);
+                if (existingModifier != null) {
+                    // 現在の増加量を取得
+                    currentAmount = existingModifier.getValue();
+                    // 🔴 古いModifierを一度削除（これがないと重複エラーになります）
+                    attrInstance.removeModifier(HP_BONUS_UUID);
+                }
+
+                // 2. 現在の増加量にさらに +2.0 して新しいModifierを作成
                 EntityAttributeModifier modifier = new EntityAttributeModifier(
-                        uniqueId,
+                        HP_BONUS_UUID,
                         "hp_plus_bonus",
-                        2.0,
+                        currentAmount + 2.0, // ここでどんどん加算される
                         EntityAttributeModifier.Operation.ADDITION
                 );
 
+                // 3. 永続的なModifierとしてプレイヤーに再適用
                 attrInstance.addPersistentModifier(modifier);
+                
+                // (任意) プレイヤーの現在の体力を増えた分だけ回復させる処理
+                // これを入れないと、最大HPの枠だけ増えてハートは空のままになります
+                serverPlayer.heal(2.0f);
+
                 serverPlayer.sendMessage(Text.literal("最大HPが恒久的に +2 されました。"), true);
 
                 // アイテムを1つ消費
