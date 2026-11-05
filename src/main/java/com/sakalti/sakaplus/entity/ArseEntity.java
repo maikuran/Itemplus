@@ -50,9 +50,10 @@ public class ArseEntity extends HostileEntity {
         this.setNoGravity(true);
         this.experiencePoints = 15;
     }
-　　public boolean isFireImmune() {
+    public boolean isFireImmune() {
       return true;
     }
+　　
     public static DefaultAttributeContainer.Builder createAttributes() {
         return HostileEntity.createHostileAttributes()
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 112.0D)
