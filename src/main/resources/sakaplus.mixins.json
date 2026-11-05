@@ -11,8 +11,7 @@
     "LivingEntityMixin",
     "ParalyzeLivingMixin",
     "ParalyzeMobMixin",
-    "KruziRifleZoomMixin",
-    "EnchantmentTargetMixin"
+    "KruziRifleZoomMixin"
   ],
   "injectors": {
     "defaultRequire": 1
