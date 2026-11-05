@@ -113,6 +113,7 @@ public class ModItems {
         registerItem("sulfur_rifle", SULFUR_RIFLE);
         registerItem("phosphorus", PHOSPHORUS);
         registerItem("sulfur_sword", SULFUR_SWORD);
+        registerItem("forcis", FORCIS);
         registerItem("sulfur_pickaxe", SULFUR_PICKAXE);
         registerItem("rosite_ingot", ROSITE_INGOT);
         registerItem("rosite_sword", ROSITE_SWORD);
