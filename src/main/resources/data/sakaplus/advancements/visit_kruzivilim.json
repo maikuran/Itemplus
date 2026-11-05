@@ -22,5 +22,10 @@
         "to": "sakaplus:kruzivilim"
       }
     }
+  },
+  "rewards": {
+    "loot": [
+      "sakaplus:advancements/rewards/hp_plus_reward"
+    ]
   }
 }
