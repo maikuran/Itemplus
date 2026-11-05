@@ -86,7 +86,9 @@ public class SulfanEntity extends HostileEntity {
     protected SoundEvent getAmbientSound() {
         return SakaplusSounds.VolcanosAmbient;
     }
-
+    public boolean isFireImmune() {
+      return true;
+    }
     @Override
     protected SoundEvent getHurtSound(net.minecraft.entity.damage.DamageSource source) {
         return SakaplusSounds.VolcanosHurt;
