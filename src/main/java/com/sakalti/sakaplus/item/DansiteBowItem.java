@@ -1,3 +1,4 @@
+
 package com.sakalti.sakaplus.item;
 
 import java.util.function.Predicate;
@@ -12,6 +13,9 @@ import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 public class DansiteBowItem extends BowItem {
@@ -20,7 +24,7 @@ public class DansiteBowItem extends BowItem {
     private static final float MAX_DAMAGE = 13.5F;
 
     public DansiteBowItem(Settings settings) {
-        super(settings.maxDamage(550));
+        super(settings.maxCount(1).maxDamage(550));
     }
 
     @Override
@@ -56,17 +60,21 @@ public class DansiteBowItem extends BowItem {
 
         boolean creative = player.getAbilities().creativeMode;
 
-        boolean infinity = EnchantmentHelper.getLevel(
+        int infinityLevel = EnchantmentHelper.getLevel(
                 Enchantments.INFINITY, stack
-        ) > 0;
+        );
 
-        ItemStack arrowStack = player.getProjectileType(stack);
+        // Yarn 1.19.2: getArrowType()
+        ItemStack arrowStack = player.getArrowType(stack);
 
-        if (arrowStack.isEmpty()) {
-            if (!creative) {
-                return;
-            }
+        boolean hasArrow = !arrowStack.isEmpty();
 
+        if (!hasArrow && !creative) {
+            return;
+        }
+
+        // クリエイティブ用の通常矢
+        if (!hasArrow) {
             arrowStack = new ItemStack(Items.ARROW);
         }
 
@@ -78,6 +86,7 @@ public class DansiteBowItem extends BowItem {
 
         ArrowItem arrowItem = (ArrowItem) arrowStack.getItem();
 
+        // 通常の矢Entityを生成
         PersistentProjectileEntity arrow =
                 arrowItem.createArrow(serverWorld, arrowStack, player);
 
@@ -91,12 +100,14 @@ public class DansiteBowItem extends BowItem {
                 1.0F
         );
 
-        // チャージに応じたダメージ
-        float normalizedPull = Math.max(
+        // チャージ量を0～1に変換
+        float normalizedPull = MathHelper.clamp(
+                (pull - 0.1F) / 0.9F,
                 0.0F,
-                Math.min(1.0F, (pull - 0.1F) / 0.9F)
+                1.0F
         );
 
+        // ダメージ4.5～13.5
         float damage = MIN_DAMAGE
                 + (MAX_DAMAGE - MIN_DAMAGE) * normalizedPull;
 
@@ -105,7 +116,7 @@ public class DansiteBowItem extends BowItem {
         // クリティカル追加ダメージを無効化
         arrow.setCritical(false);
 
-        // Power
+        // Powerエンチャント
         int power = EnchantmentHelper.getLevel(
                 Enchantments.POWER, stack
         );
@@ -116,7 +127,7 @@ public class DansiteBowItem extends BowItem {
             );
         }
 
-        // Punch
+        // Punchエンチャント
         int punch = EnchantmentHelper.getLevel(
                 Enchantments.PUNCH, stack
         );
@@ -125,16 +136,20 @@ public class DansiteBowItem extends BowItem {
             arrow.setPunch(punch);
         }
 
-        // Flame
-        if (EnchantmentHelper.getLevel(
-                Enchantments.FLAME, stack) > 0) {
+        // Flameエンチャント
+        int flame = EnchantmentHelper.getLevel(
+                Enchantments.FLAME, stack
+        );
+
+        if (flame > 0) {
             arrow.setOnFireFor(100);
         }
 
-        // 矢の消費
-        boolean infinityApplies = infinity
-                && arrowStack.isOf(Items.ARROW);
+        // Infinityは通常の矢のみ対象
+        boolean infinityApplies =
+                infinityLevel > 0 && arrowStack.isOf(Items.ARROW);
 
+        // 矢の消費
         if (!creative && !infinityApplies) {
             arrowStack.decrement(1);
         }
@@ -145,12 +160,26 @@ public class DansiteBowItem extends BowItem {
                     PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
         }
 
-        // 発射
+        // 矢をワールドに追加
         serverWorld.spawnEntity(arrow);
 
-        // 耐久消費
+        // 弓の耐久消費
         stack.damage(1, player, entity ->
                 entity.sendToolBreakStatus(player.getActiveHand())
+        );
+
+        // 発射音
+        world.playSound(
+                null,
+                player.getX(),
+                player.getY(),
+                player.getZ(),
+                SoundEvents.ENTITY_ARROW_SHOOT,
+                SoundCategory.PLAYERS,
+                1.0F,
+                1.0F / (
+                        world.random.nextFloat() * 0.4F + 1.2F
+                ) + pull * 0.5F
         );
     }
 }
