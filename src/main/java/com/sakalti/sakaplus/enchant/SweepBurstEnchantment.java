@@ -1,5 +1,6 @@
 package com.sakalti.sakaplus.enchant;
 
+import com.sakalti.sakaplus.enchantment.EnchantmentTargets;
 import com.sakalti.sakaplus.item.GreatswordItem;
 
 import net.minecraft.enchantment.Enchantment;
@@ -23,7 +24,7 @@ public class SweepBurstEnchantment extends Enchantment {
     }
 
     // 💡 大剣と本だけを許可するカスタムEnchantmentTargetの定義
-    private static final EnchantmentTarget CUSTOM_GREATSWORD_TARGET = com.sakalti.sakaplus.mixin.EnchantmentTargetMixin.create("GREATSWORD", item -> item instanceof GreatswordItem);
+    private static final EnchantmentTarget CUSTOM_GREATSWORD_TARGET = EnchantmentTargets.create("GREATSWORD", item -> item instanceof GreatswordItem);
 
     @Override
     public int getMaxLevel() {

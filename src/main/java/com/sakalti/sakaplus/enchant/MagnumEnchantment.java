@@ -24,7 +24,7 @@ public class MagnumEnchantment extends Enchantment {
 
     // 💡 銃（Gun）だけを許可するカスタムEnchantmentTargetの定義
     // (先ほど作成した EnchantmentTargetMixin をそのまま活用できます)
-    private static final EnchantmentTarget CUSTOM_GUN_TARGET = com.sakalti.sakaplus.mixin.EnchantmentTargetMixin.create("GUN", item -> item instanceof Gun);
+    private static final EnchantmentTarget CUSTOM_GUN_TARGET = EnchantmentTargets.create("GUN", item -> item instanceof Gun);
 
     @Override
     public int getMaxLevel() {

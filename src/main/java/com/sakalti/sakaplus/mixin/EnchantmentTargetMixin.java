@@ -14,9 +14,4 @@ public abstract class EnchantmentTargetMixin {
     public static EnchantmentTarget sakaplus$create(String name, int ordinal, Predicate<Item> predicate) {
         throw new AssertionError();
     }
-
-    // Enumに新しい要素を動的に追加する
-    public static EnchantmentTarget create(String name, Predicate<Item> predicate) {
-        return sakaplus$create(name, EnchantmentTarget.values().length, predicate);
-    }
 }
