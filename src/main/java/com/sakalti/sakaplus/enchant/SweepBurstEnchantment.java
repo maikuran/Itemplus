@@ -8,7 +8,6 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.Rarity;
 
 public class SweepBurstEnchantment extends Enchantment {
@@ -16,7 +15,6 @@ public class SweepBurstEnchantment extends Enchantment {
     public SweepBurstEnchantment() {
         super(
             Rarity.RARE,
-            // isAcceptableItem below narrows this vanilla category to greatswords (and books).
             EnchantmentTarget.WEAPON,
             new EquipmentSlot[]{EquipmentSlot.MAINHAND}
         );
@@ -29,7 +27,7 @@ public class SweepBurstEnchantment extends Enchantment {
 
     @Override
     public boolean isAcceptableItem(ItemStack stack) {
-        return stack.getItem() instanceof GreatswordItem || stack.isOf(Items.BOOK);
+        return stack.getItem() instanceof GreatswordItem;
     }
 
     @Override
