@@ -22,5 +22,10 @@
         "to": "sakaplus:volcanos"
       }
     }
+  },
+  "rewards": {
+    "loot": [
+      "sakaplus:advancements/rewards/hp_plus_reward"
+    ]
   }
 }
