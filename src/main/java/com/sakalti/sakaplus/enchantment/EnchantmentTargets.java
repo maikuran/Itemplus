@@ -1,4 +1,4 @@
-package com.sakalti.sakaplus.enchantment;
+package com.sakalti.sakaplus.enchant;
 
 import com.sakalti.sakaplus.mixin.EnchantmentTargetMixin;
 import net.minecraft.enchantment.EnchantmentTarget;
