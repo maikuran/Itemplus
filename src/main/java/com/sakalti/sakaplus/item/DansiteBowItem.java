@@ -1,6 +1,6 @@
 package com.sakalti.sakaplus.item;
 
-import java.util.List;
+import java.util.function.Predicate;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
@@ -12,15 +12,7 @@ import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.entity.projectile.ProjectileUtil;
 
 public class DansiteBowItem extends BowItem {
 
@@ -37,139 +29,128 @@ public class DansiteBowItem extends BowItem {
     }
 
     @Override
+    public Predicate<ItemStack> getProjectiles() {
+        return stack -> stack.getItem() instanceof ArrowItem;
+    }
+
+    @Override
     public void onStoppedUsing(
             ItemStack stack,
             World world,
             LivingEntity user,
             int remainingUseTicks) {
 
+        if (!(user instanceof PlayerEntity)) {
+            return;
+        }
+
+        PlayerEntity player = (PlayerEntity) user;
+
         int charge = this.getMaxUseTime(stack) - remainingUseTicks;
 
-        float pull = getPullProgress(charge);
+        float pull = BowItem.getPullProgress(charge);
 
         if (pull < 0.1F) {
             return;
         }
 
-        List<ItemStack> arrows = ProjectileUtil.getHandPossiblyHolding(
-                user,
-                item -> item instanceof ArrowItem
-        );
+        boolean creative = player.getAbilities().creativeMode;
 
-        boolean infinite = user.getAbilities().creativeMode
-                || EnchantmentHelper.getLevel(Enchantments.INFINITY, stack) > 0;
+        boolean infinity = EnchantmentHelper.getLevel(
+                Enchantments.INFINITY, stack
+        ) > 0;
 
-        ItemStack arrowStack;
+        ItemStack arrowStack = player.getProjectileType(stack);
 
-        if (infinite && arrows.isEmpty()) {
+        if (arrowStack.isEmpty()) {
+            if (!creative) {
+                return;
+            }
+
             arrowStack = new ItemStack(Items.ARROW);
-        } else if (!arrows.isEmpty()) {
-            arrowStack = arrows.get(0).copy();
-        } else {
+        }
+
+        if (!(world instanceof ServerWorld)) {
             return;
         }
 
-        if (world instanceof ServerWorld serverWorld) {
+        ServerWorld serverWorld = (ServerWorld) world;
 
-            ArrowItem arrowItem = arrowStack.getItem() instanceof ArrowItem
-                    ? (ArrowItem) arrowStack.getItem()
-                    : (ArrowItem) Items.ARROW;
+        ArrowItem arrowItem = (ArrowItem) arrowStack.getItem();
 
-            PersistentProjectileEntity arrow =
-                    arrowItem.createArrow(serverWorld, arrowStack, user);
+        PersistentProjectileEntity arrow =
+                arrowItem.createArrow(serverWorld, arrowStack, player);
 
-            arrow.setVelocity(
-                    user,
-                    user.getPitch(),
-                    user.getYaw(),
-                    0.0F,
-                    pull * 3.0F,
-                    1.0F
+        // 発射速度
+        arrow.setVelocity(
+                player,
+                player.getPitch(),
+                player.getYaw(),
+                0.0F,
+                pull * 3.0F,
+                1.0F
+        );
+
+        // チャージに応じたダメージ
+        float normalizedPull = Math.max(
+                0.0F,
+                Math.min(1.0F, (pull - 0.1F) / 0.9F)
+        );
+
+        float damage = MIN_DAMAGE
+                + (MAX_DAMAGE - MIN_DAMAGE) * normalizedPull;
+
+        arrow.setDamage(damage);
+
+        // クリティカル追加ダメージを無効化
+        arrow.setCritical(false);
+
+        // Power
+        int power = EnchantmentHelper.getLevel(
+                Enchantments.POWER, stack
+        );
+
+        if (power > 0) {
+            arrow.setDamage(
+                    arrow.getDamage() + power * 0.5D + 0.5D
             );
-
-            // 0.1～1.0のチャージを4.5～13.5に変換
-            float normalizedPull = MathHelper.clamp(
-                    (pull - 0.1F) / 0.9F,
-                    0.0F,
-                    1.0F
-            );
-
-            float damage = MIN_DAMAGE
-                    + (MAX_DAMAGE - MIN_DAMAGE) * normalizedPull;
-
-            arrow.setDamage(damage);
-
-            // 最大チャージ時はクリティカル
-            if (pull >= 1.0F) {
-                arrow.setCritical(true);
-            }
-
-            // Powerエンチャント
-            int power = EnchantmentHelper.getLevel(
-                    Enchantments.POWER, stack
-            );
-
-            if (power > 0) {
-                arrow.setDamage(
-                        arrow.getDamage() + power * 0.5D + 0.5D
-                );
-            }
-
-            // Punchエンチャント
-            int punch = EnchantmentHelper.getLevel(
-                    Enchantments.PUNCH, stack
-            );
-
-            if (punch > 0) {
-                arrow.setPunch(punch);
-            }
-
-            // Flameエンチャント
-            if (EnchantmentHelper.getLevel(
-                    Enchantments.FLAME, stack) > 0) {
-                arrow.setOnFireFor(100);
-            }
-
-            // 矢の消費
-            if (!user.getAbilities().creativeMode && !infinite) {
-                arrowStack.decrement(1);
-
-                if (arrowStack.isEmpty()) {
-                    user.getInventory().removeOne(arrowStack);
-                }
-            }
-
-            // Infinity・クリエイティブでは回収不可
-            if (infinite || user.getAbilities().creativeMode
-                    && (arrowStack.isOf(Items.SPECTRAL_ARROW)
-                    || arrowStack.isOf(Items.TIPPED_ARROW))) {
-                arrow.pickupType =
-                        PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
-            }
-
-            serverWorld.spawnEntity(arrow);
         }
 
-        // 弓の耐久消費
-        stack.damage(1, user,
-                entity -> entity.sendToolBreakStatus(user.getActiveHand()));
-
-        world.playSound(
-                null,
-                user.getX(),
-                user.getY(),
-                user.getZ(),
-                SoundEvents.ENTITY_ARROW_SHOOT,
-                SoundCategory.PLAYERS,
-                1.0F,
-                1.0F / (world.random.nextFloat() * 0.4F + 1.2F)
-                        + pull * 0.5F
+        // Punch
+        int punch = EnchantmentHelper.getLevel(
+                Enchantments.PUNCH, stack
         );
-    }
 
-    private static float getPullProgress(int useTicks) {
-        float f = (float) useTicks / 20.0F;
-        f = (f * f + f * 2.0F) / 3.0F;
-        return Math.min(f, 1.0F);
+        if (punch > 0) {
+            arrow.setPunch(punch);
+        }
+
+        // Flame
+        if (EnchantmentHelper.getLevel(
+                Enchantments.FLAME, stack) > 0) {
+            arrow.setOnFireFor(100);
+        }
+
+        // 矢の消費
+        boolean infinityApplies = infinity
+                && arrowStack.isOf(Items.ARROW);
+
+        if (!creative && !infinityApplies) {
+            arrowStack.decrement(1);
+        }
+
+        // 回収制限
+        if (creative || infinityApplies) {
+            arrow.pickupType =
+                    PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
+        }
+
+        // 発射
+        serverWorld.spawnEntity(arrow);
+
+        // 耐久消費
+        stack.damage(1, player, entity ->
+                entity.sendToolBreakStatus(player.getActiveHand())
+        );
     }
 }
