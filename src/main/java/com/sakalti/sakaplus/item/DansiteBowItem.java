@@ -22,7 +22,6 @@ public class DansiteBowItem extends BowItem {
 
     private static final float MIN_DAMAGE = 4.5F;
     private static final float MAX_DAMAGE = 13.5F;
-
     private static final float ARROW_SPEED = 3.0F;
 
     public DansiteBowItem(Settings settings) {
@@ -52,9 +51,11 @@ public class DansiteBowItem extends BowItem {
 
         PlayerEntity player = (PlayerEntity) user;
 
-        int charge = this.getMaxUseTime(stack) - remainingUseTicks;
+        // 使用経過時間
+        int elapsed = this.getMaxUseTime(stack) - remainingUseTicks;
 
-        float pull = BowItem.getPullProgress(charge);
+        // バニラ弓と同じチャージ計算
+        float pull = BowItem.getPullProgress(elapsed);
 
         if (pull < 0.1F) {
             return;
@@ -75,9 +76,12 @@ public class DansiteBowItem extends BowItem {
             return;
         }
 
-        // クリエイティブ用
         if (!hasArrow) {
             arrowStack = new ItemStack(Items.ARROW);
+        }
+
+        if (!(arrowStack.getItem() instanceof ArrowItem)) {
+            return;
         }
 
         if (!(world instanceof ServerWorld)) {
@@ -103,22 +107,21 @@ public class DansiteBowItem extends BowItem {
                 1.0F
         );
 
-        // チャージ量
+        // ダメージ進行度
         float normalizedPull = MathHelper.clamp(
                 (pull - 0.1F) / 0.9F,
                 0.0F,
                 1.0F
         );
 
-        // 目標ダメージ
         float targetDamage = MIN_DAMAGE
                 + (MAX_DAMAGE - MIN_DAMAGE) * normalizedPull;
 
-        // 発射速度によるダメージ増幅を補正
+        // 発射速度補正
         double baseDamage = targetDamage
                 / Math.max(velocity, 0.1F);
 
-        // Powerエンチャント（バニラと同じ追加補正）
+        // Power
         int power = EnchantmentHelper.getLevel(
                 Enchantments.POWER, stack
         );
@@ -129,7 +132,7 @@ public class DansiteBowItem extends BowItem {
 
         arrow.setDamage(baseDamage);
 
-        // クリティカル追加ダメージなし
+        // クリティカル無効
         arrow.setCritical(false);
 
         // Punch
