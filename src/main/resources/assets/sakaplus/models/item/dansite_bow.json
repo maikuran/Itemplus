@@ -1,4 +1,5 @@
 {
+  "parent": "item/generated",
   "display": {
     "thirdperson_righthand": {
       "rotation": [ -80, 260, -40 ],
