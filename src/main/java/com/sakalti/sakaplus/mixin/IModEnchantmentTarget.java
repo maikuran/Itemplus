@@ -1,15 +1,26 @@
 package com.sakalti.sakaplus.mixin;
 
 import net.minecraft.enchantment.EnchantmentTarget;
-import com.sakalti.sakaplus.mixin.EnchantmentTargetMixin;
+import java.lang.reflect.Method;
 
 public interface IModEnchantmentTarget {
-    // 外部の通常のクラスからは、ここを経由して安全にターゲットを取得します
-    static EnchantmentTarget getGreatsword() {
-        return EnchantmentTargetMixin.SAKAPLUS$GREATSWORD;
+
+    static EnchantmentTarget getGreatblade() {
+        return fetchTarget("sakaplus$getGreatswordTarget");
     }
 
     static EnchantmentTarget getGun() {
-        return EnchantmentTargetMixin.SAKAPLUS$GUN;
+        return fetchTarget("sakaplus$getGunTarget");
+    }
+
+    private static EnchantmentTarget fetchTarget(String methodName) {
+        try {
+            Class<?> mixinClass = Class.forName("com.sakalti.sakaplus.mixin.EnchantmentTargetMixin");
+            Method method = mixinClass.getMethod(methodName);
+            return (EnchantmentTarget) method.invoke(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return EnchantmentTarget.BREAKABLE; // 失敗時の安全フォールバック
+        }
     }
 }
