@@ -14,6 +14,10 @@ public class SakaplusSounds {
     public static final SoundEvent KruziantAmbient = register("kruziant_ambient");
     public static final SoundEvent KruziantHurt = register("kruziant_hurt");
     public static final SoundEvent KruziantDeath = register("kruziant_death");
+    public static final SoundEvent GoblinAmbient = register("goblin_ambient");
+    public static final SoundEvent GoblinHurt = register("goblin_hurt");
+    public static final SoundEvent GoblinDeath = register("goblin_death");
+    
     
     public static final SoundEvent VolcanosAmbient = register("volcanos_ambient");
     public static final SoundEvent VolcanosHurt = register("volcanos_hurt");
