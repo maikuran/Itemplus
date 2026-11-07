@@ -38,7 +38,7 @@ public class Fighter extends Gun {
 
     public static final int RELOAD_COOLDOWN = 20;
 
-    public static final int MAX_AMMO = 2;
+    public static final int MAX_AMMO = 4;
 
     // RECOIL
 
