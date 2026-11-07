@@ -1,4 +1,4 @@
-<!-- User Intent: Context: Fabric 1.19.2 Modding | Constraints: Keep mixin-based EnchantmentTarget definition, create separate target for Gun | Intent: Define separate SAKAPLUS$GREATSWORD and SAKAPLUS$GUN targets in the same Mixin -->
+
 package com.sakalti.sakaplus.mixin;
 
 import com.sakalti.sakaplus.item.GreatswordItem;
