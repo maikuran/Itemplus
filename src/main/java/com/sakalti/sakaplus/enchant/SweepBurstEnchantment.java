@@ -1,7 +1,7 @@
 package com.sakalti.sakaplus.enchant;
 
 import com.sakalti.sakaplus.item.GreatswordItem;
-import com.sakalti.sakaplus.mixin.IModEnchantmentTarget;
+import com.sakalti.sakaplus.enchant.IModEnchantmentTarget;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
