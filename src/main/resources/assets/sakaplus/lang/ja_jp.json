@@ -24,6 +24,8 @@
   "item.sakaplus.sulfur_rifle": "硫黄の銃",
   "entity.sakaplus.sulfan": "サルファン",
   "item.sakaplus.sulfan_spawn_egg": "サルファンのスポーンエッグ",
+  "entity.sakaplus.goblin": "ゴブリン",
+  "item.sakaplus.goblin_spawn_egg": "ゴブリンのスポーンエッグ",
 
   "advancement.sakaplus.visit_volcanos.title": "燃え盛る地",
   "advancement.sakaplus.visit_volcanos.desc": "火山地帯を訪れる。",
