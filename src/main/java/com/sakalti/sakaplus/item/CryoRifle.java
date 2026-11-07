@@ -34,9 +34,9 @@ public class CryoRifle extends Gun {
 
     // NORMAL RECOIL
 
-    public static final float RECOIL_STRENGTH = 2.0F;
+    public static final float RECOIL_STRENGTH = 3.0F;
     public static final float RECOIL_RECOVERY_SPEED = 0.22F;
-    public static final float RECOIL_MAX_ANGLE = 10.0F;
+    public static final float RECOIL_MAX_ANGLE = 18.0F;
 
     // INVULNERABILITY RESET
 
