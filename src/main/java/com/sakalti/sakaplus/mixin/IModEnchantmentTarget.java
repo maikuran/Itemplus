@@ -1,5 +1,6 @@
 package com.sakalti.sakaplus.mixin;
 
+import com.sakalti.sakaplus.mixin.EnchantmentTargetMixin;
 import net.minecraft.enchantment.EnchantmentTarget;
 import java.lang.reflect.Method;
 
