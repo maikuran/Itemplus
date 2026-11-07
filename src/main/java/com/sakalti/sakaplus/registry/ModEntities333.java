@@ -58,6 +58,9 @@ public class ModEntities333 {
 
     public static final EntityType<KuloogieEntity> KULOOGIE =
             registerEntity("kuloogie", SpawnGroup.MONSTER, KuloogieEntity::new, 0.8F, 1.2F);
+    public static final EntityType<GoblinEntity> GOBLIN =
+            registerEntity("goblin", SpawnGroup.MONSTER, GoblinEntity::new, 1.0F, 1.2F);
+
 
     public static final EntityType<KurBruteEntity> KUR_BRUTE =
             registerEntity("kur_brute", SpawnGroup.CREATURE, KurBruteEntity::new, 0.5F, 1.1F);
@@ -182,6 +185,9 @@ public class ModEntities333 {
 
     public static final Item KRUZI_ANT_SPAWN_EGG =
             registerSpawnEgg("kruzi_ant_spawn_egg", KRUZI_ANT, 0xD4AF37, 0xFFD700, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
+    public static final Item GOBLIN_SPAWN_EGG =
+            registerSpawnEgg("goblin_spawn_egg", GOBLIN, 0x00FF00, 0x009900, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
+
 
     public static final Item SHYRON_SPAWN_EGG =
             registerSpawnEgg("shyron_spawn_egg", SHYRON, 0x555577, 0xAAAAAA, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
@@ -243,6 +249,7 @@ public class ModEntities333 {
         registerAttributes(KRUZI_ANT, KruziAntEntity.createKruziAntAttributes());
 
         registerAttributes(CRYOFREEZER, CryofreezerEntity.createAttributes());
+        registerAttributes(GOBLIN, GoblinEntity.createAttributes());
         registerAttributes(ARSE, ArseEntity.createAttributes());
         registerAttributes(CRYOMAGE, CryomageEntity.createAttributes());
         registerAttributes(CRYOWARRIOR, CryowarriorEntity.createAttributes());
@@ -296,6 +303,12 @@ public class ModEntities333 {
         registerNaturalSpawn(
                 BUSHBEAST,
                 BiomeSelectors.includeByKey(BiomeKeys.JUNGLE),
+                SpawnGroup.MONSTER, 95, 1, 2
+        );
+
+        registerNaturalSpawn(
+                GOBLIN,
+                BiomeSelectors.includeByKey(BiomeKeys.PLAINS),
                 SpawnGroup.MONSTER, 95, 1, 2
         );
 
