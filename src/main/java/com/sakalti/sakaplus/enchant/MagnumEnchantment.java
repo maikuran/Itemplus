@@ -14,7 +14,7 @@ public class MagnumEnchantment extends Enchantment {
         super(
                 Rarity.RARE,
                 // Use a built-in target; custom enum targets require unsafe enum injection.
-                EnchantmentTarget.WEAPON,
+                EnchantmentTarget.SAKAPLUS$GUN,
                 new EquipmentSlot[] {
                         EquipmentSlot.MAINHAND,
                         EquipmentSlot.OFFHAND
