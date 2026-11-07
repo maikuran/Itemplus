@@ -1,7 +1,7 @@
 package com.sakalti.sakaplus.enchant;
 
 import com.sakalti.sakaplus.item.Gun;
-import com.sakalti.sakaplus.mixin.IModEnchantmentTarget; // Mixinの代わりにインターフェースをインポート
+import com.sakalti.sakaplus.mixin.IModEnchantmentTarget;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
@@ -15,7 +15,6 @@ public class MagnumEnchantment extends Enchantment {
     public MagnumEnchantment() {
         super(
                 Rarity.RARE,
-                // 直接Mixinの変数を叩かず、インターフェース経由で安全に取得
                 IModEnchantmentTarget.getGun(),
                 new EquipmentSlot[] {
                         EquipmentSlot.MAINHAND,
