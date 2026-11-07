@@ -7,6 +7,7 @@ import com.sakalti.sakaplus.enchant.ModEnchantments;
 import com.sakalti.sakaplus.attribute.ModAttributes;
 import com.sakalti.sakaplus.item.CatalystItems;
 import com.sakalti.sakaplus.item.KruziRifle;
+import com.sakalti.sakaplus.item.Fighter;
 import com.sakalti.sakaplus.tinco.item.ModItems5;
 import com.sakalti.sakaplus.effect.ModEffects;
 import com.sakalti.sakaplus.command.SakaDimensionsCommand;
@@ -31,6 +32,7 @@ public class SakaplusMod2 implements ModInitializer {
         // Sounds
         SakaplusSounds.registerSounds();
         KruziRifle.registerServer();
+        Fighter.registerServer();
 
         // Potions
         LongtimePotionRegistry.registerAll();
