@@ -199,6 +199,10 @@ public class SakaplusClient implements ClientModInitializer {
             ModEntities333.CRYOBEAST,
             CryobeastRenderer::new
         );
+        EntityRendererRegistry.register(
+            ModEntities333.SAVANNU,
+            SavannuRenderer::new
+        );
 
         EntityRendererRegistry.register(
             ModEntities333.CRYOSNAKE,
@@ -365,6 +369,10 @@ public class SakaplusClient implements ClientModInitializer {
         registerLayer(
             PhosphoranRenderer.MODEL_LAYER,
             PhosphoranModel::getTexturedModelData
+        );
+        registerLayer(
+            SavannuRenderer.MODEL_LAYER,
+            SavannuModel::getTexturedModelData
         );
 
         registerLayer(
