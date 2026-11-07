@@ -1,7 +1,7 @@
 package com.sakalti.sakaplus.enchant;
 
 import com.sakalti.sakaplus.item.GreatswordItem;
-
+import com.sakalti.sakaplus.mixin.EnchantmentTargetMixin;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.enchantment.Enchantments;
@@ -18,7 +18,7 @@ public class SweepBurstEnchantment extends Enchantment {
             // WEAPONだと剣が含まれるため、基本全般アイテム向けの BREAKABLE 等にするか
             // もしくは独自のカスタムTarget（Mixin拡張）を指定します。
             // ここではアイテム側の matches(ItemStack) 判定を主軸にするため BREAKABLE に変更
-            EnchantmentTarget.SAKAPLUS$GREATBLADE, 
+            EnchantmentTarget.SAKAPLUS$GREATSWORD, 
             new EquipmentSlot[]{EquipmentSlot.MAINHAND}
         );
     }
