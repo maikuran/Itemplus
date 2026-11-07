@@ -34,9 +34,9 @@ public class SulfurRifle extends Gun {
 
     // NORMAL RECOIL
 
-    public static final float RECOIL_STRENGTH = 2.5F;
+    public static final float RECOIL_STRENGTH = 3.5F;
     public static final float RECOIL_RECOVERY_SPEED = 0.22F;
-    public static final float RECOIL_MAX_ANGLE = 20.0F;
+    public static final float RECOIL_MAX_ANGLE = 21.0F;
 
     // FIRE
 
