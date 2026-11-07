@@ -43,6 +43,7 @@ public class SakaplusClient implements ClientModInitializer {
 
     private void registerClientSystems() {
         GunRecoil.register();
+        FighterScopeOverlay.register(ModItems.FIGHTER);
         KruziRifleScopeOverlay.register(ModItems.KRUZI_RIFLE);
         SkillUI.registerClientNetworking();
         KruziRifleKeybind.register();
