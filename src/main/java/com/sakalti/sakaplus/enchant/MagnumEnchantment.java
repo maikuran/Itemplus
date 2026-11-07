@@ -1,5 +1,5 @@
 package com.sakalti.sakaplus.enchant;
-
+import com.sakalti.sakaplus.mixin.EnchantmentTargetMixin;
 import com.sakalti.sakaplus.item.Gun;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
@@ -14,7 +14,7 @@ public class MagnumEnchantment extends Enchantment {
         super(
                 Rarity.RARE,
                 // Use a built-in target; custom enum targets require unsafe enum injection.
-                EnchantmentTarget.SAKAPLUS$GUN,
+                EnchantmentTargetMixin.SAKAPLUS$GUN,
                 new EquipmentSlot[] {
                         EquipmentSlot.MAINHAND,
                         EquipmentSlot.OFFHAND
