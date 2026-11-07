@@ -1,8 +1,7 @@
-
 package com.sakalti.sakaplus.mixin;
 
 import com.sakalti.sakaplus.item.GreatswordItem;
-import com.sakalti.sakaplus.item.Gun; // 銃アイテム(item.Gun)をインポート
+import com.sakalti.sakaplus.item.Gun;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.item.Item;
 import org.spongepowered.asm.mixin.Mixin;
@@ -15,20 +14,28 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(EnchantmentTarget.class)
 public abstract class EnchantmentTargetMixin {
 
-    // 大剣専用ターゲット
+    // Mixinのルールに従い、フィールドを private に変更（エラーを完全回避）
     @Unique
-    public static final EnchantmentTarget SAKAPLUS$GREATSWORD;
+    private static final EnchantmentTarget SAKAPLUS$GREATSWORD;
 
-    // 銃専用ターゲット
     @Unique
-    public static final EnchantmentTarget SAKAPLUS$GUN;
+    private static final EnchantmentTarget SAKAPLUS$GUN;
 
     static {
         int currentLength = EnchantmentTarget.values().length;
-        
-        // 個別にインスタンスを生成（インデックスが被らないように注意）
         SAKAPLUS$GREATSWORD = sakaplus$create("GREATSWORD", currentLength);
         SAKAPLUS$GUN = sakaplus$create("GUN", currentLength + 1);
+    }
+
+    // 外部のエンチャントクラスから安全にターゲットを呼び出すためのパブリックメソッド
+    @Unique
+    public static EnchantmentTarget sakaplus$getGreatswordTarget() {
+        return SAKAPLUS$GREATSWORD;
+    }
+
+    @Unique
+    public static EnchantmentTarget sakaplus$getGunTarget() {
+        return SAKAPLUS$GUN;
     }
 
     @Invoker("<init>")
@@ -38,12 +45,9 @@ public abstract class EnchantmentTargetMixin {
 
     @Inject(method = "isAcceptableItem", at = @At("HEAD"), cancellable = true)
     private void sakaplus$customAcceptableItem(Item item, CallbackInfoReturnable<Boolean> cir) {
-        // 大剣ターゲットの判定
         if ((Object) this == SAKAPLUS$GREATSWORD) {
             cir.setReturnValue(item instanceof GreatswordItem);
-        }
-        // 銃ターゲットの判定（個別に処理）
-        else if ((Object) this == SAKAPLUS$GUN) {
+        } else if ((Object) this == SAKAPLUS$GUN) {
             cir.setReturnValue(item instanceof Gun);
         }
     }
