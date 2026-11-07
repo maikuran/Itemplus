@@ -1,7 +1,6 @@
 package com.sakalti.sakaplus.enchant;
 
 import net.minecraft.enchantment.EnchantmentTarget;
-import com.sakalti.sakaplus.mixin.EnchantmentTargetMixin;
 import java.lang.reflect.Method;
 
 public interface IModEnchantmentTarget {
@@ -16,15 +15,14 @@ public interface IModEnchantmentTarget {
 
     private static EnchantmentTarget fetchTarget(String methodName) {
         try {
+            // 文字列参照にすることでコンパイル時・ロード時のクロス参照ロックを完全に回避
             Class<?> mixinClass = Class.forName("com.sakalti.sakaplus.mixin.EnchantmentTargetMixin");
-            // 宣言されたprivateメソッドを取得する為に getDeclaredMethod を使用
             Method method = mixinClass.getDeclaredMethod(methodName);
-            // private制限を解除してアクセス可能にする
             method.setAccessible(true);
             return (EnchantmentTarget) method.invoke(null);
         } catch (Exception e) {
             e.printStackTrace();
-            return EnchantmentTarget.BREAKABLE; // 安全用の予備
+            return EnchantmentTarget.BREAKABLE; // クラッシュ防止用予備フォールバック
         }
     }
 }
