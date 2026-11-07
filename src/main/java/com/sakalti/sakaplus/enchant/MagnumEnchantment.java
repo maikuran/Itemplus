@@ -1,7 +1,7 @@
 package com.sakalti.sakaplus.enchant;
 
 import com.sakalti.sakaplus.item.Gun;
-import com.sakalti.sakaplus.mixin.IModEnchantmentTarget;
+import com.sakalti.sakaplus.enchant.IModEnchantmentTarget;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
