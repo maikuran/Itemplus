@@ -21,6 +21,7 @@ public abstract class EnchantmentTargetMixin {
     private static final EnchantmentTarget SAKAPLUS$GUN;
 
     static {
+        // 強引にバニラのEnum配列の末尾のインデックスを取得して拡張
         int currentLength = EnchantmentTarget.values().length;
         SAKAPLUS$GREATSWORD = sakaplus$create("GREATSWORD", currentLength);
         SAKAPLUS$GUN = sakaplus$create("GUN", currentLength + 1);
@@ -32,18 +33,24 @@ public abstract class EnchantmentTargetMixin {
     }
 
     /**
-     * 修正ポイント: 
-     * シグネチャ付きの method 指定がASMのパースに失敗していたため、
-     * Yarn名と中間マッピング名(method_8177)を両方カバーする指定に変更。
-     * これにより "insnNode is null"（ターゲット見失いによるヌルポ）を回避します。
+     * 【強引上書き仕様】
+     * ターゲットのインデックス（insnNode）を探すからヌルポで落ちるバグへの対策。
+     * メソッドの「最先端（HEAD）」で、すべての処理が行われる前に割って入ります。
+     * method_8177 と isAcceptableItem の両方を指定し、
+     * シグネチャ（引数型）をあえて書かないことで、ASMのパース失敗を強制回避します。
      */
     @Inject(
-        method = {"isAcceptableItem", "method_8177"}, 
-        at = @At("HEAD"), 
+        method = {"isAcceptableItem", "method_8177"},
+        at = @At("HEAD"),
         cancellable = true
     )
-    private void sakaplus$customAcceptableItem(Item item, CallbackInfoReturnable<Boolean> cir) {
+    private void sakaplus$forceAcceptableItem(Item item, CallbackInfoReturnable<Boolean> cir) {
+        // 念のため、初期化前に呼ばれた場合のヌルポ防止ガード
+        if (item == null) return;
+
         Object current = (Object) this;
+
+        // 自分の拡張Enum要素だった場合は、バニラの処理を完全に無視して結果を強制返却
         if (current == SAKAPLUS$GREATSWORD) {
             cir.setReturnValue(item instanceof GreatswordItem);
         } else if (current == SAKAPLUS$GUN) {
