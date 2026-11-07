@@ -14,7 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(EnchantmentTarget.class)
 public abstract class EnchantmentTargetMixin {
 
-    // Mixinのルールに従い、フィールドを private に変更（エラーを完全回避）
     @Unique
     private static final EnchantmentTarget SAKAPLUS$GREATSWORD;
 
@@ -27,14 +26,15 @@ public abstract class EnchantmentTargetMixin {
         SAKAPLUS$GUN = sakaplus$create("GUN", currentLength + 1);
     }
 
-    // 外部のエンチャントクラスから安全にターゲットを呼び出すためのパブリックメソッド
+    // Mixinの規則に従い、private static に変更
     @Unique
-    public static EnchantmentTarget sakaplus$getGreatswordTarget() {
+    private static EnchantmentTarget sakaplus$getGreatswordTarget() {
         return SAKAPLUS$GREATSWORD;
     }
 
+    // Mixinの規則に従い、private static に変更
     @Unique
-    public static EnchantmentTarget sakaplus$getGunTarget() {
+    private static EnchantmentTarget sakaplus$getGunTarget() {
         return SAKAPLUS$GUN;
     }
 
