@@ -33,9 +33,9 @@ public class Leathergrip extends Gun {
 
     // NORMAL RECOIL
 
-    public static final float RECOIL_STRENGTH = 1.5F;
+    public static final float RECOIL_STRENGTH = 2.5F;
     public static final float RECOIL_RECOVERY_SPEED = 0.22F;
-    public static final float RECOIL_MAX_ANGLE = 15.0F;
+    public static final float RECOIL_MAX_ANGLE = 25.0F;
 
     // OPTIONAL INVULNERABILITY RESET
 
