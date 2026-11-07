@@ -25,6 +25,7 @@ public class SavannuEntity extends HostileEntity {
             World world
     ) {
         super(entityType, world);
+        this.experiencePoints = 4;
     }
 
     public static DefaultAttributeContainer.Builder createAttributes() {
