@@ -2,6 +2,7 @@
 package com.sakalti.sakaplus.client.item;
 
 import com.sakalti.sakaplus.item.KruziRifle;
+import com.sakalti.sakaplus.item.Fighter;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -40,13 +41,39 @@ public class KruziRifleKeybind {
                     continue;
                 }
 
+                // MAIN HAND
                 if (client.player.getMainHandStack().getItem()
-                        instanceof KruziRifle
-                        || client.player.getOffHandStack().getItem()
                         instanceof KruziRifle) {
 
                     ClientPlayNetworking.send(
                             KruziRifle.RELOAD_PACKET,
+                            PacketByteBufs.empty()
+                    );
+
+                } else if (client.player.getMainHandStack().getItem()
+                        instanceof Fighter) {
+
+                    ClientPlayNetworking.send(
+                            Fighter.RELOAD_PACKET,
+                            PacketByteBufs.empty()
+                    );
+
+                }
+
+                // OFF HAND
+                else if (client.player.getOffHandStack().getItem()
+                        instanceof KruziRifle) {
+
+                    ClientPlayNetworking.send(
+                            KruziRifle.RELOAD_PACKET,
+                            PacketByteBufs.empty()
+                    );
+
+                } else if (client.player.getOffHandStack().getItem()
+                        instanceof Fighter) {
+
+                    ClientPlayNetworking.send(
+                            Fighter.RELOAD_PACKET,
                             PacketByteBufs.empty()
                     );
                 }
