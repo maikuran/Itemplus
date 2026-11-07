@@ -72,6 +72,9 @@ public class ModEntities333 {
 
     public static final EntityType<CryomageEntity> CRYOMAGE =
             registerEntity("cryomage", SpawnGroup.MONSTER, CryomageEntity::new, 1.5F, 1.5F, 64, 3);
+    public static final EntityType<SavannuEntity> SAVANNU =
+            registerEntity("savannu", SpawnGroup.MONSTER, SavannuEntity::new, 2.0F, 1.0F, 64, 3);
+
 
     public static final EntityType<CryowarriorEntity> CRYOWARRIOR =
             registerEntity("cryowarrior", SpawnGroup.MONSTER, CryowarriorEntity::new, 0.8F, 2.0F, 64, 3);
@@ -150,6 +153,8 @@ public class ModEntities333 {
 
     public static final Item SCORCHER_SPAWN_EGG =
             registerSpawnEgg("scorcher_spawn_egg", SCORCHER, 0xAA0000, 0xFF5500, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
+    public static final Item SAVANNU_SPAWN_EGG =
+            registerSpawnEgg("savannu_spawn_egg", SAVANNU, 0x33ff33, 0xcc6600, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
     public static final Item ARSE_SPAWN_EGG =
             registerSpawnEgg("arse_spawn_egg", ARSE, 0xA6A6A6, 0x993300, ModTabs.VOLCANOS_TAB);
 
@@ -232,6 +237,7 @@ public class ModEntities333 {
     private static void registerAllAttributes() {
 
         registerAttributes(SCORCHER, ScorcherEntity.createAttributes());
+        registerAttributes(SAVANNU, SavannuEntity.createAttributes());
         registerAttributes(KULOOGIE, KuloogieEntity.createAttributes());
         registerAttributes(KUR_BRUTE, KurBruteEntity.createAttributes());
         registerAttributes(KRUZI_ANT, KruziAntEntity.createKruziAntAttributes());
@@ -293,6 +299,11 @@ public class ModEntities333 {
                 SpawnGroup.MONSTER, 95, 1, 2
         );
 
+        registerNaturalSpawn(
+                SAVANNU,
+                BiomeSelectors.includeByKey(BiomeKeys.SAVANNA),
+                SpawnGroup.MONSTER, 95, 1, 2
+        );
         registerNaturalSpawn(
                 OGANESON,
                 BiomeSelectors.includeByKey(BiomeKeys.WARPED_FOREST, BiomeKeys.CRIMSON_FOREST),
