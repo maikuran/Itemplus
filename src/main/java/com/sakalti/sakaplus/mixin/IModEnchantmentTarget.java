@@ -1,7 +1,7 @@
 package com.sakalti.sakaplus.mixin;
 
 import net.minecraft.enchantment.EnchantmentTarget;
-import com.sakalti.sakaplus.EnchantmentTargetMixin;
+import com.sakalti.sakaplus.mixin.EnchantmentTargetMixin;
 
 public interface IModEnchantmentTarget {
     // 外部の通常のクラスからは、ここを経由して安全にターゲットを取得します
