@@ -13,6 +13,7 @@
   "death.attack.sakalti_beam": "%1$s was shot a by beam",
   "block.sakaplus.sulfur_ore": "Sulfur Ore",
   "block.sakaplus.sulfur_block": "Block of Sulfur",
+  
   "item.sakaplus.sulfur_sword": "Sulfur Sword",
   "item.sakaplus.sulfur_pickaxe": "Sulfur Pickaxe",
   "item.sakaplus.sulfur_rifle": "Sulfur Rifle",
@@ -22,7 +23,8 @@
   "entity.sakaplus.phosphoran": "Phosphoran",
   "item.sakaplus.phosphorus": "Phosphorus",
   "item.sakaplus.phosphoran_spawn_egg": "Phosphoran Spawn Egg",
-
+  "entity.sakaplus.goblin": "Goblin",
+  "item.sakaplus.goblin_spawn_egg": "Goblin Spawn Egg",
   "entity.sakaplus.sulfan": "Sulfan",
   "item.sakaplus.sulfan_spawn_egg": "Sulfan Spawn Egg",
   "entity.sakaplus.savannu": "Savannu",
