@@ -16,7 +16,7 @@ public class MagnumEnchantment extends Enchantment {
         super(
                 Rarity.RARE,
                 // 直接Mixinの変数を叩かず、インターフェース経由で安全に取得
-                IModEnchantmentTarget.getGunTarget(),
+                IModEnchantmentTarget.getGun(),
                 new EquipmentSlot[] {
                         EquipmentSlot.MAINHAND,
                         EquipmentSlot.OFFHAND
