@@ -42,6 +42,24 @@
       "sakaplus:kruziant_death"
     ]
   },
+  "goblin_ambient": {
+    "subtitle": "subtitles.sakaplus.goblin_ambient",
+    "sounds": [
+      "sakaplus:goblin_ambient"
+    ]
+  },
+  "goblin_hurt": {
+    "subtitle": "subtitles.sakaplus.goblin_hurt",
+    "sounds": [
+      "sakaplus:goblin_hurt"
+    ]
+  },
+  "goblin_death": {
+    "subtitle": "subtitles.sakaplus.goblin_death",
+    "sounds": [
+      "sakaplus:goblin_death"
+    ]
+  },
   "arse_ambient": {
     "subtitle": "subtitles.sakaplus.arse_ambient",
     "sounds": [
