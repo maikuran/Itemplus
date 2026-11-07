@@ -2,9 +2,9 @@
 package com.sakalti.sakaplus.entity;
 
 import java.util.EnumSet;
-
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.goal.RevengeGoal;
@@ -95,7 +95,20 @@ public class GoblinEntity extends HostileEntity {
                 new GoblinBeamGoal(this)
         );
     }
+    @Override
+    protected SoundEvent getAmbientSound() {
+        return SakaplusSounds.GoblinAmbient;
+    }
 
+    @Override
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return SakaplusSounds.GoblinHurt;
+    }
+
+    @Override
+    protected SoundEvent getDeathSound() {
+        return SakaplusSounds.GoblinDeath;
+    }
     @Override
     public void tick() {
         super.tick();
