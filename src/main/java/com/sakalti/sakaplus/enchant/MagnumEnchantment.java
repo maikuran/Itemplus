@@ -1,6 +1,8 @@
 package com.sakalti.sakaplus.enchant;
-import com.sakalti.sakaplus.mixin.EnchantmentTargetMixin;
+
 import com.sakalti.sakaplus.item.Gun;
+import com.sakalti.sakaplus.mixin.IModEnchantmentTarget; // Mixinの代わりにインターフェースをインポート
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
@@ -13,8 +15,8 @@ public class MagnumEnchantment extends Enchantment {
     public MagnumEnchantment() {
         super(
                 Rarity.RARE,
-                // Use a built-in target; custom enum targets require unsafe enum injection.
-                EnchantmentTargetMixin.SAKAPLUS$GUN,
+                // 直接Mixinの変数を叩かず、インターフェース経由で安全に取得
+                IModEnchantmentTarget.getGunTarget(),
                 new EquipmentSlot[] {
                         EquipmentSlot.MAINHAND,
                         EquipmentSlot.OFFHAND
@@ -37,7 +39,6 @@ public class MagnumEnchantment extends Enchantment {
         return getMinPower(level) + 50;
     }
 
-    // Keep the enchantment restricted to guns (and books) despite using the built-in target.
     @Override
     public boolean isAcceptableItem(ItemStack stack) {
         return stack.getItem() instanceof Gun || stack.isOf(Items.BOOK);
