@@ -18,7 +18,7 @@ public class SweepBurstEnchantment extends Enchantment {
             // WEAPONだと剣が含まれるため、基本全般アイテム向けの BREAKABLE 等にするか
             // もしくは独自のカスタムTarget（Mixin拡張）を指定します。
             // ここではアイテム側の matches(ItemStack) 判定を主軸にするため BREAKABLE に変更
-            EnchantmentTarget.BREAKABLE, 
+            EnchantmentTarget.SAKAPLUS$GREATBLADE, 
             new EquipmentSlot[]{EquipmentSlot.MAINHAND}
         );
     }
