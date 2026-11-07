@@ -1,7 +1,8 @@
 package com.sakalti.sakaplus.enchant;
 
 import com.sakalti.sakaplus.item.GreatswordItem;
-import com.sakalti.sakaplus.mixin.EnchantmentTargetMixin;
+import com.sakalti.sakaplus.mixin.IModEnchantmentTarget; // Mixinの代わりに中継インターフェースをインポート
+
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.enchantment.Enchantments;
@@ -15,10 +16,8 @@ public class SweepBurstEnchantment extends Enchantment {
     public SweepBurstEnchantment() {
         super(
             Rarity.RARE,
-            // WEAPONだと剣が含まれるため、基本全般アイテム向けの BREAKABLE 等にするか
-            // もしくは独自のカスタムTarget（Mixin拡張）を指定します。
-            // ここではアイテム側の matches(ItemStack) 判定を主軸にするため BREAKABLE に変更
-            EnchantmentTargetMixin.SAKAPLUS$GREATSWORD, 
+            // 直接Mixinの変数を叩かず、インターフェース経由で安全に取得
+            IModEnchantmentTarget.getGreatbladeTarget(), 
             new EquipmentSlot[]{EquipmentSlot.MAINHAND}
         );
     }
@@ -49,9 +48,6 @@ public class SweepBurstEnchantment extends Enchantment {
 
     @Override
     public boolean isAvailableForRandomSelection() {
-        // BREAKABLEにしたことでエンチャントテーブルに出現しなくなるのを防ぐため、
-        // テーブル出現率を維持したい場合は true のままでOKですが、大剣のみに適用させるため
-        // 基本はエンチャント本経由（BookOffer）か、カスタムテーブル処理を推奨します。
         return true; 
     }
 
