@@ -42,7 +42,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "minecraft:dandelite_ingot"
+          "name": "sakaplus:dandelite_ingot"
         }
       ],
       "conditions": [
