@@ -17,7 +17,7 @@ public class SweepBurstEnchantment extends Enchantment {
         super(
             Rarity.RARE,
             // 直接Mixinの変数を叩かず、インターフェース経由で安全に取得
-            IModEnchantmentTarget.getGreatbladeTarget(), 
+            IModEnchantmentTarget.getGreatsword(), 
             new EquipmentSlot[]{EquipmentSlot.MAINHAND}
         );
     }
