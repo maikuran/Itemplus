@@ -1,7 +1,7 @@
 package com.sakalti.sakaplus.enchant;
 
 import com.sakalti.sakaplus.item.GreatswordItem;
-import com.sakalti.sakaplus.mixin.IModEnchantmentTarget; // Mixinの代わりに中継インターフェースをインポート
+import com.sakalti.sakaplus.mixin.IModEnchantmentTarget;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
@@ -16,8 +16,7 @@ public class SweepBurstEnchantment extends Enchantment {
     public SweepBurstEnchantment() {
         super(
             Rarity.RARE,
-            // 直接Mixinの変数を叩かず、インターフェース経由で安全に取得
-            IModEnchantmentTarget.getGreatsword(), 
+            IModEnchantmentTarget.getGreatblade(), 
             new EquipmentSlot[]{EquipmentSlot.MAINHAND}
         );
     }
@@ -29,7 +28,6 @@ public class SweepBurstEnchantment extends Enchantment {
 
     @Override
     public boolean isAcceptableItem(ItemStack stack) {
-        // ここで大剣インスタンスのみを厳密に指定
         return stack.getItem() instanceof GreatswordItem;
     }
 
@@ -40,10 +38,7 @@ public class SweepBurstEnchantment extends Enchantment {
 
     @Override
     protected boolean canAccept(Enchantment other) {
-        if (other == Enchantments.SHARPNESS) {
-            return false;
-        }
-        return super.canAccept(other);
+        return other != Enchantments.SHARPNESS && super.canAccept(other);
     }
 
     @Override
