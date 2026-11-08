@@ -157,7 +157,7 @@ public class SakaplusClient implements ClientModInitializer {
         );
 
         EntityRendererRegistry.register(
-            ModBeamEntities.LONG_KNIFE,
+            ModBeamEntities.LONG_KNIFE_PROJECTILE,
             LongKnifeRenderer::new
         );
 
