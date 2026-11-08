@@ -16,15 +16,15 @@
       "apply": { "y": 270 }
     },
     {
-      "when": { "in_wall": "true" },
+      "when": { "in_wall": true },
       "apply": { "model": "sakaplus:block/greeny_fence_gate_wall", "uvlock": true }
     },
     {
-      "when": { "open": "true" },
+      "when": { "open": true },
       "apply": { "model": "sakaplus:block/greeny_fence_gate_open", "uvlock": true }
     },
     {
-      "when": { "in_wall": "true", "open": "true" },
+      "when": { "in_wall": true, "open": true },
       "apply": { "model": "sakaplus:block/greeny_fence_gate_wall_open", "uvlock": true }
     }
   ]
