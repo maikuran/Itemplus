@@ -1,4 +1,4 @@
-package com.sakalti.sakaplus.client.render;
+package com.sakalti.sakaplus.client.renderer;
 
 import com.sakalti.sakaplus.client.model.LongKnifeModel;
 import com.sakalti.sakaplus.entity.LongKnifeProjectile;
