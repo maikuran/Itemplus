@@ -1,24 +1,21 @@
 package com.sakalti.sakaplus.enchant;
 
-import com.sakalti.sakaplus.item.Gun;
-
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.util.Rarity;
 
 public class MagnumEnchantment extends Enchantment {
 
     public MagnumEnchantment() {
         super(
-                Rarity.RARE,
-                EnchantmentTarget.BREAKABLE,
-                new EquipmentSlot[] {
-                        EquipmentSlot.MAINHAND,
-                        EquipmentSlot.OFFHAND
-                }
+            Rarity.RARE,
+            EnchantmentTarget.BREAKABLE,
+            new EquipmentSlot[] {
+                EquipmentSlot.MAINHAND,
+                EquipmentSlot.OFFHAND
+            }
         );
     }
 
@@ -39,9 +36,7 @@ public class MagnumEnchantment extends Enchantment {
 
     @Override
     public boolean isAcceptableItem(ItemStack stack) {
-        return stack != null
-                && !stack.isEmpty()
-                && (stack.getItem() instanceof Gun || stack.isOf(Items.BOOK));
+        return EnchantmentItemChecks.isMagnumTarget(stack);
     }
 
     @Override

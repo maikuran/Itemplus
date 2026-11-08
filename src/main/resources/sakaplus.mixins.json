@@ -6,7 +6,6 @@
   "mixins": [
     "AdaptationMixin",
     "ClientPlayerInteractionManagerMixin",
-    "EnchantmentTargetMixin",
     "FighterZoomMixin",
     "InGameHudMixin",
     "EntityAttributeInstanceMixin",
