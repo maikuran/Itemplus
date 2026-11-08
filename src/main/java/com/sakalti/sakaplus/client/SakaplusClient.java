@@ -389,7 +389,7 @@ public class SakaplusClient implements ClientModInitializer {
             SavannuModel::getTexturedModelData
         );
         registerLayer(
-            LongKnifeRenderer.MODEL_LAYER,
+            LongKnifeRenderer.LAYER,
             LongKnifeModel::getTexturedModelData
         );
 
