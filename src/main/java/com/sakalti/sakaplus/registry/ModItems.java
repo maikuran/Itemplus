@@ -67,10 +67,10 @@ public class ModItems {
     public static final Item CRYSTALLINE_LEGGINGS=new CrystallineArmorItem(ModArmorMaterials.CRYSTALLINE,EquipmentSlot.LEGS,new Item.Settings().group(ModTabs.CYROVILIM_TAB));
     public static final Item CRYSTALLINE_BOOTS=new CrystallineArmorItem(ModArmorMaterials.CRYSTALLINE,EquipmentSlot.FEET,new Item.Settings().group(ModTabs.CYROVILIM_TAB));
 
-    public static final Item INFERNAL_HELMET=new InfernalArmorItem(ModArmorMaterials.INFERNAL,EquipmentSlot.HEAD,new Item.Settings().group(ModTabs.VOLCANOS_TAB));
-    public static final Item INFERNAL_CHESTPLATE=new InfernalArmorItem(ModArmorMaterials.INFERNAL,EquipmentSlot.CHEST,new Item.Settings().group(ModTabs.VOLCANOS_TAB));
-    public static final Item INFERNAL_LEGGINGS=new InfernalArmorItem(ModArmorMaterials.INFERNAL,EquipmentSlot.LEGS,new Item.Settings().group(ModTabs.VOLCANOS_TAB));
-    public static final Item INFERNAL_BOOTS=new InfernalArmorItem(ModArmorMaterials.INFERNAL,EquipmentSlot.FEET,new Item.Settings().group(ModTabs.VOLCANOS_TAB));
+    public static final Item INFERNAL_HELMET=new InfernalArmorItem(ModArmorMaterials.INFERNAL,EquipmentSlot.HEAD,new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
+    public static final Item INFERNAL_CHESTPLATE=new InfernalArmorItem(ModArmorMaterials.INFERNAL,EquipmentSlot.CHEST,new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
+    public static final Item INFERNAL_LEGGINGS=new InfernalArmorItem(ModArmorMaterials.INFERNAL,EquipmentSlot.LEGS,new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
+    public static final Item INFERNAL_BOOTS=new InfernalArmorItem(ModArmorMaterials.INFERNAL,EquipmentSlot.FEET,new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
 
     private static void registerItem(String name,Item item){
         Registry.register(Registry.ITEM,new Identifier("sakaplus",name),item);
