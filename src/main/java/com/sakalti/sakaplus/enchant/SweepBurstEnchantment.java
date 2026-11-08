@@ -1,7 +1,6 @@
 package com.sakalti.sakaplus.enchant;
 
 import com.sakalti.sakaplus.item.GreatswordItem;
-import com.sakalti.sakaplus.enchant.IModEnchantmentTarget;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentTarget;
@@ -16,7 +15,7 @@ public class SweepBurstEnchantment extends Enchantment {
     public SweepBurstEnchantment() {
         super(
             Rarity.RARE,
-            IModEnchantmentTarget.getGreatblade(), 
+            EnchantmentTarget.WEAPON,
             new EquipmentSlot[]{EquipmentSlot.MAINHAND}
         );
     }
@@ -28,7 +27,9 @@ public class SweepBurstEnchantment extends Enchantment {
 
     @Override
     public boolean isAcceptableItem(ItemStack stack) {
-        return stack.getItem() instanceof GreatswordItem;
+        return stack != null
+            && !stack.isEmpty()
+            && stack.getItem() instanceof GreatswordItem;
     }
 
     @Override
@@ -43,7 +44,7 @@ public class SweepBurstEnchantment extends Enchantment {
 
     @Override
     public boolean isAvailableForRandomSelection() {
-        return true; 
+        return true;
     }
 
     @Override
