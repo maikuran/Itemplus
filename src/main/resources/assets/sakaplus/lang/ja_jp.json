@@ -9,6 +9,7 @@
   "enchantment.sakaplus.poison": "毒付与",
   "item.sakaplus.sulfur_ingot": "硫黄インゴット",
   "death.attack.sakalti_beam": "%1$sはビームに撃たれた",
+  "death.attack.sakalti_long_knife": "%1$sはナイフに刺された",
   "block.sakaplus.sulfur_ore": "硫黄鉱石",
   "block.sakaplus.sulfur_block": "硫黄ブロック",
   "item.sakaplus.forcis": "フォーシス",
