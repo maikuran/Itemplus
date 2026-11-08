@@ -3,6 +3,7 @@ package com.sakalti.sakaplus.entity;
 
 import java.util.EnumSet;
 import com.sakalti.sakaplus.sound.SakaplusSounds;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.sound.SoundEvent;
