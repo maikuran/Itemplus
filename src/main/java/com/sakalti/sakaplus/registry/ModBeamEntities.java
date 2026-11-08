@@ -1,8 +1,8 @@
 
 package com.sakalti.sakaplus.registry;
 
-import com.sakalti.sakaplus.SakaplusMod2;
 import com.sakalti.sakaplus.entity.BeamProjectileEntity;
+import com.sakalti.sakaplus.entity.LongKnifeProjectile;
 
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityDimensions;
@@ -23,6 +23,21 @@ public final class ModBeamEntities {
                                     BeamProjectileEntity::new
                             )
                             .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
+                            .trackRangeBlocks(64)
+                            .trackedUpdateRate(1)
+                            .build()
+            );
+
+    public static final EntityType<LongKnifeProjectile> LONG_KNIFE_PROJECTILE =
+            Registry.register(
+                    Registry.ENTITY_TYPE,
+                    new Identifier("sakaplus", "long_knife_projectile"),
+                    FabricEntityTypeBuilder
+                            .<LongKnifeProjectile>create(
+                                    SpawnGroup.MISC,
+                                    LongKnifeProjectile::new
+                            )
+                            .dimensions(EntityDimensions.fixed(0.25F, 1.0F))
                             .trackRangeBlocks(64)
                             .trackedUpdateRate(1)
                             .build()
