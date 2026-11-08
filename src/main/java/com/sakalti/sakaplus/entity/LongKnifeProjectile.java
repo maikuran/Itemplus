@@ -6,7 +6,6 @@ import com.sakalti.sakaplus.registry.ModBeamEntities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -47,15 +46,9 @@ public class LongKnifeProjectile extends ProjectileEntity {
         // DataTrackerは使用しない
     }
 
-    public void setKnifeVelocity(LivingEntity shooter, float speed) {
-        this.setVelocity(
-                shooter,
-                shooter.getPitch(),
-                shooter.getYaw(),
-                0.0F,
-                speed,
-                0.0F
-        );
+    // 真下に落下させる
+    public void setFallVelocity(float speed) {
+        this.setVelocity(0.0D, -Math.abs(speed), 0.0D);
     }
 
     @Override
@@ -133,6 +126,7 @@ public class LongKnifeProjectile extends ProjectileEntity {
             Entity target = ((EntityHitResult) hit).getEntity();
 
             if (target instanceof LivingEntity && target.isAlive()) {
+
                 LivingEntity living = (LivingEntity) target;
 
                 DamageSource damageSource =
