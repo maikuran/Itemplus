@@ -157,6 +157,11 @@ public class SakaplusClient implements ClientModInitializer {
         );
 
         EntityRendererRegistry.register(
+            ModBeamEntities.LONG_KNIFE,
+            LongKnifeRenderer::new
+        );
+
+        EntityRendererRegistry.register(
             ModEntities333.SCORCHER,
             ScorcherRenderer::new
         );
@@ -382,6 +387,10 @@ public class SakaplusClient implements ClientModInitializer {
         registerLayer(
             SavannuRenderer.MODEL_LAYER,
             SavannuModel::getTexturedModelData
+        );
+        registerLayer(
+            LongKnifeRenderer.MODEL_LAYER,
+            LongKnifeModel::getTexturedModelData
         );
 
         registerLayer(
