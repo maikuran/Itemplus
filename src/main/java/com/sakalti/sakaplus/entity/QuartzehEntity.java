@@ -4,17 +4,22 @@ import java.util.EnumSet;
 
 import com.sakalti.sakaplus.sound.SakaplusSounds;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.control.FlightMoveControl;
+import net.minecraft.entity.ai.goal.ActiveTargetGoal;
 import net.minecraft.entity.ai.goal.FlyGoal;
 import net.minecraft.entity.ai.goal.Goal;
+import net.minecraft.entity.ai.goal.LookAroundGoal;
+import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.mob.HostileEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.world.World;
 
@@ -32,7 +37,6 @@ public class QuartzehEntity extends HostileEntity {
             World world
     ) {
         super(type, world);
-
         this.moveControl = new FlightMoveControl(this, 10, true);
         this.setNoGravity(true);
         this.experiencePoints = 15;
@@ -41,6 +45,12 @@ public class QuartzehEntity extends HostileEntity {
     @Override
     public boolean isFireImmune() {
         return true;
+    }
+
+    // 飛行モブのため落下ダメージを無効化
+    @Override
+    public boolean handleFallDamage(float fallDistance, float damageMultiplier, DamageSource damageSource) {
+        return false;
     }
 
     public static DefaultAttributeContainer.Builder createAttributes() {
@@ -56,34 +66,29 @@ public class QuartzehEntity extends HostileEntity {
 
     @Override
     protected void initGoals() {
+        // 行動AI
+        this.goalSelector.add(2, new QuartzehBeamGoal(this));
+        this.goalSelector.add(5, new FlyGoal(this, 1.0D));
+        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
+        this.goalSelector.add(7, new LookAroundGoal(this));
 
-        // 近接攻撃Goalは登録しない
-        this.goalSelector.add(
-                3,
-                new QuartzehBeamGoal(this)
-        );
-
-        this.goalSelector.add(
-                5,
-                new FlyGoal(this, 1.0D)
-        );
+        // ターゲット選択AI（プレイヤーを自動索敵）
+        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
 
     // 攻撃してきた敵をターゲットにする
     @Override
     public boolean damage(DamageSource source, float amount) {
-
         boolean damaged = super.damage(source, amount);
 
-        if (damaged && !this.getWorld().isClient) {
-
+        // 1.19.2では this.world を使用
+        if (damaged && !this.world.isClient) {
             Entity attacker = source.getAttacker();
 
             if (attacker instanceof LivingEntity
                     && attacker != this
                     && attacker.isAlive()
                     && !this.isTeammate(attacker)) {
-
                 this.setTarget((LivingEntity) attacker);
             }
         }
@@ -92,7 +97,6 @@ public class QuartzehEntity extends HostileEntity {
     }
 
     // Sounds
-
     @Override
     protected SoundEvent getAmbientSound() {
         return SakaplusSounds.ArseAmbient;
@@ -109,21 +113,22 @@ public class QuartzehEntity extends HostileEntity {
     }
 
     // Navigation
-
     @Override
     protected EntityNavigation createNavigation(World world) {
-        return new BirdNavigation(this, world);
+        BirdNavigation navigation = new BirdNavigation(this, world);
+        navigation.setCanPathThroughDoors(false);
+        navigation.setCanSwim(true);
+        navigation.setCanEnterOpenDoors(true);
+        return navigation;
     }
 
     // Tick
-
     @Override
     public void tick() {
         super.tick();
-
         this.setNoGravity(true);
 
-        if (this.getWorld().isClient) {
+        if (this.world.isClient) {
             return;
         }
 
@@ -133,12 +138,8 @@ public class QuartzehEntity extends HostileEntity {
     }
 
     // White Beam
-
     private void fireWhiteBeam(LivingEntity target) {
-
-        if (this.getWorld().isClient
-                || target == null
-                || !target.isAlive()) {
+        if (this.world.isClient || target == null || !target.isAlive()) {
             return;
         }
 
@@ -153,64 +154,53 @@ public class QuartzehEntity extends HostileEntity {
         beamCooldown = BEAM_INTERVAL;
     }
 
-    // Beam Goal
-
+    // Beam Goal（攻撃＋接近AI）
     private static class QuartzehBeamGoal extends Goal {
 
         private final QuartzehEntity mob;
 
         private QuartzehBeamGoal(QuartzehEntity mob) {
             this.mob = mob;
-
-            this.setControls(
-                    EnumSet.of(Goal.Control.LOOK)
-            );
+            this.setControls(EnumSet.of(Goal.Control.MOVE, Goal.Control.LOOK));
         }
 
         @Override
         public boolean canStart() {
-
             LivingEntity target = mob.getTarget();
-
-            if (target == null || !target.isAlive()) {
-                return false;
-            }
-
-            return mob.squaredDistanceTo(target)
-                    <= BEAM_RANGE * BEAM_RANGE
-                    && mob.beamCooldown <= 0;
+            return target != null && target.isAlive();
         }
 
         @Override
         public boolean shouldContinue() {
+            return canStart();
+        }
 
-            LivingEntity target = mob.getTarget();
-
-            return target != null
-                    && target.isAlive()
-                    && mob.squaredDistanceTo(target)
-                    <= BEAM_RANGE * BEAM_RANGE;
+        @Override
+        public void stop() {
+            mob.getNavigation().stop();
         }
 
         @Override
         public void tick() {
-
             LivingEntity target = mob.getTarget();
-
             if (target == null || !target.isAlive()) {
                 return;
             }
 
-            mob.getLookControl().lookAt(
-                    target,
-                    30.0F,
-                    30.0F
-            );
+            double distanceSq = mob.squaredDistanceTo(target);
+            boolean canSee = mob.canSee(target);
 
-            if (mob.squaredDistanceTo(target)
-                    <= BEAM_RANGE * BEAM_RANGE
-                    && mob.beamCooldown <= 0) {
+            mob.getLookControl().lookAt(target, 30.0F, 30.0F);
 
+            // 射程外、または壁の裏にいる場合はターゲットに近づく
+            if (distanceSq > (BEAM_RANGE * BEAM_RANGE) * 0.75D || !canSee) {
+                mob.getNavigation().startMovingTo(target, 1.2D);
+            } else {
+                mob.getNavigation().stop();
+            }
+
+            // 射程内かつ視線が通っていればビーム発射
+            if (distanceSq <= BEAM_RANGE * BEAM_RANGE && canSee && mob.beamCooldown <= 0) {
                 mob.fireWhiteBeam(target);
             }
         }
