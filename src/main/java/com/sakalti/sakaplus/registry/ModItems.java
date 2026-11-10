@@ -27,6 +27,7 @@ public class ModItems {
     public static final Item FIGHTER=new Fighter(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item DANSITE_BOW=new DansiteBowItem(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item FORCIS=new Forcis(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
+    public static final Item ICY_BOW=new IcyBowItem(new Item.Settings().group(ModTabs.CYROVILIM_TAB));
     public static final Item PHOSPHORE=new Phosphore(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
     public static final Item SULFUR_RIFLE=new SulfurRifle(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
     public static final Item CRYO_RIFLE=new CryoRifle(new Item.Settings().group(ModTabs.CYROVILIM_TAB));
@@ -88,6 +89,7 @@ public class ModItems {
         registerItem("sweet_berry_pie",SWEET_BERRY_PIE);
         registerItem("glow_berry_donut",GLOW_BERRY_DONUT);
         registerItem("hp_plus",HP_PLUS);
+        registerItem("icy_bow",ICY_BOW);
         registerItem("light_stone",LIGHT_STONE);
         registerItem("cryocrystal",CRYOCRYSTAL);
         registerItem("toufu_a",TOUFU_A);
