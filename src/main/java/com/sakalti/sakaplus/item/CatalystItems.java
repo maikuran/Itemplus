@@ -43,7 +43,7 @@ public class CatalystItems {
             new Item.Settings().group(ModTabs.CYROVILIM_TAB)
         );
     public static final Item QUARTZ_STAFF =
-        new QuartzStaff(
+        new QuartzStaffItem(
             new Item.Settings().group(ModTabs.VOLCANOS_TAB)
         );
 
