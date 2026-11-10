@@ -42,6 +42,11 @@ public class CatalystItems {
         new CryogenicStaff(
             new Item.Settings().group(ModTabs.CYROVILIM_TAB)
         );
+    public static final Item QUARTZ_STAFF =
+        new QuartzStaff(
+            new Item.Settings().group(ModTabs.VOLCANOS_TAB)
+        );
+
 
     public static void registerCatalysts() {
 
