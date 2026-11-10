@@ -7,7 +7,7 @@
         {
           "type": "minecraft:item",
           "name": "minecraft:coal",
-          "weight": 30,
+          "weight": 26,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -67,7 +67,7 @@
         {
           "type": "minecraft:item",
           "name": "sakaplus:cryogenic_staff",
-          "weight": 7,
+          "weight": 9,
           "functions": [
             {
               "function": "minecraft:set_count",
