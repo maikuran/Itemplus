@@ -228,6 +228,10 @@ public class SakaplusClient implements ClientModInitializer {
             ModEntities333.KULOOGIE,
             KuloogieRenderer::new
         );
+        EntityRendererRegistry.register(
+            ModEntities333.QUARTZEH,
+            QuartzehRenderer::new
+        );
 
         EntityRendererRegistry.register(
             ModEntities333.KUR_BRUTE,
@@ -391,6 +395,10 @@ public class SakaplusClient implements ClientModInitializer {
         registerLayer(
             LongKnifeRenderer.LAYER,
             LongKnifeModel::getTexturedModelData
+        );
+        registerLayer(
+            QuartzehRenderer.LAYER,
+            QuartzehModel::getTexturedModelData
         );
 
         registerLayer(
