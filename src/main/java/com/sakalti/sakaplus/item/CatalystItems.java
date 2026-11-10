@@ -73,6 +73,7 @@ public class CatalystItems {
 
         // Cyrovilim
         register("cryogenic_staff", CRYOGENIC_STAFF);
+        register("quartz_staff", QUARTZ_STAFF);
     }
 
     private static void register(String path, Item item) {
