@@ -25,8 +25,8 @@ public class Cannon extends Gun {
 
     public static final int COOLDOWN_TICKS = 16;
     public static final int RELOAD_COOLDOWN = 20;
-    public static final int MAX_AMMO = 6;
-    public static final int MAX_DURABILITY = 390;
+    public static final int MAX_AMMO = 10;
+    public static final int MAX_DURABILITY = 550;
 
     public static final float BEAM_DAMAGE = 8.25F;
     public static final float BEAM_SPEED = 2.0F;
