@@ -32,6 +32,8 @@ public class ModItems {
     public static final Item CRYO_RIFLE=new CryoRifle(new Item.Settings().group(ModTabs.CYROVILIM_TAB));
     public static final Item KRUZI_RIFLE=new KruziRifle(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item LEATHERGRIP=new Leathergrip(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
+    public static final Item CANNON=new Cannon(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
+
 
     public static final Item RAW_PYRONIUM=new Item(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item PYRONIUM_INGOT=new Item(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
@@ -123,6 +125,7 @@ public class ModItems {
         registerItem("phosphorus",PHOSPHORUS);
         registerItem("sulfur_sword",SULFUR_SWORD);
         registerItem("forcis",FORCIS);
+        registerItem("cannon",CANNON);
         registerItem("sulfur_pickaxe",SULFUR_PICKAXE);
         registerItem("rosite_ingot",ROSITE_INGOT);
         registerItem("rosite_sword",ROSITE_SWORD);
