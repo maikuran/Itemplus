@@ -9,7 +9,6 @@ import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.util.hit.EntityHitResult;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -17,17 +16,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(PersistentProjectileEntity.class)
 public abstract class IcyBowHitMixin {
 
-    @Shadow
-    public abstract boolean getWorldIsClient();
-
     @Inject(
-            method = "onEntityHit",
+            method = "onEntityHit(Lnet/minecraft/util/hit/EntityHitResult;)V",
             at = @At("HEAD")
     )
     private void sakaplus$icyBowHit(
             EntityHitResult hitResult,
-            CallbackInfo ci) {
-
+            CallbackInfo ci
+    ) {
         PersistentProjectileEntity arrow =
                 (PersistentProjectileEntity) (Object) this;
 
@@ -47,7 +43,6 @@ public abstract class IcyBowHitMixin {
             return;
         }
 
-        // 鈍化III・5秒
         target.addStatusEffect(
                 new StatusEffectInstance(
                         StatusEffects.SLOWNESS,
