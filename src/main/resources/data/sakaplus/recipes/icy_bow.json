@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WGG",
+    "G S",
+    "GSS"
+  ],
+  "key": {
+    "G": { "item": "sakaplus:cryocrystal" },
+    "W": { "item": "sakaplus:cloth" },
+    "S": { "item": "sakaplus_string" }
+  },
+  "result": {
+    "item": "sakaplus:icy_bow",
+    "count": 1
+  }
+}
