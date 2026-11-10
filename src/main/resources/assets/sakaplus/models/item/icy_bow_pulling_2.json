@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "sakaplus:item/dansite_bow_pulling_2"
+    "layer0": "sakaplus:item/icy_bow_pulling_2"
   },
   "display": {
         "thirdperson_righthand": {
