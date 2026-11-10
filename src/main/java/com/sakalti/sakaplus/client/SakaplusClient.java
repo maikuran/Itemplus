@@ -397,7 +397,7 @@ public class SakaplusClient implements ClientModInitializer {
             LongKnifeModel::getTexturedModelData
         );
         registerLayer(
-            QuartzehRenderer.LAYER,
+            QuartzehRenderer.MODEL_LAYER,
             QuartzehModel::getTexturedModelData
         );
 
