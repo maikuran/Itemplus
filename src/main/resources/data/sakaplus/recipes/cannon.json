@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WSG",
+    "GGW",
+    " SB"
+  ],
+  "key": {
+    "B": { "item": "minecraft:leather" },
+    "G": { "item": "minecraft:iron_block" },
+    "W": { "item": "minecraft:copper_ingot" },
+    "S": { "item": "minecraft:gunpowder" }
+  },
+  "result": {
+    "item": "sakaplus:cannon",
+    "count": 1
+  }
+}
