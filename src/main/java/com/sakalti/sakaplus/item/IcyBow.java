@@ -6,8 +6,6 @@ import java.util.function.Predicate;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.item.ArrowItem;
@@ -113,8 +111,6 @@ public class IcyBow extends BowItem {
         }
 
         arrow.setDamage(baseDamage);
-
-        // クリティカル無効
         arrow.setCritical(false);
 
         int punch = EnchantmentHelper.getLevel(
@@ -133,11 +129,13 @@ public class IcyBow extends BowItem {
             arrow.setOnFireFor(100);
         }
 
+        // IcyBow専用の命中判定タグ
+        arrow.addScoreboardTag("sakaplus_icy_bow");
+
         // Infinityは通常の矢のみ
         boolean infinityApplies =
                 infinityLevel > 0 && arrowStack.isOf(Items.ARROW);
 
-        // 矢の消費
         if (!creative && !infinityApplies) {
             arrowStack.decrement(1);
         }
@@ -146,23 +144,6 @@ public class IcyBow extends BowItem {
             arrow.pickupType =
                     PersistentProjectileEntity.PickupPermission.CREATIVE_ONLY;
         }
-
-        // 命中時に鈍化IIIを5秒間付与
-        arrow.setDamage(baseDamage);
-
-        arrow.setOnHit(entity -> {
-            if (entity instanceof LivingEntity) {
-                LivingEntity target = (LivingEntity) entity;
-
-                target.addStatusEffect(
-                        new StatusEffectInstance(
-                                StatusEffects.SLOWNESS,
-                                100,
-                                2
-                        )
-                );
-            }
-        });
 
         serverWorld.spawnEntity(arrow);
 
