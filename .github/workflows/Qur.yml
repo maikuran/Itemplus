@@ -1,0 +1,139 @@
+name: Generate quartz hut structure
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main3
+    paths:
+      - ".github/workflows/generate-quartz-hut.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install nbtlib
+        run: python -m pip install nbtlib
+
+      - name: Generate quartz hut NBT
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from nbtlib import Compound, File, Int, List, Short, String
+
+          output = Path("src/main/resources/data/sakaplus/structures/quartz_hut.nbt")
+
+          palette_names = [
+              "minecraft:quartz_block",
+              "minecraft:spawner",
+              "minecraft:brown_carpet",
+              "minecraft:brown_wool",
+              "minecraft:green_wool",
+          ]
+          palette = List[Compound](
+              Compound({"Name": String(name)}) for name in palette_names
+          )
+          state = {name: index for index, name in enumerate(palette_names)}
+          blocks = []
+
+          def put(x, y, z, block, nbt=None):
+              entry = Compound({
+                  "state": Int(state[block]),
+                  "pos": List[Int]([Int(x), Int(y), Int(z)]),
+              })
+              if nbt is not None:
+                  entry["nbt"] = nbt
+              blocks.append(entry)
+
+          # 7x7の床と屋根、4ブロック高の豆腐ハウス
+          for x in range(7):
+              for z in range(7):
+                  put(x, 0, z, "minecraft:quartz_block")
+                  put(x, 5, z, "minecraft:quartz_block")
+
+          for y in range(1, 5):
+              for i in range(7):
+                  put(0, y, i, "minecraft:quartz_block")
+                  put(6, y, i, "minecraft:quartz_block")
+                  put(i, y, 6, "minecraft:quartz_block")
+                  # 正面に1マス幅・2マス高の入口
+                  if not (i == 3 and y <= 2):
+                      put(i, y, 0, "minecraft:quartz_block")
+
+          # 屋根の縁に茶色いカーペット
+          for x in range(7):
+              for z in range(7):
+                  if x in (0, 6) or z in (0, 6):
+                      put(x, 6, z, "minecraft:brown_carpet")
+
+          # 外壁に垂れ下がる茶色い部分
+          for y in (4, 5):
+              for x in range(1, 6):
+                  put(x, y, 0, "minecraft:brown_wool")
+                  put(x, y, 6, "minecraft:brown_wool")
+              for z in range(1, 6):
+                  put(0, y, z, "minecraft:brown_wool")
+                  put(6, y, z, "minecraft:brown_wool")
+
+          # 上に乗った緑の「薬味」
+          for x, z in ((3, 3), (2, 3), (4, 3), (3, 2), (3, 4)):
+              put(x, 6, z, "minecraft:green_wool")
+          put(3, 7, 3, "minecraft:green_wool")
+
+          # 中央のスポナーに sakaplus:quartzeh を設定
+          spawner_nbt = Compound({
+              "id": String("minecraft:mob_spawner"),
+              "Delay": Short(20),
+              "MinSpawnDelay": Short(200),
+              "MaxSpawnDelay": Short(800),
+              "SpawnCount": Short(4),
+              "MaxNearbyEntities": Short(6),
+              "RequiredPlayerRange": Short(16),
+              "SpawnRange": Short(4),
+              "SpawnData": Compound({
+                  "entity": Compound({
+                      "id": String("sakaplus:quartzeh")
+                  })
+              }),
+          })
+          put(3, 1, 3, "minecraft:spawner", spawner_nbt)
+
+          structure = File(
+              Compound({
+                  "DataVersion": Int(3120),
+                  "author": String("Sakaplus"),
+                  "size": List[Int]([Int(7), Int(8), Int(7)]),
+                  "palette": palette,
+                  "blocks": List[Compound](blocks),
+                  "entities": List[Compound](),
+              }),
+              gzipped=True,
+          )
+
+          output.parent.mkdir(parents=True, exist_ok=True)
+          structure.save(output)
+          print(f"Generated {output}")
+          PY
+
+      - name: Commit generated structure
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add src/main/resources/data/sakaplus/structures/quartz_hut.nbt
+          if git diff --cached --quiet; then
+            echo "Structure NBT is already up to date."
+          else
+            git commit -m "Generate quartz hut structure NBT"
+            git push
+          fi
