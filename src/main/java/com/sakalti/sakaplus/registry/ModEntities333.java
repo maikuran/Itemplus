@@ -66,6 +66,8 @@ public class ModEntities333 {
             registerEntity("kur_brute", SpawnGroup.CREATURE, KurBruteEntity::new, 0.5F, 1.1F);
     public static final EntityType<ArseEntity> ARSE =
             registerEntity("arse", SpawnGroup.MONSTER, ArseEntity::new, 1.2F, 1.8F);
+    public static final EntityType<QuartzehEntity> QUARTZEH =
+            registerEntity("quartzeh", SpawnGroup.MONSTER, QuartzehEntity::new, 1.4F, 2.8F);
 
     public static final EntityType<KruziAntEntity> KRUZI_ANT =
             registerEntity("kruzi_ant", SpawnGroup.MONSTER, KruziAntEntity::new, 0.5F, 0.5F, 64, 3);
@@ -227,6 +229,8 @@ public class ModEntities333 {
 
     public static final Item SULFAN_SPAWN_EGG =
             registerSpawnEgg("sulfan_spawn_egg", SULFAN, 0xD9B52B, 0x553311, ModTabs.VOLCANOS_TAB);
+    public static final Item QUARTZEH_SPAWN_EGG =
+            registerSpawnEgg("quartzeh_spawn_egg", QUARTZEH, 0xCCCCCC, 0xEEEEEE, ModTabs.VOLCANOS_TAB);
 
 
     // ==================================================
@@ -265,6 +269,7 @@ public class ModEntities333 {
         registerAttributes(BATTLE_NYANKO, BattleNyankoEntity.createAttributes());
         registerAttributes(SHYRON, ShyronEntity.createAttributes());
         registerAttributes(XXENA, XxenaEntity.createAttributes());
+        registerAttributes(QUARTZEH, QuartzehEntity.createAttributes());
 
         registerAttributes(PHOSPHORAN, PhosphoranEntity.createAttributes());
         registerAttributes(SULFAN, SulfanEntity.createAttributes());
@@ -308,7 +313,7 @@ public class ModEntities333 {
 
         registerNaturalSpawn(
                 GOBLIN,
-                BiomeSelectors.includeByKey(BiomeKeys.PLAINS),
+                BiomeSelectors.includeByKey(BiomeKeys.MEADOW),
                 SpawnGroup.MONSTER, 95, 1, 2
         );
 
