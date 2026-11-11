@@ -26,6 +26,8 @@ public class ModItems {
     public static final Item OVERSHOT=new Overshot(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item FIGHTER=new Fighter(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item DANSITE_BOW=new DansiteBowItem(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
+    Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
+    public static final Item VOLCANIC_BOW=new VolcanicBow(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
     public static final Item FORCIS=new Forcis(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item ICY_BOW=new IcyBow(new Item.Settings().group(ModTabs.CYROVILIM_TAB));
     public static final Item PHOSPHORE=new Phosphore(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
@@ -127,6 +129,7 @@ public class ModItems {
         registerItem("phosphorus",PHOSPHORUS);
         registerItem("sulfur_sword",SULFUR_SWORD);
         registerItem("forcis",FORCIS);
+        registerItem("volcanic_bow",VOLCANIC_BOW);
         registerItem("cannon",CANNON);
         registerItem("sulfur_pickaxe",SULFUR_PICKAXE);
         registerItem("rosite_ingot",ROSITE_INGOT);
