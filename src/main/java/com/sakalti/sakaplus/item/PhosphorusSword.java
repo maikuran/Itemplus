@@ -56,7 +56,7 @@ public class PhosphorusSword extends SwordItem {
             .maxDamage(1980));
     }
 
-    @Ov
+    @Override
     public boolean postHit(
             ItemStack stack,
             LivingEntity target,
