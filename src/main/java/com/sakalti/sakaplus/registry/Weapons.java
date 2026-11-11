@@ -8,12 +8,14 @@ import net.minecraft.util.registry.Registry;
 public class Weapons {
     public static final Item LIGHTNING_STINGER = new LightningStinger();
     public static final Item LIGHTNING_SPARK = new LightningSpark();
+    public static final Item PHOSPHORUS_SWORD = new PhosphorusSword();
     public static final Item ICE_GREATBLADE = new IceGreatblade();
     public static final Item BONE_SCYTHE = new BoneScytheItem();
     public static final Item CRYOFLAME = new Cryoflame();
 
     public static void registerItems() {
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "lightning_stinger"), LIGHTNING_STINGER);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "phosphorus_sword"), PHOSPHORUS_SWORD);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "cryoflame"), CRYOFLAME);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "bone_scythe"), BONE_SCYTHE);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "ice_greatblade"), ICE_GREATBLADE);
