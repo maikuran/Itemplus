@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "AdaptationMixin",
+    "VolcanicBowMixin",
     "IcyBowHitMixin",
     "ClientPlayerInteractionManagerMixin",
     "FighterZoomMixin",
