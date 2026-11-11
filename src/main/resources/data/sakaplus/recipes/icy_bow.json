@@ -8,7 +8,7 @@
   "key": {
     "G": { "item": "sakaplus:cryocrystal" },
     "W": { "item": "sakaplus:cloth" },
-    "S": { "item": "sakaplus_string" }
+    "S": { "item": "minecraft:string" }
   },
   "result": {
     "item": "sakaplus:icy_bow",
