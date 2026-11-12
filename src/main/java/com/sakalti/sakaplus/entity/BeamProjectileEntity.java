@@ -334,3 +334,9 @@ public class BeamProjectileEntity extends ProjectileEntity {
         nbt.putBoolean("ResetInvulnerability", this.shouldResetInvulnerability());
         nbt.putFloat("ArmorMultiplier", this.getArmorDamageMultiplier());
     }
+// =========================================================
+@Override
+public Packet<?> createSpawnPacket() {
+return new EntitySpawnS2CPacket(this);
+}
+}
