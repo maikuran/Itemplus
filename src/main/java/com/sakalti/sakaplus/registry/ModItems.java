@@ -32,6 +32,7 @@ public class ModItems {
     public static final Item PHOSPHORE=new Phosphore(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
     public static final Item SULFUR_RIFLE=new SulfurRifle(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
     public static final Item CRYO_RIFLE=new CryoRifle(new Item.Settings().group(ModTabs.CYROVILIM_TAB));
+    public static final Item CRYO_CANNON=new CryoCannon(new Item.Settings().group(ModTabs.CYROVILIM_TAB));
     public static final Item KRUZI_RIFLE=new KruziRifle(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item LEATHERGRIP=new Leathergrip(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item CANNON=new Cannon(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
@@ -123,6 +124,7 @@ public class ModItems {
         registerItem("dandelite_sword",DANDELITE_SWORD);
         registerItem("dandelite_pickaxe",DANDELITE_PICKAXE);
         registerItem("sulfur_ingot",SULFUR_INGOT);
+        registerItem("cryo_cannon",CRYO_CANNON);
         registerItem("fighter",FIGHTER);
         registerItem("sulfur_rifle",SULFUR_RIFLE);
         registerItem("phosphorus",PHOSPHORUS);
