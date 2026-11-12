@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus.entity;
 
 import com.sakalti.sakaplus.registry.ModBeamEntities;
@@ -6,13 +5,16 @@ import com.sakalti.sakaplus.registry.ModBeamEntities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.damage.ProjectileDamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.network.Packet;
+import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
@@ -218,42 +220,24 @@ public class BeamProjectileEntity extends ProjectileEntity {
 
     @Override
     protected void onCollision(HitResult hit) {
-
         if (this.getWorld().isClient) {
             return;
         }
 
         if (hit.getType() == HitResult.Type.ENTITY) {
-
-            // IDENTIFY HIT ENTITY
-
             Entity target = ((EntityHitResult) hit).getEntity();
 
-            if (target instanceof LivingEntity && target.isAlive()) {
-
-                LivingEntity living = (LivingEntity) target;
-
-                // TARGET ARMOR VALUE
-
+            if (target instanceof LivingEntity living && target.isAlive()) {
                 float armor = living.getArmor();
+                float bonusDamage = armor * this.getArmorDamageMultiplier();
+                float finalDamage = this.getBeamDamage() + bonusDamage;
 
-                // ARMOR BONUS
-                // Armor 20 = 3.33 additional damage
-
-                float bonusDamage =
-                        armor * this.getArmorDamageMultiplier();
-
-                // FINAL DAMAGE
-
-                float finalDamage =
-                        this.getBeamDamage() + bonusDamage;
-
-                // DAMAGE SOURCE (MC 1.19.2)
-
-                DamageSource damageSource =
-                        new DamageSource("sakalti_beam");
-
-                // RESET INVULNERABILITY
+                // 撃ったエンティティ(Owner)を紐づけるダメージソース (MC 1.19.2)
+                DamageSource damageSource = new ProjectileDamageSource(
+                        "sakalti_beam",
+                        this,
+                        this.getOwner()
+                ).setProjectile();
 
                 if (this.shouldResetInvulnerability()) {
                     living.timeUntilRegen = 0;
@@ -261,12 +245,7 @@ public class BeamProjectileEntity extends ProjectileEntity {
                     living.lastDamageTaken = 0.0F;
                 }
 
-                // APPLY DAMAGE TO IDENTIFIED TARGET
-
-                living.damage(
-                        damageSource,
-                        finalDamage
-                );
+                living.damage(damageSource, finalDamage);
             }
 
             this.discard();
@@ -279,11 +258,12 @@ public class BeamProjectileEntity extends ProjectileEntity {
     }
 
     // =========================================================
-    // NBT READ
+    // NBT READ & WRITE
     // =========================================================
 
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {
+        super.readCustomDataFromNbt(nbt);
 
         if (nbt.contains("BeamColor")) {
             this.setColor(nbt.getInt("BeamColor"));
@@ -313,30 +293,23 @@ public class BeamProjectileEntity extends ProjectileEntity {
         }
     }
 
+    @Override
+    protected void writeCustomDataToNbt(NbtCompound nbt) {
+        super.writeCustomDataToNbt(nbt);
+
+        nbt.putInt("BeamColor", this.getColor());
+        nbt.putFloat("BeamDamage", this.getBeamDamage());
+        nbt.putInt("BeamLife", this.lifeTicks);
+        nbt.putBoolean("ResetInvulnerability", this.shouldResetInvulnerability());
+        nbt.putFloat("ArmorMultiplier", this.getArmorDamageMultiplier());
+    }
+
     // =========================================================
-    // NBT WRITE
+    // SPAWN PACKET (MC 1.19.2)
     // =========================================================
 
     @Override
-    protected void writeCustomDataToNbt(NbtCompound nbt) {
-
-        nbt.putInt("BeamColor", this.getColor());
-
-        nbt.putFloat(
-                "BeamDamage",
-                this.getBeamDamage()
-        );
-
-        nbt.putInt("BeamLife", this.lifeTicks);
-
-        nbt.putBoolean(
-                "ResetInvulnerability",
-                this.shouldResetInvulnerability()
-        );
-
-        nbt.putFloat(
-                "ArmorMultiplier",
-                this.getArmorDamageMultiplier()
-        );
+    public Packet<?> createSpawnPacket() {
+        return new EntitySpawnS2CPacket(this);
     }
 }
