@@ -40,6 +40,12 @@ public class BeamProjectileEntity extends ProjectileEntity {
                     TrackedDataHandlerRegistry.BOOLEAN
             );
 
+    private static final TrackedData<Float> ARMOR_MULTIPLIER =
+            DataTracker.registerData(
+                    BeamProjectileEntity.class,
+                    TrackedDataHandlerRegistry.FLOAT
+            );
+
     private int lifeTicks = 60;
 
     public BeamProjectileEntity(
@@ -53,6 +59,7 @@ public class BeamProjectileEntity extends ProjectileEntity {
     public BeamProjectileEntity(World world, LivingEntity owner) {
         this(ModBeamEntities.BEAM_PROJECTILE, world);
         this.setOwner(owner);
+
         this.setPosition(
                 owner.getX(),
                 owner.getEyeY() - 0.1D,
@@ -65,6 +72,7 @@ public class BeamProjectileEntity extends ProjectileEntity {
         this.dataTracker.startTracking(BEAM_COLOR, 0x78DCFF);
         this.dataTracker.startTracking(BEAM_DAMAGE, 6.0F);
         this.dataTracker.startTracking(RESET_INVULNERABILITY, false);
+        this.dataTracker.startTracking(ARMOR_MULTIPLIER, 0.0F);
     }
 
     public void setColor(int rgb) {
@@ -76,14 +84,15 @@ public class BeamProjectileEntity extends ProjectileEntity {
     }
 
     public void setDamage(float damage) {
-        this.dataTracker.set(BEAM_DAMAGE, Math.max(0.0F, damage));
+        this.dataTracker.set(
+                BEAM_DAMAGE,
+                Math.max(0.0F, damage)
+        );
     }
 
     public float getBeamDamage() {
         return this.dataTracker.get(BEAM_DAMAGE);
     }
-
-    // OPTIONAL INVULNERABILITY RESET
 
     public void setResetInvulnerability(boolean reset) {
         this.dataTracker.set(RESET_INVULNERABILITY, reset);
@@ -91,6 +100,17 @@ public class BeamProjectileEntity extends ProjectileEntity {
 
     public boolean shouldResetInvulnerability() {
         return this.dataTracker.get(RESET_INVULNERABILITY);
+    }
+
+    public void setArmorDamageMultiplier(float multiplier) {
+        this.dataTracker.set(
+                ARMOR_MULTIPLIER,
+                Math.max(0.0F, multiplier)
+        );
+    }
+
+    public float getArmorDamageMultiplier() {
+        return this.dataTracker.get(ARMOR_MULTIPLIER);
     }
 
     public void setLifeTicks(int ticks) {
@@ -182,22 +202,54 @@ public class BeamProjectileEntity extends ProjectileEntity {
 
             Entity target = ((EntityHitResult) hit).getEntity();
 
+            // HIT TARGET IDENTIFICATION
+
             if (target instanceof LivingEntity && target.isAlive()) {
 
                 LivingEntity living = (LivingEntity) target;
 
-                DamageSource damageSource =
-                        new DamageSource("sakalti_beam");
+                // GET TARGET ARMOR VALUE
 
-                // OPTIONAL RESET
+                float armor = living.getArmor();
+
+                // CRYOCANNON ARMOR BONUS
+
+                float bonusDamage =
+                        armor * this.getArmorDamageMultiplier();
+
+                // FINAL DAMAGE
+
+                float finalDamage =
+                        this.getBeamDamage() + bonusDamage;
+
+                // DAMAGE SOURCE WITH SHOOTER
+
+                Entity owner = this.getOwner();
+
+                DamageSource damageSource;
+
+                if (owner != null) {
+                    damageSource = new DamageSource(
+                            "sakalti_beam",
+                            this,
+                            owner
+                    );
+                } else {
+                    damageSource = new DamageSource("sakalti_beam");
+                }
+
+                // OPTIONAL INVULNERABILITY RESET
+
                 if (this.shouldResetInvulnerability()) {
                     living.timeUntilRegen = 0;
                     living.hurtTime = 0;
                 }
 
+                // APPLY DAMAGE TO IDENTIFIED TARGET
+
                 living.damage(
                         damageSource,
-                        this.getBeamDamage()
+                        finalDamage
                 );
             }
 
@@ -230,6 +282,12 @@ public class BeamProjectileEntity extends ProjectileEntity {
                     nbt.getBoolean("ResetInvulnerability")
             );
         }
+
+        if (nbt.contains("ArmorMultiplier")) {
+            this.setArmorDamageMultiplier(
+                    nbt.getFloat("ArmorMultiplier")
+            );
+        }
     }
 
     @Override
@@ -241,6 +299,11 @@ public class BeamProjectileEntity extends ProjectileEntity {
         nbt.putBoolean(
                 "ResetInvulnerability",
                 this.shouldResetInvulnerability()
+        );
+
+        nbt.putFloat(
+                "ArmorMultiplier",
+                this.getArmorDamageMultiplier()
         );
     }
 }
