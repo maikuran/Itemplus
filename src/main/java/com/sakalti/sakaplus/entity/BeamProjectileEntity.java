@@ -1,4 +1,7 @@
+
 package com.sakalti.sakaplus.entity;
+
+import java.lang.reflect.Field;
 
 import com.sakalti.sakaplus.registry.ModBeamEntities;
 
@@ -23,6 +26,26 @@ import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 public class BeamProjectileEntity extends ProjectileEntity {
+
+    private static final Field LAST_DAMAGE_TAKEN_FIELD;
+
+    static {
+        Field field = null;
+        try {
+            // 開発環境 (Yarn)
+            field = LivingEntity.class.getDeclaredField("lastDamageTaken");
+        } catch (NoSuchFieldException e1) {
+            try {
+                // 本番ビルド環境 (Fabric 1.19.2 Intermediary)
+                field = LivingEntity.class.getDeclaredField("field_6253");
+            } catch (NoSuchFieldException ignored) {
+            }
+        }
+        if (field != null) {
+            field.setAccessible(true);
+        }
+        LAST_DAMAGE_TAKEN_FIELD = field;
+    }
 
     private static final TrackedData<Integer> BEAM_COLOR =
             DataTracker.registerData(
@@ -232,7 +255,6 @@ public class BeamProjectileEntity extends ProjectileEntity {
                 float bonusDamage = armor * this.getArmorDamageMultiplier();
                 float finalDamage = this.getBeamDamage() + bonusDamage;
 
-                // 撃ったエンティティ(Owner)を紐づけるダメージソース (MC 1.19.2)
                 DamageSource damageSource = new ProjectileDamageSource(
                         "sakalti_beam",
                         this,
@@ -242,7 +264,7 @@ public class BeamProjectileEntity extends ProjectileEntity {
                 if (this.shouldResetInvulnerability()) {
                     living.timeUntilRegen = 0;
                     living.hurtTime = 0;
-                    living.lastDamageTaken = 0.0F;
+                    resetLastDamageTaken(living);
                 }
 
                 living.damage(damageSource, finalDamage);
@@ -254,6 +276,15 @@ public class BeamProjectileEntity extends ProjectileEntity {
 
         if (hit.getType() == HitResult.Type.BLOCK) {
             this.discard();
+        }
+    }
+
+    private static void resetLastDamageTaken(LivingEntity living) {
+        if (LAST_DAMAGE_TAKEN_FIELD != null) {
+            try {
+                LAST_DAMAGE_TAKEN_FIELD.setFloat(living, 0.0F);
+            } catch (IllegalAccessException ignored) {
+            }
         }
     }
 
@@ -303,13 +334,3 @@ public class BeamProjectileEntity extends ProjectileEntity {
         nbt.putBoolean("ResetInvulnerability", this.shouldResetInvulnerability());
         nbt.putFloat("ArmorMultiplier", this.getArmorDamageMultiplier());
     }
-
-    // =========================================================
-    // SPAWN PACKET (MC 1.19.2)
-    // =========================================================
-
-    @Override
-    public Packet<?> createSpawnPacket() {
-        return new EntitySpawnS2CPacket(this);
-    }
-}
