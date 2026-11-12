@@ -75,6 +75,8 @@ public class BeamProjectileEntity extends ProjectileEntity {
         this.dataTracker.startTracking(ARMOR_MULTIPLIER, 0.0F);
     }
 
+    // COLOR
+
     public void setColor(int rgb) {
         this.dataTracker.set(BEAM_COLOR, rgb & 0xFFFFFF);
     }
@@ -82,6 +84,8 @@ public class BeamProjectileEntity extends ProjectileEntity {
     public int getColor() {
         return this.dataTracker.get(BEAM_COLOR);
     }
+
+    // DAMAGE
 
     public void setDamage(float damage) {
         this.dataTracker.set(
@@ -94,6 +98,8 @@ public class BeamProjectileEntity extends ProjectileEntity {
         return this.dataTracker.get(BEAM_DAMAGE);
     }
 
+    // INVULNERABILITY
+
     public void setResetInvulnerability(boolean reset) {
         this.dataTracker.set(RESET_INVULNERABILITY, reset);
     }
@@ -101,6 +107,8 @@ public class BeamProjectileEntity extends ProjectileEntity {
     public boolean shouldResetInvulnerability() {
         return this.dataTracker.get(RESET_INVULNERABILITY);
     }
+
+    // ARMOR DAMAGE
 
     public void setArmorDamageMultiplier(float multiplier) {
         this.dataTracker.set(
@@ -113,9 +121,13 @@ public class BeamProjectileEntity extends ProjectileEntity {
         return this.dataTracker.get(ARMOR_MULTIPLIER);
     }
 
+    // LIFETIME
+
     public void setLifeTicks(int ticks) {
         this.lifeTicks = Math.max(1, ticks);
     }
+
+    // VELOCITY
 
     public void setBeamVelocity(LivingEntity shooter, float speed) {
         this.setVelocity(
@@ -127,6 +139,10 @@ public class BeamProjectileEntity extends ProjectileEntity {
                 0.0F
         );
     }
+
+    // =========================================================
+    // TICK
+    // =========================================================
 
     @Override
     public void tick() {
@@ -183,6 +199,10 @@ public class BeamProjectileEntity extends ProjectileEntity {
         this.setPosition(end);
     }
 
+    // =========================================================
+    // HIT FILTER
+    // =========================================================
+
     @Override
     protected boolean canHit(Entity entity) {
         return entity != this
@@ -192,27 +212,33 @@ public class BeamProjectileEntity extends ProjectileEntity {
                 && super.canHit(entity);
     }
 
+    // =========================================================
+    // COLLISION
+    // =========================================================
+
     @Override
     protected void onCollision(HitResult hit) {
+
         if (this.getWorld().isClient) {
             return;
         }
 
         if (hit.getType() == HitResult.Type.ENTITY) {
 
-            Entity target = ((EntityHitResult) hit).getEntity();
+            // IDENTIFY HIT ENTITY
 
-            // HIT TARGET IDENTIFICATION
+            Entity target = ((EntityHitResult) hit).getEntity();
 
             if (target instanceof LivingEntity && target.isAlive()) {
 
                 LivingEntity living = (LivingEntity) target;
 
-                // GET TARGET ARMOR VALUE
+                // TARGET ARMOR VALUE
 
                 float armor = living.getArmor();
 
-                // CRYOCANNON ARMOR BONUS
+                // ARMOR BONUS
+                // Armor 20 = 3.33 additional damage
 
                 float bonusDamage =
                         armor * this.getArmorDamageMultiplier();
@@ -222,27 +248,17 @@ public class BeamProjectileEntity extends ProjectileEntity {
                 float finalDamage =
                         this.getBeamDamage() + bonusDamage;
 
-                // DAMAGE SOURCE WITH SHOOTER
+                // DAMAGE SOURCE (MC 1.19.2)
 
-                Entity owner = this.getOwner();
+                DamageSource damageSource =
+                        new DamageSource("sakalti_beam");
 
-                DamageSource damageSource;
-
-                if (owner != null) {
-                    damageSource = new DamageSource(
-                            "sakalti_beam",
-                            this,
-                            owner
-                    );
-                } else {
-                    damageSource = new DamageSource("sakalti_beam");
-                }
-
-                // OPTIONAL INVULNERABILITY RESET
+                // RESET INVULNERABILITY
 
                 if (this.shouldResetInvulnerability()) {
                     living.timeUntilRegen = 0;
                     living.hurtTime = 0;
+                    living.lastDamageTaken = 0.0F;
                 }
 
                 // APPLY DAMAGE TO IDENTIFIED TARGET
@@ -262,6 +278,10 @@ public class BeamProjectileEntity extends ProjectileEntity {
         }
     }
 
+    // =========================================================
+    // NBT READ
+    // =========================================================
+
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {
 
@@ -274,7 +294,10 @@ public class BeamProjectileEntity extends ProjectileEntity {
         }
 
         if (nbt.contains("BeamLife")) {
-            this.lifeTicks = Math.max(1, nbt.getInt("BeamLife"));
+            this.lifeTicks = Math.max(
+                    1,
+                    nbt.getInt("BeamLife")
+            );
         }
 
         if (nbt.contains("ResetInvulnerability")) {
@@ -290,10 +313,20 @@ public class BeamProjectileEntity extends ProjectileEntity {
         }
     }
 
+    // =========================================================
+    // NBT WRITE
+    // =========================================================
+
     @Override
     protected void writeCustomDataToNbt(NbtCompound nbt) {
+
         nbt.putInt("BeamColor", this.getColor());
-        nbt.putFloat("BeamDamage", this.getBeamDamage());
+
+        nbt.putFloat(
+                "BeamDamage",
+                this.getBeamDamage()
+        );
+
         nbt.putInt("BeamLife", this.lifeTicks);
 
         nbt.putBoolean(
