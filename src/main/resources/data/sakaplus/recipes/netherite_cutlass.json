@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": "minecraft:netherite_upgrade_smithing_template",
+  "base": "sakacountry:diamond_cutlass",
+  "addition": "minecraft:netherite_ingot",
+  "result": {
+    "id": "sakacountry:netherite_cutlass"
+  }
+}
