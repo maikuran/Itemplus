@@ -19,7 +19,8 @@
       "com.sakalti.sakaplus.SakaplusMod2"
     ],
     "client": [
-      "com.sakalti.sakaplus.client.SakaplusClient"
+      "com.sakalti.sakaplus.client.SakaplusClient",
+      "com.sakalti.sakaplus.tinco.client.TincoClient"
     ]
   },
   "mixins": [
