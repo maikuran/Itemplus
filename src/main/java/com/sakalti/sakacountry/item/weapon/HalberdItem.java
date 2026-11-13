@@ -1,11 +1,12 @@
+
 package com.sakalti.sakacountry.item.weapon;
 
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.EquipmentSlotGroup;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ToolMaterial;
-import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 public class HalberdItem extends Item {
@@ -16,28 +17,49 @@ public class HalberdItem extends Item {
             float attackSpeed,
             Properties properties
     ) {
-        super(properties.sword(
-                material,
+        super(material.applySwordProperties(
+                properties,
                 damage,
                 attackSpeed
         ).attributes(
                 ItemAttributeModifiers.builder()
                         .add(
+                                Attributes.ATTACK_DAMAGE,
+                                new AttributeModifier(
+                                        Identifier.fromNamespaceAndPath(
+                                                "minecraft",
+                                                "base_attack_damage"
+                                        ),
+                                        damage + material.attackDamageBonus(),
+                                        AttributeModifier.Operation.ADD_VALUE
+                                ),
+                                EquipmentSlotGroup.MAINHAND
+                        )
+                        .add(
+                                Attributes.ATTACK_SPEED,
+                                new AttributeModifier(
+                                        Identifier.fromNamespaceAndPath(
+                                                "minecraft",
+                                                "base_attack_speed"
+                                        ),
+                                        attackSpeed,
+                                        AttributeModifier.Operation.ADD_VALUE
+                                ),
+                                EquipmentSlotGroup.MAINHAND
+                        )
+                        .add(
                                 Attributes.ENTITY_INTERACTION_RANGE,
                                 new AttributeModifier(
-                                        BASE_ATTACK_RANGE_ID,
+                                        Identifier.fromNamespaceAndPath(
+                                                "sakacountry",
+                                                "halberd_reach"
+                                        ),
                                         1.5,
-                                        Operation.ADD_VALUE
+                                        AttributeModifier.Operation.ADD_VALUE
                                 ),
-                                ItemAttributeModifiers.EquippableSlotGroup.MAINHAND
+                                EquipmentSlotGroup.MAINHAND
                         )
                         .build()
         ));
     }
-
-    private static final net.minecraft.resources.Identifier BASE_ATTACK_RANGE_ID =
-            net.minecraft.resources.Identifier.fromNamespaceAndPath(
-                    "sakacountry",
-                    "halberd_reach"
-            );
 }
