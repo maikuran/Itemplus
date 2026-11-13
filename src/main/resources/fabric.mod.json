@@ -27,7 +27,7 @@
   ],
   "depends": {
     "fabricloader": ">=0.14.0",
-    "fabric": "*",
+    "fabric": ">=0.1.0",
     "minecraft": "26.3"
   },
   "icon": "assets/sakacountry/icon.png"
