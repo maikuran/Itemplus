@@ -17,40 +17,32 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class CutlassArmorDamageMixin {
 
     @Inject(
-            method = "getDamageAfterAbsorb",
-            at = @At("RETURN"),
-            cancellable = true
+        method = "getDamageAfterAbsorb",
+        at = @At("RETURN"),
+        cancellable = true
     )
     private static void sakacountry$increaseCutlassDamage(
-            LivingEntity victim,
-            float damage,
-            DamageSource source,
-            float totalArmor,
-            float armorToughness,
-            CallbackInfoReturnable<Float> cir
+        LivingEntity victim,
+        float damage,
+        DamageSource source,
+        float totalArmor,
+        float armorToughness,
+        CallbackInfoReturnable<Float> cir
     ) {
-
-        // 防具値が0なら通常ダメージ
-        if (totalArmor <= 8.0F) {
+        if (totalArmor <= 0.0F) {
             return;
         }
 
-        // 攻撃に使用された武器を取得
         ItemStack weapon = source.getWeaponItem();
 
         if (weapon == null || weapon.isEmpty()) {
             return;
         }
 
-        // Cutlassの場合のみ20%増加
         if (weapon.getItem() instanceof CutlassItem) {
-
-            float originalDamage = cir.getReturnValue();
-
-            float increasedDamage =
-                    originalDamage * CutlassItem.ARMOR_DAMAGE_MULTIPLIER;
-
-            cir.setReturnValue(increasedDamage);
+            cir.setReturnValue(
+                cir.getReturnValue() * 1.20F
+            );
         }
     }
 }
