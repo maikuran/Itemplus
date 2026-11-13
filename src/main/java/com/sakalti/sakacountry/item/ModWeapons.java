@@ -24,7 +24,7 @@ public final class ModWeapons {
             "wooden_cutlass",
             ToolMaterial.WOOD,
             3.5F,
-            1.8F
+            -2.2F
     );
 
     // =====================================
@@ -35,7 +35,7 @@ public final class ModWeapons {
             "golden_cutlass",
             ToolMaterial.GOLD,
             3.5F,
-            1.9F
+            -2.1F
     );
 
     // =====================================
@@ -46,7 +46,7 @@ public final class ModWeapons {
             "stone_cutlass",
             ToolMaterial.STONE,
             4.25F,
-            1.8F
+            -2.2F
     );
 
     // =====================================
@@ -57,7 +57,7 @@ public final class ModWeapons {
             "copper_cutlass",
             ToolMaterial.COPPER,
             4.25F,
-            1.85F
+            -2.15F
     );
 
     // =====================================
@@ -68,7 +68,7 @@ public final class ModWeapons {
             "iron_cutlass",
             ToolMaterial.IRON,
             5.0F,
-            1.9F
+            -2.1F
     );
 
     // =====================================
@@ -79,7 +79,7 @@ public final class ModWeapons {
             "diamond_cutlass",
             ToolMaterial.DIAMOND,
             5.75F,
-            1.95F
+            -2.05F
     );
 
     // =====================================
@@ -89,8 +89,8 @@ public final class ModWeapons {
     public static final Item NETHERITE_CUTLASS = register(
             "netherite_cutlass",
             ToolMaterial.NETHERITE,
-            6.5F,
-            1.95F
+            1.5F,
+            -2.05F
     );
 
     // =====================================
