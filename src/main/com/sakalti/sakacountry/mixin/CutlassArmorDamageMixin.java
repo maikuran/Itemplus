@@ -31,7 +31,7 @@ public class CutlassArmorDamageMixin {
     ) {
 
         // 防具値が0なら通常ダメージ
-        if (totalArmor <= 0.0F) {
+        if (totalArmor <= 8.0F) {
             return;
         }
 
