@@ -17,9 +17,6 @@
   "entrypoints": {
     "main": [
       "com.sakalti.sakacountry.Sakacountry"
-    ],
-    "client": [
-      "com.sakalti.sakacountry.client.Client"
     ]
   },
   "mixins": [
