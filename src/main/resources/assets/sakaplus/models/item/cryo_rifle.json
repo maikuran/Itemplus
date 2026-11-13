@@ -1,6 +1,0 @@
-{
-  "parent": "sakaplus:item/gun",
-  "textures": {
-    "layer0": "sakaplus:item/cryo_rifle"
-  }
-}

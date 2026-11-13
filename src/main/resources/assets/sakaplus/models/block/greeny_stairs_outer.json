@@ -1,8 +1,0 @@
-{
-  "parent": "minecraft:block/outer_stairs",
-  "textures": {
-    "bottom": "sakaplus:block/greeny_planks",
-    "top": "sakaplus:block/greeny_planks",
-    "side": "sakaplus:block/greeny_planks"
-  }
-}

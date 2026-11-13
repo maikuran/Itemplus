@@ -1,8 +1,0 @@
-{
-  "parent": "block/slab",
-  "textures": {
-    "bottom": "sakaplus:block/blue_ice_bricks",
-    "top": "sakaplus:block/blue_ice_bricks",
-    "side": "sakaplus:block/blue_ice_bricks"
-  }
-}

@@ -1,8 +1,0 @@
-{
-  "parent": "block/slab",
-  "textures": {
-    "bottom": "sakaplus:block/kruzi_bricks",
-    "top": "sakaplus:block/kruzi_bricks",
-    "side": "sakaplus:block/kruzi_bricks"
-  }
-}
