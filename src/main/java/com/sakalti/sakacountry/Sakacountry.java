@@ -4,6 +4,7 @@ package com.sakalti.sakacountry;
 import net.fabricmc.api.ModInitializer;
 
 import com.sakalti.sakacountry.item.ModWeapons;
+import com.sakalti.sakacountry.item.ModCreativeTabs;
 
 public class Sakacountry implements ModInitializer {
 
@@ -12,5 +13,6 @@ public class Sakacountry implements ModInitializer {
     @Override
     public void onInitialize() {
         ModWeapons.initialize();
+        ModCreativeTabs.initialize();
     }
 }
