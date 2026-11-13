@@ -2,7 +2,7 @@
 package com.sakalti.sakacountry.item;
 
 import com.sakalti.sakacountry.Sakacountry;
-import com.sakalti.sakaplus.sakacountry.item.weapon.CutlassItem;
+import com.sakalti.sakacountry.item.weapon.CutlassItem;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
