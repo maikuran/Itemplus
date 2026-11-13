@@ -1,4 +1,3 @@
-
 package com.sakalti.sakacountry.item;
 
 import com.sakalti.sakacountry.Sakacountry;
@@ -8,7 +7,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ToolMaterial;
 
@@ -104,7 +103,7 @@ public final class ModWeapons {
             float damage,
             float attackSpeed
     ) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(
+        Identifier id = Identifier.fromNamespaceAndPath(
                 Sakacountry.MOD_ID,
                 name
         );
