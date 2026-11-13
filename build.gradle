@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.5.8'
+    id 'fabric-loom' version '1.19-SNAPSHOT'
     id 'maven-publish'
 }
 
@@ -7,23 +7,21 @@ group = 'com.sakalti.sakaplus'
 version = '1.0.6'
 
 repositories {
-    maven { url = 'https://maven.fabricmc.net' }
+    maven { url = 'https://maven.fabricmc.net/' }
     mavenCentral()
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:1.19.2"
-    mappings "net.fabricmc:yarn:1.19.2+build.28:v2"
+    minecraft "com.mojang:minecraft:26.3"
+    mappings "net.fabricmc:yarn:26.3+build.1:v2"
 
-    // Fabric Loaderを追加
-    modImplementation "net.fabricmc:fabric-loader:0.19.5" // 例：適切なバージョンに置き換えてください
-
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.77.0+1.19.2"
+    modImplementation "net.fabricmc:fabric-loader:0.20.1"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.166.0+26.3"
 }
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(25)
     }
 }
 
@@ -36,7 +34,7 @@ configurations.all {
 jar {
     manifest {
         attributes(
-            'Fabric-Loom-Version': '1.5.8',
+            'Fabric-Loom-Version': '1.19-SNAPSHOT',
             'Main-Class': 'com.sakalti.sakaplus.SakaplusMod2'
         )
     }
