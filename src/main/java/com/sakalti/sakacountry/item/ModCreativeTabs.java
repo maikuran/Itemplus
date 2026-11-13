@@ -43,6 +43,11 @@ public final class ModCreativeTabs {
 
                     // Items
                     .displayItems((parameters, output) -> {
+
+                        // =====================================
+                        // Cutlasses
+                        // =====================================
+
                         output.accept(ModWeapons.WOODEN_CUTLASS);
                         output.accept(ModWeapons.GOLDEN_CUTLASS);
                         output.accept(ModWeapons.STONE_CUTLASS);
@@ -50,6 +55,18 @@ public final class ModCreativeTabs {
                         output.accept(ModWeapons.IRON_CUTLASS);
                         output.accept(ModWeapons.DIAMOND_CUTLASS);
                         output.accept(ModWeapons.NETHERITE_CUTLASS);
+
+                        // =====================================
+                        // Halberds
+                        // =====================================
+
+                        output.accept(ModWeapons.WOODEN_HALBERD);
+                        output.accept(ModWeapons.GOLDEN_HALBERD);
+                        output.accept(ModWeapons.STONE_HALBERD);
+                        output.accept(ModWeapons.COPPER_HALBERD);
+                        output.accept(ModWeapons.IRON_HALBERD);
+                        output.accept(ModWeapons.DIAMOND_HALBERD);
+                        output.accept(ModWeapons.NETHERITE_HALBERD);
                     })
 
                     .build();
