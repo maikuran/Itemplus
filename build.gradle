@@ -4,7 +4,7 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'com.sakalti.sakaplus'
+group = 'com.sakalti.sakacountry'
 version = '1.0.0'
 
 repositories {
