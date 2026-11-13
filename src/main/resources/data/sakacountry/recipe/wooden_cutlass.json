@@ -7,7 +7,7 @@
     " S "
   ],
   "key": {
-    "M": "minecraft:planks",
+    "M": "#minecraft:planks",
     "S": "minecraft:stick"
   },
   "result": {
