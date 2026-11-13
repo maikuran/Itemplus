@@ -1,5 +1,5 @@
 
-package com.sakalti.sakacountry.item;
+package com.sakalti.sakacountry.item.weapon;
 
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ToolMaterial;
