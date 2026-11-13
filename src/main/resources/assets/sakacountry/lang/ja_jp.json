@@ -6,5 +6,12 @@
   "item.sakacountry.iron_cutlass": "鉄のカトラス",
   "item.sakacountry.diamond_cutlass": "ダイヤモンドのカトラス",
   "item.sakacountry.netherite_cutlass": "ネザライトのカトラス",
+  "item.sakacountry.wooden_halberd": "木のハルバード",
+  "item.sakacountry.golden_halberd": "金のハルバード",
+  "item.sakacountry.stone_halberd": "石のハルバード",
+  "item.sakacountry.copper_halberd": "銅のハルバード",
+  "item.sakacountry.iron_halberd": "鉄のハルバード",
+  "item.sakacountry.diamond_halberd": "ダイヤモンドのハルバード",
+  "item.sakacountry.netherite_halberd": "ネザライトのハルバード",
   "itemGroup.sakacountry.sakacountry_weapons": "Sakacountry Weapons"
 }
