@@ -2,6 +2,7 @@ package com.sakalti.sakaplus.item;
 
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.item.Items;
+import com.sakalti.sakaplus.effect.ModEffects;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.item.ToolMaterials;
 import net.minecraft.item.Item;
@@ -69,9 +70,16 @@ public class VolcanicGreatblade extends GreatswordItem {
     ) {
         target.addStatusEffect(
             new StatusEffectInstance(
-                StatusEffects.SLOWNESS,
+                ModEffects.CONFUSION,
                 100,
                 3
+            )
+
+        target.addStatusEffect(
+            new StatusEffectInstance(
+                ModEffects.PARALYZE,
+                100,
+                1
             )
         );
 
