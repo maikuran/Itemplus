@@ -3,10 +3,12 @@ package com.sakalti.sakacountry.nation;
 
 import com.mojang.serialization.Codec;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.saveddata.SavedData;
 import net.minecraft.world.level.saveddata.SavedDataType;
+
+import net.minecraft.resources.Identifier;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,7 +26,7 @@ public class NationSavedData extends SavedData {
 
     private static final SavedDataType<NationSavedData> TYPE =
             new SavedDataType<>(
-                    ResourceLocation.fromNamespaceAndPath(
+                    Identifier.fromNamespaceAndPath(
                             "sakacountry",
                             "nations"
                     ),
