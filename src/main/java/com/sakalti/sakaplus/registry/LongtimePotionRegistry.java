@@ -36,7 +36,7 @@ public final class LongtimePotionRegistry {
             // ポーションを登録
             if (!Registry.POTION.containsId(id)) {
                 Potion potion = new Potion(
-                    new StatusEffectInstance(effect, 9999)
+                    new StatusEffectInstance(effect, 16000)
                 );
                 Registry.register(Registry.POTION, id, potion);
             }
