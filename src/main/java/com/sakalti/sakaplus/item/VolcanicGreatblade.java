@@ -74,7 +74,7 @@ public class VolcanicGreatblade extends GreatswordItem {
                 100,
                 3
             )
-        )
+        );
 
         target.addStatusEffect(
             new StatusEffectInstance(
