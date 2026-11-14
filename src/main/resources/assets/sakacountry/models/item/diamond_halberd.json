@@ -1,0 +1,6 @@
+{
+  "parent": "sakacountry:item/halberd",
+  "textures": {
+    "layer0": "sakacountry:item/diamond_halberd"
+  }
+}
