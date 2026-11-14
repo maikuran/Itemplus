@@ -5,8 +5,14 @@
       "from": [0, 0, 7.5],
       "to": [16, 16, 8.5],
       "faces": {
-        "north": { "uv":, "texture": "#layer0" },
-        "south": { "uv":, "texture": "#layer0" }
+        "north": {
+          "uv": [16, 0, 0, 16],
+          "texture": "#layer0"
+        },
+        "south": {
+          "uv": [16, 0, 0, 16],
+          "texture": "#layer0"
+        }
       }
     }
   ],
@@ -23,12 +29,12 @@
     },
     "thirdperson_righthand": {
       "rotation": [180, 90, -125],
-      "translation":,
+      "translation": [0, 15, 5],
       "scale": [2, 2, 2]
     },
     "thirdperson_lefthand": {
       "rotation": [-65, -90, -125],
-      "translation":,
+      "translation": [0, 15, 6],
       "scale": [2, 2, 2]
     }
   }
