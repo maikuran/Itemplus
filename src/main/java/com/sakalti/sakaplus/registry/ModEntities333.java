@@ -55,6 +55,8 @@ public class ModEntities333 {
 
     public static final EntityType<ScorcherEntity> SCORCHER =
             registerEntity("scorcher", SpawnGroup.MONSTER, ScorcherEntity::new, 0.6F, 1.8F);
+    public static final EntityType<VolcanicKingEntity> VOLCANIC_KING =
+            registerEntity("volcanic_king", SpawnGroup.MONSTER, VolcanicKingEntity::new, 2.0F, 2.0F);
 
     public static final EntityType<KuloogieEntity> KULOOGIE =
             registerEntity("kuloogie", SpawnGroup.MONSTER, KuloogieEntity::new, 0.8F, 1.2F);
@@ -162,6 +164,9 @@ public class ModEntities333 {
             registerSpawnEgg("savannu_spawn_egg", SAVANNU, 0x33ff33, 0xcc6600, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
     public static final Item ARSE_SPAWN_EGG =
             registerSpawnEgg("arse_spawn_egg", ARSE, 0xA6A6A6, 0x993300, ModTabs.VOLCANOS_TAB);
+    public static final Item VOLCANIC_KING_SPAWN_EGG =
+            registerSpawnEgg("volcanic_king_spawn_egg", VOLCANIC_KING, 0x222222, 0x993300, ModTabs.VOLCANOS_TAB);
+
 
 
     public static final Item WARPERDUN_SPAWN_EGG =
@@ -247,6 +252,8 @@ public class ModEntities333 {
     private static void registerAllAttributes() {
 
         registerAttributes(SCORCHER, ScorcherEntity.createAttributes());
+        
+        registerAttributes(VOLCANIC_KING, VolcanicKingEntity.createAttributes());
         registerAttributes(SAVANNU, SavannuEntity.createAttributes());
         registerAttributes(KULOOGIE, KuloogieEntity.createAttributes());
         registerAttributes(KUR_BRUTE, KurBruteEntity.createAttributes());
