@@ -73,7 +73,8 @@ public class VolcanicGreatblade extends GreatswordItem {
                 ModEffects.CONFUSION,
                 100,
                 3
-            );
+            )
+        )
 
         target.addStatusEffect(
             new StatusEffectInstance(
