@@ -1,0 +1,6 @@
+{
+  "parent": "sakaplus:item/greatblade",
+  "textures": {
+    "layer0": "sakaplus:item/volcanic_greatblade"
+  }
+}
