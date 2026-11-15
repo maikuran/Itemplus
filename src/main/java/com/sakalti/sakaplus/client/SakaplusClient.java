@@ -175,6 +175,10 @@ public class SakaplusClient implements ClientModInitializer {
             ModEntities333.ARSE,
             ArseRenderer::new
         );
+        EntityRendererRegistry.register(
+            ModEntities333.VOLCANIC_KING,
+            VolcanicKingRenderer::new
+        );
 
         EntityRendererRegistry.register(
             ModEntities333.BUSHBEAST,
@@ -395,6 +399,10 @@ public class SakaplusClient implements ClientModInitializer {
         registerLayer(
             LongKnifeRenderer.LAYER,
             LongKnifeModel::getTexturedModelData
+        );
+        registerLayer(
+            VolcanicKingRenderer.MODEL_LAYER,
+            VolcanicKingModel::getTexturedModelData
         );
         registerLayer(
             QuartzehRenderer.MODEL_LAYER,
