@@ -13,11 +13,15 @@ import net.minecraft.entity.damage.ProjectileDamageSource;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.Packet;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
+import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Box;
@@ -31,21 +35,26 @@ public class BeamProjectileEntity extends ProjectileEntity {
 
     static {
         Field field = null;
+
         try {
-            // 開発環境 (Yarn)
             field = LivingEntity.class.getDeclaredField("lastDamageTaken");
         } catch (NoSuchFieldException e1) {
             try {
-                // 本番ビルド環境 (Fabric 1.19.2 Intermediary)
                 field = LivingEntity.class.getDeclaredField("field_6253");
             } catch (NoSuchFieldException ignored) {
             }
         }
+
         if (field != null) {
             field.setAccessible(true);
         }
+
         LAST_DAMAGE_TAKEN_FIELD = field;
     }
+
+    // =========================================================
+    // DATA TRACKER
+    // =========================================================
 
     private static final TrackedData<Integer> BEAM_COLOR =
             DataTracker.registerData(
@@ -71,7 +80,23 @@ public class BeamProjectileEntity extends ProjectileEntity {
                     TrackedDataHandlerRegistry.FLOAT
             );
 
+    // =========================================================
+    // VARIABLES
+    // =========================================================
+
     private int lifeTicks = 60;
+
+    // HIT EFFECT
+    private StatusEffect hitEffect = null;
+
+    private int hitEffectDuration = 0;
+
+    // Amplifier: 0 = Level I, 1 = Level II
+    private int hitEffectAmplifier = 0;
+
+    // =========================================================
+    // CONSTRUCTOR
+    // =========================================================
 
     public BeamProjectileEntity(
             EntityType<? extends BeamProjectileEntity> type,
@@ -83,6 +108,7 @@ public class BeamProjectileEntity extends ProjectileEntity {
 
     public BeamProjectileEntity(World world, LivingEntity owner) {
         this(ModBeamEntities.BEAM_PROJECTILE, world);
+
         this.setOwner(owner);
 
         this.setPosition(
@@ -92,6 +118,10 @@ public class BeamProjectileEntity extends ProjectileEntity {
         );
     }
 
+    // =========================================================
+    // INIT DATA TRACKER
+    // =========================================================
+
     @Override
     protected void initDataTracker() {
         this.dataTracker.startTracking(BEAM_COLOR, 0x78DCFF);
@@ -100,7 +130,9 @@ public class BeamProjectileEntity extends ProjectileEntity {
         this.dataTracker.startTracking(ARMOR_MULTIPLIER, 0.0F);
     }
 
+    // =========================================================
     // COLOR
+    // =========================================================
 
     public void setColor(int rgb) {
         this.dataTracker.set(BEAM_COLOR, rgb & 0xFFFFFF);
@@ -110,7 +142,9 @@ public class BeamProjectileEntity extends ProjectileEntity {
         return this.dataTracker.get(BEAM_COLOR);
     }
 
+    // =========================================================
     // DAMAGE
+    // =========================================================
 
     public void setDamage(float damage) {
         this.dataTracker.set(
@@ -123,7 +157,9 @@ public class BeamProjectileEntity extends ProjectileEntity {
         return this.dataTracker.get(BEAM_DAMAGE);
     }
 
+    // =========================================================
     // INVULNERABILITY
+    // =========================================================
 
     public void setResetInvulnerability(boolean reset) {
         this.dataTracker.set(RESET_INVULNERABILITY, reset);
@@ -133,7 +169,9 @@ public class BeamProjectileEntity extends ProjectileEntity {
         return this.dataTracker.get(RESET_INVULNERABILITY);
     }
 
+    // =========================================================
     // ARMOR DAMAGE
+    // =========================================================
 
     public void setArmorDamageMultiplier(float multiplier) {
         this.dataTracker.set(
@@ -146,13 +184,83 @@ public class BeamProjectileEntity extends ProjectileEntity {
         return this.dataTracker.get(ARMOR_MULTIPLIER);
     }
 
+    // =========================================================
     // LIFETIME
+    // =========================================================
 
     public void setLifeTicks(int ticks) {
         this.lifeTicks = Math.max(1, ticks);
     }
 
+    // =========================================================
+    // HIT EFFECT CONFIGURATION
+    // =========================================================
+
+    /**
+     * Sets an effect to apply when this beam successfully damages
+     * a LivingEntity.
+     *
+     * @param effect Effect to apply
+     * @param duration Duration in ticks
+     * @param amplifier Effect level minus one
+     */
+    public void setHitEffect(
+            StatusEffect effect,
+            int duration,
+            int amplifier
+    ) {
+        this.hitEffect = effect;
+
+        this.hitEffectDuration = Math.max(0, duration);
+
+        this.hitEffectAmplifier = Math.max(0, amplifier);
+    }
+
+    /**
+     * Disables the additional hit effect.
+     */
+    public void clearHitEffect() {
+        this.hitEffect = null;
+        this.hitEffectDuration = 0;
+        this.hitEffectAmplifier = 0;
+    }
+
+    public StatusEffect getHitEffect() {
+        return this.hitEffect;
+    }
+
+    public int getHitEffectDuration() {
+        return this.hitEffectDuration;
+    }
+
+    public int getHitEffectAmplifier() {
+        return this.hitEffectAmplifier;
+    }
+
+    /**
+     * Applies the configured effect to the target.
+     */
+    private void applyHitEffect(LivingEntity target) {
+        if (this.hitEffect == null) {
+            return;
+        }
+
+        if (this.hitEffectDuration <= 0) {
+            return;
+        }
+
+        target.addStatusEffect(
+                new StatusEffectInstance(
+                        this.hitEffect,
+                        this.hitEffectDuration,
+                        this.hitEffectAmplifier
+                )
+        );
+    }
+
+    // =========================================================
     // VELOCITY
+    // =========================================================
 
     public void setBeamVelocity(LivingEntity shooter, float speed) {
         this.setVelocity(
@@ -173,7 +281,8 @@ public class BeamProjectileEntity extends ProjectileEntity {
     public void tick() {
         super.tick();
 
-        if (!this.getWorld().isClient && this.age >= this.lifeTicks) {
+        if (!this.getWorld().isClient
+                && this.age >= this.lifeTicks) {
             this.discard();
             return;
         }
@@ -181,6 +290,8 @@ public class BeamProjectileEntity extends ProjectileEntity {
         Vec3d start = this.getPos();
         Vec3d velocity = this.getVelocity();
         Vec3d end = start.add(velocity);
+
+        // BLOCK RAYCAST
 
         HitResult blockHit = this.getWorld().raycast(
                 new RaycastContext(
@@ -197,6 +308,8 @@ public class BeamProjectileEntity extends ProjectileEntity {
         if (blockHit.getType() != HitResult.Type.MISS) {
             entityEnd = blockHit.getPos();
         }
+
+        // ENTITY RAYCAST
 
         Box searchBox = this.getBoundingBox()
                 .stretch(velocity)
@@ -215,6 +328,8 @@ public class BeamProjectileEntity extends ProjectileEntity {
             this.onCollision(entityHit);
             return;
         }
+
+        // BLOCK COLLISION
 
         if (blockHit.getType() != HitResult.Type.MISS) {
             this.onCollision(blockHit);
@@ -247,49 +362,82 @@ public class BeamProjectileEntity extends ProjectileEntity {
             return;
         }
 
+        // ENTITY HIT
+
         if (hit.getType() == HitResult.Type.ENTITY) {
+
             Entity target = ((EntityHitResult) hit).getEntity();
 
-            if (target instanceof LivingEntity living && target.isAlive()) {
-                float armor = living.getArmor();
-                float bonusDamage = armor * this.getArmorDamageMultiplier();
-                float finalDamage = this.getBeamDamage() + bonusDamage;
+            if (target instanceof LivingEntity living
+                    && target.isAlive()) {
 
-                DamageSource damageSource = new ProjectileDamageSource(
-                        "sakalti_beam",
-                        this,
-                        this.getOwner()
-                ).setProjectile();
+                float armor = living.getArmor();
+
+                float bonusDamage =
+                        armor * this.getArmorDamageMultiplier();
+
+                float finalDamage =
+                        this.getBeamDamage() + bonusDamage;
+
+                DamageSource damageSource =
+                        new ProjectileDamageSource(
+                                "sakalti_beam",
+                                this,
+                                this.getOwner()
+                        ).setProjectile();
+
+                // RESET INVULNERABILITY
 
                 if (this.shouldResetInvulnerability()) {
                     living.timeUntilRegen = 0;
                     living.hurtTime = 0;
+
                     resetLastDamageTaken(living);
                 }
 
-                living.damage(damageSource, finalDamage);
+                // DAMAGE
+
+                boolean damaged = living.damage(
+                        damageSource,
+                        finalDamage
+                );
+
+                // APPLY EFFECT ONLY IF DAMAGE SUCCEEDS
+
+                if (damaged && living.isAlive()) {
+                    this.applyHitEffect(living);
+                }
             }
 
             this.discard();
             return;
         }
 
+        // BLOCK HIT
+
         if (hit.getType() == HitResult.Type.BLOCK) {
             this.discard();
         }
     }
 
+    // =========================================================
+    // RESET LAST DAMAGE
+    // =========================================================
+
     private static void resetLastDamageTaken(LivingEntity living) {
         if (LAST_DAMAGE_TAKEN_FIELD != null) {
             try {
-                LAST_DAMAGE_TAKEN_FIELD.setFloat(living, 0.0F);
+                LAST_DAMAGE_TAKEN_FIELD.setFloat(
+                        living,
+                        0.0F
+                );
             } catch (IllegalAccessException ignored) {
             }
         }
     }
 
     // =========================================================
-    // NBT READ & WRITE
+    // NBT READ
     // =========================================================
 
     @Override
@@ -322,21 +470,89 @@ public class BeamProjectileEntity extends ProjectileEntity {
                     nbt.getFloat("ArmorMultiplier")
             );
         }
+
+        // HIT EFFECT READ
+
+        if (nbt.contains("HitEffect")) {
+            Identifier effectId = Identifier.tryParse(
+                    nbt.getString("HitEffect")
+            );
+
+            if (effectId != null) {
+                StatusEffect effect =
+                        Registry.STATUS_EFFECT
+                                .getOrEmpty(effectId)
+                                .orElse(null);
+
+                if (effect != null) {
+                    this.setHitEffect(
+                            effect,
+                            nbt.getInt("HitEffectDuration"),
+                            nbt.getInt("HitEffectAmplifier")
+                    );
+                }
+            }
+        }
     }
+
+    // =========================================================
+    // NBT WRITE
+    // =========================================================
 
     @Override
     protected void writeCustomDataToNbt(NbtCompound nbt) {
         super.writeCustomDataToNbt(nbt);
 
         nbt.putInt("BeamColor", this.getColor());
-        nbt.putFloat("BeamDamage", this.getBeamDamage());
+
+        nbt.putFloat(
+                "BeamDamage",
+                this.getBeamDamage()
+        );
+
         nbt.putInt("BeamLife", this.lifeTicks);
-        nbt.putBoolean("ResetInvulnerability", this.shouldResetInvulnerability());
-        nbt.putFloat("ArmorMultiplier", this.getArmorDamageMultiplier());
+
+        nbt.putBoolean(
+                "ResetInvulnerability",
+                this.shouldResetInvulnerability()
+        );
+
+        nbt.putFloat(
+                "ArmorMultiplier",
+                this.getArmorDamageMultiplier()
+        );
+
+        // HIT EFFECT WRITE
+
+        if (this.hitEffect != null) {
+            Identifier effectId =
+                    Registry.STATUS_EFFECT.getId(this.hitEffect);
+
+            if (effectId != null) {
+                nbt.putString(
+                        "HitEffect",
+                        effectId.toString()
+                );
+
+                nbt.putInt(
+                        "HitEffectDuration",
+                        this.hitEffectDuration
+                );
+
+                nbt.putInt(
+                        "HitEffectAmplifier",
+                        this.hitEffectAmplifier
+                );
+            }
+        }
     }
-// =========================================================
-@Override
-public Packet<?> createSpawnPacket() {
-return new EntitySpawnS2CPacket(this);
-}
+
+    // =========================================================
+    // SPAWN PACKET
+    // =========================================================
+
+    @Override
+    public Packet<?> createSpawnPacket() {
+        return new EntitySpawnS2CPacket(this);
+    }
 }
