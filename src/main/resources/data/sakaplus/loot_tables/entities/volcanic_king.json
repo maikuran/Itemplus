@@ -71,6 +71,26 @@
         },
         {
           "type": "minecraft:item",
+          "name": "sakaplus:volcanic_helmet",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "name": "sakaplus:volcanic_chestplate",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "name": "sakaplus:volcanic_leggings",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
+          "name": "sakaplus:volcanic_boots",
+          "weight": 6
+        },
+        {
+          "type": "minecraft:item",
           "name": "sakaplus:volcanic_greatblade",
           "weight": 9,
           "functions": [
