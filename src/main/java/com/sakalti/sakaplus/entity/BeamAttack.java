@@ -6,6 +6,7 @@ import com.sakalti.sakaplus.item.Gun;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
@@ -15,6 +16,10 @@ public final class BeamAttack {
 
     private BeamAttack() {
     }
+
+    // =========================================================
+    // MAGNUM BONUS
+    // =========================================================
 
     private static float applyMagnumBonus(
             LivingEntity shooter,
@@ -41,7 +46,9 @@ public final class BeamAttack {
         return baseDamage * (1.0F + magnumLevel * 0.05F);
     }
 
+    // =========================================================
     // NORMAL SHOOT
+    // =========================================================
 
     public static BeamProjectileEntity shoot(
             LivingEntity shooter,
@@ -55,7 +62,9 @@ public final class BeamAttack {
         );
     }
 
+    // =========================================================
     // LIFE TICKS SHOOT
+    // =========================================================
 
     public static BeamProjectileEntity shoot(
             LivingEntity shooter,
@@ -75,7 +84,9 @@ public final class BeamAttack {
         return beam;
     }
 
+    // =========================================================
     // RESET INVULNERABILITY SHOOT
+    // =========================================================
 
     public static BeamProjectileEntity shoot(
             LivingEntity shooter,
@@ -90,7 +101,9 @@ public final class BeamAttack {
         );
     }
 
+    // =========================================================
     // YAW / PITCH SHOOT
+    // =========================================================
 
     public static BeamProjectileEntity shoot(
             LivingEntity shooter,
@@ -106,7 +119,9 @@ public final class BeamAttack {
         );
     }
 
+    // =========================================================
     // YAW / PITCH + RESET
+    // =========================================================
 
     public static BeamProjectileEntity shoot(
             LivingEntity shooter,
@@ -130,9 +145,9 @@ public final class BeamAttack {
         );
     }
 
+    // =========================================================
     // CUSTOM SHOOT
-    // startYOffset: vertical launch position
-    // armorMultiplier: additional damage per armor point
+    // =========================================================
 
     public static BeamProjectileEntity shootCustom(
             LivingEntity shooter,
@@ -144,6 +159,40 @@ public final class BeamAttack {
             float pitchOffset,
             double startYOffset,
             float armorMultiplier
+    ) {
+        return shootCustom(
+                shooter,
+                speed,
+                damage,
+                rgb,
+                resetInvulnerability,
+                yawOffset,
+                pitchOffset,
+                startYOffset,
+                armorMultiplier,
+                null,
+                0,
+                0
+        );
+    }
+
+    // =========================================================
+    // CUSTOM SHOOT + HIT EFFECT
+    // =========================================================
+
+    public static BeamProjectileEntity shootCustom(
+            LivingEntity shooter,
+            float speed,
+            float damage,
+            int rgb,
+            boolean resetInvulnerability,
+            float yawOffset,
+            float pitchOffset,
+            double startYOffset,
+            float armorMultiplier,
+            StatusEffect hitEffect,
+            int effectDuration,
+            int effectAmplifier
     ) {
         World world = shooter.getWorld();
 
@@ -160,6 +209,16 @@ public final class BeamAttack {
         beam.setResetInvulnerability(resetInvulnerability);
         beam.setArmorDamageMultiplier(armorMultiplier);
 
+        // HIT EFFECT
+        if (hitEffect != null && effectDuration > 0) {
+            beam.setHitEffect(
+                    hitEffect,
+                    effectDuration,
+                    effectAmplifier
+            );
+        }
+
+        // DIRECTION
         float yaw = shooter.getYaw() + yawOffset;
         float pitch = shooter.getPitch() + pitchOffset;
 
@@ -176,6 +235,7 @@ public final class BeamAttack {
 
         Vec3d direction = new Vec3d(x, y, z).normalize();
 
+        // START POSITION
         Vec3d start = new Vec3d(
                 shooter.getX(),
                 shooter.getEyeY() - 0.1D + startYOffset,
@@ -184,6 +244,7 @@ public final class BeamAttack {
 
         beam.setPosition(start.x, start.y, start.z);
 
+        // VELOCITY
         beam.setVelocity(
                 direction.x * speed,
                 direction.y * speed,
@@ -195,7 +256,9 @@ public final class BeamAttack {
         return beam;
     }
 
+    // =========================================================
     // TARGET SHOOT
+    // =========================================================
 
     public static BeamProjectileEntity shootAt(
             LivingEntity shooter,
@@ -248,7 +311,9 @@ public final class BeamAttack {
         return beam;
     }
 
+    // =========================================================
     // TARGET SHOOT + RESET
+    // =========================================================
 
     public static BeamProjectileEntity shootAt(
             LivingEntity shooter,
@@ -264,6 +329,41 @@ public final class BeamAttack {
 
         if (beam != null) {
             beam.setResetInvulnerability(resetInvulnerability);
+        }
+
+        return beam;
+    }
+
+    // =========================================================
+    // TARGET SHOOT + HIT EFFECT
+    // =========================================================
+
+    public static BeamProjectileEntity shootAt(
+            LivingEntity shooter,
+            LivingEntity target,
+            float speed,
+            float damage,
+            int rgb,
+            boolean resetInvulnerability,
+            StatusEffect hitEffect,
+            int effectDuration,
+            int effectAmplifier
+    ) {
+        BeamProjectileEntity beam = shootAt(
+                shooter,
+                target,
+                speed,
+                damage,
+                rgb,
+                resetInvulnerability
+        );
+
+        if (beam != null && hitEffect != null && effectDuration > 0) {
+            beam.setHitEffect(
+                    hitEffect,
+                    effectDuration,
+                    effectAmplifier
+            );
         }
 
         return beam;
