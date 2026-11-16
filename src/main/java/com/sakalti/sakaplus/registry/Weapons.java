@@ -10,6 +10,7 @@ public class Weapons {
     public static final Item LIGHTNING_SPARK = new LightningSpark();
     public static final Item PHOSPHORUS_SWORD = new PhosphorusSword();
     public static final Item ICE_GREATBLADE = new IceGreatblade();
+    public static final Item VOLCANIC_GREATBLADE = new VolcanicGreatblade();
     public static final Item BONE_SCYTHE = new BoneScytheItem();
     public static final Item CRYOFLAME = new Cryoflame();
 
@@ -19,6 +20,7 @@ public class Weapons {
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "cryoflame"), CRYOFLAME);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "bone_scythe"), BONE_SCYTHE);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "ice_greatblade"), ICE_GREATBLADE);
+        Registry.register(Registry.ITEM, new Identifier("sakaplus", "volcanic_greatblade"), VOLCANIC_GREATBLADE);
         Registry.register(Registry.ITEM, new Identifier("sakaplus", "lightning_spark"), LIGHTNING_SPARK);
     }
 }
