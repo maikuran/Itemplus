@@ -42,7 +42,7 @@ public class ModItems {
     public static final Item RAW_PYRONIUM=new Item(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item PYRONIUM_INGOT=new Item(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item CLOTH=new Item(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
-    public static final Item VOLC_SHOT=new VolcShot(new Item.Settings().group(ModTabs.VOLCANO_TAB));
+    public static final Item VOLC_SHOT=new VolcShot(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
     public static final Item PYRONIUM_SWORD=new SwordItem(ModToolMaterials.PYRONIUM,3,-2.4F,new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item PYRONIUM_PICKAXE=new PickaxeItem(ModToolMaterials.PYRONIUM,1,-2.8F,new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
 
