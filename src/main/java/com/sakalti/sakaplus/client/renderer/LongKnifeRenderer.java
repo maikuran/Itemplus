@@ -15,7 +15,7 @@ import net.minecraft.util.math.Vec3f;
 
 public class LongKnifeRenderer extends EntityRenderer<LongKnifeProjectile> {
     
-    public static final Identifier TEXTURE = new Identifier("sakaplus", "textures/entity/projectiles/long_knife.png");
+    public static final Identifier TEXTURE = new Identifier("sakaplus", "textures/entity/long_knife.png");
     public static final EntityModelLayer LAYER = new EntityModelLayer(new Identifier("sakaplus", "long_knife"), "main");
 
     private final LongKnifeModel<LongKnifeProjectile> model;
