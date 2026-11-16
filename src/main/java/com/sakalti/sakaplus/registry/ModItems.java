@@ -72,6 +72,11 @@ public class ModItems {
     public static final Item CRYSTALLINE_CHESTPLATE=new CrystallineArmorItem(ModArmorMaterials.CRYSTALLINE,EquipmentSlot.CHEST,new Item.Settings().group(ModTabs.CYROVILIM_TAB));
     public static final Item CRYSTALLINE_LEGGINGS=new CrystallineArmorItem(ModArmorMaterials.CRYSTALLINE,EquipmentSlot.LEGS,new Item.Settings().group(ModTabs.CYROVILIM_TAB));
     public static final Item CRYSTALLINE_BOOTS=new CrystallineArmorItem(ModArmorMaterials.CRYSTALLINE,EquipmentSlot.FEET,new Item.Settings().group(ModTabs.CYROVILIM_TAB));
+        public static final Item VOLCANIC_HELMET = new VolcanicArmorItem(ModArmorMaterials.VOLCANIC, EquipmentSlot.HEAD, new Item.Settings().group(ModTabs.VOLCANOS_TAB));
+    public static final Item VOLCANIC_CHESTPLATE = new VolcanicArmorItem(ModArmorMaterials.VOLCANIC, EquipmentSlot.CHEST, new Item.Settings().group(ModTabs.VOLCANOS_TAB));
+    public static final Item VOLCANIC_LEGGINGS = new VolcanicArmorItem(ModArmorMaterials.VOLCANIC, EquipmentSlot.LEGS, new Item.Settings().group(ModTabs.VOLCANOS_TAB));
+    public static final Item VOLCANIC_BOOTS = new VolcanicArmorItem(ModArmorMaterials.VOLCANIC, EquipmentSlot.FEET, new Item.Settings().group(ModTabs.VOLCANOS_TAB));
+
 
     public static final Item INFERNAL_HELMET=new InfernalArmorItem(ModArmorMaterials.INFERNAL,EquipmentSlot.HEAD,new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item INFERNAL_CHESTPLATE=new InfernalArmorItem(ModArmorMaterials.INFERNAL,EquipmentSlot.CHEST,new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
@@ -121,6 +126,11 @@ public class ModItems {
         registerItem("crystalline_chestplate",CRYSTALLINE_CHESTPLATE);
         registerItem("crystalline_leggings",CRYSTALLINE_LEGGINGS);
         registerItem("crystalline_boots",CRYSTALLINE_BOOTS);
+        registerItem("volcanic_helmet", VOLCANIC_HELMET);
+        registerItem("volcanic_chestplate", VOLCANIC_CHESTPLATE);
+        registerItem("volcanic_leggings", VOLCANIC_LEGGINGS);
+        registerItem("volcanic_boots", VOLCANIC_BOOTS);
+
         registerItem("dandelite_ingot",DANDELITE_INGOT);
         registerItem("dandelite_sword",DANDELITE_SWORD);
         registerItem("dandelite_pickaxe",DANDELITE_PICKAXE);
