@@ -35,13 +35,14 @@ public class ModItems {
     public static final Item CRYO_CANNON=new Cryocannon(new Item.Settings().group(ModTabs.CYROVILIM_TAB));
     public static final Item KRUZI_RIFLE=new KruziRifle(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item LEATHERGRIP=new Leathergrip(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
+    
     public static final Item CANNON=new Cannon(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
 
 
     public static final Item RAW_PYRONIUM=new Item(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item PYRONIUM_INGOT=new Item(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item CLOTH=new Item(new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
-
+    public static final Item VOLC_SHOT=new VolcShot(new Item.Settings().group(ModTabs.VOLCANO_TAB));
     public static final Item PYRONIUM_SWORD=new SwordItem(ModToolMaterials.PYRONIUM,3,-2.4F,new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item PYRONIUM_PICKAXE=new PickaxeItem(ModToolMaterials.PYRONIUM,1,-2.8F,new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
 
@@ -53,7 +54,7 @@ public class ModItems {
     public static final Item ROSITE_SWORD=new SwordItem(ModToolMaterials.ROSITE,0,-2.4F,new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
     public static final Item ROSITE_PICKAXE=new PickaxeItem(ModToolMaterials.ROSITE,-2,-2.8F,new Item.Settings().group(ModTabs.STARTER_AND_KRUZIVILIM_TAB));
 
-    public static final Item SULFUR_INGOT=new Item(new Item.Settings().group(ModTabs.VOLCANOS_TAB));
+    public static final Item SULFUR_INGOT=new Item(new Item.Settings().grouOLCANOabs.VOLCANOS_TAB));
     public static final Item SULFUR_SWORD=new SwordItem(ModToolMaterials.SULFUR,0,-2.4F,new Item.Settings().group(ModTabs.VOLCANOS_TAB));
     public static final Item SULFUR_PICKAXE=new PickaxeItem(ModToolMaterials.SULFUR,-2,-2.8F,new Item.Settings().group(ModTabs.VOLCANOS_TAB));
 
@@ -126,6 +127,7 @@ public class ModItems {
         registerItem("sulfur_ingot",SULFUR_INGOT);
         registerItem("cryo_cannon",CRYO_CANNON);
         registerItem("fighter",FIGHTER);
+        registerItem("volc_shot",VOLC_SHOT);
         registerItem("sulfur_rifle",SULFUR_RIFLE);
         registerItem("phosphorus",PHOSPHORUS);
         registerItem("sulfur_sword",SULFUR_SWORD);
