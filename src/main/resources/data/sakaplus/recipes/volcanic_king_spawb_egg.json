@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "ADW",
+    "WWW"
+  ],
+  "key": {
+    "D": { "item": "sakaplus:pyronium_ingot" },
+    "A": { "item": "sakaplus:phosphorus" },
+    "W": { "item": "sakaplus:sulfur_ingot" }
+  },
+  "result": {
+    "item": "sakaplus:volcanic_king_spawn_egg",
+    "count": 1
+  }
+}
