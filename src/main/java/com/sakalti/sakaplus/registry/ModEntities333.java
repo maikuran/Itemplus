@@ -55,6 +55,8 @@ public class ModEntities333 {
 
     public static final EntityType<ScorcherEntity> SCORCHER =
             registerEntity("scorcher", SpawnGroup.MONSTER, ScorcherEntity::new, 0.6F, 1.8F);
+    public static final EntityType<PeridotehEntity> PERIDOTEH =
+            registerEntity("peridoteh", SpawnGroup.MONSTER, PeridotehEntity::new, 0.9F, 0.9F);
     public static final EntityType<VolcanicKingEntity> VOLCANIC_KING =
             registerEntity("volcanic_king", SpawnGroup.MONSTER, VolcanicKingEntity::new, 2.0F, 2.0F);
 
@@ -164,6 +166,8 @@ public class ModEntities333 {
             registerSpawnEgg("savannu_spawn_egg", SAVANNU, 0x33ff33, 0xcc6600, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
     public static final Item ARSE_SPAWN_EGG =
             registerSpawnEgg("arse_spawn_egg", ARSE, 0xA6A6A6, 0x993300, ModTabs.VOLCANOS_TAB);
+    public static final Item PERIDOTEH_SPAWN_EGG =
+            registerSpawnEgg("peridoteh_spawn_egg", PERIDOTEH, 0x33cc33, 0x00ff00, ModTabs.VOLCANOS_TAB);
     public static final Item VOLCANIC_KING_SPAWN_EGG =
             registerSpawnEgg("volcanic_king_spawn_egg", VOLCANIC_KING, 0x222222, 0x993300, ModTabs.VOLCANOS_TAB);
 
@@ -269,6 +273,7 @@ public class ModEntities333 {
         registerAttributes(CRYOPTERYX, CryopteryxEntity.createAttributes());
 
         registerAttributes(WARPERDUN, WarperdunEntity.createAttributes());
+        registerAttributes(PERIDOTEH, PeridotehEntity.createAttributes());
         registerAttributes(KRYOSON, KryosonEntity.createAttributes());
         registerAttributes(BUSHBEAST, BushBeastEntity.createAttributes());
         registerAttributes(OGANESON, OganesonEntity.createAttributes());
