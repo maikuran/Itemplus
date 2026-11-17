@@ -13,9 +13,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class BossMusicManager {
+public final class BossMusicManager {
 
-    private static final Map<UUID, String> ACTIVE_MUSIC = new HashMap<>();
+    private static final Map<UUID, String> ACTIVE_MUSIC =
+            new HashMap<>();
 
     private static final String[] BOSS_IDS = {
             "sakaplus:warperdun",
@@ -27,12 +28,6 @@ public class BossMusicManager {
             "sakaplus:warperdunbgm",
             "sakaplus:cryopteryxbgm",
             "sakaplus:volcanickingbgm"
-    };
-
-    private static final String[] SOUND_NAMES = {
-            "warperdunbgm",
-            "cryopteryxbgm",
-            "volcanickingbgm"
     };
 
     private BossMusicManager() {
@@ -61,13 +56,10 @@ public class BossMusicManager {
 
                 boolean found = false;
 
-                for (Entity entity :
-                        player.getWorld().getEntitiesByType(
-                                Registry.ENTITY_TYPE.get(bossId),
-                                Entity::isAlive,
-                                java.util.Collections.emptyList()
-                        )) {
-
+                for (Entity entity : player.getWorld().getEntitiesByType(
+                        Registry.ENTITY_TYPE.get(bossId),
+                        Entity::isAlive
+                )) {
                     found = true;
                     break;
                 }
@@ -78,8 +70,9 @@ public class BossMusicManager {
                 }
             }
 
-            String previousMusic =
-                    ACTIVE_MUSIC.get(player.getUuid());
+            UUID uuid = player.getUuid();
+
+            String previousMusic = ACTIVE_MUSIC.get(uuid);
 
             if (java.util.Objects.equals(
                     previousMusic, detectedMusic)) {
@@ -92,12 +85,9 @@ public class BossMusicManager {
 
             if (detectedMusic != null) {
                 playMusic(player, detectedMusic);
-                ACTIVE_MUSIC.put(
-                        player.getUuid(),
-                        detectedMusic
-                );
+                ACTIVE_MUSIC.put(uuid, detectedMusic);
             } else {
-                ACTIVE_MUSIC.remove(player.getUuid());
+                ACTIVE_MUSIC.remove(uuid);
             }
         }
 
@@ -110,6 +100,7 @@ public class BossMusicManager {
             ServerPlayerEntity player,
             String musicId
     ) {
+
         Identifier id = new Identifier(musicId);
 
         if (!Registry.SOUND_EVENT.containsId(id)) {
@@ -128,11 +119,16 @@ public class BossMusicManager {
             ServerPlayerEntity player,
             String musicId
     ) {
-        player.getServerWorld().getServer()
-                .getCommandManager()
-                .executeWithPrefix(
-                        player.getCommandSource(),
-                        "stopsound @s music " + musicId
-                );
+
+        MinecraftServer server = player.getServer();
+
+        if (server == null) {
+            return;
+        }
+
+        server.getCommandManager().executeWithPrefix(
+                player.getCommandSource(),
+                "stopsound @s music " + musicId
+        );
     }
 }
