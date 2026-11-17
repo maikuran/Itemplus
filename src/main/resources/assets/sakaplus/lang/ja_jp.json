@@ -1,6 +1,10 @@
 {
   "category.sakaplus": "Sakaplus",
   "item.sakaplus.phosphore": "フォスフォーア",
+  "entity.sakaplus.peridoteh": "ペリドッテー",
+  "item.sakaplus.peridoteh_spawn_egg": "ペリドッテーのスポーンエッグ",
+  "entity.sakaplus.peridotshot": "ペリドットショット",
+  "item.sakaplus.peridotshot": "ペリドットショット",
   "item.sakaplus.cryoshot": "クライオショット",
   "item.sakaplus.volcanic_bow": "火山の弓",
   "item.sakaplus.cryo_cannon": "クライオ大砲",
