@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "MBB",
+    "WWS",
+    "  S"
+  ],
+  "key": {
+    "B": { "item": "sakaplus:cryocrystal" },
+    "W": { "item": "minecraft:amethyst_shard" },
+    "S": { "item": "minecraft:iron_block" },
+    "M": { "item": "sakaplus:rosite_ingot" }
+  },
+  "result": {
+    "item": "sakaplus:cryoshot",
+    "count": 1
+  }
+}
