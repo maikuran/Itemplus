@@ -1,4 +1,3 @@
-
 package com.sakalti.sakaplus.client.model;
 
 import net.minecraft.client.model.*;
@@ -71,7 +70,7 @@ public class GoblinModel<T extends HostileEntity>
                         .uv(22, 17)
                         .cuboid(1F, -5F, -4.3F, 2F, 1F, 1F),
 
-                ModelTransform.pivot(0F, 8F, 0F)
+                ModelTransform.pivot(0F, 13F, 0F)
         );
 
         // =====================================
@@ -219,7 +218,7 @@ public class GoblinModel<T extends HostileEntity>
         float idle =
                 MathHelper.sin(animationProgress * 0.08F) * 0.035F;
 
-        this.head.pivotY = 8F + idle * 5F;
+        this.head.pivotY = 13F + idle * 5F;
 
         this.body.pitch = idle;
 
