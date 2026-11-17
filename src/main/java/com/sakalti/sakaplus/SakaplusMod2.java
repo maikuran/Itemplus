@@ -16,6 +16,7 @@ import com.sakalti.sakaplus.dimension.SakaplusDimensions;
 import com.sakalti.sakaplus.block.ModBlocks2;
 import com.sakalti.sakaplus.world.GreenyFeatures;
 import com.sakalti.sakaplus.world.ModWorldGeneration;
+import com.sakalti.sakaplus.sound.BossMusicManager;
 import com.sakalti.sakaplus.world.BlueIceFeature;
 import com.sakalti.sakaplus.sound.SakaplusSounds;
 import com.sakalti.sakaplus.player.skill.KillSkillLogic;
@@ -28,6 +29,7 @@ public class SakaplusMod2 implements ModInitializer {
 
         // Attributes
         ModAttributes.register();
+        BossMusicManager.register();
 
         // Sounds
         SakaplusSounds.registerSounds();
