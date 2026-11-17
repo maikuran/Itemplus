@@ -14,11 +14,12 @@
         "stream": false
       }
     ]
+  },
   "warperdunbgm": {
     "sounds": [
       {
         "name": "sakaplus:warperdunbgm",
-        "stream": false
+        "stream": true
       }
     ]
   },
@@ -26,7 +27,7 @@
     "sounds": [
       {
         "name": "sakaplus:cryopteryxbgm",
-        "stream": false
+        "stream": true
       }
     ]
   },
@@ -34,7 +35,7 @@
     "sounds": [
       {
         "name": "sakaplus:volcanickingbgm",
-        "stream": false
+        "stream": true
       }
     ]
   },
