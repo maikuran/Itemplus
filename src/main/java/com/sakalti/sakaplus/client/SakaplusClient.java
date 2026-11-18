@@ -204,6 +204,10 @@ public class SakaplusClient implements ClientModInitializer {
             ModEntities333.CRYOWARRIOR,
             CryowarriorRenderer::new
         );
+        EntityRendererRegistry.register(
+            ModEntities333.PERIDOTEH,
+            PeridotehRenderer::new
+        );
 
         EntityRendererRegistry.register(
             ModEntities333.CRYOBEAST,
@@ -387,6 +391,10 @@ public class SakaplusClient implements ClientModInitializer {
         registerLayer(
             PhosphoranRenderer.MODEL_LAYER,
             PhosphoranModel::getTexturedModelData
+        );
+        registerLayer(
+            PeridotehRenderer.MODEL_LAYER,
+            PeridotehModel::getTexturedModelData
         );
         registerLayer(
             GoblinRenderer.MODEL_LAYER,
