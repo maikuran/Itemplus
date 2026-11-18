@@ -1,0 +1,30 @@
+{
+  "parent": "sakaplus:visit_volcanos",
+  "display": {
+    "icon": {
+      "item": "sakaplus:peridoteh_spawn_egg"
+    },
+    "title": {
+      "translate": "advancement.sakaplus.visit_peridoteh_cage.title"
+    },
+    "description": {
+      "translate": "advancement.sakaplus.visit.peridoteh_cage.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "enter_peridoteh_cage": {
+      "trigger": "minecraft:location",
+      "conditions": {
+        "player": {
+          "location": {
+            "structure": "sakaplus:peridoteh_cage"
+          }
+        }
+      }
+    }
+  }
+}
