@@ -1,0 +1,28 @@
+{
+  "parent": "sakaplus:volcanic_king",
+  "display": {
+    "icon": {
+      "item": "sakaplus:volc_shot"
+    },
+    "title": {
+      "translate": "advancement.sakaplus.volcanic_king_kill.title"
+    },
+    "description": {
+      "translate": "advancement.sakaplus.volcanic_king_kill.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "kill_volcanic_king": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "sakaplus:volcanic_king"
+        }
+      }
+    }
+  }
+}
