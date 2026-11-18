@@ -1,0 +1,32 @@
+{
+  "parent": "sakaplus:visit_volcanos",
+  "display": {
+    "icon": {
+      "item": "sakaplus:volcanic_king_spawn_egg"
+    },
+    "title": {
+      "translate": "advancement.sakaplus.volcanic_king.title"
+    },
+    "description": {
+      "translate": "advancement.sakaplus.volcanic_king.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "has_volcanic_king_egg": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "sakaplus:volcanic_king_spawn_egg"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
