@@ -1,0 +1,129 @@
+name: Generate peridoteh cage structure
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main3
+    paths:
+      - ".github/workflows/generate-peridoteh-cage.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install nbtlib
+        run: python -m pip install nbtlib
+
+      - name: Generate peridoteh cage NBT
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from nbtlib import Compound, File, Int, List, Short, String
+
+          output = Path("src/main/resources/data/sakaplus/structures/peridoteh_cage.nbt")
+
+          palette_names = [
+              "minecraft:blackstone",
+              "minecraft:chain",
+              "minecraft:spawner",
+          ]
+          palette = List[Compound](
+              Compound({"Name": String(name)}) for name in palette_names
+          )
+          state = {name: index for index, name in enumerate(palette_names)}
+          blocks = []
+
+          def put(x, y, z, block, nbt=None):
+              entry = Compound({
+                  "state": Int(state[block]),
+                  "pos": List[Int]([Int(x), Int(y), Int(z)]),
+              })
+              if nbt is not None:
+                  entry["nbt"] = nbt
+              blocks.append(entry)
+
+          # 11x11の床(y=0)と天井(y=7)をブラックストーンで作成
+          for x in range(11):
+              for z in range(11):
+                  put(x, 0, z, "minecraft:blackstone")
+                  put(x, 7, z, "minecraft:blackstone")
+
+          # 壁面 (y=1〜6): 四隅と中間の柱はブラックストーン、それ以外は鎖の格子
+          for y in range(1, 7):
+              for x in range(11):
+                  for z in range(11):
+                      is_edge_x = x in (0, 10)
+                      is_edge_z = z in (0, 10)
+                      # 外周の壁のみ配置
+                      if not (is_edge_x or is_edge_z):
+                          continue
+
+                      # 四隅の太い柱、および各辺の中間(3, 7)に補強柱を配置
+                      is_pillar_x = x in (0, 3, 7, 10)
+                      is_pillar_z = z in (0, 3, 7, 10)
+
+                      if is_pillar_x and is_pillar_z:
+                          put(x, y, z, "minecraft:blackstone")
+                      elif (is_edge_x and is_pillar_z) or (is_edge_z and is_pillar_x):
+                          put(x, y, z, "minecraft:blackstone")
+                      else:
+                          put(x, y, z, "minecraft:chain")
+
+          # 中央のスポナーに sakaplus:peridoteh を設定 (座標 5, 1, 5)
+          spawner_nbt = Compound({
+              "id": String("minecraft:mob_spawner"),
+              "Delay": Short(20),
+              "MinSpawnDelay": Short(200),
+              "MaxSpawnDelay": Short(800),
+              "SpawnCount": Short(4),
+              "MaxNearbyEntities": Short(6),
+              "RequiredPlayerRange": Short(16),
+              "SpawnRange": Short(4),
+              "SpawnData": Compound({
+                  "entity": Compound({
+                      "id": String("sakaplus:peridoteh")
+                  })
+              }),
+          })
+          put(5, 1, 5, "minecraft:spawner", spawner_nbt)
+
+          structure = File(
+              Compound({
+                  "DataVersion": Int(3120),
+                  "author": String("Sakaplus"),
+                  "size": List[Int]([Int(11), Int(8), Int(11)]),
+                  "palette": palette,
+                  "blocks": List[Compound](blocks),
+                  "entities": List[Compound](),
+              }),
+              gzipped=True,
+          )
+
+          output.parent.mkdir(parents=True, exist_ok=True)
+          structure.save(output)
+          print(f"Generated {output}")
+          PY
+
+      - name: Commit generated structure
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@://github.com"
+          git add src/main/resources/data/sakaplus/structures/peridoteh_cage.nbt
+          if git diff --cached --quiet; then
+            echo "Structure NBT is already up to date."
+          else
+            git commit -m "Generate larger peridoteh cage structure NBT"
+            git push
+          fi
