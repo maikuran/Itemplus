@@ -61,6 +61,8 @@
     [],
     [],
     [
+      "sakaplus:krub",
+      "sakaplus:krove",
       "sakaplus:bloomsquer_patch",
       "sakaplus:greeny_tree"
     ],
