@@ -13,12 +13,12 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("deprecation")
 public enum ModArmorMaterials implements ArmorMaterial {
-    PYRONIUM("sakaplus:pyronium", 37, new int[]{4, 6, 8, 3}, 15, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 4.5F, 0.18F, () -> Ingredient.ofItems(ModItems.PYRONIUM_INGOT)),
-    CRYSTALLINE("sakaplus:crystalline", 54, new int[]{4, 8, 8, 3}, 15, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 0.2F, 0.24F, () -> Ingredient.ofItems(ModItems.CRYOCRYSTAL)),
-    VOLCANIC("sakaplus:volcanic", 68, new int[]{4, 8, 8, 4}, 20, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 0.16F, 0.3F, () -> Ingredient.ofItems(ModItems.PHOSPHORUS)),
-    SULFUR("sakaplus:sulfur", 62, new int[]{4, 8, 8, 3}, 17, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 0.12F, 0.3F, () -> Ingredient.ofItems(ModItems.SULFUR_INGOT)),
+    PYRONIUM("sakaplus:pyronium", 37, new int[]{4, 6, 8, 3}, 15, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 2.5F, 0.7F, () -> Ingredient.ofItems(ModItems.PYRONIUM_INGOT)),
+    CRYSTALLINE("sakaplus:crystalline", 54, new int[]{4, 8, 8, 3}, 15, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 5.0F, 1.2F, () -> Ingredient.ofItems(ModItems.CRYOCRYSTAL)),
+    VOLCANIC("sakaplus:volcanic", 68, new int[]{4, 8, 8, 4}, 20, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 4.8F, 1.1F, () -> Ingredient.ofItems(ModItems.PHOSPHORUS)),
+    SULFUR("sakaplus:sulfur", 62, new int[]{4, 8, 8, 3}, 17, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 3.3F, 0.6F, () -> Ingredient.ofItems(ModItems.SULFUR_INGOT)),
     AMETHOND("sakaplus:amethond", 28, new int[]{2, 8, 7, 2}, 15, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F, 0.1F, () -> Ingredient.ofItems(Items.AMETHYST_SHARD)),
-    INFERNAL("sakaplus:infernal", 45, new int[]{4, 7, 8, 3}, 15, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 5.0F, 0.15F, () -> Ingredient.ofItems(ModItems.PYRONIUM_INGOT));
+    INFERNAL("sakaplus:infernal", 45, new int[]{4, 7, 8, 3}, 15, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 4.0F, 0.9F, () -> Ingredient.ofItems(ModItems.PYRONIUM_INGOT));
     
 
     private static final int[] BASE_DURABILITY = new int[]{13, 15, 16, 11};
