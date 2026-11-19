@@ -38,9 +38,9 @@ public abstract class ArmorOvercapMixin {
             int overcap = armor - 20;
 
             // バニラと同じ計算式で「実効超過防御値」を算出（大ダメージほど減衰する）
-            // 最低でも本来の20%（7%の1/5 = 1.4%）の効果は保証する
+            // 最低でも本来の40%の効果は保証する
             float effectiveOvercap = Math.max(
-                    overcap * 0.2F,
+                    overcap * 0.4F,
                     overcap - amount / (2.0F + toughness / 4.0F)
             );
 
