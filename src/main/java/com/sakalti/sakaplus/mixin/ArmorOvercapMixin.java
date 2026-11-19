@@ -1,6 +1,7 @@
 package com.sakalti.sakaplus.mixin;
 
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,10 +15,6 @@ public abstract class ArmorOvercapMixin {
     @Shadow
     public abstract int getArmor();
 
-    /**
-     * 防御力が20を超えている場合、超過分1につき7%の追加ダメージ軽減を適用する。
-     * 例: 防御25の場合 -> (25 - 20) * 7% = 35%の追加軽減
-     */
     @Inject(
             method = "applyArmorToDamage",
             at = @At("RETURN"),
@@ -28,18 +25,26 @@ public abstract class ArmorOvercapMixin {
             float amount,
             CallbackInfoReturnable<Float> cir
     ) {
-        // 防御無視ダメージ（落下、魔法、奈落など）には適用しない
         if (source.bypassesArmor()) {
             return;
         }
 
         int armor = this.getArmor();
         if (armor > 20) {
-            int overcap = armor - 20;
-            // 1あたり7% (0.07f) 軽減。100% (1.0f) を超えないように制限
-            float reduction = Math.min(1.0F, overcap * 0.07F);
+            LivingEntity living = (LivingEntity) (Object) this;
+            float toughness = (float) living.getAttributeValue(EntityAttributes.GENERIC_ARMOR_TOUGHNESS);
             float originalDamage = cir.getReturnValue();
 
+            int overcap = armor - 20;
+
+            // バニラと同じ計算式で「実効超過防御値」を算出（大ダメージほど減衰する）
+            // 最低でも本来の20%（7%の1/5 = 1.4%）の効果は保証する
+            float effectiveOvercap = Math.max(
+                    overcap * 0.2F,
+                    overcap - amount / (2.0F + toughness / 4.0F)
+            );
+
+            float reduction = Math.min(1.0F, effectiveOvercap * 0.07F);
             cir.setReturnValue(originalDamage * (1.0F - reduction));
         }
     }
