@@ -1,6 +1,10 @@
 {
   "category.sakaplus": "Sakaplus",
   "item.sakaplus.phosphore": "フォスフォーア",
+  "item.sakaplus.sulfur_helmet": "硫黄のヘルメット",
+  "item.sakaplus.sulfur_chestplate": "硫黄のチェストプレート",
+  "item.sakaplus.sulfur_leggings": "硫黄のレギンス",
+  "item.sakaplus.sulfur_boots": "硫黄のブーツ",
   "entity.sakaplus.peridoteh": "ペリドッテー",
   "item.sakaplus.peridoteh_spawn_egg": "ペリドッテーのスポーンエッグ",
   "entity.sakaplus.peridotshot": "ペリドットショット",
