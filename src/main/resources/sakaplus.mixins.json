@@ -8,15 +8,19 @@
     "ArmorOvercapMixin",
     "VolcanicBowMixin",
     "IcyBowHitMixin",
-    "ClientPlayerInteractionManagerMixin",
-    "FighterZoomMixin",
-    "InGameHudMixin",
     "EntityAttributeInstanceMixin",
     "PlayerAttributeMixin",
     "LivingEntityMixin",
     "ParalyzeLivingMixin",
     "ParalyzeMobMixin",
-    "KruziRifleZoomMixin"
+    "ServerPlayNetworkHandlerMixin"
+  ],
+  "client": [
+    "ClientPlayerInteractionManagerMixin",
+    "FighterZoomMixin",
+    "InGameHudMixin",
+    "KruziRifleZoomMixin",
+    "GameRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
