@@ -1,50 +1,56 @@
 
-package com.sakalti.sakaplus.mixin;
+package com.sakalti.sakaplus.enchant;
 
-import com.sakalti.sakaplus.enchant.ExperienceEnchant;
-import com.sakalti.sakaplus.registry.ModEnchantments;
+import com.sakalti.sakaplus.item.Gun;
 
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentTarget;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.SwordItem;
+import net.minecraft.util.Rarity;
 
-import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+public class ExperienceEnchant extends Enchantment {
 
-@Mixin(LivingEntity.class)
-public abstract class ExperienceEnchantMixin {
-
-    @Shadow
-    protected int experiencePoints;
-
-    @Inject(
-        method = "getExperienceToDrop(Lnet/minecraft/entity/player/PlayerEntity;)I",
-        at = @At("RETURN"),
-        cancellable = true
-    )
-    private void sakaplus$increaseExperience(
-            PlayerEntity player,
-            CallbackInfoReturnable<Integer> cir
-    ) {
-        if (player == null) return;
-
-        ItemStack weapon = player.getMainHandStack();
-
-        int level = EnchantmentHelper.getLevel(
-                ModEnchantments.EXPERIENCE,
-                weapon
+    public ExperienceEnchant() {
+        super(
+                Rarity.RARE,
+                EnchantmentTarget.WEAPON,
+                new EquipmentSlot[] {
+                        EquipmentSlot.MAINHAND,
+                        EquipmentSlot.OFFHAND
+                }
         );
+    }
 
-        if (level <= 0) return;
+    @Override
+    public int getMaxLevel() {
+        return 3;
+    }
 
-        int original = cir.getReturnValue();
+    @Override
+    public int getMinPower(int level) {
+        return 10 + (level - 1) * 15;
+    }
 
-        double multiplier = 1.0 + (0.25 * level);
+    @Override
+    public int getMaxPower(int level) {
+        return getMinPower(level) + 30;
+    }
 
-        cir.setReturnValue((int) Math.round(original * multiplier));
+    @Override
+    public boolean isAcceptableItem(ItemStack stack) {
+        return stack.getItem() instanceof Gun
+                || stack.getItem() instanceof SwordItem;
+    }
+
+    @Override
+    public boolean isAvailableForRandomSelection() {
+        return true;
+    }
+
+    @Override
+    public boolean isAvailableForEnchantedBookOffer() {
+        return true;
     }
 }
