@@ -13,6 +13,7 @@
     "LivingEntityMixin",
     "ParalyzeLivingMixin",
     "ParalyzeMobMixin",
+    "ExperienceEnchantMixin",
     "ServerPlayNetworkHandlerMixin"
   ],
   "client": [
