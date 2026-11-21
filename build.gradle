@@ -4,8 +4,8 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'com.sakalti.sakacountry'
-version = '1.0.0'
+group = 'com.sakalti.abyssalion'
+version = '0.1'
 
 repositories {
     mavenCentral()
@@ -33,7 +33,7 @@ tasks.withType(JavaCompile).configureEach {
 jar {
     manifest {
         attributes(
-            'Implementation-Title': 'Sakacountry',
+            'Implementation-Title': 'Abyssalion',
             'Implementation-Version': project.version
         )
     }
