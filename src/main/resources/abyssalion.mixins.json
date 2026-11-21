@@ -1,14 +1,13 @@
-
 {
   "required": true,
   "minVersion": "0.8",
   "package": "com.sakalti.abyssalion.mixin",
   "compatibilityLevel": "JAVA_25",
-  "refmap": "abyssalion.refmap.json",
   "mixins": [
     "WorldGenerationMixin",
     "PlayerFloodMixin",
-    "WaterProtectionMixin"
+    "WaterProtectionMixin",
+    "VirtualWaterMixin"
   ],
   "injectors": {
     "defaultRequire": 1
