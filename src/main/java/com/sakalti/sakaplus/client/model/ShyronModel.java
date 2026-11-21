@@ -15,6 +15,9 @@ public class ShyronModel extends SinglePartEntityModel<ShyronEntity> {
     private static final int TEXTURE_WIDTH = 512;
     private static final int TEXTURE_HEIGHT = 192;
 
+    // モデル全体を下方向へ移動
+    private static final float MODEL_Y_OFFSET = 16F;
+
     public ShyronModel(ModelPart root) {
         this.root = root;
     }
@@ -23,10 +26,17 @@ public class ShyronModel extends SinglePartEntityModel<ShyronEntity> {
         ModelData modelData = new ModelData();
         ModelPartData root = modelData.getRoot();
 
+        // 全パーツをまとめる親パーツ
+        ModelPartData body = root.addChild(
+                "body",
+                ModelPartBuilder.create(),
+                ModelTransform.pivot(0F, MODEL_Y_OFFSET, 0F)
+        );
+
         int uvIndex = 0;
 
         // Center cube
-        addCube(root, "center",
+        addCube(body, "center",
                 0F, 0F, 0F,
                 12F, uvIndex++);
 
@@ -47,11 +57,11 @@ public class ShyronModel extends SinglePartEntityModel<ShyronEntity> {
             float y = directions[i][1];
             float z = directions[i][2];
 
-            addCube(root, "outer_cube_" + i,
+            addCube(body, "outer_cube_" + i,
                     x, y, z,
                     4F, uvIndex++);
 
-            // Six second-layer cubes around each first-layer cube
+            // Six second-layer cubes
             float tinyDistance = 3F;
 
             float[][] tinyDirections = {
@@ -68,10 +78,12 @@ public class ShyronModel extends SinglePartEntityModel<ShyronEntity> {
                 float ty = y + tinyDirections[j][1];
                 float tz = z + tinyDirections[j][2];
 
-                addCube(root,
+                addCube(
+                        body,
                         "tiny_cube_" + i + "_" + j,
                         tx, ty, tz,
-                        1.5F, uvIndex++);
+                        1.5F, uvIndex++
+                );
             }
         }
 
@@ -82,7 +94,6 @@ public class ShyronModel extends SinglePartEntityModel<ShyronEntity> {
         );
     }
 
-    // Each cube receives its own non-overlapping UV cell.
     private static void addCube(
             ModelPartData root,
             String name,
