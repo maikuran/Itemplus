@@ -279,8 +279,17 @@ public class ModEntities333 {
         BiomeModifications.addSpawn(selector, group, entity, weight, min, max);
     }
 
+    private static Predicate<BiomeSelectionContext> biomeTag(String tagName) {
+        TagKey<Biome> tag = TagKey.of(
+                Registry.BIOME_KEY,
+                new Identifier("minecraft", tagName)
+        );
+        return BiomeSelectors.tag(tag);
+    }
+
     private static void registerNaturalSpawns() {
 
+        // Crimson Forest
         registerNaturalSpawn(
                 SCORCHER,
                 BiomeSelectors.includeByKey(BiomeKeys.CRIMSON_FOREST),
@@ -288,21 +297,44 @@ public class ModEntities333 {
                 8, 1, 2
         );
 
-        // オーバーワールドの全バイオームを指定するタグ
-        // Identifierを直接渡さず、TagKey<Biome>に変換する
-        TagKey<Biome> overworldTag = TagKey.of(
-                Registry.BIOME_KEY,
-                new Identifier("minecraft", "is_overworld")
+        // Overworld全体
+        Predicate<BiomeSelectionContext> overworld = biomeTag("is_overworld");
+
+        // Jungle系
+        Predicate<BiomeSelectionContext> jungle = biomeTag("is_jungle");
+
+        // Savanna系
+        Predicate<BiomeSelectionContext> savanna = biomeTag("is_savanna");
+
+        registerNaturalSpawn(
+                NYANKO,
+                overworld,
+                SpawnGroup.MONSTER,
+                90, 1, 2
         );
 
-        Predicate<BiomeSelectionContext> overworldSelector =
-                BiomeSelectors.tag(overworldTag);
+        registerNaturalSpawn(
+                GOBLIN,
+                overworld,
+                SpawnGroup.MONSTER,
+                95, 1, 2
+        );
 
-        registerNaturalSpawn(NYANKO, overworldSelector, SpawnGroup.MONSTER, 90, 1, 2);
-        registerNaturalSpawn(BUSHBEAST, overworldSelector, SpawnGroup.MONSTER, 95, 1, 2);
-        registerNaturalSpawn(GOBLIN, overworldSelector, SpawnGroup.MONSTER, 95, 1, 2);
-        registerNaturalSpawn(SAVANNU, overworldSelector, SpawnGroup.MONSTER, 95, 1, 2);
+        registerNaturalSpawn(
+                BUSHBEAST,
+                jungle,
+                SpawnGroup.MONSTER,
+                95, 1, 2
+        );
 
+        registerNaturalSpawn(
+                SAVANNU,
+                savanna,
+                SpawnGroup.MONSTER,
+                95, 1, 2
+        );
+
+        // Warped Forest / Crimson Forest
         registerNaturalSpawn(
                 OGANESON,
                 BiomeSelectors.includeByKey(
