@@ -16,7 +16,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.sakalti.abyssalion.main"
+      "com.sakalti.abyssalion.Abyssalion"
     ]
   },
   "mixins": [
