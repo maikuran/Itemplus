@@ -1,9 +1,9 @@
+
 package com.sakalti.sakaplus.enchant;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import com.sakalti.sakaplus.enchant.*; // エンチャントのパッケージに合わせて適宜調整してください
 
 public class ModEnchantments {
 
@@ -14,7 +14,6 @@ public class ModEnchantments {
                     new MagnumEnchantment()
             );
 
-    // 毒エンチャントの登録を追加
     public static final Enchantment POISON =
             Registry.register(
                     Registry.ENCHANTMENT,
@@ -22,12 +21,19 @@ public class ModEnchantments {
                     new PoisonEnchantment()
             );
 
-    // 大剣専用エンチャントの登録を追加
     public static final Enchantment SWEEP_BURST =
             Registry.register(
                     Registry.ENCHANTMENT,
                     new Identifier("sakaplus", "sweep_burst"),
                     new SweepBurstEnchantment()
+            );
+
+    // 経験値増加エンチャント
+    public static final Enchantment EXPERIENCE =
+            Registry.register(
+                    Registry.ENCHANTMENT,
+                    new Identifier("sakaplus", "experience"),
+                    new ExperienceEnchant()
             );
 
     public static void register() {
