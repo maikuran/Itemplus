@@ -1,6 +1,14 @@
 {
   "category.sakaplus": "Sakaplus",
   "item.sakaplus.phosphore": "フォスフォーア",
+  "dimension.sakaplus.kruzivilim": "クルジヴィリム",
+  "dimension.sakaplus.cryovilim": "クライオヴィリム",
+  "dimension.sakaplus.volcanos": "火山地帯",
+
+  "biome.sakaplus.kruzivilim_biome": "クルジヴィリムの汚染地帯",
+  "biome.sakaplus.greenforest": "緑の森",
+  "biome.sakaplus.cryoland": "クライオランド",
+  "biome.sakaplus.volcanos": "灼熱の火山地帯",
   "item.sakaplus.sulfur_helmet": "硫黄のヘルメット",
   "item.sakaplus.sulfur_chestplate": "硫黄のチェストプレート",
   "item.sakaplus.sulfur_leggings": "硫黄のレギンス",
