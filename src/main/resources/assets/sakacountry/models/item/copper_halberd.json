@@ -1,6 +1,0 @@
-{
-  "parent": "sakacountry:item/halberd",
-  "textures": {
-    "layer0": "sakacountry:item/copper_halberd"
-  }
-}

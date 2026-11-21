@@ -1,6 +1,0 @@
-{
-  "parent": "sakacountry:item/halberd",
-  "textures": {
-    "layer0": "sakacountry:item/netherite_halberd"
-  }
-}
