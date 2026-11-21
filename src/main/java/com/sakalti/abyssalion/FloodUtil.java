@@ -16,12 +16,10 @@ public final class FloodUtil {
         LevelHeightAccessor world,
         ChunkAccess chunk
     ) {
-        int minY = world.getMinBuildHeight();
-
-        // Y=384を含めて水没
+        int minY = world.getMinY();
         int maxY = Math.min(
             WATER_LEVEL + 1,
-            world.getMaxBuildHeight()
+            world.getMaxY()
         );
 
         int startX = chunk.getPos().getMinBlockX();
@@ -32,17 +30,15 @@ public final class FloodUtil {
 
         for (int x = startX; x < startX + 16; x++) {
             for (int z = startZ; z < startZ + 16; z++) {
-
                 for (int y = minY; y < maxY; y++) {
 
                     pos.set(x, y, z);
 
-                    // 空気だけを水に変更
                     if (chunk.getBlockState(pos).isAir()) {
                         chunk.setBlockState(
                             pos,
                             Blocks.WATER.defaultBlockState(),
-                            false
+                            3
                         );
                     }
                 }
