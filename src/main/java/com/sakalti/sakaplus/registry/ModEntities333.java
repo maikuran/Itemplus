@@ -1,3 +1,4 @@
+
 package com.sakalti.sakaplus.registry;
 
 import java.util.function.Predicate;
@@ -55,21 +56,25 @@ public class ModEntities333 {
 
     public static final EntityType<ScorcherEntity> SCORCHER =
             registerEntity("scorcher", SpawnGroup.MONSTER, ScorcherEntity::new, 0.6F, 1.8F);
+
     public static final EntityType<PeridotehEntity> PERIDOTEH =
             registerEntity("peridoteh", SpawnGroup.MONSTER, PeridotehEntity::new, 0.9F, 0.9F);
+
     public static final EntityType<VolcanicKingEntity> VOLCANIC_KING =
             registerEntity("volcanic_king", SpawnGroup.MONSTER, VolcanicKingEntity::new, 2.0F, 2.0F);
 
     public static final EntityType<KuloogieEntity> KULOOGIE =
             registerEntity("kuloogie", SpawnGroup.MONSTER, KuloogieEntity::new, 0.8F, 1.2F);
+
     public static final EntityType<GoblinEntity> GOBLIN =
             registerEntity("goblin", SpawnGroup.MONSTER, GoblinEntity::new, 1.0F, 1.2F);
 
-
     public static final EntityType<KurBruteEntity> KUR_BRUTE =
             registerEntity("kur_brute", SpawnGroup.CREATURE, KurBruteEntity::new, 0.5F, 1.1F);
+
     public static final EntityType<ArseEntity> ARSE =
             registerEntity("arse", SpawnGroup.MONSTER, ArseEntity::new, 1.2F, 1.8F);
+
     public static final EntityType<QuartzehEntity> QUARTZEH =
             registerEntity("quartzeh", SpawnGroup.MONSTER, QuartzehEntity::new, 1.4F, 2.8F);
 
@@ -81,9 +86,9 @@ public class ModEntities333 {
 
     public static final EntityType<CryomageEntity> CRYOMAGE =
             registerEntity("cryomage", SpawnGroup.MONSTER, CryomageEntity::new, 1.5F, 1.5F, 64, 3);
+
     public static final EntityType<SavannuEntity> SAVANNU =
             registerEntity("savannu", SpawnGroup.MONSTER, SavannuEntity::new, 2.0F, 1.0F, 64, 3);
-
 
     public static final EntityType<CryowarriorEntity> CRYOWARRIOR =
             registerEntity("cryowarrior", SpawnGroup.MONSTER, CryowarriorEntity::new, 0.8F, 2.0F, 64, 3);
@@ -122,12 +127,12 @@ public class ModEntities333 {
             registerEntity("bushbeast", SpawnGroup.MONSTER, BushBeastEntity::new, 0.8F, 1.2F);
 
     // VOLCANOS
+
     public static final EntityType<PhosphoranEntity> PHOSPHORAN =
             registerEntity("phosphoran", SpawnGroup.MONSTER, PhosphoranEntity::new, 0.8F, 1.5F, 64, 3);
 
     public static final EntityType<SulfanEntity> SULFAN =
             registerEntity("sulfan", SpawnGroup.MONSTER, SulfanEntity::new, 1.0F, 1.3F, 64, 3);
-
 
     // ==================================================
     // SPAWN EGGS
@@ -162,16 +167,18 @@ public class ModEntities333 {
 
     public static final Item SCORCHER_SPAWN_EGG =
             registerSpawnEgg("scorcher_spawn_egg", SCORCHER, 0xAA0000, 0xFF5500, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
+
     public static final Item SAVANNU_SPAWN_EGG =
             registerSpawnEgg("savannu_spawn_egg", SAVANNU, 0x33ff33, 0xcc6600, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
+
     public static final Item ARSE_SPAWN_EGG =
             registerSpawnEgg("arse_spawn_egg", ARSE, 0xA6A6A6, 0x993300, ModTabs.VOLCANOS_TAB);
+
     public static final Item PERIDOTEH_SPAWN_EGG =
             registerSpawnEgg("peridoteh_spawn_egg", PERIDOTEH, 0x33cc33, 0x00ff00, ModTabs.VOLCANOS_TAB);
+
     public static final Item VOLCANIC_KING_SPAWN_EGG =
             registerSpawnEgg("volcanic_king_spawn_egg", VOLCANIC_KING, 0x222222, 0x993300, ModTabs.VOLCANOS_TAB);
-
-
 
     public static final Item WARPERDUN_SPAWN_EGG =
             registerSpawnEgg("warperdun_spawn_egg", WARPERDUN, 0x003366, 0x660099, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
@@ -196,16 +203,15 @@ public class ModEntities333 {
 
     public static final Item KRUZI_ANT_SPAWN_EGG =
             registerSpawnEgg("kruzi_ant_spawn_egg", KRUZI_ANT, 0xD4AF37, 0xFFD700, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
+
     public static final Item GOBLIN_SPAWN_EGG =
             registerSpawnEgg("goblin_spawn_egg", GOBLIN, 0x00FF00, 0x009900, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
-
 
     public static final Item SHYRON_SPAWN_EGG =
             registerSpawnEgg("shyron_spawn_egg", SHYRON, 0x555577, 0xAAAAAA, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
 
     public static final Item XXENA_SPAWN_EGG =
             registerSpawnEgg("xxena_spawn_egg", XXENA, 0x8A2BE2, 0xFF66CC, ModTabs.STARTER_AND_KRUZIVILIM_TAB);
-
 
     // CYROVILIM
 
@@ -230,7 +236,6 @@ public class ModEntities333 {
     public static final Item CRYOPTERYX_SPAWN_EGG =
             registerSpawnEgg("cryopteryx_spawn_egg", CRYOPTERYX, 0x66CCFF, 0x112255, ModTabs.CYROVILIM_TAB);
 
-
     // VOLCANOS
 
     public static final Item PHOSPHORAN_SPAWN_EGG =
@@ -238,9 +243,9 @@ public class ModEntities333 {
 
     public static final Item SULFAN_SPAWN_EGG =
             registerSpawnEgg("sulfan_spawn_egg", SULFAN, 0xD9B52B, 0x553311, ModTabs.VOLCANOS_TAB);
+
     public static final Item QUARTZEH_SPAWN_EGG =
             registerSpawnEgg("quartzeh_spawn_egg", QUARTZEH, 0xCCCCCC, 0xEEEEEE, ModTabs.VOLCANOS_TAB);
-
 
     // ==================================================
     // ATTRIBUTES
@@ -256,7 +261,6 @@ public class ModEntities333 {
     private static void registerAllAttributes() {
 
         registerAttributes(SCORCHER, ScorcherEntity.createAttributes());
-        
         registerAttributes(VOLCANIC_KING, VolcanicKingEntity.createAttributes());
         registerAttributes(SAVANNU, SavannuEntity.createAttributes());
         registerAttributes(KULOOGIE, KuloogieEntity.createAttributes());
@@ -287,7 +291,6 @@ public class ModEntities333 {
         registerAttributes(SULFAN, SulfanEntity.createAttributes());
     }
 
-
     // ==================================================
     // NATURAL SPAWNING
     // ==================================================
@@ -305,42 +308,51 @@ public class ModEntities333 {
 
     private static void registerNaturalSpawns() {
 
+        // SCORCHER: Crimson Forest
         registerNaturalSpawn(
                 SCORCHER,
                 BiomeSelectors.includeByKey(BiomeKeys.CRIMSON_FOREST),
                 SpawnGroup.MONSTER, 8, 1, 2
         );
 
+        // All Overworld biomes
+        Predicate<BiomeSelectionContext> overworld =
+                BiomeSelectors.tag(new Identifier("minecraft", "is_overworld"));
+
         registerNaturalSpawn(
                 NYANKO,
-                BiomeSelectors.includeByKey(BiomeKeys.PLAINS),
+                overworld,
                 SpawnGroup.MONSTER, 90, 1, 2
         );
 
         registerNaturalSpawn(
                 BUSHBEAST,
-                BiomeSelectors.includeByKey(BiomeKeys.JUNGLE),
+                overworld,
                 SpawnGroup.MONSTER, 95, 1, 2
         );
 
         registerNaturalSpawn(
                 GOBLIN,
-                BiomeSelectors.includeByKey(BiomeKeys.MEADOW),
+                overworld,
                 SpawnGroup.MONSTER, 95, 1, 2
         );
 
         registerNaturalSpawn(
                 SAVANNU,
-                BiomeSelectors.includeByKey(BiomeKeys.SAVANNA),
+                overworld,
                 SpawnGroup.MONSTER, 95, 1, 2
         );
+
+        // OGANESON: Warped Forest and Crimson Forest
         registerNaturalSpawn(
                 OGANESON,
-                BiomeSelectors.includeByKey(BiomeKeys.WARPED_FOREST, BiomeKeys.CRIMSON_FOREST),
+                BiomeSelectors.includeByKey(
+                        BiomeKeys.WARPED_FOREST,
+                        BiomeKeys.CRIMSON_FOREST
+                ),
                 SpawnGroup.MONSTER, 1, 1, 2
         );
     }
-
 
     // ==================================================
     // REGISTER
