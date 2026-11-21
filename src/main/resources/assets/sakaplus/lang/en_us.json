@@ -2,6 +2,15 @@
 {
   "category.sakaplus": "Sakaplus",
   "enchantment.sakaplus.experience": "Experience Boost",
+  {
+  "dimension.sakaplus.kruzivilim": "Kruzivilim",
+  "dimension.sakaplus.cryovilim": "Cryovilim",
+  "dimension.sakaplus.volcanos": "Volcanos",
+
+  "biome.sakaplus.kruzivilim_biome": "Kruzivilim Wastes",
+  "biome.sakaplus.greenforest": "Green Forest",
+  "biome.sakaplus.cryoland": "Cryoland",
+  "biome.sakaplus.volcanos": "Volcanic Badlands",
   "item.sakaplus.volcanic_bow": "Volcanic Bow",
   "advancement.sakaplus.visit_peridoteh_cage.title": "Unpleasant Prison",
   "item.sakaplus.sulfur_helmet": "Sulfur Helmet",
