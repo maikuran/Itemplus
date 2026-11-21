@@ -1,8 +1,7 @@
 
 package com.sakalti.sakaplus.mixin;
 
-import com.sakalti.sakaplus.enchant.ExperienceEnchant;
-import com.sakalti.sakaplus.registry.ModEnchantments;
+import com.sakalti.sakaplus.enchant.ModEnchantments;
 
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
@@ -10,16 +9,12 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class ExperienceEnchantMixin {
-
-    @Shadow
-    protected int experiencePoints;
 
     @Inject(
         method = "getExperienceToDrop(Lnet/minecraft/entity/player/PlayerEntity;)I",
@@ -43,8 +38,12 @@ public abstract class ExperienceEnchantMixin {
 
         int original = cir.getReturnValue();
 
+        if (original <= 0) return;
+
         double multiplier = 1.0 + (0.25 * level);
 
-        cir.setReturnValue((int) Math.round(original * multiplier));
+        cir.setReturnValue(
+                (int) Math.round(original * multiplier)
+        );
     }
 }
