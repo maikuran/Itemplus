@@ -6,6 +6,7 @@ import com.sakalti.abyssalion.FloodUtil;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.chunk.LevelChunk;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,21 +24,21 @@ public abstract class PlayerFloodMixin {
     @Unique
     private int abyssalion$lastChunkZ = Integer.MIN_VALUE;
 
-    @Inject(
-        method = "tick",
-        at = @At("HEAD")
-    )
+    @Inject(method = "tick", at = @At("HEAD"))
     private void abyssalion$playerEntered(CallbackInfo ci) {
 
         ServerPlayer player = (ServerPlayer)(Object)this;
-        ServerLevel world = player.serverLevel();
+
+        ServerLevel world = player.level();
 
         if (world.dimension() != Level.OVERWORLD) {
             return;
         }
 
-        int chunkX = player.chunkPosition().x;
-        int chunkZ = player.chunkPosition().z;
+        ChunkPos chunkPos = player.chunkPosition();
+
+        int chunkX = chunkPos.x();
+        int chunkZ = chunkPos.z();
 
         if (chunkX == abyssalion$lastChunkX &&
             chunkZ == abyssalion$lastChunkZ) {
