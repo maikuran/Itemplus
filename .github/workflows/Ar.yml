@@ -3,10 +3,6 @@ name: Unzip The Solar and Commit
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - 'DimensionMod-The-Solar-src-lunar-portals.zip'
-      - '.github/workflows/unzip-commit.yml'
 
 permissions:
   contents: write
