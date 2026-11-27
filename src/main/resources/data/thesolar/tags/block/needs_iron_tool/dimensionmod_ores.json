@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "thesolar:ares_ore",
+    "thesolar:blood_crystal_ore",
+    "thesolar:ferrite_ore",
+    "thesolar:lunarium_ore",
+    "thesolar:selenite_ore"
+  ]
+}

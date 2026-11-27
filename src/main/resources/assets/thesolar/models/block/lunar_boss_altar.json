@@ -1,0 +1,41 @@
+{
+  "textures": {
+    "base": "thesolar:block/ancient_lunar_bricks",
+    "core": "thesolar:block/moon_crystal",
+    "particle": "thesolar:block/moon_crystal"
+  },
+  "elements": [
+    {
+      "from": [0, 0, 0], "to": [16, 4, 16],
+      "faces": {
+        "down": {"texture":"#base"}, "up": {"texture":"#base"},
+        "north": {"texture":"#base"}, "south": {"texture":"#base"},
+        "west": {"texture":"#base"}, "east": {"texture":"#base"}
+      }
+    },
+    {
+      "from": [2, 4, 2], "to": [14, 7, 14],
+      "faces": {
+        "down": {"texture":"#base"}, "up": {"texture":"#base"},
+        "north": {"texture":"#base"}, "south": {"texture":"#base"},
+        "west": {"texture":"#base"}, "east": {"texture":"#base"}
+      }
+    },
+    {
+      "from": [5, 7, 5], "to": [11, 13, 11],
+      "faces": {
+        "down": {"texture":"#core"}, "up": {"texture":"#core"},
+        "north": {"texture":"#core"}, "south": {"texture":"#core"},
+        "west": {"texture":"#core"}, "east": {"texture":"#core"}
+      }
+    },
+    {
+      "from": [4, 13, 4], "to": [12, 16, 12],
+      "faces": {
+        "down": {"texture":"#core"}, "up": {"texture":"#core"},
+        "north": {"texture":"#core"}, "south": {"texture":"#core"},
+        "west": {"texture":"#core"}, "east": {"texture":"#core"}
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:projected_random_patchy_square",
+  "block": {
+    "id": "thesolar:martian_rock"
+  },
+  "project_through": {
+    "type": "minecraft:matching_blocks",
+    "blocks": [
+      "minecraft:air",
+      "minecraft:cave_air",
+      "minecraft:void_air"
+    ]
+  },
+  "size": 12,
+  "max_projection_height": 18
+}

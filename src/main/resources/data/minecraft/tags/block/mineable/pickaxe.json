@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "thesolar:ares_ore",
+    "thesolar:blood_crystal_ore",
+    "thesolar:cobalt_ore",
+    "thesolar:ferrite_ore",
+    "thesolar:hellphyros_remnantius_forgotina_ore",
+    "thesolar:jade_ore",
+    "thesolar:krillul_ore",
+    "thesolar:limonite_ore",
+    "thesolar:lunarium_ore",
+    "thesolar:ruby_ore",
+    "thesolar:selenite_ore",
+    "thesolar:sitherian_ore"
+  ]
+}

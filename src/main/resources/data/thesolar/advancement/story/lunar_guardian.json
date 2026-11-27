@@ -1,0 +1,28 @@
+{
+  "parent": "thesolar:story/ancient_secrets",
+  "display": {
+    "icon": {
+      "id": "thesolar:moonlight_blade"
+    },
+    "title": {
+      "translate": "advancement.thesolar.lunar_guardian.title"
+    },
+    "description": {
+      "translate": "advancement.thesolar.lunar_guardian.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "selene": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "thesolar:selene"
+        }
+      }
+    }
+  }
+}

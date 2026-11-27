@@ -1,0 +1,6 @@
+{
+  "type": "minecraft:block",
+  "result_state": {
+    "id": "thesolar:martian_rock"
+  }
+}

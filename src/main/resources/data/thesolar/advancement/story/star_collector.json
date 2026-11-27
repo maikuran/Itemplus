@@ -1,0 +1,30 @@
+{
+  "parent": "thesolar:story/ancient_secrets",
+  "display": {
+    "icon": {
+      "id": "thesolar:star_dust"
+    },
+    "title": {
+      "translate": "advancement.thesolar.star_collector.title"
+    },
+    "description": {
+      "translate": "advancement.thesolar.star_collector.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "stardust": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "thesolar:star_dust"
+          }
+        ]
+      }
+    }
+  }
+}

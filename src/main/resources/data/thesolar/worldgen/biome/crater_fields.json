@@ -1,0 +1,75 @@
+{
+  "has_precipitation": false,
+  "temperature": 0.02,
+  "downfall": 0.0,
+  "effects": {
+    "water_color": "#383838",
+    "grass_color": "#6d6d6d",
+    "foliage_color": "#6d6d6d"
+  },
+  "carvers": [
+    "minecraft:cave",
+    "minecraft:cave_extra_underground",
+    "minecraft:canyon"
+  ],
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "thesolar:selenite_ore",
+      "thesolar:lunarium_ore"
+    ],
+    [],
+    [],
+    [
+      "thesolar:lunar_surface_crystals",
+      "thesolar:lunar_surface_dust"
+    ],
+    [
+      "thesolar:lunar_surface_crust"
+    ]
+  ],
+  "attributes": {
+    "minecraft:gameplay/natural_mob_spawns": {
+      "modifier": "overlay",
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "monster": [
+            {
+              "type": "thesolar:moon_stalker",
+              "count": 2,
+              "weight": 60
+            },
+            {
+              "type": "thesolar:lunar_crawler",
+              "count": 2,
+              "weight": 30
+            },
+            {
+              "type": "thesolar:moon_beast",
+              "count": 1,
+              "weight": 2
+            }
+          ]
+        }
+      }
+    },
+    "minecraft:audio/ambient_sounds": {
+      "mood": {
+        "sound": "minecraft:ambient.cave",
+        "tick_delay": 6000,
+        "block_search_extent": 8,
+        "offset": 2.0
+      },
+      "loop": "thesolar:moon_ambience"
+    },
+    "minecraft:visual/sky_color": "#5c5c5c",
+    "minecraft:visual/fog_color": "#888888",
+    "minecraft:visual/water_fog_color": "#383838"
+  }
+}

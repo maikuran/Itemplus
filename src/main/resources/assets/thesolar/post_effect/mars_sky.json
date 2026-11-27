@@ -1,0 +1,82 @@
+{
+  "targets": {
+    "solar_planet_scene": {}
+  },
+  "passes": [
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "thesolar:post/planet_overlay",
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "minecraft:main"
+        },
+        {
+          "sampler_name": "Depth",
+          "target": "minecraft:main",
+          "use_depth_buffer": true
+        }
+      ],
+      "output": "solar_planet_scene",
+      "uniforms": {
+        "PlanetConfig": [
+          {
+            "name": "BodyA",
+            "type": "vec4",
+            "value": [
+              0.26,
+              0.74,
+              0.052,
+              1.0
+            ]
+          },
+          {
+            "name": "BodyB",
+            "type": "vec4",
+            "value": [
+              0.37,
+              0.66,
+              0.026,
+              2.0
+            ]
+          },
+          {
+            "name": "Tint",
+            "type": "vec4",
+            "value": [
+              1.0,
+              0.92,
+              0.86,
+              1.0
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "vertex_shader": "minecraft:core/screenquad",
+      "fragment_shader": "minecraft:post/blit",
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "solar_planet_scene"
+        }
+      ],
+      "output": "minecraft:main",
+      "uniforms": {
+        "BlitConfig": [
+          {
+            "name": "ColorModulate",
+            "type": "vec4",
+            "value": [
+              1.0,
+              1.0,
+              1.0,
+              1.0
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

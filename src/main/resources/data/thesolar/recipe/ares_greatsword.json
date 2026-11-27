@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " A ",
+    " A ",
+    " S "
+  ],
+  "key": {
+    "A": {
+      "item": "thesolar:ares_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "result": {
+    "id": "thesolar:ares_greatsword",
+    "count": 1
+  }
+}

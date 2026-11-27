@@ -1,0 +1,75 @@
+{
+  "has_precipitation": false,
+  "temperature": 0.9,
+  "downfall": 0.0,
+  "effects": {
+    "water_color": "#4c3332",
+    "grass_color": "#a0a0a0",
+    "foliage_color": "#993333"
+  },
+  "carvers": [
+    "minecraft:cave",
+    "minecraft:cave_extra_underground"
+  ],
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [
+      "thesolar:ferrite_ore",
+      "thesolar:blood_crystal_ore",
+      "thesolar:ares_ore"
+    ],
+    [],
+    [],
+    [
+      "thesolar:martian_surface_rocks"
+    ],
+    [
+      "thesolar:martian_surface_crust",
+      "thesolar:martian_thermal_pillars"
+    ]
+  ],
+  "attributes": {
+    "minecraft:gameplay/natural_mob_spawns": {
+      "modifier": "overlay",
+      "argument": {
+        "spawn_costs": {},
+        "spawns_by_category": {
+          "monster": [
+            {
+              "type": "thesolar:ares_soldier",
+              "count": 2,
+              "weight": 45
+            },
+            {
+              "type": "thesolar:martian_brute",
+              "count": 1,
+              "weight": 25
+            },
+            {
+              "type": "thesolar:crimson_mage",
+              "count": 1,
+              "weight": 8
+            }
+          ]
+        }
+      }
+    },
+    "minecraft:audio/ambient_sounds": {
+      "mood": {
+        "sound": "minecraft:ambient.cave",
+        "tick_delay": 6000,
+        "block_search_extent": 8,
+        "offset": 2.0
+      },
+      "loop": "thesolar:mars_ambience"
+    },
+    "minecraft:visual/sky_color": "#a0a0a0",
+    "minecraft:visual/fog_color": "#cccccc",
+    "minecraft:visual/water_fog_color": "#4c3332"
+  }
+}

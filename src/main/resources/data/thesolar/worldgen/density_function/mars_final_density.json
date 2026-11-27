@@ -1,0 +1,1850 @@
+{
+  "type": "minecraft:range_choice",
+  "input": "thesolar:mars_caldera_2_distance",
+  "min_inclusive": 2304,
+  "max_exclusive": 3600,
+  "when_in_range": {
+    "type": "minecraft:add",
+    "left": {
+      "type": "minecraft:lerp",
+      "alpha": {
+        "type": "minecraft:clamp",
+        "input": {
+          "type": "minecraft:div",
+          "left": "thesolar:mars_caldera_2_distance",
+          "right": 2304
+        },
+        "min": 0,
+        "max": 1
+      },
+      "first": {
+        "type": "minecraft:gradient",
+        "axis": "y",
+        "tiling": "clamp_to_edge",
+        "from_coordinate": 40,
+        "to_coordinate": 104,
+        "from_value": 1,
+        "to_value": -1
+      },
+      "second": {
+        "type": "minecraft:range_choice",
+        "input": "thesolar:mars_caldera_1_distance",
+        "min_inclusive": 2304,
+        "max_exclusive": 3600,
+        "when_in_range": {
+          "type": "minecraft:add",
+          "left": {
+            "type": "minecraft:lerp",
+            "alpha": {
+              "type": "minecraft:clamp",
+              "input": {
+                "type": "minecraft:div",
+                "left": "thesolar:mars_caldera_1_distance",
+                "right": 2304
+              },
+              "min": 0,
+              "max": 1
+            },
+            "first": {
+              "type": "minecraft:gradient",
+              "axis": "y",
+              "tiling": "clamp_to_edge",
+              "from_coordinate": 40,
+              "to_coordinate": 104,
+              "from_value": 1,
+              "to_value": -1
+            },
+            "second": {
+              "type": "minecraft:range_choice",
+              "input": "thesolar:mars_caldera_0_distance",
+              "min_inclusive": 2304,
+              "max_exclusive": 3600,
+              "when_in_range": {
+                "type": "minecraft:add",
+                "left": {
+                  "type": "minecraft:lerp",
+                  "alpha": {
+                    "type": "minecraft:clamp",
+                    "input": {
+                      "type": "minecraft:div",
+                      "left": "thesolar:mars_caldera_0_distance",
+                      "right": 2304
+                    },
+                    "min": 0,
+                    "max": 1
+                  },
+                  "first": {
+                    "type": "minecraft:gradient",
+                    "axis": "y",
+                    "tiling": "clamp_to_edge",
+                    "from_coordinate": 40,
+                    "to_coordinate": 104,
+                    "from_value": 1,
+                    "to_value": -1
+                  },
+                  "second": {
+                    "type": "minecraft:lerp",
+                    "alpha": {
+                      "type": "minecraft:clamp",
+                      "input": {
+                        "type": "minecraft:div",
+                        "left": "thesolar:mars_canyon_7_distance",
+                        "right": 2304
+                      },
+                      "min": 0,
+                      "max": 1
+                    },
+                    "first": {
+                      "type": "minecraft:gradient",
+                      "axis": "y",
+                      "tiling": "clamp_to_edge",
+                      "from_coordinate": 28,
+                      "to_coordinate": 92,
+                      "from_value": 1,
+                      "to_value": -1
+                    },
+                    "second": {
+                      "type": "minecraft:lerp",
+                      "alpha": {
+                        "type": "minecraft:clamp",
+                        "input": {
+                          "type": "minecraft:div",
+                          "left": "thesolar:mars_canyon_6_distance",
+                          "right": 2304
+                        },
+                        "min": 0,
+                        "max": 1
+                      },
+                      "first": {
+                        "type": "minecraft:gradient",
+                        "axis": "y",
+                        "tiling": "clamp_to_edge",
+                        "from_coordinate": 28,
+                        "to_coordinate": 92,
+                        "from_value": 1,
+                        "to_value": -1
+                      },
+                      "second": {
+                        "type": "minecraft:lerp",
+                        "alpha": {
+                          "type": "minecraft:clamp",
+                          "input": {
+                            "type": "minecraft:div",
+                            "left": "thesolar:mars_canyon_5_distance",
+                            "right": 2304
+                          },
+                          "min": 0,
+                          "max": 1
+                        },
+                        "first": {
+                          "type": "minecraft:gradient",
+                          "axis": "y",
+                          "tiling": "clamp_to_edge",
+                          "from_coordinate": 28,
+                          "to_coordinate": 92,
+                          "from_value": 1,
+                          "to_value": -1
+                        },
+                        "second": {
+                          "type": "minecraft:lerp",
+                          "alpha": {
+                            "type": "minecraft:clamp",
+                            "input": {
+                              "type": "minecraft:div",
+                              "left": "thesolar:mars_canyon_4_distance",
+                              "right": 2304
+                            },
+                            "min": 0,
+                            "max": 1
+                          },
+                          "first": {
+                            "type": "minecraft:gradient",
+                            "axis": "y",
+                            "tiling": "clamp_to_edge",
+                            "from_coordinate": 28,
+                            "to_coordinate": 92,
+                            "from_value": 1,
+                            "to_value": -1
+                          },
+                          "second": {
+                            "type": "minecraft:lerp",
+                            "alpha": {
+                              "type": "minecraft:clamp",
+                              "input": {
+                                "type": "minecraft:div",
+                                "left": "thesolar:mars_canyon_3_distance",
+                                "right": 2304
+                              },
+                              "min": 0,
+                              "max": 1
+                            },
+                            "first": {
+                              "type": "minecraft:gradient",
+                              "axis": "y",
+                              "tiling": "clamp_to_edge",
+                              "from_coordinate": 28,
+                              "to_coordinate": 92,
+                              "from_value": 1,
+                              "to_value": -1
+                            },
+                            "second": {
+                              "type": "minecraft:lerp",
+                              "alpha": {
+                                "type": "minecraft:clamp",
+                                "input": {
+                                  "type": "minecraft:div",
+                                  "left": "thesolar:mars_canyon_2_distance",
+                                  "right": 2304
+                                },
+                                "min": 0,
+                                "max": 1
+                              },
+                              "first": {
+                                "type": "minecraft:gradient",
+                                "axis": "y",
+                                "tiling": "clamp_to_edge",
+                                "from_coordinate": 28,
+                                "to_coordinate": 92,
+                                "from_value": 1,
+                                "to_value": -1
+                              },
+                              "second": {
+                                "type": "minecraft:lerp",
+                                "alpha": {
+                                  "type": "minecraft:clamp",
+                                  "input": {
+                                    "type": "minecraft:div",
+                                    "left": "thesolar:mars_canyon_1_distance",
+                                    "right": 2304
+                                  },
+                                  "min": 0,
+                                  "max": 1
+                                },
+                                "first": {
+                                  "type": "minecraft:gradient",
+                                  "axis": "y",
+                                  "tiling": "clamp_to_edge",
+                                  "from_coordinate": 28,
+                                  "to_coordinate": 92,
+                                  "from_value": 1,
+                                  "to_value": -1
+                                },
+                                "second": {
+                                  "type": "minecraft:lerp",
+                                  "alpha": {
+                                    "type": "minecraft:clamp",
+                                    "input": {
+                                      "type": "minecraft:div",
+                                      "left": "thesolar:mars_canyon_0_distance",
+                                      "right": 2304
+                                    },
+                                    "min": 0,
+                                    "max": 1
+                                  },
+                                  "first": {
+                                    "type": "minecraft:gradient",
+                                    "axis": "y",
+                                    "tiling": "clamp_to_edge",
+                                    "from_coordinate": 28,
+                                    "to_coordinate": 92,
+                                    "from_value": 1,
+                                    "to_value": -1
+                                  },
+                                  "second": "minecraft:overworld/final_density"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "type": "minecraft:gradient",
+                  "axis": "y",
+                  "tiling": "clamp_to_edge",
+                  "from_coordinate": 68,
+                  "to_coordinate": 88,
+                  "from_value": 0.18,
+                  "to_value": -0.08
+                }
+              },
+              "when_out_of_range": {
+                "type": "minecraft:lerp",
+                "alpha": {
+                  "type": "minecraft:clamp",
+                  "input": {
+                    "type": "minecraft:div",
+                    "left": "thesolar:mars_caldera_0_distance",
+                    "right": 2304
+                  },
+                  "min": 0,
+                  "max": 1
+                },
+                "first": {
+                  "type": "minecraft:gradient",
+                  "axis": "y",
+                  "tiling": "clamp_to_edge",
+                  "from_coordinate": 40,
+                  "to_coordinate": 104,
+                  "from_value": 1,
+                  "to_value": -1
+                },
+                "second": {
+                  "type": "minecraft:lerp",
+                  "alpha": {
+                    "type": "minecraft:clamp",
+                    "input": {
+                      "type": "minecraft:div",
+                      "left": "thesolar:mars_canyon_7_distance",
+                      "right": 2304
+                    },
+                    "min": 0,
+                    "max": 1
+                  },
+                  "first": {
+                    "type": "minecraft:gradient",
+                    "axis": "y",
+                    "tiling": "clamp_to_edge",
+                    "from_coordinate": 28,
+                    "to_coordinate": 92,
+                    "from_value": 1,
+                    "to_value": -1
+                  },
+                  "second": {
+                    "type": "minecraft:lerp",
+                    "alpha": {
+                      "type": "minecraft:clamp",
+                      "input": {
+                        "type": "minecraft:div",
+                        "left": "thesolar:mars_canyon_6_distance",
+                        "right": 2304
+                      },
+                      "min": 0,
+                      "max": 1
+                    },
+                    "first": {
+                      "type": "minecraft:gradient",
+                      "axis": "y",
+                      "tiling": "clamp_to_edge",
+                      "from_coordinate": 28,
+                      "to_coordinate": 92,
+                      "from_value": 1,
+                      "to_value": -1
+                    },
+                    "second": {
+                      "type": "minecraft:lerp",
+                      "alpha": {
+                        "type": "minecraft:clamp",
+                        "input": {
+                          "type": "minecraft:div",
+                          "left": "thesolar:mars_canyon_5_distance",
+                          "right": 2304
+                        },
+                        "min": 0,
+                        "max": 1
+                      },
+                      "first": {
+                        "type": "minecraft:gradient",
+                        "axis": "y",
+                        "tiling": "clamp_to_edge",
+                        "from_coordinate": 28,
+                        "to_coordinate": 92,
+                        "from_value": 1,
+                        "to_value": -1
+                      },
+                      "second": {
+                        "type": "minecraft:lerp",
+                        "alpha": {
+                          "type": "minecraft:clamp",
+                          "input": {
+                            "type": "minecraft:div",
+                            "left": "thesolar:mars_canyon_4_distance",
+                            "right": 2304
+                          },
+                          "min": 0,
+                          "max": 1
+                        },
+                        "first": {
+                          "type": "minecraft:gradient",
+                          "axis": "y",
+                          "tiling": "clamp_to_edge",
+                          "from_coordinate": 28,
+                          "to_coordinate": 92,
+                          "from_value": 1,
+                          "to_value": -1
+                        },
+                        "second": {
+                          "type": "minecraft:lerp",
+                          "alpha": {
+                            "type": "minecraft:clamp",
+                            "input": {
+                              "type": "minecraft:div",
+                              "left": "thesolar:mars_canyon_3_distance",
+                              "right": 2304
+                            },
+                            "min": 0,
+                            "max": 1
+                          },
+                          "first": {
+                            "type": "minecraft:gradient",
+                            "axis": "y",
+                            "tiling": "clamp_to_edge",
+                            "from_coordinate": 28,
+                            "to_coordinate": 92,
+                            "from_value": 1,
+                            "to_value": -1
+                          },
+                          "second": {
+                            "type": "minecraft:lerp",
+                            "alpha": {
+                              "type": "minecraft:clamp",
+                              "input": {
+                                "type": "minecraft:div",
+                                "left": "thesolar:mars_canyon_2_distance",
+                                "right": 2304
+                              },
+                              "min": 0,
+                              "max": 1
+                            },
+                            "first": {
+                              "type": "minecraft:gradient",
+                              "axis": "y",
+                              "tiling": "clamp_to_edge",
+                              "from_coordinate": 28,
+                              "to_coordinate": 92,
+                              "from_value": 1,
+                              "to_value": -1
+                            },
+                            "second": {
+                              "type": "minecraft:lerp",
+                              "alpha": {
+                                "type": "minecraft:clamp",
+                                "input": {
+                                  "type": "minecraft:div",
+                                  "left": "thesolar:mars_canyon_1_distance",
+                                  "right": 2304
+                                },
+                                "min": 0,
+                                "max": 1
+                              },
+                              "first": {
+                                "type": "minecraft:gradient",
+                                "axis": "y",
+                                "tiling": "clamp_to_edge",
+                                "from_coordinate": 28,
+                                "to_coordinate": 92,
+                                "from_value": 1,
+                                "to_value": -1
+                              },
+                              "second": {
+                                "type": "minecraft:lerp",
+                                "alpha": {
+                                  "type": "minecraft:clamp",
+                                  "input": {
+                                    "type": "minecraft:div",
+                                    "left": "thesolar:mars_canyon_0_distance",
+                                    "right": 2304
+                                  },
+                                  "min": 0,
+                                  "max": 1
+                                },
+                                "first": {
+                                  "type": "minecraft:gradient",
+                                  "axis": "y",
+                                  "tiling": "clamp_to_edge",
+                                  "from_coordinate": 28,
+                                  "to_coordinate": 92,
+                                  "from_value": 1,
+                                  "to_value": -1
+                                },
+                                "second": "minecraft:overworld/final_density"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "right": {
+            "type": "minecraft:gradient",
+            "axis": "y",
+            "tiling": "clamp_to_edge",
+            "from_coordinate": 68,
+            "to_coordinate": 88,
+            "from_value": 0.18,
+            "to_value": -0.08
+          }
+        },
+        "when_out_of_range": {
+          "type": "minecraft:lerp",
+          "alpha": {
+            "type": "minecraft:clamp",
+            "input": {
+              "type": "minecraft:div",
+              "left": "thesolar:mars_caldera_1_distance",
+              "right": 2304
+            },
+            "min": 0,
+            "max": 1
+          },
+          "first": {
+            "type": "minecraft:gradient",
+            "axis": "y",
+            "tiling": "clamp_to_edge",
+            "from_coordinate": 40,
+            "to_coordinate": 104,
+            "from_value": 1,
+            "to_value": -1
+          },
+          "second": {
+            "type": "minecraft:range_choice",
+            "input": "thesolar:mars_caldera_0_distance",
+            "min_inclusive": 2304,
+            "max_exclusive": 3600,
+            "when_in_range": {
+              "type": "minecraft:add",
+              "left": {
+                "type": "minecraft:lerp",
+                "alpha": {
+                  "type": "minecraft:clamp",
+                  "input": {
+                    "type": "minecraft:div",
+                    "left": "thesolar:mars_caldera_0_distance",
+                    "right": 2304
+                  },
+                  "min": 0,
+                  "max": 1
+                },
+                "first": {
+                  "type": "minecraft:gradient",
+                  "axis": "y",
+                  "tiling": "clamp_to_edge",
+                  "from_coordinate": 40,
+                  "to_coordinate": 104,
+                  "from_value": 1,
+                  "to_value": -1
+                },
+                "second": {
+                  "type": "minecraft:lerp",
+                  "alpha": {
+                    "type": "minecraft:clamp",
+                    "input": {
+                      "type": "minecraft:div",
+                      "left": "thesolar:mars_canyon_7_distance",
+                      "right": 2304
+                    },
+                    "min": 0,
+                    "max": 1
+                  },
+                  "first": {
+                    "type": "minecraft:gradient",
+                    "axis": "y",
+                    "tiling": "clamp_to_edge",
+                    "from_coordinate": 28,
+                    "to_coordinate": 92,
+                    "from_value": 1,
+                    "to_value": -1
+                  },
+                  "second": {
+                    "type": "minecraft:lerp",
+                    "alpha": {
+                      "type": "minecraft:clamp",
+                      "input": {
+                        "type": "minecraft:div",
+                        "left": "thesolar:mars_canyon_6_distance",
+                        "right": 2304
+                      },
+                      "min": 0,
+                      "max": 1
+                    },
+                    "first": {
+                      "type": "minecraft:gradient",
+                      "axis": "y",
+                      "tiling": "clamp_to_edge",
+                      "from_coordinate": 28,
+                      "to_coordinate": 92,
+                      "from_value": 1,
+                      "to_value": -1
+                    },
+                    "second": {
+                      "type": "minecraft:lerp",
+                      "alpha": {
+                        "type": "minecraft:clamp",
+                        "input": {
+                          "type": "minecraft:div",
+                          "left": "thesolar:mars_canyon_5_distance",
+                          "right": 2304
+                        },
+                        "min": 0,
+                        "max": 1
+                      },
+                      "first": {
+                        "type": "minecraft:gradient",
+                        "axis": "y",
+                        "tiling": "clamp_to_edge",
+                        "from_coordinate": 28,
+                        "to_coordinate": 92,
+                        "from_value": 1,
+                        "to_value": -1
+                      },
+                      "second": {
+                        "type": "minecraft:lerp",
+                        "alpha": {
+                          "type": "minecraft:clamp",
+                          "input": {
+                            "type": "minecraft:div",
+                            "left": "thesolar:mars_canyon_4_distance",
+                            "right": 2304
+                          },
+                          "min": 0,
+                          "max": 1
+                        },
+                        "first": {
+                          "type": "minecraft:gradient",
+                          "axis": "y",
+                          "tiling": "clamp_to_edge",
+                          "from_coordinate": 28,
+                          "to_coordinate": 92,
+                          "from_value": 1,
+                          "to_value": -1
+                        },
+                        "second": {
+                          "type": "minecraft:lerp",
+                          "alpha": {
+                            "type": "minecraft:clamp",
+                            "input": {
+                              "type": "minecraft:div",
+                              "left": "thesolar:mars_canyon_3_distance",
+                              "right": 2304
+                            },
+                            "min": 0,
+                            "max": 1
+                          },
+                          "first": {
+                            "type": "minecraft:gradient",
+                            "axis": "y",
+                            "tiling": "clamp_to_edge",
+                            "from_coordinate": 28,
+                            "to_coordinate": 92,
+                            "from_value": 1,
+                            "to_value": -1
+                          },
+                          "second": {
+                            "type": "minecraft:lerp",
+                            "alpha": {
+                              "type": "minecraft:clamp",
+                              "input": {
+                                "type": "minecraft:div",
+                                "left": "thesolar:mars_canyon_2_distance",
+                                "right": 2304
+                              },
+                              "min": 0,
+                              "max": 1
+                            },
+                            "first": {
+                              "type": "minecraft:gradient",
+                              "axis": "y",
+                              "tiling": "clamp_to_edge",
+                              "from_coordinate": 28,
+                              "to_coordinate": 92,
+                              "from_value": 1,
+                              "to_value": -1
+                            },
+                            "second": {
+                              "type": "minecraft:lerp",
+                              "alpha": {
+                                "type": "minecraft:clamp",
+                                "input": {
+                                  "type": "minecraft:div",
+                                  "left": "thesolar:mars_canyon_1_distance",
+                                  "right": 2304
+                                },
+                                "min": 0,
+                                "max": 1
+                              },
+                              "first": {
+                                "type": "minecraft:gradient",
+                                "axis": "y",
+                                "tiling": "clamp_to_edge",
+                                "from_coordinate": 28,
+                                "to_coordinate": 92,
+                                "from_value": 1,
+                                "to_value": -1
+                              },
+                              "second": {
+                                "type": "minecraft:lerp",
+                                "alpha": {
+                                  "type": "minecraft:clamp",
+                                  "input": {
+                                    "type": "minecraft:div",
+                                    "left": "thesolar:mars_canyon_0_distance",
+                                    "right": 2304
+                                  },
+                                  "min": 0,
+                                  "max": 1
+                                },
+                                "first": {
+                                  "type": "minecraft:gradient",
+                                  "axis": "y",
+                                  "tiling": "clamp_to_edge",
+                                  "from_coordinate": 28,
+                                  "to_coordinate": 92,
+                                  "from_value": 1,
+                                  "to_value": -1
+                                },
+                                "second": "minecraft:overworld/final_density"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "right": {
+                "type": "minecraft:gradient",
+                "axis": "y",
+                "tiling": "clamp_to_edge",
+                "from_coordinate": 68,
+                "to_coordinate": 88,
+                "from_value": 0.18,
+                "to_value": -0.08
+              }
+            },
+            "when_out_of_range": {
+              "type": "minecraft:lerp",
+              "alpha": {
+                "type": "minecraft:clamp",
+                "input": {
+                  "type": "minecraft:div",
+                  "left": "thesolar:mars_caldera_0_distance",
+                  "right": 2304
+                },
+                "min": 0,
+                "max": 1
+              },
+              "first": {
+                "type": "minecraft:gradient",
+                "axis": "y",
+                "tiling": "clamp_to_edge",
+                "from_coordinate": 40,
+                "to_coordinate": 104,
+                "from_value": 1,
+                "to_value": -1
+              },
+              "second": {
+                "type": "minecraft:lerp",
+                "alpha": {
+                  "type": "minecraft:clamp",
+                  "input": {
+                    "type": "minecraft:div",
+                    "left": "thesolar:mars_canyon_7_distance",
+                    "right": 2304
+                  },
+                  "min": 0,
+                  "max": 1
+                },
+                "first": {
+                  "type": "minecraft:gradient",
+                  "axis": "y",
+                  "tiling": "clamp_to_edge",
+                  "from_coordinate": 28,
+                  "to_coordinate": 92,
+                  "from_value": 1,
+                  "to_value": -1
+                },
+                "second": {
+                  "type": "minecraft:lerp",
+                  "alpha": {
+                    "type": "minecraft:clamp",
+                    "input": {
+                      "type": "minecraft:div",
+                      "left": "thesolar:mars_canyon_6_distance",
+                      "right": 2304
+                    },
+                    "min": 0,
+                    "max": 1
+                  },
+                  "first": {
+                    "type": "minecraft:gradient",
+                    "axis": "y",
+                    "tiling": "clamp_to_edge",
+                    "from_coordinate": 28,
+                    "to_coordinate": 92,
+                    "from_value": 1,
+                    "to_value": -1
+                  },
+                  "second": {
+                    "type": "minecraft:lerp",
+                    "alpha": {
+                      "type": "minecraft:clamp",
+                      "input": {
+                        "type": "minecraft:div",
+                        "left": "thesolar:mars_canyon_5_distance",
+                        "right": 2304
+                      },
+                      "min": 0,
+                      "max": 1
+                    },
+                    "first": {
+                      "type": "minecraft:gradient",
+                      "axis": "y",
+                      "tiling": "clamp_to_edge",
+                      "from_coordinate": 28,
+                      "to_coordinate": 92,
+                      "from_value": 1,
+                      "to_value": -1
+                    },
+                    "second": {
+                      "type": "minecraft:lerp",
+                      "alpha": {
+                        "type": "minecraft:clamp",
+                        "input": {
+                          "type": "minecraft:div",
+                          "left": "thesolar:mars_canyon_4_distance",
+                          "right": 2304
+                        },
+                        "min": 0,
+                        "max": 1
+                      },
+                      "first": {
+                        "type": "minecraft:gradient",
+                        "axis": "y",
+                        "tiling": "clamp_to_edge",
+                        "from_coordinate": 28,
+                        "to_coordinate": 92,
+                        "from_value": 1,
+                        "to_value": -1
+                      },
+                      "second": {
+                        "type": "minecraft:lerp",
+                        "alpha": {
+                          "type": "minecraft:clamp",
+                          "input": {
+                            "type": "minecraft:div",
+                            "left": "thesolar:mars_canyon_3_distance",
+                            "right": 2304
+                          },
+                          "min": 0,
+                          "max": 1
+                        },
+                        "first": {
+                          "type": "minecraft:gradient",
+                          "axis": "y",
+                          "tiling": "clamp_to_edge",
+                          "from_coordinate": 28,
+                          "to_coordinate": 92,
+                          "from_value": 1,
+                          "to_value": -1
+                        },
+                        "second": {
+                          "type": "minecraft:lerp",
+                          "alpha": {
+                            "type": "minecraft:clamp",
+                            "input": {
+                              "type": "minecraft:div",
+                              "left": "thesolar:mars_canyon_2_distance",
+                              "right": 2304
+                            },
+                            "min": 0,
+                            "max": 1
+                          },
+                          "first": {
+                            "type": "minecraft:gradient",
+                            "axis": "y",
+                            "tiling": "clamp_to_edge",
+                            "from_coordinate": 28,
+                            "to_coordinate": 92,
+                            "from_value": 1,
+                            "to_value": -1
+                          },
+                          "second": {
+                            "type": "minecraft:lerp",
+                            "alpha": {
+                              "type": "minecraft:clamp",
+                              "input": {
+                                "type": "minecraft:div",
+                                "left": "thesolar:mars_canyon_1_distance",
+                                "right": 2304
+                              },
+                              "min": 0,
+                              "max": 1
+                            },
+                            "first": {
+                              "type": "minecraft:gradient",
+                              "axis": "y",
+                              "tiling": "clamp_to_edge",
+                              "from_coordinate": 28,
+                              "to_coordinate": 92,
+                              "from_value": 1,
+                              "to_value": -1
+                            },
+                            "second": {
+                              "type": "minecraft:lerp",
+                              "alpha": {
+                                "type": "minecraft:clamp",
+                                "input": {
+                                  "type": "minecraft:div",
+                                  "left": "thesolar:mars_canyon_0_distance",
+                                  "right": 2304
+                                },
+                                "min": 0,
+                                "max": 1
+                              },
+                              "first": {
+                                "type": "minecraft:gradient",
+                                "axis": "y",
+                                "tiling": "clamp_to_edge",
+                                "from_coordinate": 28,
+                                "to_coordinate": 92,
+                                "from_value": 1,
+                                "to_value": -1
+                              },
+                              "second": "minecraft:overworld/final_density"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "right": {
+      "type": "minecraft:gradient",
+      "axis": "y",
+      "tiling": "clamp_to_edge",
+      "from_coordinate": 68,
+      "to_coordinate": 88,
+      "from_value": 0.18,
+      "to_value": -0.08
+    }
+  },
+  "when_out_of_range": {
+    "type": "minecraft:lerp",
+    "alpha": {
+      "type": "minecraft:clamp",
+      "input": {
+        "type": "minecraft:div",
+        "left": "thesolar:mars_caldera_2_distance",
+        "right": 2304
+      },
+      "min": 0,
+      "max": 1
+    },
+    "first": {
+      "type": "minecraft:gradient",
+      "axis": "y",
+      "tiling": "clamp_to_edge",
+      "from_coordinate": 40,
+      "to_coordinate": 104,
+      "from_value": 1,
+      "to_value": -1
+    },
+    "second": {
+      "type": "minecraft:range_choice",
+      "input": "thesolar:mars_caldera_1_distance",
+      "min_inclusive": 2304,
+      "max_exclusive": 3600,
+      "when_in_range": {
+        "type": "minecraft:add",
+        "left": {
+          "type": "minecraft:lerp",
+          "alpha": {
+            "type": "minecraft:clamp",
+            "input": {
+              "type": "minecraft:div",
+              "left": "thesolar:mars_caldera_1_distance",
+              "right": 2304
+            },
+            "min": 0,
+            "max": 1
+          },
+          "first": {
+            "type": "minecraft:gradient",
+            "axis": "y",
+            "tiling": "clamp_to_edge",
+            "from_coordinate": 40,
+            "to_coordinate": 104,
+            "from_value": 1,
+            "to_value": -1
+          },
+          "second": {
+            "type": "minecraft:range_choice",
+            "input": "thesolar:mars_caldera_0_distance",
+            "min_inclusive": 2304,
+            "max_exclusive": 3600,
+            "when_in_range": {
+              "type": "minecraft:add",
+              "left": {
+                "type": "minecraft:lerp",
+                "alpha": {
+                  "type": "minecraft:clamp",
+                  "input": {
+                    "type": "minecraft:div",
+                    "left": "thesolar:mars_caldera_0_distance",
+                    "right": 2304
+                  },
+                  "min": 0,
+                  "max": 1
+                },
+                "first": {
+                  "type": "minecraft:gradient",
+                  "axis": "y",
+                  "tiling": "clamp_to_edge",
+                  "from_coordinate": 40,
+                  "to_coordinate": 104,
+                  "from_value": 1,
+                  "to_value": -1
+                },
+                "second": {
+                  "type": "minecraft:lerp",
+                  "alpha": {
+                    "type": "minecraft:clamp",
+                    "input": {
+                      "type": "minecraft:div",
+                      "left": "thesolar:mars_canyon_7_distance",
+                      "right": 2304
+                    },
+                    "min": 0,
+                    "max": 1
+                  },
+                  "first": {
+                    "type": "minecraft:gradient",
+                    "axis": "y",
+                    "tiling": "clamp_to_edge",
+                    "from_coordinate": 28,
+                    "to_coordinate": 92,
+                    "from_value": 1,
+                    "to_value": -1
+                  },
+                  "second": {
+                    "type": "minecraft:lerp",
+                    "alpha": {
+                      "type": "minecraft:clamp",
+                      "input": {
+                        "type": "minecraft:div",
+                        "left": "thesolar:mars_canyon_6_distance",
+                        "right": 2304
+                      },
+                      "min": 0,
+                      "max": 1
+                    },
+                    "first": {
+                      "type": "minecraft:gradient",
+                      "axis": "y",
+                      "tiling": "clamp_to_edge",
+                      "from_coordinate": 28,
+                      "to_coordinate": 92,
+                      "from_value": 1,
+                      "to_value": -1
+                    },
+                    "second": {
+                      "type": "minecraft:lerp",
+                      "alpha": {
+                        "type": "minecraft:clamp",
+                        "input": {
+                          "type": "minecraft:div",
+                          "left": "thesolar:mars_canyon_5_distance",
+                          "right": 2304
+                        },
+                        "min": 0,
+                        "max": 1
+                      },
+                      "first": {
+                        "type": "minecraft:gradient",
+                        "axis": "y",
+                        "tiling": "clamp_to_edge",
+                        "from_coordinate": 28,
+                        "to_coordinate": 92,
+                        "from_value": 1,
+                        "to_value": -1
+                      },
+                      "second": {
+                        "type": "minecraft:lerp",
+                        "alpha": {
+                          "type": "minecraft:clamp",
+                          "input": {
+                            "type": "minecraft:div",
+                            "left": "thesolar:mars_canyon_4_distance",
+                            "right": 2304
+                          },
+                          "min": 0,
+                          "max": 1
+                        },
+                        "first": {
+                          "type": "minecraft:gradient",
+                          "axis": "y",
+                          "tiling": "clamp_to_edge",
+                          "from_coordinate": 28,
+                          "to_coordinate": 92,
+                          "from_value": 1,
+                          "to_value": -1
+                        },
+                        "second": {
+                          "type": "minecraft:lerp",
+                          "alpha": {
+                            "type": "minecraft:clamp",
+                            "input": {
+                              "type": "minecraft:div",
+                              "left": "thesolar:mars_canyon_3_distance",
+                              "right": 2304
+                            },
+                            "min": 0,
+                            "max": 1
+                          },
+                          "first": {
+                            "type": "minecraft:gradient",
+                            "axis": "y",
+                            "tiling": "clamp_to_edge",
+                            "from_coordinate": 28,
+                            "to_coordinate": 92,
+                            "from_value": 1,
+                            "to_value": -1
+                          },
+                          "second": {
+                            "type": "minecraft:lerp",
+                            "alpha": {
+                              "type": "minecraft:clamp",
+                              "input": {
+                                "type": "minecraft:div",
+                                "left": "thesolar:mars_canyon_2_distance",
+                                "right": 2304
+                              },
+                              "min": 0,
+                              "max": 1
+                            },
+                            "first": {
+                              "type": "minecraft:gradient",
+                              "axis": "y",
+                              "tiling": "clamp_to_edge",
+                              "from_coordinate": 28,
+                              "to_coordinate": 92,
+                              "from_value": 1,
+                              "to_value": -1
+                            },
+                            "second": {
+                              "type": "minecraft:lerp",
+                              "alpha": {
+                                "type": "minecraft:clamp",
+                                "input": {
+                                  "type": "minecraft:div",
+                                  "left": "thesolar:mars_canyon_1_distance",
+                                  "right": 2304
+                                },
+                                "min": 0,
+                                "max": 1
+                              },
+                              "first": {
+                                "type": "minecraft:gradient",
+                                "axis": "y",
+                                "tiling": "clamp_to_edge",
+                                "from_coordinate": 28,
+                                "to_coordinate": 92,
+                                "from_value": 1,
+                                "to_value": -1
+                              },
+                              "second": {
+                                "type": "minecraft:lerp",
+                                "alpha": {
+                                  "type": "minecraft:clamp",
+                                  "input": {
+                                    "type": "minecraft:div",
+                                    "left": "thesolar:mars_canyon_0_distance",
+                                    "right": 2304
+                                  },
+                                  "min": 0,
+                                  "max": 1
+                                },
+                                "first": {
+                                  "type": "minecraft:gradient",
+                                  "axis": "y",
+                                  "tiling": "clamp_to_edge",
+                                  "from_coordinate": 28,
+                                  "to_coordinate": 92,
+                                  "from_value": 1,
+                                  "to_value": -1
+                                },
+                                "second": "minecraft:overworld/final_density"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "right": {
+                "type": "minecraft:gradient",
+                "axis": "y",
+                "tiling": "clamp_to_edge",
+                "from_coordinate": 68,
+                "to_coordinate": 88,
+                "from_value": 0.18,
+                "to_value": -0.08
+              }
+            },
+            "when_out_of_range": {
+              "type": "minecraft:lerp",
+              "alpha": {
+                "type": "minecraft:clamp",
+                "input": {
+                  "type": "minecraft:div",
+                  "left": "thesolar:mars_caldera_0_distance",
+                  "right": 2304
+                },
+                "min": 0,
+                "max": 1
+              },
+              "first": {
+                "type": "minecraft:gradient",
+                "axis": "y",
+                "tiling": "clamp_to_edge",
+                "from_coordinate": 40,
+                "to_coordinate": 104,
+                "from_value": 1,
+                "to_value": -1
+              },
+              "second": {
+                "type": "minecraft:lerp",
+                "alpha": {
+                  "type": "minecraft:clamp",
+                  "input": {
+                    "type": "minecraft:div",
+                    "left": "thesolar:mars_canyon_7_distance",
+                    "right": 2304
+                  },
+                  "min": 0,
+                  "max": 1
+                },
+                "first": {
+                  "type": "minecraft:gradient",
+                  "axis": "y",
+                  "tiling": "clamp_to_edge",
+                  "from_coordinate": 28,
+                  "to_coordinate": 92,
+                  "from_value": 1,
+                  "to_value": -1
+                },
+                "second": {
+                  "type": "minecraft:lerp",
+                  "alpha": {
+                    "type": "minecraft:clamp",
+                    "input": {
+                      "type": "minecraft:div",
+                      "left": "thesolar:mars_canyon_6_distance",
+                      "right": 2304
+                    },
+                    "min": 0,
+                    "max": 1
+                  },
+                  "first": {
+                    "type": "minecraft:gradient",
+                    "axis": "y",
+                    "tiling": "clamp_to_edge",
+                    "from_coordinate": 28,
+                    "to_coordinate": 92,
+                    "from_value": 1,
+                    "to_value": -1
+                  },
+                  "second": {
+                    "type": "minecraft:lerp",
+                    "alpha": {
+                      "type": "minecraft:clamp",
+                      "input": {
+                        "type": "minecraft:div",
+                        "left": "thesolar:mars_canyon_5_distance",
+                        "right": 2304
+                      },
+                      "min": 0,
+                      "max": 1
+                    },
+                    "first": {
+                      "type": "minecraft:gradient",
+                      "axis": "y",
+                      "tiling": "clamp_to_edge",
+                      "from_coordinate": 28,
+                      "to_coordinate": 92,
+                      "from_value": 1,
+                      "to_value": -1
+                    },
+                    "second": {
+                      "type": "minecraft:lerp",
+                      "alpha": {
+                        "type": "minecraft:clamp",
+                        "input": {
+                          "type": "minecraft:div",
+                          "left": "thesolar:mars_canyon_4_distance",
+                          "right": 2304
+                        },
+                        "min": 0,
+                        "max": 1
+                      },
+                      "first": {
+                        "type": "minecraft:gradient",
+                        "axis": "y",
+                        "tiling": "clamp_to_edge",
+                        "from_coordinate": 28,
+                        "to_coordinate": 92,
+                        "from_value": 1,
+                        "to_value": -1
+                      },
+                      "second": {
+                        "type": "minecraft:lerp",
+                        "alpha": {
+                          "type": "minecraft:clamp",
+                          "input": {
+                            "type": "minecraft:div",
+                            "left": "thesolar:mars_canyon_3_distance",
+                            "right": 2304
+                          },
+                          "min": 0,
+                          "max": 1
+                        },
+                        "first": {
+                          "type": "minecraft:gradient",
+                          "axis": "y",
+                          "tiling": "clamp_to_edge",
+                          "from_coordinate": 28,
+                          "to_coordinate": 92,
+                          "from_value": 1,
+                          "to_value": -1
+                        },
+                        "second": {
+                          "type": "minecraft:lerp",
+                          "alpha": {
+                            "type": "minecraft:clamp",
+                            "input": {
+                              "type": "minecraft:div",
+                              "left": "thesolar:mars_canyon_2_distance",
+                              "right": 2304
+                            },
+                            "min": 0,
+                            "max": 1
+                          },
+                          "first": {
+                            "type": "minecraft:gradient",
+                            "axis": "y",
+                            "tiling": "clamp_to_edge",
+                            "from_coordinate": 28,
+                            "to_coordinate": 92,
+                            "from_value": 1,
+                            "to_value": -1
+                          },
+                          "second": {
+                            "type": "minecraft:lerp",
+                            "alpha": {
+                              "type": "minecraft:clamp",
+                              "input": {
+                                "type": "minecraft:div",
+                                "left": "thesolar:mars_canyon_1_distance",
+                                "right": 2304
+                              },
+                              "min": 0,
+                              "max": 1
+                            },
+                            "first": {
+                              "type": "minecraft:gradient",
+                              "axis": "y",
+                              "tiling": "clamp_to_edge",
+                              "from_coordinate": 28,
+                              "to_coordinate": 92,
+                              "from_value": 1,
+                              "to_value": -1
+                            },
+                            "second": {
+                              "type": "minecraft:lerp",
+                              "alpha": {
+                                "type": "minecraft:clamp",
+                                "input": {
+                                  "type": "minecraft:div",
+                                  "left": "thesolar:mars_canyon_0_distance",
+                                  "right": 2304
+                                },
+                                "min": 0,
+                                "max": 1
+                              },
+                              "first": {
+                                "type": "minecraft:gradient",
+                                "axis": "y",
+                                "tiling": "clamp_to_edge",
+                                "from_coordinate": 28,
+                                "to_coordinate": 92,
+                                "from_value": 1,
+                                "to_value": -1
+                              },
+                              "second": "minecraft:overworld/final_density"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "right": {
+          "type": "minecraft:gradient",
+          "axis": "y",
+          "tiling": "clamp_to_edge",
+          "from_coordinate": 68,
+          "to_coordinate": 88,
+          "from_value": 0.18,
+          "to_value": -0.08
+        }
+      },
+      "when_out_of_range": {
+        "type": "minecraft:lerp",
+        "alpha": {
+          "type": "minecraft:clamp",
+          "input": {
+            "type": "minecraft:div",
+            "left": "thesolar:mars_caldera_1_distance",
+            "right": 2304
+          },
+          "min": 0,
+          "max": 1
+        },
+        "first": {
+          "type": "minecraft:gradient",
+          "axis": "y",
+          "tiling": "clamp_to_edge",
+          "from_coordinate": 40,
+          "to_coordinate": 104,
+          "from_value": 1,
+          "to_value": -1
+        },
+        "second": {
+          "type": "minecraft:range_choice",
+          "input": "thesolar:mars_caldera_0_distance",
+          "min_inclusive": 2304,
+          "max_exclusive": 3600,
+          "when_in_range": {
+            "type": "minecraft:add",
+            "left": {
+              "type": "minecraft:lerp",
+              "alpha": {
+                "type": "minecraft:clamp",
+                "input": {
+                  "type": "minecraft:div",
+                  "left": "thesolar:mars_caldera_0_distance",
+                  "right": 2304
+                },
+                "min": 0,
+                "max": 1
+              },
+              "first": {
+                "type": "minecraft:gradient",
+                "axis": "y",
+                "tiling": "clamp_to_edge",
+                "from_coordinate": 40,
+                "to_coordinate": 104,
+                "from_value": 1,
+                "to_value": -1
+              },
+              "second": {
+                "type": "minecraft:lerp",
+                "alpha": {
+                  "type": "minecraft:clamp",
+                  "input": {
+                    "type": "minecraft:div",
+                    "left": "thesolar:mars_canyon_7_distance",
+                    "right": 2304
+                  },
+                  "min": 0,
+                  "max": 1
+                },
+                "first": {
+                  "type": "minecraft:gradient",
+                  "axis": "y",
+                  "tiling": "clamp_to_edge",
+                  "from_coordinate": 28,
+                  "to_coordinate": 92,
+                  "from_value": 1,
+                  "to_value": -1
+                },
+                "second": {
+                  "type": "minecraft:lerp",
+                  "alpha": {
+                    "type": "minecraft:clamp",
+                    "input": {
+                      "type": "minecraft:div",
+                      "left": "thesolar:mars_canyon_6_distance",
+                      "right": 2304
+                    },
+                    "min": 0,
+                    "max": 1
+                  },
+                  "first": {
+                    "type": "minecraft:gradient",
+                    "axis": "y",
+                    "tiling": "clamp_to_edge",
+                    "from_coordinate": 28,
+                    "to_coordinate": 92,
+                    "from_value": 1,
+                    "to_value": -1
+                  },
+                  "second": {
+                    "type": "minecraft:lerp",
+                    "alpha": {
+                      "type": "minecraft:clamp",
+                      "input": {
+                        "type": "minecraft:div",
+                        "left": "thesolar:mars_canyon_5_distance",
+                        "right": 2304
+                      },
+                      "min": 0,
+                      "max": 1
+                    },
+                    "first": {
+                      "type": "minecraft:gradient",
+                      "axis": "y",
+                      "tiling": "clamp_to_edge",
+                      "from_coordinate": 28,
+                      "to_coordinate": 92,
+                      "from_value": 1,
+                      "to_value": -1
+                    },
+                    "second": {
+                      "type": "minecraft:lerp",
+                      "alpha": {
+                        "type": "minecraft:clamp",
+                        "input": {
+                          "type": "minecraft:div",
+                          "left": "thesolar:mars_canyon_4_distance",
+                          "right": 2304
+                        },
+                        "min": 0,
+                        "max": 1
+                      },
+                      "first": {
+                        "type": "minecraft:gradient",
+                        "axis": "y",
+                        "tiling": "clamp_to_edge",
+                        "from_coordinate": 28,
+                        "to_coordinate": 92,
+                        "from_value": 1,
+                        "to_value": -1
+                      },
+                      "second": {
+                        "type": "minecraft:lerp",
+                        "alpha": {
+                          "type": "minecraft:clamp",
+                          "input": {
+                            "type": "minecraft:div",
+                            "left": "thesolar:mars_canyon_3_distance",
+                            "right": 2304
+                          },
+                          "min": 0,
+                          "max": 1
+                        },
+                        "first": {
+                          "type": "minecraft:gradient",
+                          "axis": "y",
+                          "tiling": "clamp_to_edge",
+                          "from_coordinate": 28,
+                          "to_coordinate": 92,
+                          "from_value": 1,
+                          "to_value": -1
+                        },
+                        "second": {
+                          "type": "minecraft:lerp",
+                          "alpha": {
+                            "type": "minecraft:clamp",
+                            "input": {
+                              "type": "minecraft:div",
+                              "left": "thesolar:mars_canyon_2_distance",
+                              "right": 2304
+                            },
+                            "min": 0,
+                            "max": 1
+                          },
+                          "first": {
+                            "type": "minecraft:gradient",
+                            "axis": "y",
+                            "tiling": "clamp_to_edge",
+                            "from_coordinate": 28,
+                            "to_coordinate": 92,
+                            "from_value": 1,
+                            "to_value": -1
+                          },
+                          "second": {
+                            "type": "minecraft:lerp",
+                            "alpha": {
+                              "type": "minecraft:clamp",
+                              "input": {
+                                "type": "minecraft:div",
+                                "left": "thesolar:mars_canyon_1_distance",
+                                "right": 2304
+                              },
+                              "min": 0,
+                              "max": 1
+                            },
+                            "first": {
+                              "type": "minecraft:gradient",
+                              "axis": "y",
+                              "tiling": "clamp_to_edge",
+                              "from_coordinate": 28,
+                              "to_coordinate": 92,
+                              "from_value": 1,
+                              "to_value": -1
+                            },
+                            "second": {
+                              "type": "minecraft:lerp",
+                              "alpha": {
+                                "type": "minecraft:clamp",
+                                "input": {
+                                  "type": "minecraft:div",
+                                  "left": "thesolar:mars_canyon_0_distance",
+                                  "right": 2304
+                                },
+                                "min": 0,
+                                "max": 1
+                              },
+                              "first": {
+                                "type": "minecraft:gradient",
+                                "axis": "y",
+                                "tiling": "clamp_to_edge",
+                                "from_coordinate": 28,
+                                "to_coordinate": 92,
+                                "from_value": 1,
+                                "to_value": -1
+                              },
+                              "second": "minecraft:overworld/final_density"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "right": {
+              "type": "minecraft:gradient",
+              "axis": "y",
+              "tiling": "clamp_to_edge",
+              "from_coordinate": 68,
+              "to_coordinate": 88,
+              "from_value": 0.18,
+              "to_value": -0.08
+            }
+          },
+          "when_out_of_range": {
+            "type": "minecraft:lerp",
+            "alpha": {
+              "type": "minecraft:clamp",
+              "input": {
+                "type": "minecraft:div",
+                "left": "thesolar:mars_caldera_0_distance",
+                "right": 2304
+              },
+              "min": 0,
+              "max": 1
+            },
+            "first": {
+              "type": "minecraft:gradient",
+              "axis": "y",
+              "tiling": "clamp_to_edge",
+              "from_coordinate": 40,
+              "to_coordinate": 104,
+              "from_value": 1,
+              "to_value": -1
+            },
+            "second": {
+              "type": "minecraft:lerp",
+              "alpha": {
+                "type": "minecraft:clamp",
+                "input": {
+                  "type": "minecraft:div",
+                  "left": "thesolar:mars_canyon_7_distance",
+                  "right": 2304
+                },
+                "min": 0,
+                "max": 1
+              },
+              "first": {
+                "type": "minecraft:gradient",
+                "axis": "y",
+                "tiling": "clamp_to_edge",
+                "from_coordinate": 28,
+                "to_coordinate": 92,
+                "from_value": 1,
+                "to_value": -1
+              },
+              "second": {
+                "type": "minecraft:lerp",
+                "alpha": {
+                  "type": "minecraft:clamp",
+                  "input": {
+                    "type": "minecraft:div",
+                    "left": "thesolar:mars_canyon_6_distance",
+                    "right": 2304
+                  },
+                  "min": 0,
+                  "max": 1
+                },
+                "first": {
+                  "type": "minecraft:gradient",
+                  "axis": "y",
+                  "tiling": "clamp_to_edge",
+                  "from_coordinate": 28,
+                  "to_coordinate": 92,
+                  "from_value": 1,
+                  "to_value": -1
+                },
+                "second": {
+                  "type": "minecraft:lerp",
+                  "alpha": {
+                    "type": "minecraft:clamp",
+                    "input": {
+                      "type": "minecraft:div",
+                      "left": "thesolar:mars_canyon_5_distance",
+                      "right": 2304
+                    },
+                    "min": 0,
+                    "max": 1
+                  },
+                  "first": {
+                    "type": "minecraft:gradient",
+                    "axis": "y",
+                    "tiling": "clamp_to_edge",
+                    "from_coordinate": 28,
+                    "to_coordinate": 92,
+                    "from_value": 1,
+                    "to_value": -1
+                  },
+                  "second": {
+                    "type": "minecraft:lerp",
+                    "alpha": {
+                      "type": "minecraft:clamp",
+                      "input": {
+                        "type": "minecraft:div",
+                        "left": "thesolar:mars_canyon_4_distance",
+                        "right": 2304
+                      },
+                      "min": 0,
+                      "max": 1
+                    },
+                    "first": {
+                      "type": "minecraft:gradient",
+                      "axis": "y",
+                      "tiling": "clamp_to_edge",
+                      "from_coordinate": 28,
+                      "to_coordinate": 92,
+                      "from_value": 1,
+                      "to_value": -1
+                    },
+                    "second": {
+                      "type": "minecraft:lerp",
+                      "alpha": {
+                        "type": "minecraft:clamp",
+                        "input": {
+                          "type": "minecraft:div",
+                          "left": "thesolar:mars_canyon_3_distance",
+                          "right": 2304
+                        },
+                        "min": 0,
+                        "max": 1
+                      },
+                      "first": {
+                        "type": "minecraft:gradient",
+                        "axis": "y",
+                        "tiling": "clamp_to_edge",
+                        "from_coordinate": 28,
+                        "to_coordinate": 92,
+                        "from_value": 1,
+                        "to_value": -1
+                      },
+                      "second": {
+                        "type": "minecraft:lerp",
+                        "alpha": {
+                          "type": "minecraft:clamp",
+                          "input": {
+                            "type": "minecraft:div",
+                            "left": "thesolar:mars_canyon_2_distance",
+                            "right": 2304
+                          },
+                          "min": 0,
+                          "max": 1
+                        },
+                        "first": {
+                          "type": "minecraft:gradient",
+                          "axis": "y",
+                          "tiling": "clamp_to_edge",
+                          "from_coordinate": 28,
+                          "to_coordinate": 92,
+                          "from_value": 1,
+                          "to_value": -1
+                        },
+                        "second": {
+                          "type": "minecraft:lerp",
+                          "alpha": {
+                            "type": "minecraft:clamp",
+                            "input": {
+                              "type": "minecraft:div",
+                              "left": "thesolar:mars_canyon_1_distance",
+                              "right": 2304
+                            },
+                            "min": 0,
+                            "max": 1
+                          },
+                          "first": {
+                            "type": "minecraft:gradient",
+                            "axis": "y",
+                            "tiling": "clamp_to_edge",
+                            "from_coordinate": 28,
+                            "to_coordinate": 92,
+                            "from_value": 1,
+                            "to_value": -1
+                          },
+                          "second": {
+                            "type": "minecraft:lerp",
+                            "alpha": {
+                              "type": "minecraft:clamp",
+                              "input": {
+                                "type": "minecraft:div",
+                                "left": "thesolar:mars_canyon_0_distance",
+                                "right": 2304
+                              },
+                              "min": 0,
+                              "max": 1
+                            },
+                            "first": {
+                              "type": "minecraft:gradient",
+                              "axis": "y",
+                              "tiling": "clamp_to_edge",
+                              "from_coordinate": 28,
+                              "to_coordinate": 92,
+                              "from_value": 1,
+                              "to_value": -1
+                            },
+                            "second": "minecraft:overworld/final_density"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

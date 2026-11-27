@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "thesolar:martian_war_temple",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 258741,
+    "spacing": 38,
+    "separation": 10
+  }
+}

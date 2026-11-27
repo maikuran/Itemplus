@@ -1,0 +1,9 @@
+materials=9 (7 Overworld/Nether materials + 2 lunar materials)
+ore_blocks=9
+tool_items=45
+armor_items=36
+raw_items=9
+ingots=9
+material_crafting_recipes=81
+material_smelting_blasting_recipes=18
+lunar_set_abilities=selenite,lunarium

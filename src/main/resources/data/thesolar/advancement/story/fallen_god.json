@@ -1,0 +1,28 @@
+{
+  "parent": "thesolar:story/red_planet",
+  "display": {
+    "icon": {
+      "id": "thesolar:ares_greatsword"
+    },
+    "title": {
+      "translate": "advancement.thesolar.fallen_god.title"
+    },
+    "description": {
+      "translate": "advancement.thesolar.fallen_god.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "ares": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "thesolar:ares"
+        }
+      }
+    }
+  }
+}

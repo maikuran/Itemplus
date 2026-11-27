@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "thesolar:lunar_undercity",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 258733,
+    "spacing": 52,
+    "separation": 14
+  }
+}

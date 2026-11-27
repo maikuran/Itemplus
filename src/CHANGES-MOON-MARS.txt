@@ -1,0 +1,50 @@
+DimensionMod: The Solar — Moon/Mars implementation update
+
+Implemented in this source update:
+
+WORLD GENERATION
+- Replaced the Moon and Mars noise-router final_density entries with dimension-specific density functions.
+- Moon: five coordinate-centered crater basins with smooth radial blending and raised outer rims.
+- Mars: an eight-point connected canyon cut plus three separate volcanic caldera/rim formations.
+- Shared distance fields are cached to avoid recomputing the same point-distance field for each terrain sample.
+- Migrated serialized block-state objects in data JSON and structure NBT palettes to 26.3 id/properties keys.
+
+STRUCTURES
+- Added six jigsaw structure definitions: lunar temple, lunar research station, lunar underground city, Martian war temple, Martian research station, and Martian underground city.
+- Added six structure sets and eight template pools.
+- Generated twelve 17x9x17 NBT templates with four oriented jigsaw connectors per room.
+- Start rooms have boss altars in the temple structures; rooms contain dimension-specific loot chests.
+- Added lunar and Martian chest loot tables.
+
+BIOMES / SPAWNING
+- All 7 Moon and 8 Mars biomes use the 26.3 minecraft:gameplay/natural_mob_spawns attribute.
+- Spawn weights and group counts are biome-specific; Selene and Ares remain altar-summoned bosses.
+
+BOSSES / ANIMATION
+- SolarHostileEntity synchronizes attack type and telegraph duration to clients.
+- Selene: moonbeam, crystal wave, and healing each have a wind-up phase.
+- Ares: ground quake and fire spear each have a wind-up phase.
+- Wind-up phase emits a ground ring and a dedicated sound.
+- Renderer transfers synchronized attack state into SolarMobRenderState; model applies attack-specific pose changes.
+
+SKY / AUDIO
+- Added dimension-specific sky colors, star brightness, celestial angles, ambient loop, and background music attributes.
+- Added six original OGG assets: Moon/Mars ambience, Moon/Mars music, Selene telegraph, and Ares telegraph.
+- Added two 26.3 post effects that draw depth-masked procedural celestial bodies: Earth-like Moon sky body and two Martian satellites.
+- Server join, respawn, and dimension-change events add/remove the relevant player post effect.
+
+QUEST / RPG UI
+- Added a J-key quest journal.
+- Shows current dimension, XP-derived Solar Rank, relic-derived Divinity Level, and six story objectives.
+- Progress reads synced vanilla advancement progress, with current dimension and relic fallbacks.
+
+TOOLS / DOCUMENTATION
+- Added a Java NBT structure validator and Bash validation script.
+- Added a Bash structure-template regeneration script.
+- Added Japanese/English language entries for the quest journal and sound subtitles.
+
+IMPORTANT LIMITATIONS
+- This is not yet a verified full Minecraft build. The uploaded archive contained src/ only, no Gradle project or wrapper. The shell has Java 21, not Java 25, and no system Gradle; therefore no 26.3 Fabric compile or game launch was possible.
+- The custom celestial bodies are screen-space post-effect overlays masked by the world depth buffer. They are not yet 3D camera-orientation-locked celestial meshes.
+- The custom post-effect shaders, density codecs, and jigsaw placement have not been loaded by an actual 26.3 client/server. Static JSON/NBT checks do not replace in-game testing.
+- The journal is a first playable UI backed by vanilla XP, synced advancement progress, dimension state, and relic inventory. A full persistent skill tree, weapon mastery, custom Solar XP ledger, and ability unlock system are not implemented.

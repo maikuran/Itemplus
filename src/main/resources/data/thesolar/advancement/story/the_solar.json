@@ -1,0 +1,48 @@
+{
+  "parent": "thesolar:story/godslayer",
+  "display": {
+    "icon": {
+      "id": "thesolar:martian_sigil"
+    },
+    "title": {
+      "translate": "advancement.thesolar.the_solar.title"
+    },
+    "description": {
+      "translate": "advancement.thesolar.the_solar.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "lunar": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "thesolar:lunar_seal"
+          }
+        ]
+      }
+    },
+    "martian": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "thesolar:martian_sigil"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "lunar"
+    ],
+    [
+      "martian"
+    ]
+  ]
+}

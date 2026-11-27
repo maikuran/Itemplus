@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:single_block_pillar",
+  "block": {
+    "id": "thesolar:moon_crystal"
+  },
+  "can_replace": {
+    "type": "minecraft:matching_blocks",
+    "blocks": [
+      "minecraft:air",
+      "minecraft:cave_air"
+    ]
+  },
+  "direction": "up",
+  "chance_to_continue": 0.78
+}

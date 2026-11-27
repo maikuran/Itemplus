@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "ingredient": {
+    "item": "thesolar:ares_ore"
+  },
+  "result": {
+    "id": "thesolar:ares_ingot"
+  },
+  "experience": 1.5,
+  "cookingtime": 100
+}

@@ -1,0 +1,8 @@
+{
+  "moon_ambience": {"subtitle":"subtitles.thesolar.moon_ambience","sounds":[{"name":"thesolar:ambience/moon_wind","stream":true,"volume":0.72}]},
+  "mars_ambience": {"subtitle":"subtitles.thesolar.mars_ambience","sounds":[{"name":"thesolar:ambience/mars_wind","stream":true,"volume":0.78}]},
+  "music_moon": {"subtitle":"subtitles.thesolar.music_moon","sounds":[{"name":"thesolar:music/moon_theme","stream":true,"volume":0.68}]},
+  "music_mars": {"subtitle":"subtitles.thesolar.music_mars","sounds":[{"name":"thesolar:music/mars_theme","stream":true,"volume":0.72}]},
+  "selene_telegraph": {"subtitle":"subtitles.thesolar.selene_telegraph","sounds":[{"name":"thesolar:boss/selene_windup","volume":0.9}]},
+  "ares_telegraph": {"subtitle":"subtitles.thesolar.ares_telegraph","sounds":[{"name":"thesolar:boss/ares_windup","volume":0.9}]}
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "thesolar",
+  "version": "${version}",
+  "name": "DimensionMod: The Solar",
+  "description": "A mythic solar-system adventure across the Moon and Mars.",
+  "authors": ["Sakalti"],
+  "license": "MIT",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.sakalti.thesolar.DimensionMod"],
+    "client": ["com.sakalti.thesolar.client.DimensionModClient"]
+  },
+  "depends": {
+    "fabricloader": ">=0.20.1",
+    "minecraft": "26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}

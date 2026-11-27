@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " M ",
+    "CSC",
+    " M "
+  ],
+  "key": {
+    "M": {
+      "item": "thesolar:moonstone"
+    },
+    "C": {
+      "item": "thesolar:moon_crystal"
+    },
+    "S": {
+      "item": "thesolar:star_dust"
+    }
+  },
+  "result": {
+    "id": "thesolar:lunar_boss_altar",
+    "count": 1
+  }
+}

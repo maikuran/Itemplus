@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    " R ",
+    "AGA",
+    " R "
+  ],
+  "key": {
+    "R": {
+      "item": "thesolar:martian_rock"
+    },
+    "A": {
+      "item": "thesolar:martian_core"
+    },
+    "G": {
+      "item": "thesolar:ancient_martian_gear"
+    }
+  },
+  "result": {
+    "id": "thesolar:martian_boss_altar",
+    "count": 1
+  }
+}

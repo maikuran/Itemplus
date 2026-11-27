@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "ingredient": {
+    "item": "thesolar:blood_crystal_ore"
+  },
+  "result": {
+    "id": "thesolar:blood_crystal"
+  },
+  "experience": 1.0,
+  "cookingtime": 100
+}

@@ -1,0 +1,42 @@
+{
+  "parent": "thesolar:story/fallen_god",
+  "display": {
+    "icon": {
+      "id": "thesolar:ares_greatsword"
+    },
+    "title": {
+      "translate": "advancement.thesolar.godslayer.title"
+    },
+    "description": {
+      "translate": "advancement.thesolar.godslayer.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "selene": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "thesolar:selene"
+        }
+      }
+    },
+    "ares": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "thesolar:ares"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "selene",
+      "ares"
+    ]
+  ]
+}

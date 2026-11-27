@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "thesolar:martian_research_station",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "salt": 258742,
+    "spacing": 46,
+    "separation": 12
+  }
+}

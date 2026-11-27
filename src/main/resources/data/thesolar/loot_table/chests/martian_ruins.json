@@ -1,0 +1,51 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": 4,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "thesolar:ferrite_ingot",
+          "weight": 7
+        },
+        {
+          "type": "minecraft:item",
+          "name": "thesolar:blood_crystal",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "name": "thesolar:ares_ingot",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "thesolar:ancient_martian_gear",
+          "weight": 5
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:diamond",
+          "weight": 2
+        }
+      ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "thesolar:star_dust",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:netherite_scrap",
+          "weight": 1
+        }
+      ]
+    }
+  ],
+  "random_sequence": "thesolar:chests/martian_ruins"
+}

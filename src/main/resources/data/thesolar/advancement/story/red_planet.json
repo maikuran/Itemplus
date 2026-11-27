@@ -1,0 +1,26 @@
+{
+  "parent": "thesolar:story/lunar_guardian",
+  "display": {
+    "icon": {
+      "id": "minecraft:redstone"
+    },
+    "title": {
+      "translate": "advancement.thesolar.red_planet.title"
+    },
+    "description": {
+      "translate": "advancement.thesolar.red_planet.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "entered_mars": {
+      "trigger": "minecraft:changed_dimension",
+      "conditions": {
+        "to": "thesolar:mars"
+      }
+    }
+  }
+}

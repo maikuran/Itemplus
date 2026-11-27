@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "thesolar:cobalt_ore",
+    "thesolar:ferrite_ore",
+    "thesolar:limonite_ore",
+    "thesolar:selenite_ore"
+  ]
+}

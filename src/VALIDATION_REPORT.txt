@@ -1,0 +1,23 @@
+DimensionMod: The Solar - static validation report
+
+Scope of this update:
+- Selenite and Lunarium complete tool/armor sets, recipes, raw materials and special abilities.
+- Craftable bidirectional Moon/Mars gateway blocks.
+- Synchronized combat-level values: Moon 40-70; Mars 50-80.
+- Selene 1600 HP; Ares 2200 HP; stronger second phases.
+- Refreshed pixel-art tools, armor icons, ore blocks and portal textures. Brown wooden tool handles are preserved.
+
+Static checks performed:
+- All resource JSON files parsed successfully with jq.
+- All PNG textures decoded successfully with ImageMagick.
+- Item/block model texture references checked.
+- Armor equipment texture references checked.
+- Java parser scan found no syntax diagnostics.
+
+Not verified:
+- Full Java/Fabric 26.3 type-check and Gradle build.
+- Minecraft 26.3 launch and client resource reload.
+- Gateway transfers in a running server.
+- Armor effect stacking, mob AI/combat balance, world generation, loot and crafting in-game.
+
+Reason: this deliverable is a source-only src/ archive and does not include the matching Gradle project configuration or a cached Minecraft/Fabric 26.3 dependency set. No successful runtime/build test is claimed.
