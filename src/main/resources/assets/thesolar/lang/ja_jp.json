@@ -183,5 +183,12 @@
   "block.thesolar.mars_gateway": "火星ゲート",
   "item.thesolar.moon_gateway": "月面ゲート",
   "item.thesolar.mars_gateway": "火星ゲート",
-  "item.thesolar.selenite_ingot": "セレナイトインゴット"
+  "item.thesolar.selenite_ingot": "セレナイトインゴット",
+  "block.thesolar.cobalt_block": "コバルトブロック",
+  "block.thesolar.limonite_block": "リモナイトブロック",
+  "block.thesolar.jade_block": "翡翠ブロック",
+  "block.thesolar.ruby_block": "ルビーブロック",
+  "block.thesolar.krillul_block": "クリルルブロック",
+  "block.thesolar.sitherian_block": "シテリアンブロック",
+  "block.thesolar.hellphyros_remnantius_forgotina_block": "ヘルファイロス・レムナンティウス・フォルゴティナブロック"
 }

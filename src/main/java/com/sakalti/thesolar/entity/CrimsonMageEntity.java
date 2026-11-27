@@ -13,7 +13,7 @@ public final class CrimsonMageEntity extends SolarHostileEntity {
         LivingEntity target = combatTarget();
         if (--flameLanceCooldown <= 0) {
             if (target != null && distanceToSqr(target) <= 17.0 * 17.0) {
-                if (hurtTarget(target, 7.0f, 0.18, 0.12)) target.setSecondsOnFire(4);
+                if (hurtTarget(target, 7.0f, 0.18, 0.12)) target.igniteForSeconds(4.0F);
             }
             flameLanceCooldown = 112;
         }

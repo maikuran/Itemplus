@@ -1,0 +1,7 @@
+{
+  "type":"minecraft:crafting_shaped",
+  "category":"building",
+  "pattern":["III","III","III"],
+  "key":{"I":{"item":"thesolar:limonite_ingot"}},
+  "result":{"id":"thesolar:limonite_block","count":1}
+}

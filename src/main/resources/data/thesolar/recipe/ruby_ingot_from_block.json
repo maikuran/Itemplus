@@ -1,0 +1,6 @@
+{
+  "type":"minecraft:crafting_shapeless",
+  "category":"misc",
+  "ingredients":[{"item":"thesolar:ruby_block"}],
+  "result":{"id":"thesolar:ruby_ingot","count":9}
+}

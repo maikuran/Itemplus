@@ -1,0 +1,6 @@
+{
+  "type":"minecraft:crafting_shapeless",
+  "category":"misc",
+  "ingredients":[{"item":"thesolar:jade_block"}],
+  "result":{"id":"thesolar:jade_ingot","count":9}
+}

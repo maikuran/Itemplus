@@ -21,7 +21,7 @@ public final class ModEntities {
             double hp, double speed, double damage, double range) {
         ResourceKey<EntityType<?>> key = key(id);
         EntityType<T> type = Registry.register(BuiltInRegistries.ENTITY_TYPE, key,
-                EntityType.Builder.of((entityType, world) -> {
+                EntityType.Builder.<T>of((entityType, world) -> {
                     T entity = factory.create(entityType, world);
                     entity.setCombatLevel(level);
                     return entity;

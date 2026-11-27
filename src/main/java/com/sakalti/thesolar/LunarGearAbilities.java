@@ -11,19 +11,19 @@ import net.minecraft.world.item.Item;
 public final class LunarGearAbilities {
     private LunarGearAbilities() {}
     public static void register() {
-        ServerTickEvents.END_WORLD_TICK.register(world -> {
+        ServerTickEvents.END_LEVEL_TICK.register(world -> {
             for (Player player : world.players()) {
                 Item held = player.getMainHandItem().getItem();
                 if (held == DimensionMod.itemById("selenite_sword"))
-                    player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 60, 0, true, false, true));
+                    player.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 60, 0, true, false, true));
                 if (held == DimensionMod.itemById("selenite_pickaxe") || held == DimensionMod.itemById("selenite_axe")
                         || held == DimensionMod.itemById("selenite_shovel") || held == DimensionMod.itemById("selenite_hoe"))
-                    player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 60, 0, true, false, true));
+                    player.addEffect(new MobEffectInstance(MobEffects.HASTE, 60, 0, true, false, true));
                 if (held == DimensionMod.itemById("lunarium_sword"))
-                    player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 60, 1, true, false, true));
+                    player.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 60, 1, true, false, true));
                 if (held == DimensionMod.itemById("lunarium_pickaxe") || held == DimensionMod.itemById("lunarium_axe")
                         || held == DimensionMod.itemById("lunarium_shovel") || held == DimensionMod.itemById("lunarium_hoe"))
-                    player.addEffect(new MobEffectInstance(MobEffects.DIG_SPEED, 60, 1, true, false, true));
+                    player.addEffect(new MobEffectInstance(MobEffects.HASTE, 60, 1, true, false, true));
                 int selenite = count(player, "selenite");
                 int lunarium = count(player, "lunarium");
                 if (selenite >= 4) {
@@ -33,15 +33,15 @@ public final class LunarGearAbilities {
                     player.addEffect(new MobEffectInstance(MobEffects.SLOW_FALLING, 60, 0, true, false, true));
                 }
                 if (lunarium >= 4) {
-                    player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 100, 0, true, false, true));
-                    player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_BOOST, 100, 0, true, false, true));
+                    player.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 100, 0, true, false, true));
+                    player.addEffect(new MobEffectInstance(MobEffects.STRENGTH, 100, 0, true, false, true));
                 } else if (lunarium >= 2) {
-                    player.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 60, 0, true, false, true));
+                    player.addEffect(new MobEffectInstance(MobEffects.RESISTANCE, 60, 0, true, false, true));
                 }
                 if (world.dimension().equals(DimensionMod.MOON_DIMENSION)
                         && (player.getItemBySlot(EquipmentSlot.FEET).getItem() == DimensionMod.itemById("selenite_boots")
                         || player.getItemBySlot(EquipmentSlot.FEET).getItem() == DimensionMod.itemById("lunarium_boots"))) {
-                    player.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 80, 0, true, false, true));
+                    player.addEffect(new MobEffectInstance(MobEffects.SPEED, 80, 0, true, false, true));
                 }
             }
         });

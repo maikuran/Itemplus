@@ -1,0 +1,6 @@
+{
+  "type":"minecraft:crafting_shapeless",
+  "category":"misc",
+  "ingredients":[{"item":"thesolar:sitherian_block"}],
+  "result":{"id":"thesolar:sitherian_ingot","count":9}
+}

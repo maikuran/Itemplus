@@ -34,7 +34,7 @@ public final class AresEntity extends SolarHostileEntity {
                 double distance = distanceToSqr(target);
                 if (distance >= 5.0 * 5.0 && distance <= 29.0 * 29.0) {
                     hurtTarget(target, isInSecondPhase() ? 15.0f : 10.0f, 0.72, 0.34);
-                    target.setSecondsOnFire(isInSecondPhase() ? 6 : 4);
+                    target.igniteForSeconds(isInSecondPhase() ? 6.0F : 4.0F);
                 }
             }
         } else if (--spearCooldown <= 0) {

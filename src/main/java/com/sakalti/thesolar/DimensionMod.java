@@ -1,8 +1,8 @@
 package com.sakalti.thesolar;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.fabricmc.fabric.api.entity.event.v1.ServerEntityWorldChangeEvents;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.fabricmc.fabric.api.entity.event.v1.ServerEntityLevelChangeEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.entity.event.v1.ServerPlayerEvents;
 import net.minecraft.server.level.ServerPlayer;
@@ -109,14 +109,14 @@ public final class DimensionMod implements ModInitializer {
     private static Block registerPortalBlock(String name, String target, int y) {
         ResourceKey<Block> key = blockKey(name);
         Block block = new SolarPortalBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.AMETHYST_BLOCK)
-                .strength(2.0f, 6.0f).noCollission().lightLevel(state -> 12).setId(key), target, y);
+                .strength(2.0f, 6.0f).noCollision().lightLevel(state -> 12).setId(key), target, y);
         Registry.register(BuiltInRegistries.BLOCK, key, block);
         ResourceKey<Item> itemId = itemKey(name);
         Registry.register(BuiltInRegistries.ITEM, itemId, new BlockItem(block, new Item.Properties().useBlockDescriptionPrefix().setId(itemId)));
         return block;
     }
 
-    static Item itemById(String path) { return BuiltInRegistries.ITEM.get(id(path)); }
+    static Item itemById(String path) { return BuiltInRegistries.ITEM.get(id(path)).map(reference -> reference.value()).orElse(net.minecraft.world.item.Items.AIR); }
     static Item registerItem(String name) {
         return registerItem(name, new Item.Properties());
     }
@@ -139,7 +139,7 @@ public final class DimensionMod implements ModInitializer {
         MARTIAN_BOSS_ALTAR = registerBossAltarBlock("martian_boss_altar",
                 com.sakalti.thesolar.entity.ModEntities.ARES, ANCIENT_MARTIAN_GEAR, MARS_DIMENSION);
 
-        ItemGroupEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(entries -> {
             entries.accept(SELENITE);
             entries.accept(LUNARIUM_INGOT);
             entries.accept(STAR_DUST);
@@ -153,9 +153,9 @@ public final class DimensionMod implements ModInitializer {
             entries.accept(MARTIAN_SIGIL);
             SolarMaterials.addIngredients(entries);
         });
-        ItemGroupEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(SolarMaterials::addTools);
-        ItemGroupEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(SolarMaterials::addCombat);
-        ItemGroupEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS).register(entries -> {
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(SolarMaterials::addTools);
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.COMBAT).register(SolarMaterials::addCombat);
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS).register(entries -> {
             entries.accept(MOONSTONE);
             entries.accept(MOON_DUST);
             entries.accept(SELENITE_ORE);
@@ -178,20 +178,16 @@ public final class DimensionMod implements ModInitializer {
     }
     private static void registerSkyEffects() {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> updateSkyEffects(handler.player));
-        ServerEntityWorldChangeEvents.AFTER_PLAYER_CHANGE_WORLD.register((player, origin, destination) -> updateSkyEffects(player));
+        ServerEntityLevelChangeEvents.AFTER_PLAYER_CHANGE_LEVEL.register((player, origin, destination) -> updateSkyEffects(player));
         ServerPlayerEvents.AFTER_RESPAWN.register((oldPlayer, newPlayer, alive) -> updateSkyEffects(newPlayer));
     }
 
     private static void updateSkyEffects(ServerPlayer player) {
-        if (player.getServer() == null) return;
-        var source = player.createCommandSourceStack().withPermission(4).withSuppressedOutput();
-        var commands = player.getServer().getCommands();
-        commands.performPrefixedCommand(source, "posteffect remove @s thesolar:moon_sky");
-        commands.performPrefixedCommand(source, "posteffect remove @s thesolar:mars_sky");
+        player.clearPostEffects();
         if (player.level().dimension().equals(MOON_DIMENSION)) {
-            commands.performPrefixedCommand(source, "posteffect add @s thesolar:moon_sky");
+            player.addPostEffect(id("moon_sky"));
         } else if (player.level().dimension().equals(MARS_DIMENSION)) {
-            commands.performPrefixedCommand(source, "posteffect add @s thesolar:mars_sky");
+            player.addPostEffect(id("mars_sky"));
         }
     }
 }

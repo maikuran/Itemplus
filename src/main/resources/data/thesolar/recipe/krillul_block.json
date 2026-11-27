@@ -1,0 +1,7 @@
+{
+  "type":"minecraft:crafting_shaped",
+  "category":"building",
+  "pattern":["III","III","III"],
+  "key":{"I":{"item":"thesolar:krillul_ingot"}},
+  "result":{"id":"thesolar:krillul_block","count":1}
+}

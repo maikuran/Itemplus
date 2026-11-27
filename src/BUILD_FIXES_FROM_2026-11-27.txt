@@ -1,0 +1,23 @@
+The Solar - fixes based on the supplied GitHub Actions compile log
+
+1. Fabric API is now declared with Loom's modImplementation configuration.
+2. Fabric 26.3 API renames:
+   - ItemGroupEvents -> CreativeModeTabEvents
+   - ServerEntityWorldChangeEvents -> ServerEntityLevelChangeEvents
+   - AFTER_PLAYER_CHANGE_WORLD -> AFTER_PLAYER_CHANGE_LEVEL
+   - ServerTickEvents.END_WORLD_TICK -> END_LEVEL_TICK
+3. Minecraft 26.3 API updates:
+   - BlockBehaviour.Properties.noCollission() -> noCollision()
+   - Registry ITEM lookup unwraps Optional<Holder.Reference<Item>>
+   - MobEffects legacy constants replaced with STRENGTH/HASTE/RESISTANCE/SPEED
+   - LivingEntity.hurt(DamageSource, float) -> hurtServer(ServerLevel, DamageSource, float)
+   - setSecondsOnFire(int) -> igniteForSeconds(float)
+   - ServerPlayer post effects use clearPostEffects()/addPostEffect(Identifier)
+   - Portal entityInside callback updated to include InsideBlockEffectApplier and precise flag
+   - Portal travel uses ServerPlayer.teleportTo(ServerLevel, ..., resetCamera)
+   - EntityType.Builder generic type explicitly set to T
+
+Build validation status:
+- Static source edits applied from the supplied 31-error log.
+- JSON syntax and ZIP integrity are checked when packaged.
+- Full Gradle compile was NOT run in this environment because only Java 21 is installed; this project requires Java 25.

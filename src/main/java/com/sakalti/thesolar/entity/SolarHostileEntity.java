@@ -145,7 +145,8 @@ public class SolarHostileEntity extends PathfinderMob {
 
     protected boolean hurtTarget(LivingEntity target, float damage, double knockback, double lift) {
         if (target == null || !target.isAlive()) return false;
-        boolean hurt = target.hurt(damageSources().mobAttack(this), damage);
+        boolean hurt = level() instanceof ServerLevel server
+                && target.hurtServer(server, damageSources().mobAttack(this), damage);
         if (hurt && knockback > 0.0) {
             double dx = target.getX() - getX();
             double dz = target.getZ() - getZ();

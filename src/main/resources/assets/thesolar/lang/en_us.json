@@ -183,5 +183,12 @@
   "block.thesolar.mars_gateway": "Martian Gateway",
   "item.thesolar.moon_gateway": "Lunar Gateway",
   "item.thesolar.mars_gateway": "Martian Gateway",
-  "item.thesolar.selenite_ingot": "Selenite Ingot"
+  "item.thesolar.selenite_ingot": "Selenite Ingot",
+  "block.thesolar.cobalt_block": "Cobalt Block",
+  "block.thesolar.limonite_block": "Limonite Block",
+  "block.thesolar.jade_block": "Jade Block",
+  "block.thesolar.ruby_block": "Ruby Block",
+  "block.thesolar.krillul_block": "Krillul Block",
+  "block.thesolar.sitherian_block": "Sitherian Block",
+  "block.thesolar.hellphyros_remnantius_forgotina_block": "Hellphyros Remnantius Forgotina Block"
 }

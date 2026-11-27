@@ -1,0 +1,7 @@
+{
+  "type":"minecraft:crafting_shaped",
+  "category":"building",
+  "pattern":["III","III","III"],
+  "key":{"I":{"item":"thesolar:sitherian_ingot"}},
+  "result":{"id":"thesolar:sitherian_block","count":1}
+}
