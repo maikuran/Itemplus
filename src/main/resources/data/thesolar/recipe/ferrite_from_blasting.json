@@ -1,9 +1,7 @@
 {
   "type": "minecraft:blasting",
   "category": "misc",
-  "ingredient": {
-    "item": "thesolar:ferrite_ore"
-  },
+  "ingredient": "thesolar:ferrite_ore",
   "result": {
     "id": "thesolar:ferrite_ingot"
   },

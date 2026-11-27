@@ -6,12 +6,8 @@
     " S "
   ],
   "key": {
-    "M": {
-      "item": "thesolar:lunarium_ingot"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "M": "thesolar:lunarium_ingot",
+    "S": "minecraft:stick"
   },
   "result": {
     "id": "thesolar:moonlight_blade",

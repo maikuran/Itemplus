@@ -1,1 +1,11 @@
-{"type":"minecraft:smelting","category":"misc","cookingtime":200,"experience":0.8,"ingredient":{"item":"thesolar:cobalt_raw"},"result":{"id":"thesolar:cobalt_ingot","count":1}}
+{
+  "type": "minecraft:smelting",
+  "category": "misc",
+  "cookingtime": 200,
+  "experience": 0.8,
+  "ingredient": "thesolar:cobalt_raw",
+  "result": {
+    "id": "thesolar:cobalt_ingot",
+    "count": 1
+  }
+}

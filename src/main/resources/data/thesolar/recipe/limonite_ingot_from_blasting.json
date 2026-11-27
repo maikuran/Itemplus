@@ -1,1 +1,11 @@
-{"type":"minecraft:blasting","category":"misc","cookingtime":100,"experience":0.8,"ingredient":{"item":"thesolar:limonite_raw"},"result":{"id":"thesolar:limonite_ingot","count":1}}
+{
+  "type": "minecraft:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.8,
+  "ingredient": "thesolar:limonite_raw",
+  "result": {
+    "id": "thesolar:limonite_ingot",
+    "count": 1
+  }
+}

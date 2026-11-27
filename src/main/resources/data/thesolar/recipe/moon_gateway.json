@@ -1,1 +1,19 @@
-{"type":"minecraft:crafting_shaped","category":"building","pattern":["OCO","CSD","OCO"],"key":{"O":{"item":"minecraft:obsidian"},"C":{"item":"thesolar:moon_crystal"},"S":{"item":"thesolar:star_dust"},"D":{"item":"minecraft:diamond"}},"result":{"id":"thesolar:moon_gateway","count":1}}
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "OCO",
+    "CSD",
+    "OCO"
+  ],
+  "key": {
+    "O": "minecraft:obsidian",
+    "C": "thesolar:moon_crystal",
+    "S": "thesolar:star_dust",
+    "D": "minecraft:diamond"
+  },
+  "result": {
+    "id": "thesolar:moon_gateway",
+    "count": 1
+  }
+}

@@ -1,6 +1,11 @@
 {
-  "type":"minecraft:crafting_shapeless",
-  "category":"misc",
-  "ingredients":[{"item":"thesolar:limonite_block"}],
-  "result":{"id":"thesolar:limonite_ingot","count":9}
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "thesolar:limonite_block"
+  ],
+  "result": {
+    "id": "thesolar:limonite_ingot",
+    "count": 9
+  }
 }

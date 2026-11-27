@@ -1,6 +1,11 @@
 {
-  "type":"minecraft:crafting_shapeless",
-  "category":"misc",
-  "ingredients":[{"item":"thesolar:hellphyros_remnantius_forgotina_block"}],
-  "result":{"id":"thesolar:hellphyros_remnantius_forgotina_ingot","count":9}
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "thesolar:hellphyros_remnantius_forgotina_block"
+  ],
+  "result": {
+    "id": "thesolar:hellphyros_remnantius_forgotina_ingot",
+    "count": 9
+  }
 }

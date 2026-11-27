@@ -1,1 +1,16 @@
-{"type":"minecraft:crafting_shaped","category":"equipment","pattern":["I I","III","III"],"key":{"I":{"item":"thesolar:jade_ingot"}},"result":{"id":"thesolar:jade_chestplate","count":1}}
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "I I",
+    "III",
+    "III"
+  ],
+  "key": {
+    "I": "thesolar:jade_ingot"
+  },
+  "result": {
+    "id": "thesolar:jade_chestplate",
+    "count": 1
+  }
+}

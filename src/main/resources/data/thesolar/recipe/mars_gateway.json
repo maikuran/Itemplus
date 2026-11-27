@@ -1,1 +1,19 @@
-{"type":"minecraft:crafting_shaped","category":"building","pattern":["OCO","CSD","OCO"],"key":{"O":{"item":"minecraft:obsidian"},"C":{"item":"thesolar:blood_crystal"},"S":{"item":"thesolar:martian_sigil"},"D":{"item":"minecraft:diamond"}},"result":{"id":"thesolar:mars_gateway","count":1}}
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "OCO",
+    "CSD",
+    "OCO"
+  ],
+  "key": {
+    "O": "minecraft:obsidian",
+    "C": "thesolar:blood_crystal",
+    "S": "thesolar:martian_sigil",
+    "D": "minecraft:diamond"
+  },
+  "result": {
+    "id": "thesolar:mars_gateway",
+    "count": 1
+  }
+}

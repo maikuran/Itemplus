@@ -1,9 +1,7 @@
 {
   "type": "minecraft:blasting",
   "category": "misc",
-  "ingredient": {
-    "item": "thesolar:blood_crystal_ore"
-  },
+  "ingredient": "thesolar:blood_crystal_ore",
   "result": {
     "id": "thesolar:blood_crystal"
   },

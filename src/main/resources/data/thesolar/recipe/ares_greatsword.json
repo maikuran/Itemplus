@@ -6,12 +6,8 @@
     " S "
   ],
   "key": {
-    "A": {
-      "item": "thesolar:ares_ingot"
-    },
-    "S": {
-      "item": "minecraft:stick"
-    }
+    "A": "thesolar:ares_ingot",
+    "S": "minecraft:stick"
   },
   "result": {
     "id": "thesolar:ares_greatsword",

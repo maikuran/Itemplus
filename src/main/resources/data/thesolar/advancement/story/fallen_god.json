@@ -20,7 +20,11 @@
       "trigger": "minecraft:player_killed_entity",
       "conditions": {
         "entity": {
-          "type": "thesolar:ares"
+          "type": "minecraft:entity_properties",
+          "entity": "this",
+          "predicate": {
+            "type": "thesolar:ares"
+          }
         }
       }
     }

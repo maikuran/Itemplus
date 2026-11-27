@@ -1,7 +1,16 @@
 {
-  "type":"minecraft:crafting_shaped",
-  "category":"building",
-  "pattern":["III","III","III"],
-  "key":{"I":{"item":"thesolar:cobalt_ingot"}},
-  "result":{"id":"thesolar:cobalt_block","count":1}
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "III",
+    "III",
+    "III"
+  ],
+  "key": {
+    "I": "thesolar:cobalt_ingot"
+  },
+  "result": {
+    "id": "thesolar:cobalt_block",
+    "count": 1
+  }
 }

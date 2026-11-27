@@ -1,7 +1,16 @@
 {
-  "type":"minecraft:crafting_shaped",
-  "category":"building",
-  "pattern":["III","III","III"],
-  "key":{"I":{"item":"thesolar:jade_ingot"}},
-  "result":{"id":"thesolar:jade_block","count":1}
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "III",
+    "III",
+    "III"
+  ],
+  "key": {
+    "I": "thesolar:jade_ingot"
+  },
+  "result": {
+    "id": "thesolar:jade_block",
+    "count": 1
+  }
 }

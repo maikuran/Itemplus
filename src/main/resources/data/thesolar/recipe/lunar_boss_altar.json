@@ -7,15 +7,9 @@
     " M "
   ],
   "key": {
-    "M": {
-      "item": "thesolar:moonstone"
-    },
-    "C": {
-      "item": "thesolar:moon_crystal"
-    },
-    "S": {
-      "item": "thesolar:star_dust"
-    }
+    "M": "thesolar:moonstone",
+    "C": "thesolar:moon_crystal",
+    "S": "thesolar:star_dust"
   },
   "result": {
     "id": "thesolar:lunar_boss_altar",

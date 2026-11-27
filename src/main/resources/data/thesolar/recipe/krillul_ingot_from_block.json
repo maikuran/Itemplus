@@ -1,6 +1,11 @@
 {
-  "type":"minecraft:crafting_shapeless",
-  "category":"misc",
-  "ingredients":[{"item":"thesolar:krillul_block"}],
-  "result":{"id":"thesolar:krillul_ingot","count":9}
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    "thesolar:krillul_block"
+  ],
+  "result": {
+    "id": "thesolar:krillul_ingot",
+    "count": 9
+  }
 }

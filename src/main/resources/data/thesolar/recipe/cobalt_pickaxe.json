@@ -1,1 +1,17 @@
-{"type":"minecraft:crafting_shaped","category":"equipment","pattern":["III"," S "," S "],"key":{"I":{"item":"thesolar:cobalt_ingot"},"S":{"item":"minecraft:stick"}},"result":{"id":"thesolar:cobalt_pickaxe","count":1}}
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "pattern": [
+    "III",
+    " S ",
+    " S "
+  ],
+  "key": {
+    "I": "thesolar:cobalt_ingot",
+    "S": "minecraft:stick"
+  },
+  "result": {
+    "id": "thesolar:cobalt_pickaxe",
+    "count": 1
+  }
+}
