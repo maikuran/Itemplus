@@ -30,125 +30,103 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y jq
 
-      - name: Fix all biome spawn JSON files
+      - name: Restore correct Minecraft 26.3 spawn format
         shell: bash
         run: |
-          #!/usr/bin/env bash
           set -euo pipefail
 
           BIOME_DIR="src/main/resources/data/thesolar/worldgen/biome"
 
-          if ! command -v jq >/dev/null 2>&1; then
-              echo "ERROR: jq が必要です"
-              exit 1
-          fi
-
           if [ ! -d "$BIOME_DIR" ]; then
-              echo "ERROR: バイオームディレクトリがありません: $BIOME_DIR"
-              exit 1
+            echo "ERROR: Biome directory not found"
+            exit 1
           fi
 
           fixed=0
 
           while IFS= read -r -d '' file; do
-              tmp="${file}.tmp"
+            tmp="${file}.tmp"
 
-              jq '
-                if .attributes["minecraft:gameplay/natural_mob_spawns"] then
-                  .attributes["minecraft:gameplay/natural_mob_spawns"]
-                    .argument.spawns_by_category |=
-                    with_entries(
-                      .value |= map(
-                        if has("data") then
-                          .
-                        else
-                          {
-                            "weight": .weight,
-                            "data": {
-                              "type": .type,
-                              "count": .count
-                            }
-                          }
-                        end
-                      )
-                    )
-                else
-                  .
-                end
-              ' "$file" > "$tmp"
+            jq '
+              if (
+                .attributes["minecraft:gameplay/natural_mob_spawns"]
+                .argument.spawns_by_category
+              ) then
+                .attributes["minecraft:gameplay/natural_mob_spawns"]
+                .argument.spawns_by_category |=
+                with_entries(
+                  .value |= map(
+                    if has("data") then
+                      (.data + {"weight": .weight})
+                    else
+                      .
+                    end
+                  )
+                )
+              else
+                .
+              end
+            ' "$file" > "$tmp"
 
-              jq empty "$tmp"
-              mv "$tmp" "$file"
+            jq empty "$tmp"
+            mv "$tmp" "$file"
 
-              echo "FIXED: $file"
-              fixed=$((fixed + 1))
+            echo "RESTORED: $file"
+            fixed=$((fixed + 1))
 
-          done < <(find "$BIOME_DIR" -maxdepth 1 -type f -name '*.json' -print0)
+          done < <(
+            find "$BIOME_DIR" -maxdepth 1 -type f -name '*.json' -print0
+          )
 
-          echo "修正処理完了: ${fixed} ファイル"
+          echo "Processed: $fixed biome files"
 
-      - name: Validate all biome JSON files
+      - name: Validate JSON and spawn entries
         shell: bash
         run: |
           set -euo pipefail
 
           BIOME_DIR="src/main/resources/data/thesolar/worldgen/biome"
 
-          find "$BIOME_DIR" -maxdepth 1 -type f -name '*.json' -print0 |
           while IFS= read -r -d '' file; do
-              jq empty "$file"
-              echo "VALID: $file"
-          done
+            jq -e '
+              [
+                .attributes["minecraft:gameplay/natural_mob_spawns"]
+                .argument.spawns_by_category // {}
+                | .[]?[]
+                | select(
+                    has("data")
+                    or ((.type | type) != "string")
+                    or (.count == null)
+                    or ((.weight | type) != "number")
+                  )
+              ] | length == 0
+            ' "$file" >/dev/null
 
-          echo "全バイオームJSONの構文検査完了"
+            echo "VALID: $file"
 
-      - name: Validate spawn entry structure
-        shell: bash
-        run: |
-          set -euo pipefail
+          done < <(
+            find "$BIOME_DIR" -maxdepth 1 -type f -name '*.json' -print0
+          )
 
-          BIOME_DIR="src/main/resources/data/thesolar/worldgen/biome"
+          echo "All biome spawn entries are valid."
 
-          for file in "$BIOME_DIR"/*.json; do
-              jq -e '
-                if .attributes["minecraft:gameplay/natural_mob_spawns"] then
-                  [
-                    .attributes["minecraft:gameplay/natural_mob_spawns"]
-                    .argument.spawns_by_category[]?[]?
-                    | select(
-                        (has("data") | not)
-                        or (.data.type == null)
-                        or (.data.count == null)
-                        or (.weight == null)
-                      )
-                  ] | length == 0
-                else
-                  true
-                end
-              ' "$file" >/dev/null || {
-                  echo "ERROR: $file"
-                  exit 1
-              }
-          done
-
-          echo "スポーン候補の構造検査完了"
-
-      - name: Commit and push changes
+      - name: Commit and push
         shell: bash
         run: |
           set -euo pipefail
 
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add src/main/resources/data/thesolar/worldgen/biome/
 
           if git diff --cached --quiet; then
-              echo "変更なし。コミットをスキップします。"
-              exit 0
+            echo "No changes required."
+            exit 0
           fi
 
-          git commit -m "Fix Minecraft 26.3 biome spawn registry data"
+          git commit -m "Fix Minecraft 26.3 biome spawn format [skip ci]"
           git push origin HEAD:The-solar
 
-          echo "The-solar ブランチへの修正Push完了"
+          echo "Successfully updated The-solar."
