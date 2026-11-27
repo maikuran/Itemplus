@@ -1,0 +1,154 @@
+
+name: Fix Solar Biome Spawn Registries
+
+on:
+  push:
+    branches:
+      - The-solar
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: solar-biome-fix-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  fix-biome-spawns:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout The-solar
+        uses: actions/checkout@v4
+        with:
+          ref: The-solar
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - name: Fix all biome spawn JSON files
+        shell: bash
+        run: |
+          #!/usr/bin/env bash
+          set -euo pipefail
+
+          BIOME_DIR="src/main/resources/data/thesolar/worldgen/biome"
+
+          if ! command -v jq >/dev/null 2>&1; then
+              echo "ERROR: jq が必要です"
+              exit 1
+          fi
+
+          if [ ! -d "$BIOME_DIR" ]; then
+              echo "ERROR: バイオームディレクトリがありません: $BIOME_DIR"
+              exit 1
+          fi
+
+          fixed=0
+
+          while IFS= read -r -d '' file; do
+              tmp="${file}.tmp"
+
+              jq '
+                if .attributes["minecraft:gameplay/natural_mob_spawns"] then
+                  .attributes["minecraft:gameplay/natural_mob_spawns"]
+                    .argument.spawns_by_category |=
+                    with_entries(
+                      .value |= map(
+                        if has("data") then
+                          .
+                        else
+                          {
+                            "weight": .weight,
+                            "data": {
+                              "type": .type,
+                              "count": .count
+                            }
+                          }
+                        end
+                      )
+                    )
+                else
+                  .
+                end
+              ' "$file" > "$tmp"
+
+              jq empty "$tmp"
+              mv "$tmp" "$file"
+
+              echo "FIXED: $file"
+              fixed=$((fixed + 1))
+
+          done < <(find "$BIOME_DIR" -maxdepth 1 -type f -name '*.json' -print0)
+
+          echo "修正処理完了: ${fixed} ファイル"
+
+      - name: Validate all biome JSON files
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          BIOME_DIR="src/main/resources/data/thesolar/worldgen/biome"
+
+          find "$BIOME_DIR" -maxdepth 1 -type f -name '*.json' -print0 |
+          while IFS= read -r -d '' file; do
+              jq empty "$file"
+              echo "VALID: $file"
+          done
+
+          echo "全バイオームJSONの構文検査完了"
+
+      - name: Validate spawn entry structure
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          BIOME_DIR="src/main/resources/data/thesolar/worldgen/biome"
+
+          for file in "$BIOME_DIR"/*.json; do
+              jq -e '
+                if .attributes["minecraft:gameplay/natural_mob_spawns"] then
+                  [
+                    .attributes["minecraft:gameplay/natural_mob_spawns"]
+                    .argument.spawns_by_category[]?[]?
+                    | select(
+                        (has("data") | not)
+                        or (.data.type == null)
+                        or (.data.count == null)
+                        or (.weight == null)
+                      )
+                  ] | length == 0
+                else
+                  true
+                end
+              ' "$file" >/dev/null || {
+                  echo "ERROR: $file"
+                  exit 1
+              }
+          done
+
+          echo "スポーン候補の構造検査完了"
+
+      - name: Commit and push changes
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add src/main/resources/data/thesolar/worldgen/biome/
+
+          if git diff --cached --quiet; then
+              echo "変更なし。コミットをスキップします。"
+              exit 0
+          fi
+
+          git commit -m "Fix Minecraft 26.3 biome spawn registry data"
+          git push origin HEAD:The-solar
+
+          echo "The-solar ブランチへの修正Push完了"
