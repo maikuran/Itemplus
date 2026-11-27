@@ -39,25 +39,19 @@
         "spawns_by_category": {
           "monster": [
             {
-              "weight": 45,
-              "data": {
-                "type": "thesolar:moon_stalker",
-                "count": 2
-              }
+              "type": "thesolar:moon_stalker",
+              "count": 2,
+              "weight": 45
             },
             {
-              "weight": 30,
-              "data": {
-                "type": "thesolar:astral_wisp",
-                "count": 2
-              }
+              "type": "thesolar:astral_wisp",
+              "count": 2,
+              "weight": 30
             },
             {
-              "weight": 5,
-              "data": {
-                "type": "thesolar:moon_beast",
-                "count": 1
-              }
+              "type": "thesolar:moon_beast",
+              "count": 1,
+              "weight": 5
             }
           ]
         }

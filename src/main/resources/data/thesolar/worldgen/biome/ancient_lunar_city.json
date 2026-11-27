@@ -40,25 +40,19 @@
         "spawns_by_category": {
           "monster": [
             {
-              "weight": 55,
-              "data": {
-                "type": "thesolar:lunar_sentinel",
-                "count": 2
-              }
+              "type": "thesolar:lunar_sentinel",
+              "count": 2,
+              "weight": 55
             },
             {
-              "weight": 20,
-              "data": {
-                "type": "thesolar:crystal_golem",
-                "count": 1
-              }
+              "type": "thesolar:crystal_golem",
+              "count": 1,
+              "weight": 20
             },
             {
-              "weight": 15,
-              "data": {
-                "type": "thesolar:astral_wisp",
-                "count": 2
-              }
+              "type": "thesolar:astral_wisp",
+              "count": 2,
+              "weight": 15
             }
           ]
         }

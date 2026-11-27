@@ -41,25 +41,19 @@
         "spawns_by_category": {
           "monster": [
             {
-              "weight": 40,
-              "data": {
-                "type": "thesolar:martian_scout",
-                "count": 2
-              }
+              "type": "thesolar:martian_scout",
+              "count": 2,
+              "weight": 40
             },
             {
-              "weight": 18,
-              "data": {
-                "type": "thesolar:martian_brute",
-                "count": 1
-              }
+              "type": "thesolar:martian_brute",
+              "count": 1,
+              "weight": 18
             },
             {
-              "weight": 25,
-              "data": {
-                "type": "thesolar:red_stalker",
-                "count": 2
-              }
+              "type": "thesolar:red_stalker",
+              "count": 2,
+              "weight": 25
             }
           ]
         }

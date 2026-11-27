@@ -42,25 +42,19 @@
         "spawns_by_category": {
           "monster": [
             {
-              "weight": 30,
-              "data": {
-                "type": "thesolar:crimson_mage",
-                "count": 1
-              }
+              "type": "thesolar:crimson_mage",
+              "count": 1,
+              "weight": 30
             },
             {
-              "weight": 25,
-              "data": {
-                "type": "thesolar:martian_brute",
-                "count": 1
-              }
+              "type": "thesolar:martian_brute",
+              "count": 1,
+              "weight": 25
             },
             {
-              "weight": 20,
-              "data": {
-                "type": "thesolar:ares_soldier",
-                "count": 2
-              }
+              "type": "thesolar:ares_soldier",
+              "count": 2,
+              "weight": 20
             }
           ]
         }
