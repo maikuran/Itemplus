@@ -3,6 +3,9 @@ name: Unzip The Solar and Commit
 
 on:
   workflow_dispatch:
+  push:
+    branches: 
+      - The-solar
 
 permissions:
   contents: write
