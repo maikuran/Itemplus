@@ -1,0 +1,64 @@
+
+name: Unzip The Solar and Commit
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'DimensionMod-The-Solar-src-lunar-portals.zip'
+      - '.github/workflows/unzip-commit.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  unzip-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Extract The Solar ZIP
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          ZIP_FILE="DimensionMod-The-Solar-src-lunar-portals.zip"
+
+          if [ ! -f "$ZIP_FILE" ]; then
+            echo "ERROR: $ZIP_FILE not found"
+            exit 1
+          fi
+
+          unzip -o "$ZIP_FILE" -d extracted_solar
+
+          if [ ! -d extracted_solar/src ]; then
+            echo "ERROR: ZIP does not contain src/"
+            exit 1
+          fi
+
+          mkdir -p src
+          cp -a extracted_solar/src/. src/
+
+          rm -rf extracted_solar
+
+      - name: Commit extracted source
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add src/
+
+          if git diff --cached --quiet; then
+            echo "No source changes to commit."
+            exit 0
+          fi
+
+          git commit -m "Update The Solar source from ZIP"
+          git push
