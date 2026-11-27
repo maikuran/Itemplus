@@ -40,19 +40,25 @@
         "spawns_by_category": {
           "monster": [
             {
-              "type": "thesolar:crystal_golem",
-              "count": 2,
-              "weight": 40
+              "weight": 40,
+              "data": {
+                "type": "thesolar:crystal_golem",
+                "count": 2
+              }
             },
             {
-              "type": "thesolar:moon_beast",
-              "count": 1,
-              "weight": 10
+              "weight": 10,
+              "data": {
+                "type": "thesolar:moon_beast",
+                "count": 1
+              }
             },
             {
-              "type": "thesolar:lunar_crawler",
-              "count": 2,
-              "weight": 20
+              "weight": 20,
+              "data": {
+                "type": "thesolar:lunar_crawler",
+                "count": 2
+              }
             }
           ]
         }

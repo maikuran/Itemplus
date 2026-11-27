@@ -42,19 +42,25 @@
         "spawns_by_category": {
           "monster": [
             {
-              "type": "thesolar:red_stalker",
-              "count": 2,
-              "weight": 45
+              "weight": 45,
+              "data": {
+                "type": "thesolar:red_stalker",
+                "count": 2
+              }
             },
             {
-              "type": "thesolar:blood_wyrm",
-              "count": 1,
-              "weight": 5
+              "weight": 5,
+              "data": {
+                "type": "thesolar:blood_wyrm",
+                "count": 1
+              }
             },
             {
-              "type": "thesolar:martian_scout",
-              "count": 2,
-              "weight": 20
+              "weight": 20,
+              "data": {
+                "type": "thesolar:martian_scout",
+                "count": 2
+              }
             }
           ]
         }
