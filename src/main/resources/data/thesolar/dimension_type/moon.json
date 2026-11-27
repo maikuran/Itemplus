@@ -1,3 +1,4 @@
+
 {
   "ambient_light": 0.08,
   "attributes": {
@@ -40,7 +41,7 @@
     "minecraft:visual/sun_angle": 188.0,
     "minecraft:visual/moon_phase": "full_moon",
     "minecraft:visual/sunrise_sunset_color": "#a9b8ffcc",
-    "minecraft:visual/cloud_color": "#8495c0"
+    "minecraft:visual/cloud_color": "#FF8495C0"
   },
   "coordinate_scale": 1.0,
   "default_clock": "minecraft:overworld",
