@@ -23,7 +23,7 @@
           "type": "minecraft:entity_properties",
           "entity": "this",
           "predicate": {
-            "type": "thesolar:selene"
+            "minecraft:entity_type": "thesolar:selene"
           }
         }
       }
@@ -35,7 +35,7 @@
           "type": "minecraft:entity_properties",
           "entity": "this",
           "predicate": {
-            "type": "thesolar:ares"
+            "minecraft:entity_type": "thesolar:ares"
           }
         }
       }
