@@ -7,15 +7,22 @@ plugins {
 group = 'com.sakalti.sakacountry'
 version = '1.0.0'
 
+base {
+    archivesName = 'TheSolar'
+}
+
 repositories {
+    maven {
+        url = 'https://maven.fabricmc.net/'
+    }
     mavenCentral()
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:26.3"
+    minecraft 'com.mojang:minecraft:26.3'
 
-    implementation "net.fabricmc:fabric-loader:0.20.1"
-    implementation "net.fabricmc.fabric-api:fabric-api:0.166.0+26.3"
+    implementation 'net.fabricmc:fabric-loader:0.20.1'
+    implementation 'net.fabricmc.fabric-api:fabric-api:0.166.0+26.3'
 }
 
 java {
@@ -28,13 +35,31 @@ java {
 
 tasks.withType(JavaCompile).configureEach {
     options.release = 25
+    options.encoding = 'UTF-8'
+}
+
+processResources {
+    inputs.property 'version', project.version
+
+    filesMatching('fabric.mod.json') {
+        expand 'version': project.version
+    }
 }
 
 jar {
     manifest {
         attributes(
-            'Implementation-Title': 'Sakacountry',
+            'Implementation-Title': 'The Solar',
             'Implementation-Version': project.version
         )
+    }
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'TheSolar'
+            from components.java
+        }
     }
 }
