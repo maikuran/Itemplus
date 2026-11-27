@@ -1,18 +1,24 @@
+
 package com.sakalti.thesolar.client;
 
 import com.sakalti.thesolar.DimensionMod;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.ModelLayerRegistry;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Registers the model layers used by The Solar's custom hostile mobs.
+ * Minecraft 26.1+ Fabric API renamed EntityModelLayerRegistry to ModelLayerRegistry.
+ */
 public final class SolarMobLayers {
     private static final String[] MODELS = {
             "lunar_crawler", "moon_stalker", "crystal_golem", "lunar_sentinel", "astral_wisp",
             "martian_scout", "red_stalker", "ares_soldier", "martian_brute", "ancient_automaton",
             "crimson_mage", "selene", "ares", "moon_beast", "blood_wyrm", "martian_beast"
     };
+
     private static final Map<String, ModelLayerLocation> LAYERS = new LinkedHashMap<>();
 
     static {
@@ -21,15 +27,21 @@ public final class SolarMobLayers {
         }
     }
 
-    private SolarMobLayers() {}
+    private SolarMobLayers() {
+    }
 
     public static ModelLayerLocation layer(String name) {
         ModelLayerLocation layer = LAYERS.get(name);
-        if (layer == null) throw new IllegalArgumentException("Unknown The Solar model: " + name);
+        if (layer == null) {
+            throw new IllegalArgumentException("Unknown The Solar model: " + name);
+        }
         return layer;
     }
 
     public static void register() {
-        LAYERS.forEach((name, layer) -> EntityModelLayerRegistry.registerModelLayer(layer, () -> SolarMobModel.createLayer(name)));
+        LAYERS.forEach((name, layer) -> ModelLayerRegistry.registerModelLayer(
+                layer,
+                () -> SolarMobModel.createLayer(name)
+        ));
     }
 }
